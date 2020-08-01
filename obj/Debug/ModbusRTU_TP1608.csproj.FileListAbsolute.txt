@@ -1,0 +1,12 @@
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csprojAssemblyReference.cache
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Properties.Resources.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.GenerateResource.cache
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CoreCompileInputs.cache
+D:\VS2019Projects\ModbusRTU_TP1608\bin\Debug\ModbusRTU_TP1608.exe.config
+D:\VS2019Projects\ModbusRTU_TP1608\bin\Debug\ModbusRTU_TP1608.exe
+D:\VS2019Projects\ModbusRTU_TP1608\bin\Debug\ModbusRTU_TP1608.pdb
+D:\VS2019Projects\ModbusRTU_TP1608\bin\Debug\NModbus4.dll
+D:\VS2019Projects\ModbusRTU_TP1608\bin\Debug\NModbus4.xml
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CopyComplete
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb

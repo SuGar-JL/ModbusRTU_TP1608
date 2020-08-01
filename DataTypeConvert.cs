@@ -84,7 +84,7 @@ namespace ModbusRTU_TP1608
             {
                 for (int i = 0; i < count; i++)
                 {  /*
-                    * 这叫big-endian
+                    * 这叫little-endian
                     把1010 0101 1111 1110 => [1010 0101]+[1111 1110]
                        A    B    C    D   => [ A    B  ]+[ C    D]
                     */
@@ -94,16 +94,30 @@ namespace ModbusRTU_TP1608
             }
             else
             {
-                for (int i = 0; i < count; i++)
+                /*for (int i = 0; i < count; i++)
                 {
-                    /*
+                    *//*
                      * 这是little-endian byte swap(小端字节交换：原来是little-endian，然后前8位和后8位交换)
                     把1010 0101 1111 1110 => [1111 1110]+[1010 0101]
                      A    B    C    D   => [ C    D  ]+[ A    B]
-                    */
+                    *//*
 
                     dest[i * 2] = (byte)(src[i] >> 0);
                     dest[i * 2 + 1] = (byte)(src[i] >> 8);
+                }*/
+                //2020.8.1 下午 big-endian D C B A
+                for (int i = 0; i < count; i++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        dest[i * 2 + 2] = (byte)(src[i] >> 0);
+                        dest[i * 2 + 3] = (byte)(src[i] >> 8);
+                    }
+                    else
+                    {
+                        dest[i * 2 - 2] = (byte)(src[i] >> 0);
+                        dest[i * 2 - 1] = (byte)(src[i] >> 8);
+                    }
                 }
             }
             return dest;

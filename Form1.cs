@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.IO.Ports;
 using System.Security.Cryptography;
+using ModbusRTU_TP1608.Utils;
 
 namespace ModbusRTU_TP1608
 {
@@ -158,6 +159,14 @@ namespace ModbusRTU_TP1608
                             SetReadParameters();
                             //返回的数据为unshort型，要转为float型
                             registerBuffer = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
+                            //原始整数
+                            SetMsg("原始整数：\r\n");
+                            for (int i = 0; i < registerBuffer.Length; i++)
+                            {
+                                SetMsg(registerBuffer[i].ToString() + " ");
+                            }
+                            SetMsg("\r\n");
+                            SetMsg("转换为32位Float：\r\n");
                             //ushort[]=>float[]
                             float[] result = DataTypeConvert.GetReal(registerBuffer,0);
                             for (int i = 0; i < result.Length; i++)
@@ -165,10 +174,23 @@ namespace ModbusRTU_TP1608
                                 SetMsg(result[i].ToString() + " ");
                             }
                             SetMsg("\r\n");
-
-                            for (int i = 0; i < registerBuffer.Length; i++)
+                            SetMsg("连接MySQl测试：\r\n");
+                            //测试读数据库
+                            MySqlConnect mySqlConnect = new MySqlConnect("root", "root", "car");
+                            string SQL = "select * from mycar";
+                            DataSet data = mySqlConnect.RunQuery(SQL);
+                            for (int i = 0; i < data.Tables.Count; i++)
                             {
-                                SetMsg(registerBuffer[i].ToString() + " ");
+                                for (int j = 0; j < data.Tables[i].Rows.Count; j++)
+                                {
+                                    for (int k = 0; k < data.Tables[i].Columns.Count; k++)
+                                    {
+                                        Console.Write(data.Tables[i].Rows[j][k] + "\t");
+                                        SetMsg(data.Tables[i].Rows[j][k] + "\t");
+                                    }
+                                    Console.WriteLine();
+                                }
+                                Console.WriteLine();
                             }
                             SetMsg("\r\n");
                             break;

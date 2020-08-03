@@ -27,6 +27,7 @@ namespace ModbusRTU_TP1608.Utils
 			this.host = host;
 			this.port = port;
 			this.charset = charset;
+			//使用了占位符{}
 			this.Conn = new MySqlConnection(
 				string.Format("user id={0};password={1};database={2};server={3};port={4};charset={5}",
 				this.user, this.password, this.database, this.host, this.port, this.charset)

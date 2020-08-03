@@ -168,7 +168,7 @@ namespace ModbusRTU_TP1608
                             SetMsg("\r\n");
                             SetMsg("转换为32位Float：\r\n");
                             //ushort[]=>float[]
-                            float[] result = DataTypeConvert.GetReal(registerBuffer,0);
+                            float[] result = DataTypeConvert.GetReal(registerBuffer, 0);
                             for (int i = 0; i < result.Length; i++)
                             {
                                 SetMsg(result[i].ToString() + " ");

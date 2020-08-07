@@ -23,3 +23,4 @@ D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.c
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
 D:\VS2019Projects\ModbusRTU_TP1608\bin\Debug\MySql.Data.dll
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form1.resources

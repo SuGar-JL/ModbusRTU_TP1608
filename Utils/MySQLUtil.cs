@@ -5,17 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using System.Configuration;
 
 namespace ModbusRTU_TP1608.Utils
 {
 	class MySqlConnect
 	{
-		public static string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+		public string user, password, database, host, port, charset;
 		MySqlConnection Conn;
-		public MySqlConnect()
+		public MySqlConnect(
+			string user = "",
+			string password = "",
+			string database = "",
+			string host = "localhost",
+			string port = "3306",
+			string charset = "utf8"
+		)
 		{
-			this.Conn = new MySqlConnection(constr);
+			this.user = user;
+			this.password = password;
+			this.database = database;
+			this.host = host;
+			this.port = port;
+			this.charset = charset;
+			//使用了占位符{}
+			this.Conn = new MySqlConnection(
+				string.Format("user id={0};password={1};database={2};server={3};port={4};charset={5}",
+				this.user, this.password, this.database, this.host, this.port, this.charset)
+			);
 			this.Conn.Open();
 		}
 

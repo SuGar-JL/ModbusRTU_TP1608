@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusRTU_TP1608", "ModbusRTU_TP1608.csproj", "{D1C28B7F-0A6D-4EA6-95DE-90ED925E0A8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Test\Test.csproj", "{26AD97C8-7146-4A61-AEAD-0A3586F94C8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Test\Test.csproj", "{6B4E046C-3281-4243-87E0-B9E5DE8F0968}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{D1C28B7F-0A6D-4EA6-95DE-90ED925E0A8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1C28B7F-0A6D-4EA6-95DE-90ED925E0A8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1C28B7F-0A6D-4EA6-95DE-90ED925E0A8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26AD97C8-7146-4A61-AEAD-0A3586F94C8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26AD97C8-7146-4A61-AEAD-0A3586F94C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26AD97C8-7146-4A61-AEAD-0A3586F94C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26AD97C8-7146-4A61-AEAD-0A3586F94C8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B4E046C-3281-4243-87E0-B9E5DE8F0968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B4E046C-3281-4243-87E0-B9E5DE8F0968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B4E046C-3281-4243-87E0-B9E5DE8F0968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B4E046C-3281-4243-87E0-B9E5DE8F0968}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

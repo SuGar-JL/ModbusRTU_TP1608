@@ -15,13 +15,10 @@ namespace ModbusRTU_TP1608
         bool flag = false;
         public DataCollection()
         {
-            InitializeComponent();\
-            //不太对
-            DeviceManage dm = new DeviceManage();
-            dm.TopLevel = false;
-            splitContainer1.Panel1.Controls.Add(dm);
-            dm.Show();
-            dm.Dock = DockStyle.Fill;
+            InitializeComponent();
+            DeviceManage f = new DeviceManage();
+            f.MdiParent = this;
+            f.Show();
         }
 
         private void DataCollection_Load(object sender, EventArgs e)

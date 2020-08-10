@@ -29,3 +29,9 @@ D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.D
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form1.resources
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.DeviceManage.resources
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form2.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.AddDevice.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.DataCollection.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.DeviceManage.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form2.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.SetDevice.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.SetChennal.resources

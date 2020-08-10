@@ -53,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddDevice.Designer.cs">
+      <DependentUpon>AddDevice.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataCollection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,18 @@
     <Compile Include="Form5.Designer.cs">
       <DependentUpon>Form5.cs</DependentUpon>
     </Compile>
+    <Compile Include="SetChennal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetChennal.Designer.cs">
+      <DependentUpon>SetChennal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetDevice.Designer.cs">
+      <DependentUpon>SetDevice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\DataTypeConvert.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -99,6 +117,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\MySQLUtil.cs" />
+    <EmbeddedResource Include="AddDevice.resx">
+      <DependentUpon>AddDevice.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataCollection.resx">
       <DependentUpon>DataCollection.cs</DependentUpon>
     </EmbeddedResource>
@@ -120,6 +141,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SetChennal.resx">
+      <DependentUpon>SetChennal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetDevice.resx">
+      <DependentUpon>SetDevice.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

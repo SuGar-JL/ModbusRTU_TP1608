@@ -18,7 +18,12 @@ namespace ModbusRTU_TP1608
         public SetSensorForm()
         {
             InitializeComponent();
-            chennal = new ChennalManage().GetByName(DeviceManageForm.chennalName);
+            
+        }
+
+        private void SetSensorForm_Load(object sender, EventArgs e)
+        {
+            chennal = new ChennalManage().GetByName(DataCollectionForm.chennalName);
             textBox_sensorUnit.Text = chennal.chennalUnit;
             if (chennal.sensorTableName != null && chennal.sensorID != null)
             {
@@ -139,5 +144,7 @@ namespace ModbusRTU_TP1608
         {
             this.Close();
         }
+
+        
     }
 }

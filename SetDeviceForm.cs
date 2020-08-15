@@ -15,24 +15,32 @@ namespace ModbusRTU_TP1608
 
     public partial class SetDeviceForm : Form
     {
-        //public static SetDeviceForm setDeviceForm;
         public Device device;
         public SetDeviceForm()
         {
             InitializeComponent();
-            textBox1.Text = DeviceManageForm.deviceName;
+        }
+
+        private void SetDeviceForm_Load(object sender, EventArgs e)
+        {
+            textBox1.Text = DataCollectionForm.deviceName;
             device = new DeviceManage().GetByName(textBox1.Text.Trim());
-            textBox2.Text = device.id.ToString(); ;
-            textBox3.Text = device.storeInterval.ToString();
-            textBox4.Text = device.collectInterval.ToString();
+            textBox2.Text = device.id.ToString(); 
+            textBox3.Text = device.storeInterval.ToString("f1");//保留一位小数
+            textBox4.Text = device.collectInterval.ToString("f1");
             textBox5.Text = device.deviceAddress;
             textBox6.Text = device.deviceType;
-            textBox7.Text = device.startChennal.ToString();
-            textBox8.Text = device.dropTimeDelay.ToString();
-            comboBox1.Text = device.port;
-            comboBox2.Text = device.baudRate;
+            textBox7.Text = device.startChennal.ToString("f1");
+            textBox8.Text = device.dropTimeDelay.ToString("f1");
+            comboBox2.SelectedIndex = 10;
 
             //初始化可用的串口号
+            string[] ports = System.IO.Ports.SerialPort.GetPortNames();
+            foreach (string port in ports)
+            {
+                comboBox1.Items.Add(port);
+            }
+            comboBox1.SelectedIndex = 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -62,7 +70,7 @@ namespace ModbusRTU_TP1608
                     //更新设备以上字段
                     new DeviceManage().UpdateConfigById(device.id, deviceName, storeInterval, collectInterval, dropTimeDelay, port, baudRate, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
-                    DeviceManageForm.deviceManageForm.treeView1_InitFromDB();
+                    DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
                 }
             }
@@ -106,5 +114,7 @@ namespace ModbusRTU_TP1608
             }
             return true;
         }
+
+        
     }
 }

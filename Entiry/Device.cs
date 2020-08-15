@@ -10,6 +10,8 @@ namespace ModbusRTU_TP1608.Entiry
     [SugarTable("Device")]//数据库表名称
     public class Device : Base
     {
+        [SugarColumn(ColumnName = "status", IsNullable = false, ColumnDescription = "设备状态：0、关闭，1、打开，2、采集")]
+        public int status { get; set; }
         [SugarColumn(ColumnName = "device_type", IsNullable = false, ColumnDescription = "设备类型")]
         public string deviceType { get; set; }
 
@@ -38,7 +40,7 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "drop_time_delay", IsNullable = false, ColumnDescription = "掉线延时")]
         public double dropTimeDelay { get; set; }
 
-        [SugarColumn(ColumnName = "port", IsNullable = false, ColumnDescription = "COM口")]
+        [SugarColumn(ColumnName = "port", IsNullable = true, ColumnDescription = "COM口")]
         public string port { get; set; }
 
         [SugarColumn(ColumnName = "baud_rate", IsNullable = false, ColumnDescription = "波特率")]

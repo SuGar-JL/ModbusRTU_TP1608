@@ -19,8 +19,13 @@ namespace ModbusRTU_TP1608
         public SetChennalForm()
         {
             InitializeComponent();
+            
+        }
+
+        private void SetChennalForm_Load(object sender, EventArgs e)
+        {
             //打开改窗口时加载显示的数据
-            textBox_chennalName.Text = DeviceManageForm.chennalName;
+            textBox_chennalName.Text = DataCollectionForm.chennalName;
             chennal = new ChennalManage().GetByName(textBox_chennalName.Text);
             textBox_chennalID.Text = chennal.chennalID.ToString();
             comboBox_Waring.Text = chennal.stopWaring;
@@ -28,13 +33,13 @@ namespace ModbusRTU_TP1608
             comboBox_Unit.Text = chennal.chennalUnit;
             comboBox_decimal_places.Text = chennal.decimalPlaces.ToString();
             comboBox_chennalType.Text = chennal.chennalType;
-            textBox_adjustment.Text = chennal.adjustment.ToString();
-            textBox_lowerLimit.Text = chennal.lowerLimit.ToString();
-            textBox_upperLimit.Text = chennal.upperLimit.ToString();
-            textBox_lLowerLimit.Text = chennal.lLowerLimit.ToString();
-            textBox_uUpperLimit.Text = chennal.uUpperLimit.ToString();
-            textBox_smallRange.Text = chennal.smallRange.ToString();
-            textBox_largeRange.Text = chennal.largeRange.ToString();
+            textBox_adjustment.Text = chennal.adjustment.ToString("f2");//保留两位小数
+            textBox_lowerLimit.Text = chennal.lowerLimit.ToString("f2");
+            textBox_upperLimit.Text = chennal.upperLimit.ToString("f2");
+            textBox_lLowerLimit.Text = chennal.lLowerLimit.ToString("f2");
+            textBox_uUpperLimit.Text = chennal.uUpperLimit.ToString("f2");
+            textBox_smallRange.Text = chennal.smallRange.ToString("f2");
+            textBox_largeRange.Text = chennal.largeRange.ToString("f2");
             comboBox_type.Text = chennal.chennalType;
         }
 
@@ -76,7 +81,7 @@ namespace ModbusRTU_TP1608
                     //更新通道以上字段
                     new ChennalManage().UpdateByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, chennalName, stopWaring, chennalUnit, decimalPlaces, chennalType, adjustment, lowerLimit, upperLimit, lLowerLimit, uUpperLimit, smallRange, largeRange, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
-                    DeviceManageForm.deviceManageForm.treeView1_InitFromDB();
+                    DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
                 }
             }
@@ -142,5 +147,7 @@ namespace ModbusRTU_TP1608
             }
             return true;
         }
+
+        
     }
 }

@@ -233,6 +233,12 @@
     <Compile Include="SetSensorForm.Designer.cs">
       <DependentUpon>SetSensorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShowDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowDataForm.Designer.cs">
+      <DependentUpon>ShowDataForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ChennalManage.cs" />
     <Compile Include="Utils\DataTypeConvert.cs" />
     <Compile Include="Form1.cs">
@@ -281,6 +287,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SetSensorForm.resx">
       <DependentUpon>SetSensorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowDataForm.resx">
+      <DependentUpon>ShowDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

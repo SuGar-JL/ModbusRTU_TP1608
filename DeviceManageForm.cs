@@ -16,6 +16,7 @@ namespace ModbusRTU_TP1608
     {
         public static DeviceManageForm deviceManageForm;
         public static string deviceName = "";
+        public static string deviceNameLeft = "";
         public static string chennalName = "";
         
         public DeviceManageForm()
@@ -26,6 +27,7 @@ namespace ModbusRTU_TP1608
         }
         private void DeviceManageForm_Load(object sender, EventArgs e)
         {
+            this.Location = new Point(0,0);
             //初始化设备管理页的设备和通道配置树
             treeView1_InitFromDB();
         }
@@ -89,15 +91,16 @@ namespace ModbusRTU_TP1608
         {
             return treeView1.GetNodeCount(false);//不包含子节点
         }
-        //右击节点弹出菜单，根节点与子节点不同
+        //点击节点
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
+            //右击节点弹出菜单，根节点与子节点不同
+            if (e.Button == MouseButtons.Right)
             {
                 Point ClickPoint = new Point(e.X, e.Y);
                 TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
                 //点击的是节点，且是节点所在区域
-                if (CurrentNode !=null && CurrentNode.Bounds.Contains(e.X, e.Y))
+                if (CurrentNode != null && CurrentNode.Bounds.Contains(e.X, e.Y))
                 {
                     //如果不是子节点，即是根节点
                     if (CurrentNode.FirstNode != null)
@@ -111,7 +114,7 @@ namespace ModbusRTU_TP1608
                         DeviceManageForm.chennalName = CurrentNode.Text;
                         treeView1.ContextMenuStrip = contextMenuStrip3;
                     }
-                    
+
                 }
                 //点击的不是节点（空白处）
                 else
@@ -119,8 +122,47 @@ namespace ModbusRTU_TP1608
                     treeView1.ContextMenuStrip = contextMenuStrip1;
                 }
             }
+
         }
 
+        private void 打开设备ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //设置设备为打开状态（isOpen字段变为1）
+            //一旦打开，不可关闭，除非关闭软件或删除设备
+            new DeviceManage().UpdateStatusByName(deviceName);
+            Device device = new DeviceManage().GetByName(deviceName);
+            //设置开始采集按钮的图标为可用状态
+            DataCollectionForm.dataCollectionForm.SetStartBottonEnabel(device, deviceName);
+            
+        }
+
+        private void 删除设备ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dr= MessageBox.Show("所有数据都将会删除，确定要删除设备吗！", "警告！", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+            if (dr == DialogResult.OK)
+            {
+                //删除于设备相关联的一切
+                //1.删除传感器
+                //查询当前设备的id
+                Device device = new DeviceManage().GetByName(deviceName);
+                //查询设备的所有通道
+                List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id);
+                //删除每个通道绑定的传感器
+                foreach (Chennal chennal in chennals)
+                {
+                    if (chennal.sensorID != null)
+                    {
+                        new SensorManage().DeleteByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
+                    }
+                }
+                //删除通道
+                new ChennalManage().DeleteByDeviceId(device.id);
+                //删除设备
+                new DeviceManage().DeleteById(device.id);
+                DeviceManageForm.deviceManageForm.treeView1_InitFromDB();
+            }
+            
+        }
         private void 设备设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetDeviceForm setDevice = new SetDeviceForm();

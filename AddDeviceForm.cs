@@ -20,8 +20,14 @@ namespace ModbusRTU_TP1608
             
         }
 
+        private void AddDeviceForm_Load(object sender, EventArgs e)
+        {
+            comboBox1.SelectedIndex = 0;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
+            //点击取消按钮
             this.Close();
         }
 
@@ -92,7 +98,8 @@ namespace ModbusRTU_TP1608
                 //将设备和通道配置信息写入数据库
                 //1.设置设备的配置信息（初始化设备配置）
                 Device device = new Device();
-                device.id = "" + (DeviceManageForm.deviceManageForm.treeView1_rootNodeNum() + 1);
+                device.id = "" + (DataCollectionForm.dataCollectionForm.treeView1_rootNodeNum() + 1);
+                device.status = 0;//设备默认为关闭状态
                 device.deviceType = deviceType;
                 device.deviceName = deviceName;
                 device.deviceAddress = deviceAddress;
@@ -101,7 +108,7 @@ namespace ModbusRTU_TP1608
                 device.storeInterval = 6.0F;//设置保存间隔默认值为6.0s
                 device.collectInterval = 3.0F;//设置采集间隔默认值为3.0s
                 device.dropTimeDelay = 900F;//设置掉线延时默认值为900s
-                device.port = "COM3";//设置COM口默认值为COM3
+                device.port = null;//设置COM口默认值为空
                 device.baudRate = "9600";//设置波特率默认值为9600
                 device.createTime = DateTime.Now;
                 device.createBy = "苏金领";
@@ -150,7 +157,7 @@ namespace ModbusRTU_TP1608
                         new ChennalManage().Insert(chennal);
                     }
                     //在treeView1中显示
-                    DeviceManageForm.deviceManageForm.treeView1_addNodes(deviceName, chennalNum, startChennalId);
+                    DataCollectionForm.dataCollectionForm.treeView1_addNodes(deviceName, chennalNum, startChennalId);
                     this.Close();
                 }
                 else
@@ -267,5 +274,7 @@ namespace ModbusRTU_TP1608
             }
             return true;
         }
+
+        
     }
 }

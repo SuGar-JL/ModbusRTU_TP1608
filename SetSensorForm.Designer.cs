@@ -111,6 +111,7 @@
             // 
             // comboBox_sensorType
             // 
+            this.comboBox_sensorType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_sensorType.FormattingEnabled = true;
             this.comboBox_sensorType.Items.AddRange(new object[] {
             "CO2",
@@ -162,6 +163,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "配置传感器";
+            this.Load += new System.EventHandler(this.SetSensorForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -87,12 +87,14 @@
             this.打开设备ToolStripMenuItem.Name = "打开设备ToolStripMenuItem";
             this.打开设备ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.打开设备ToolStripMenuItem.Text = "打开设备";
+            this.打开设备ToolStripMenuItem.Click += new System.EventHandler(this.打开设备ToolStripMenuItem_Click);
             // 
             // 删除设备ToolStripMenuItem
             // 
             this.删除设备ToolStripMenuItem.Name = "删除设备ToolStripMenuItem";
             this.删除设备ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.删除设备ToolStripMenuItem.Text = "删除设备";
+            this.删除设备ToolStripMenuItem.Click += new System.EventHandler(this.删除设备ToolStripMenuItem_Click);
             // 
             // 设备设置ToolStripMenuItem
             // 

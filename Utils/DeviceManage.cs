@@ -72,14 +72,17 @@ namespace ModbusRTU_TP1608.Utils
             return CurrentDb.Delete(it => it.id == deviceId);
         }
 
-        public bool UpdateStatusByName(string deviceName)
+        public bool UpdateStatusByName(string deviceName, int status)
         {
-            return CurrentDb.Update(it => new Device() { status = 1, updateBy = "打开设备", updateTime = DateTime.Now }, it => it.deviceName == deviceName);
+            return CurrentDb.Update(it => new Device() { status = status, updateBy = "打开设备", updateTime = DateTime.Now }, it => it.deviceName == deviceName);
         }
-
+        /// <summary>
+        /// 关闭软件，将所有设备的状态设为0，即关闭状态
+        /// </summary>
+        /// <returns></returns>
         public bool CloseAllOpendingDivice()
         {
-            return CurrentDb.Update(it => new Device() { status = 0, updateBy = "关闭软件=>关闭设备", updateTime = DateTime.Now }, it => it.status == 1);
+            return CurrentDb.Update(it => new Device() { status = 0, updateBy = "关闭软件=>关闭设备", updateTime = DateTime.Now }, it => it.status != 0);
         }
     }
 }

@@ -93,9 +93,9 @@ namespace ModbusRTU_TP1608.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap stop11 {
+        internal static System.Drawing.Bitmap stop1 {
             get {
-                object obj = ResourceManager.GetObject("stop11", resourceCulture);
+                object obj = ResourceManager.GetObject("stop1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

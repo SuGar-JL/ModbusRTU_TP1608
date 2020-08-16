@@ -1,12 +1,16 @@
-﻿using ModbusRTU_TP1608.Entiry;
+﻿using Modbus.Device;
+using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,7 +22,25 @@ namespace ModbusRTU_TP1608
         public int num_MouseClicks = 0; //记录鼠标在myTreeView控件上按下的次数
         public static DataCollectionForm dataCollectionForm;
         public static string deviceName;
+        public static string deviceName_Open;
         public static string chennalName;
+        public Dictionary<string, ShowDataForm> showDataForms = new Dictionary<string, ShowDataForm>();
+        public Dictionary<string, Thread> threads = new Dictionary<string, Thread>();
+        //获得master
+        private static IModbusMaster master;
+        //串口
+        private static SerialPort port;
+        //参数(分别为站号,起始地址,长度)
+        private byte slaveAddress;
+        private ushort startAddress;
+        private ushort numberOfPoints;
+        //用于存储采集到的ushort数据
+        private ushort[] registerBuffer;
+
+        //定义回调
+        private delegate void setTextValueCallBack(int i, string value);
+        //声明回调
+        private setTextValueCallBack setCallBack;
         public DataCollectionForm()
         {
             InitializeComponent();
@@ -85,8 +107,8 @@ namespace ModbusRTU_TP1608
 
         private void 状态栏ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-                if (flag)
+
+            if (flag)
             {
                 statusStrip1.Show();
                 flag = false;
@@ -98,29 +120,18 @@ namespace ModbusRTU_TP1608
             }
         }
 
+        /// <summary>
+        /// 关闭软件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataCollectionForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             //将目前打开的所有设备关闭
             new DeviceManage().CloseAllOpendingDivice();
-            toolStripButton2.Image = Properties.Resources.start1;//调用Resources.resx中的图片
+            toolStripButton2.Image = Properties.Resources.start1;//不亮
+            toolStripButton3.Image = Properties.Resources.stop1;//不亮
 
-        }
-
-        public void SetStartBottonEnabel(Device device, string deviceName)
-        {
-            if (device.status == 1)
-            {
-                toolStripButton2.Image = Properties.Resources.start2;
-                //打开数据采集页面
-                ShowDataForm showDataForm = new ShowDataForm();
-                showDataForm.Text = deviceName;
-                showDataForm.MdiParent = this;
-                showDataForm.Show();
-            }
-            else
-            {
-                toolStripButton2.Image = Properties.Resources.start1;
-            }
         }
 
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
@@ -155,7 +166,7 @@ namespace ModbusRTU_TP1608
             }
             //为了我不让双击时展开节点，而是做其他操作，winform默认双击左键会展开节点
             //左键点击
-            else if(e.Button == MouseButtons.Left)
+            else if (e.Button == MouseButtons.Left)
             {
                 num_MouseClicks = e.Clicks;//记录左键按下次数
             }
@@ -197,7 +208,7 @@ namespace ModbusRTU_TP1608
             }
         }
         /// <summary>
-        /// 双击节点
+        /// 双击节点（不展开或不折叠节点）
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -210,10 +221,70 @@ namespace ModbusRTU_TP1608
                 //点击的是节点，且是节点所在区域
                 if (CurrentNode != null && CurrentNode.Bounds.Contains(e.X, e.Y))
                 {
-                    //如果不是子节点，即是根节点
+                    //如果不是子节点，即是根节点（设备）
                     if (CurrentNode.FirstNode != null)
                     {
-                        MessageBox.Show("双击节点");
+                        deviceName_Open = CurrentNode.Text;
+                        Device device = new DeviceManage().GetByName(deviceName_Open);
+                        //1.设备没有打开
+                        if (device.status == 0)
+                        {
+                            //设置设备为打开状态（status字段变为1）
+                            new DeviceManage().UpdateStatusByName(device.deviceName, 1);
+                            //设置开始采集按钮和停止采集按钮的图片
+                            toolStripButton2.Image = Properties.Resources.start2;//亮
+                            toolStripButton3.Image = Properties.Resources.stop1;//不亮
+                            //新建并打开数据采集页
+                            ShowDataForm showDataForm = new ShowDataForm();
+                            showDataForm.Text = deviceName_Open;
+                            showDataForm.TopLevel = false;
+                            showDataForm.WindowState = FormWindowState.Maximized;
+                            showDataForm.Parent = this.splitContainer1.Panel2;
+                            showDataForm.SetAllTextBoxText("0.000");
+                            showDataForm.Show();
+                            //将此页加入字典showDataForms中
+                            showDataForms.Add(key: deviceName_Open, value: showDataForm);
+                        }
+                        //2.设备是打开的
+                        else if (device.status == 1)
+                        {
+                            //设置开始采集按钮和停止采集按钮的图片
+                            toolStripButton2.Image = Properties.Resources.start2;//亮
+                            toolStripButton3.Image = Properties.Resources.stop1;//不亮
+                            //打开数据采集页
+                            //关闭，删除，重新建
+                            //showDataForms[deviceName_Open].Close();
+                            //showDataForms.Remove(deviceName_Open);
+
+                            //ShowDataForm showDataForm = new ShowDataForm();
+                            //showDataForm.Text = deviceName_Open;
+                            //showDataForm.TopLevel = false;
+                            //showDataForm.WindowState = FormWindowState.Maximized;
+                            //showDataForm.Parent = this.splitContainer1.Panel2;
+                            //showDataForm.Show();
+                            ////将此页加入字典showDataForms中
+                            //showDataForms.Add(key: deviceName_Open, value: showDataForm);
+                        }
+                        //3.设备在采集
+                        else if (device.status == 2)
+                        {
+                            //设置开始采集按钮和停止采集按钮的图片
+                            toolStripButton2.Image = Properties.Resources.start1;//不亮
+                            toolStripButton3.Image = Properties.Resources.stop2;//亮
+                            //打开数据采集页
+                            //关闭，删除，重新建
+                            //showDataForms[deviceName_Open].Close();
+                            //showDataForms.Remove(deviceName_Open);
+
+                            //ShowDataForm showDataForm = new ShowDataForm();
+                            //showDataForm.Text = deviceName_Open;
+                            //showDataForm.TopLevel = false;
+                            //showDataForm.WindowState = FormWindowState.Maximized;
+                            //showDataForm.Parent = this.splitContainer1.Panel2;
+                            //showDataForm.Show();
+                            ////将此页加入字典showDataForms中
+                            //showDataForms.Add(key: deviceName_Open, value: showDataForm);
+                        }
                     }
                 }
             }
@@ -305,18 +376,67 @@ namespace ModbusRTU_TP1608
 
         private void 打开设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //设置设备为打开状态（isOpen字段变为1）
-            //一旦打开，不可关闭，除非关闭软件或删除设备
-            new DeviceManage().UpdateStatusByName(deviceName);
-            //设置开始采集按钮的图标为可用状态
-            toolStripButton2.Image = Properties.Resources.start2;
-            //打开数据采集页面
-            ShowDataForm showDataForm = new ShowDataForm();
-            showDataForm.Text = deviceName;
-            showDataForm.TopLevel = false;
-            showDataForm.WindowState = FormWindowState.Maximized;
-            showDataForm.Parent = this.splitContainer1.Panel2;
-            showDataForm.Show();
+            deviceName_Open = deviceName;
+            Device device = new DeviceManage().GetByName(deviceName_Open);
+            //1.设备没有打开
+            if (device.status == 0)
+            {
+                //设置设备为打开状态（status字段变为1）
+                new DeviceManage().UpdateStatusByName(device.deviceName, 1);
+                //设置开始采集按钮和停止采集按钮的图片
+                toolStripButton2.Image = Properties.Resources.start2;//亮
+                toolStripButton3.Image = Properties.Resources.stop1;//不亮
+                //新建并打开数据采集页
+                ShowDataForm showDataForm = new ShowDataForm();
+                showDataForm.Text = deviceName_Open;
+                showDataForm.TopLevel = false;
+                showDataForm.WindowState = FormWindowState.Maximized;
+                showDataForm.Parent = this.splitContainer1.Panel2;
+                showDataForm.SetAllTextBoxText("0.000");
+                showDataForm.Show();
+                //将此页加入字典showDataForms中
+                showDataForms.Add(key: deviceName_Open, value: showDataForm);
+            }
+            //2.设备是打开的
+            else if (device.status == 1)
+            {
+                //设置开始采集按钮和停止采集按钮的图片
+                toolStripButton2.Image = Properties.Resources.start2;//亮
+                toolStripButton3.Image = Properties.Resources.stop1;//不亮
+                //打开数据采集页
+                //关闭，删除，重新建
+                //showDataForms[deviceName_Open].Close();
+                //showDataForms.Remove(deviceName_Open);
+
+                //ShowDataForm showDataForm = new ShowDataForm();
+                //showDataForm.Text = deviceName_Open;
+                //showDataForm.TopLevel = false;
+                //showDataForm.WindowState = FormWindowState.Maximized;
+                //showDataForm.Parent = this.splitContainer1.Panel2;
+                //showDataForm.Show();
+                ////将此页加入字典showDataForms中
+                //showDataForms.Add(key: deviceName_Open, value: showDataForm);
+            }
+            //3.设备在采集
+            else if (device.status == 2)
+            {
+                //设置开始采集按钮和停止采集按钮的图片
+                toolStripButton2.Image = Properties.Resources.start1;//不亮
+                toolStripButton3.Image = Properties.Resources.stop2;//亮
+                //打开数据采集页
+                //关闭，删除，重新建
+                //showDataForms[deviceName_Open].Close();
+                //showDataForms.Remove(deviceName_Open);
+
+                //ShowDataForm showDataForm = new ShowDataForm();
+                //showDataForm.Text = deviceName_Open;
+                //showDataForm.TopLevel = false;
+                //showDataForm.WindowState = FormWindowState.Maximized;
+                //showDataForm.Parent = this.splitContainer1.Panel2;
+                //showDataForm.Show();
+                ////将此页加入字典showDataForms中
+                //showDataForms.Add(key: deviceName_Open, value: showDataForm);
+            }
         }
 
         private void 删除设备ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -345,5 +465,130 @@ namespace ModbusRTU_TP1608
                 DeviceManageForm.deviceManageForm.treeView1_InitFromDB();
             }
         }
+
+        /// <summary>
+        /// 开始采集
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            //获得当前的设备配置
+            Device device = new DeviceManage().GetByName(deviceName_Open);
+            //当开始采集的按钮是亮的，即，设备状态为：打开
+            if (device.status == 1)
+            {
+                //开始采集
+                //1.初始化串口(COM名称, 波特率, 校验位（无、奇、偶）, 数据位, 停止位（0、1、2）)
+
+                port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
+                //2.实例化MobusMaster
+                master = ModbusSerialMaster.CreateRtu(port);
+                //3.采集(开启一个线程)
+                //设置读的参数
+                slaveAddress = byte.Parse(device.deviceAddress);//设备地址
+                startAddress = ushort.Parse((device.startChennal * 2 - 2) + "");//起始地址
+                numberOfPoints = ushort.Parse((device.chennalNum * 2) + "");//读几个
+                //实例化回调
+                setCallBack = new setTextValueCallBack(SetValue);
+                Thread thread = new Thread(new ParameterizedThreadStart(Collection));
+                thread.IsBackground = true;
+                //把线程存在字典里
+                threads.Add(key: device.deviceName, value: thread);
+                thread.Start(device);
+
+                //设置设备为采集状态（status字段变为2）
+                new DeviceManage().UpdateStatusByName(device.deviceName, 2);
+                //设置开始采集和停止采集按钮的图片
+                toolStripButton2.Image = Properties.Resources.start1;//不亮
+                toolStripButton3.Image = Properties.Resources.stop2;//亮
+
+
+            }
+        }
+        /// <summary>
+        /// 采集方法
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void Collection(Object obj)
+        {
+            Device device = (Device)obj;
+            while (true)
+            {
+                try
+                {
+                    //每次操作是要开启串口 操作完成后需要关闭串口
+                    //目的是为了slave更换连接时不报错
+                    if (port.IsOpen == false)
+                    {
+                        port.Open();
+                    }
+                    //返回的数据为unshort型，要转为float型
+                    registerBuffer = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
+                    //ushort[]=>float[]
+                    float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
+                    Chennal chennal;
+                    for (int i = device.startChennal - 1; i < device.startChennal + device.chennalNum - 1; i++)
+                    {
+                        chennal = new ChennalManage().GetByDeviceIdAndId(device.id, i + 1);
+                        if (chennal.sensorID != null)
+                        {
+                            Sensor sensor = new SensorManage().GetByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
+                            sensor.sensorValue = result[i].ToString();
+                            sensor.updateBy = "设备：" + device.deviceName;
+                            sensor.updateTime = DateTime.Now;
+                            //将采集的数据存入对应的传感器表
+                            new SensorManage().UpdateByTableNameAndId(chennal.sensorTableName, chennal.sensorID, sensor);
+                            //设置ShowDataForm的显示
+                            showDataForms[device.deviceName].Invoke(setCallBack, i, result[i].ToString());
+                        }
+                    }
+                    //关闭串口
+                    port.Close();
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.Message);
+                }
+                //会由间隔4秒的时候，为啥呢？？？？？？？？？？？？？
+                //Thread.CurrentThread.Join(3000);//方法间隔3s执行一次(阻止调用线程，直到某个线程终止时为止)
+                Thread.Sleep(3000);//线程休眠3s
+            }
+
+        }
+        /// <summary>
+        /// 停止采集
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+
+            //获得当前的设备配置
+            Device device = new DeviceManage().GetByName(deviceName_Open);
+            //当停止采集的按钮是亮的，即，设备状态为：采集
+            if (device.status == 2)
+            {
+                //终止线程
+                threads[deviceName_Open].Abort();
+                ThreadState state = threads[deviceName_Open].ThreadState;
+                MessageBox.Show("终止了设备：" + deviceName_Open + "的采集，线程的状态：" + state.ToString());
+                //删除字典里的线程
+                threads.Remove(deviceName_Open);
+                //设置设备为打开状态（status字段变为1）
+                new DeviceManage().UpdateStatusByName(device.deviceName, 1);
+                //设置开始采集和停止采集按钮的图片
+                toolStripButton2.Image = Properties.Resources.start2;//亮
+                toolStripButton3.Image = Properties.Resources.stop1;//不亮
+            }
+        }
+
+        public void SetValue(int i, string value)
+        {
+            ShowDataForm.showDataForm.SetValue(i, value);
+        }
     }
+
+
 }

@@ -53,6 +53,11 @@ namespace ModbusRTU_TP1608.Utils
         {
             return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalName == chennalName);
         }
+
+        public Chennal GetByDeviceIdAndId(string deviceId, int id)
+        {
+            return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalID == id);
+        }
         /// <summary>
         /// 根据设备ID和通道ID更新通道配置
         /// </summary>

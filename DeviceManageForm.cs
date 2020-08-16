@@ -129,10 +129,9 @@ namespace ModbusRTU_TP1608
         {
             //设置设备为打开状态（isOpen字段变为1）
             //一旦打开，不可关闭，除非关闭软件或删除设备
-            new DeviceManage().UpdateStatusByName(deviceName);
+            new DeviceManage().UpdateStatusByName(deviceName, 1);
             Device device = new DeviceManage().GetByName(deviceName);
             //设置开始采集按钮的图标为可用状态
-            DataCollectionForm.dataCollectionForm.SetStartBottonEnabel(device, deviceName);
             
         }
 

@@ -149,3 +149,4 @@ D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.S
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.SetDeviceForm.resources
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.SetSensorForm.resources
 D:\MODBUS_Project\ModbusRTU_TP1608\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ShowDataForm.resources
+D:\VS2019Projects\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ShowDataForm.resources

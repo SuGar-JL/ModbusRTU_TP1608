@@ -26,6 +26,8 @@ namespace ModbusRTU_TP1608
         public static string chennalName;
         public Dictionary<string, ShowDataForm> showDataForms = new Dictionary<string, ShowDataForm>();
         public Dictionary<string, Thread> threads = new Dictionary<string, Thread>();
+        public Dictionary<string, IModbusMaster> masters = new Dictionary<string, IModbusMaster>();
+
         //获得master
         private static IModbusMaster master;
         //串口
@@ -484,6 +486,7 @@ namespace ModbusRTU_TP1608
                 port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
                 //2.实例化MobusMaster
                 master = ModbusSerialMaster.CreateRtu(port);
+                masters.Add(device.deviceName,master);
                 //3.采集(开启一个线程)
                 //设置读的参数
                 slaveAddress = byte.Parse(device.deviceAddress);//设备地址
@@ -492,7 +495,8 @@ namespace ModbusRTU_TP1608
                 //实例化回调
                 setCallBack = new setTextValueCallBack(SetValue);
                 Thread thread = new Thread(new ParameterizedThreadStart(Collection));
-                thread.IsBackground = true;
+                thread.Name = deviceName_Open;
+                //thread.IsBackground = true;
                 //把线程存在字典里
                 threads.Add(key: device.deviceName, value: thread);
                 thread.Start(device);
@@ -517,6 +521,12 @@ namespace ModbusRTU_TP1608
             {
                 try
                 {
+                    Thread td = Thread.CurrentThread;
+                    ThreadState state = td.ThreadState;
+                    string strMsg = string.Format("当前执行的线程：{0}，状态：{1}\n 端口：{2}, 地址：{3}", td.Name, state, port.PortName, slaveAddress);
+                    SetMsg(strMsg);
+                    SetMsg("\r\n");
+
                     //每次操作是要开启串口 操作完成后需要关闭串口
                     //目的是为了slave更换连接时不报错
                     if (port.IsOpen == false)
@@ -587,6 +597,11 @@ namespace ModbusRTU_TP1608
         public void SetValue(int i, string value)
         {
             ShowDataForm.showDataForm.SetValue(i, value);
+        }
+
+        public void SetMsg(string msg)
+        {
+            richTextBox1.Invoke(new Action(() => { richTextBox1.AppendText(msg); }));
         }
     }
 

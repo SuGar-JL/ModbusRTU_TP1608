@@ -28,14 +28,7 @@ namespace ModbusRTU_TP1608
         public Dictionary<string, Thread> threads = new Dictionary<string, Thread>();
         public Dictionary<string, IModbusMaster> masters = new Dictionary<string, IModbusMaster>();
 
-        //获得master
-        private static IModbusMaster master;
-        //串口
-        private static SerialPort port;
-        //参数(分别为站号,起始地址,长度)
-        private byte slaveAddress;
-        private ushort startAddress;
-        private ushort numberOfPoints;
+        
         //用于存储采集到的ushort数据
         private ushort[] registerBuffer;
 
@@ -464,7 +457,7 @@ namespace ModbusRTU_TP1608
                 new ChennalManage().DeleteByDeviceId(device.id);
                 //删除设备
                 new DeviceManage().DeleteById(device.id);
-                DeviceManageForm.deviceManageForm.treeView1_InitFromDB();
+                treeView1_InitFromDB();
             }
         }
 
@@ -483,15 +476,12 @@ namespace ModbusRTU_TP1608
                 //开始采集
                 //1.初始化串口(COM名称, 波特率, 校验位（无、奇、偶）, 数据位, 停止位（0、1、2）)
 
-                port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
-                //2.实例化MobusMaster
-                master = ModbusSerialMaster.CreateRtu(port);
-                masters.Add(device.deviceName,master);
+                //port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
+                ////2.实例化MobusMaster
+                //master = ModbusSerialMaster.CreateRtu(port);
                 //3.采集(开启一个线程)
                 //设置读的参数
-                slaveAddress = byte.Parse(device.deviceAddress);//设备地址
-                startAddress = ushort.Parse((device.startChennal * 2 - 2) + "");//起始地址
-                numberOfPoints = ushort.Parse((device.chennalNum * 2) + "");//读几个
+                
                 //实例化回调
                 setCallBack = new setTextValueCallBack(SetValue);
                 Thread thread = new Thread(new ParameterizedThreadStart(Collection));
@@ -521,9 +511,15 @@ namespace ModbusRTU_TP1608
             {
                 try
                 {
+                    SerialPort port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
+                    IModbusMaster master = ModbusSerialMaster.CreateRtu(port);
+                    //参数(分别为站号,起始地址,长度)
+                    byte slaveAddress = byte.Parse(device.deviceAddress);//设备地址
+                    ushort startAddress = ushort.Parse((device.startChennal * 2 - 2) + "");//起始地址
+                    ushort numberOfPoints = ushort.Parse((device.chennalNum * 2) + "");//读几个
                     Thread td = Thread.CurrentThread;
                     ThreadState state = td.ThreadState;
-                    string strMsg = string.Format("当前执行的线程：{0}，状态：{1}\n 端口：{2}, 地址：{3}", td.Name, state, port.PortName, slaveAddress);
+                    string strMsg = string.Format("当前执行的线程：{0}，状态：{1}\n 端口：{2}, 地址：{3}\n 时间：{4}", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
                     SetMsg(strMsg);
                     SetMsg("\r\n");
 

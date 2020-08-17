@@ -84,5 +84,23 @@ namespace ModbusRTU_TP1608.Utils
         {
             return CurrentDb.Update(it => new Device() { status = 0, updateBy = "关闭软件=>关闭设备", updateTime = DateTime.Now }, it => it.status != 0);
         }
+
+        /// <summary>
+        /// 获取表的最大id
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxId()
+        {
+            List<Device> devices = CurrentDb.GetList();
+            int maxId = 0;
+            foreach (Device device in devices)
+            {
+                if (int.Parse(device.id) > maxId)
+                {
+                    maxId = int.Parse(device.id);
+                }
+            }
+            return maxId;
+        }
     }
 }

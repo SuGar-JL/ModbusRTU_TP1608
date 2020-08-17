@@ -32,7 +32,7 @@ namespace ModbusRTU_TP1608
             textBox6.Text = device.deviceType;
             textBox7.Text = device.startChennal.ToString("f1");
             textBox8.Text = device.dropTimeDelay.ToString("f1");
-            comboBox2.SelectedIndex = 10;
+            comboBox2.Text = device.baudRate;
 
             //初始化可用的串口号
             string[] ports = System.IO.Ports.SerialPort.GetPortNames();
@@ -40,7 +40,7 @@ namespace ModbusRTU_TP1608
             {
                 comboBox1.Items.Add(port);
             }
-            comboBox1.SelectedIndex = 0;
+            comboBox1.Text = device.port;
         }
 
         private void button1_Click(object sender, EventArgs e)

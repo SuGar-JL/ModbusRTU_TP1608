@@ -98,7 +98,7 @@ namespace ModbusRTU_TP1608
                 //将设备和通道配置信息写入数据库
                 //1.设置设备的配置信息（初始化设备配置）
                 Device device = new Device();
-                device.id = "" + (DataCollectionForm.dataCollectionForm.treeView1_rootNodeNum() + 1);
+                device.id = "" + (new DeviceManage().GetMaxId() + 1);
                 device.status = 0;//设备默认为关闭状态
                 device.deviceType = deviceType;
                 device.deviceName = deviceName;
@@ -145,13 +145,13 @@ namespace ModbusRTU_TP1608
                 {
                     //存设备配置
                     new DeviceManage().Insert(device);
-                    //查询当前的总通道数
-                    int totalChennalNum = new ChennalManage().GetList().Count;
+                    //查询当前的通道表的最大id（防止把id小的删除了，再添加时，id冲突）
+                    int maxId = new ChennalManage().GetMaxId();
                     int j = 1;
                     //存通道配置
                     for (int i = startChennalId; i <= chennalNum; i++)
                     {
-                        chennal.id = "" + (totalChennalNum + j++);
+                        chennal.id = "" + (maxId + j++);
                         chennal.chennalID = i;
                         chennal.chennalName = device.deviceName + "-CH0" + i;
                         new ChennalManage().Insert(chennal);

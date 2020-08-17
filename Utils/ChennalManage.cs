@@ -83,5 +83,23 @@ namespace ModbusRTU_TP1608.Utils
         {
             return CurrentDb.Delete(it => it.deviceID == deviceId);
         }
+
+        /// <summary>
+        /// 获取表的最大id
+        /// </summary>
+        /// <returns></returns>
+        public int GetMaxId()
+        {
+            List<Chennal> chennals = CurrentDb.GetList();
+            int maxId = 0;
+            foreach (Chennal chennal in chennals)
+            {
+                if (int.Parse(chennal.id) > maxId)
+                {
+                    maxId = int.Parse(chennal.id);
+                }
+            }
+            return maxId;
+        }
     }
 }

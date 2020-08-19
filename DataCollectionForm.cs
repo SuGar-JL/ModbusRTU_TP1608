@@ -19,56 +19,98 @@ namespace ModbusRTU_TP1608
     public partial class DataCollectionForm : Form
     {
         bool flag = false;
-        public int num_MouseClicks = 0; //记录鼠标在myTreeView控件上按下的次数
+        //记录鼠标在myTreeView控件上按下的次数
+        public int num_MouseClicks = 0;
         public static DataCollectionForm dataCollectionForm;
+        //设置设备（右击设备节点）时记下设备名称
         public static string deviceName;
+        //打开设备（双击设备节点或选择打开设备项）时记下设备名称
         public static string deviceName_Open;
+        //设置通道（右击通带节点）时记下通道名称
         public static string chennalName;
+        //
         public Dictionary<string, ShowDataForm> showDataForms = new Dictionary<string, ShowDataForm>();
         public Dictionary<string, Thread> threads = new Dictionary<string, Thread>();
         public Dictionary<string, IModbusMaster> masters = new Dictionary<string, IModbusMaster>();
 
-        
         //用于存储采集到的ushort数据
         private ushort[] registerBuffer;
 
-        //定义回调
+        //定义回调（委托）
         private delegate void setTextValueCallBack(int i, string value);
-        //声明回调
-        private setTextValueCallBack setCallBack;
+        //声明委托
+        setTextValueCallBack setCallBack;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public DataCollectionForm()
         {
             InitializeComponent();
             dataCollectionForm = this;
         }
-
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DataCollection_Load(object sender, EventArgs e)
         {
             //创建数据库表：设备的和通道的2个表
             DeviceManage deviceManage = new DeviceManage();
             ChennalManage chennalManage = new ChennalManage();
+            SensorManage sensorManage = new SensorManage();
             //初始化设备管理页的设备和通道配置树
             treeView1_InitFromDB();
-        }
 
+            //调试窗口
+            Debug debug = new Debug();
+            debug.Show();
+        }
+        /// <summary>
+        /// 右击空白处点击添加设备
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void 添加设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddDeviceForm f = new AddDeviceForm();
             f.ShowDialog();
         }
-
+        /// <summary>
+        /// 菜单栏的视图-》设备管理选项（该方法目前没用）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void 设备管理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DeviceManageForm f = new DeviceManageForm();
             f.MdiParent = this;
             f.Show();
         }
-
+        /// <summary>
+        /// 菜单栏的文件-》添加设备
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 添加设备ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AddDeviceForm addDevice = new AddDeviceForm();
+            addDevice.ShowDialog();
+        }
+        /// <summary>
+        /// 菜单栏的文件-》退出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
+        /// <summary>
+        /// 菜单栏的视图-》工具栏选项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void 工具栏ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (flag)
@@ -82,8 +124,31 @@ namespace ModbusRTU_TP1608
                 flag = true;
             }
         }
+        /// <summary>
+        /// 菜单栏的视图-》状态栏选项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void 状态栏ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
+            if (flag)
+            {
+                statusStrip1.Show();
+                flag = false;
+            }
+            else
+            {
+                statusStrip1.Hide();
+                flag = true;
+            }
+        }
         public bool flag1 = false;
+        /// <summary>
+        /// 工具栏第一个按钮：设备管理（目前没用）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             if (flag1)
@@ -99,36 +164,27 @@ namespace ModbusRTU_TP1608
                 flag1 = true;
             }
         }
-
-        private void 状态栏ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            if (flag)
-            {
-                statusStrip1.Show();
-                flag = false;
-            }
-            else
-            {
-                statusStrip1.Hide();
-                flag = true;
-            }
-        }
-
         /// <summary>
-        /// 关闭软件
+        /// 关闭软件X按钮
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void DataCollectionForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //将目前打开的所有设备关闭
+            //将目前打开的所有设备状态字段status设为0（关闭）
             new DeviceManage().CloseAllOpendingDivice();
+            //关闭所有线程
+
             toolStripButton2.Image = Properties.Resources.start1;//不亮
             toolStripButton3.Image = Properties.Resources.stop1;//不亮
 
         }
 
+        /// <summary>
+        /// 设备树的点击节点事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
         {
             //右击节点弹出菜单，根节点与子节点不同
@@ -285,18 +341,7 @@ namespace ModbusRTU_TP1608
             }
         }
         /// <summary>
-        /// 打开添加设备界面
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void 添加设备ToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AddDeviceForm addDevice = new AddDeviceForm();
-            addDevice.ShowDialog();
-        }
-
-        /// <summary>
-        /// 新建设备，添加treeView1节点
+        /// 新建设备方法，添加treeView1节点，在addDeviceForm窗体点击确定按钮调用此方法
         /// </summary>
         /// <param name="deviceName">设备名称</param>
         /// <param name="chennalNum">通道数量</param>
@@ -317,9 +362,8 @@ namespace ModbusRTU_TP1608
             //展开所有节点
             //treeView1.ExpandAll();
         }
-
         /// <summary>
-        /// 获取树控件的根节点数
+        /// 获取树控件的根节点数（本来用于设置设备的id，但这样不可取，不用了）
         /// </summary>
         /// <returns></returns>
         public int treeView1_rootNodeNum()
@@ -340,7 +384,7 @@ namespace ModbusRTU_TP1608
             {
                 TreeNode root = new TreeNode();
                 root.Text = device.deviceName;
-                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id);
+                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id.ToString());
                 foreach (Chennal chennal in chennals)
                 {
                     TreeNode chennalNode = new TreeNode();
@@ -350,25 +394,6 @@ namespace ModbusRTU_TP1608
                 treeView1.Nodes.Add(root);
             }
         }
-
-        private void 配置设备ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetDeviceForm setDevice = new SetDeviceForm();
-            setDevice.ShowDialog();
-        }
-
-        private void 通道设置ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetChennalForm setChennal = new SetChennalForm();
-            setChennal.ShowDialog();
-        }
-
-        private void 配置传感器ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetSensorForm setSensorForm = new SetSensorForm();
-            setSensorForm.ShowDialog();
-        }
-
         private void 打开设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             deviceName_Open = deviceName;
@@ -433,7 +458,6 @@ namespace ModbusRTU_TP1608
                 //showDataForms.Add(key: deviceName_Open, value: showDataForm);
             }
         }
-
         private void 删除设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("所有数据都将会删除，确定要删除设备吗！", "警告！", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
@@ -444,7 +468,7 @@ namespace ModbusRTU_TP1608
                 //查询当前设备的id
                 Device device = new DeviceManage().GetByName(deviceName);
                 //查询设备的所有通道
-                List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id);
+                List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id.ToString());
                 //删除每个通道绑定的传感器
                 foreach (Chennal chennal in chennals)
                 {
@@ -454,15 +478,32 @@ namespace ModbusRTU_TP1608
                     }
                 }
                 //删除通道
-                new ChennalManage().DeleteByDeviceId(device.id);
+                new ChennalManage().DeleteByDeviceId(device.id.ToString());
                 //删除设备
-                new DeviceManage().DeleteById(device.id);
+                new DeviceManage().DeleteById(device.id.ToString());
                 treeView1_InitFromDB();
             }
         }
+        private void 配置设备ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetDeviceForm setDevice = new SetDeviceForm();
+            setDevice.ShowDialog();
+        }
+
+        private void 通道设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetChennalForm setChennal = new SetChennalForm();
+            setChennal.ShowDialog();
+        }
+
+        private void 配置传感器ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetSensorForm setSensorForm = new SetSensorForm();
+            setSensorForm.ShowDialog();
+        }
 
         /// <summary>
-        /// 开始采集
+        /// 开始采集按钮点击事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -471,24 +512,18 @@ namespace ModbusRTU_TP1608
             //获得当前的设备配置
             Device device = new DeviceManage().GetByName(deviceName_Open);
             //当开始采集的按钮是亮的，即，设备状态为：打开
-            if (device.status == 1)
+            if (device.status == 1 && CheckPort(device))
             {
-                //开始采集
-                //1.初始化串口(COM名称, 波特率, 校验位（无、奇、偶）, 数据位, 停止位（0、1、2）)
-
-                //port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
-                ////2.实例化MobusMaster
-                //master = ModbusSerialMaster.CreateRtu(port);
-                //3.采集(开启一个线程)
-                //设置读的参数
-                
-                //实例化回调
+                //实例化回调（委托）
                 setCallBack = new setTextValueCallBack(SetValue);
+
+                //C#多线程和java里的用Runable实现多线程很像
                 Thread thread = new Thread(new ParameterizedThreadStart(Collection));
                 thread.Name = deviceName_Open;
-                //thread.IsBackground = true;
+                //thread.IsBackground = true;//后台线程
                 //把线程存在字典里
                 threads.Add(key: device.deviceName, value: thread);
+                //开启线程
                 thread.Start(device);
 
                 //设置设备为采集状态（status字段变为2）
@@ -496,75 +531,101 @@ namespace ModbusRTU_TP1608
                 //设置开始采集和停止采集按钮的图片
                 toolStripButton2.Image = Properties.Resources.start1;//不亮
                 toolStripButton3.Image = Properties.Resources.stop2;//亮
-
-
             }
         }
         /// <summary>
-        /// 采集方法
+        /// 线程调用的采集方法
         /// </summary>
         /// <param name="obj"></param>
-        private async void Collection(Object obj)
+        private void Collection(Object obj)
         {
             Device device = (Device)obj;
             while (true)
             {
-                try
+                lock (device)
                 {
-                    SerialPort port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
-                    IModbusMaster master = ModbusSerialMaster.CreateRtu(port);
-                    //参数(分别为站号,起始地址,长度)
-                    byte slaveAddress = byte.Parse(device.deviceAddress);//设备地址
-                    ushort startAddress = ushort.Parse((device.startChennal * 2 - 2) + "");//起始地址
-                    ushort numberOfPoints = ushort.Parse((device.chennalNum * 2) + "");//读几个
-                    Thread td = Thread.CurrentThread;
-                    ThreadState state = td.ThreadState;
-                    string strMsg = string.Format("当前执行的线程：{0}，状态：{1}\n 端口：{2}, 地址：{3}\n 时间：{4}", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
-                    SetMsg(strMsg);
-                    SetMsg("\r\n");
-
-                    //每次操作是要开启串口 操作完成后需要关闭串口
-                    //目的是为了slave更换连接时不报错
-                    if (port.IsOpen == false)
+                    try
                     {
-                        port.Open();
-                    }
-                    //返回的数据为unshort型，要转为float型
-                    registerBuffer = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
-                    //ushort[]=>float[]
-                    float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
-                    Chennal chennal;
-                    for (int i = device.startChennal - 1; i < device.startChennal + device.chennalNum - 1; i++)
-                    {
-                        chennal = new ChennalManage().GetByDeviceIdAndId(device.id, i + 1);
-                        if (chennal.sensorID != null)
+                        SerialPort port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
+                        IModbusMaster master = ModbusSerialMaster.CreateRtu(port);
+                        //参数(分别为站号,起始地址,长度)
+                        byte slaveAddress = byte.Parse(device.deviceAddress);//设备地址
+                                                                             //ushort startAddress = ushort.Parse((device.startChennal * 2 - 2) + "");//起始地址
+                        ushort startAddress = 0;//起始地址
+                                                //ushort numberOfPoints = ushort.Parse((device.chennalNum * 2) + "");//读几个
+                        ushort numberOfPoints = 16;//读几个
+                        Thread td = Thread.CurrentThread;
+                        ThreadState state = td.ThreadState;
+                        string strMsg = string.Format("线程：{0}-- 状态：{1}-- 端口：{2}-- 地址：{3}-- 时间：{4}\n", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
+                        Debug.debug.SetMsg(strMsg);
+                        //每次操作是要开启串口 操作完成后需要关闭串口
+                        if (port.IsOpen == false)
                         {
-                            Sensor sensor = new SensorManage().GetByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
-                            sensor.sensorValue = result[i].ToString();
-                            sensor.updateBy = "设备：" + device.deviceName;
-                            sensor.updateTime = DateTime.Now;
-                            //将采集的数据存入对应的传感器表
-                            new SensorManage().UpdateByTableNameAndId(chennal.sensorTableName, chennal.sensorID, sensor);
-                            //设置ShowDataForm的显示
-                            showDataForms[device.deviceName].Invoke(setCallBack, i, result[i].ToString());
+                            port.Open();
+                            strMsg = string.Format("线程：{0}--打开串口：{1}-- 时间：{2}\n", td.Name, port.PortName, DateTime.Now);
+                            Debug.debug.SetMsg(strMsg);
                         }
+                        strMsg = string.Format("线程：{0}--开始采集。。。。。。-- 时间：{1}\n", td.Name, DateTime.Now);
+                        Debug.debug.SetMsg(strMsg);
+                        //返回的数据为unshort型，要转为float型
+                        registerBuffer = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
+                        //ushort[]=>float[]
+                        float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
+                        Chennal chennal;
+                        for (int i = device.startChennal - 1; i < device.startChennal + device.chennalNum - 1; i++)
+                        {
+                            chennal = new ChennalManage().GetByDeviceIdAndId(device.id.ToString(), i + 1);
+                            if (chennal.sensorID != null)
+                            {
+                                Sensor sensor = new SensorManage().GetByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
+                                sensor.sensorValue = result[i].ToString();
+                                sensor.updateBy = "设备：" + device.deviceName;
+                                sensor.updateTime = DateTime.Now;
+                                //将采集的数据存入对应的传感器表
+                                //new SensorManage().InsertByTableName("history_data", sensor);
+                                new SensorManage().UpdateByTableNameAndId(chennal.sensorTableName, chennal.sensorID, sensor);
+                                strMsg = string.Format("线程：{0}--数据{1}存入数据库完成-- 时间：{2}\n", td.Name, result[i], DateTime.Now);
+                                Debug.debug.SetMsg(strMsg);
+                                //设置ShowDataForm的显示
+                                showDataForms[device.deviceName].Invoke(setCallBack, i, result[i].ToString());
+                            }
+                        }
+                        strMsg = string.Format("线程：{0}--串口{1}状态：IsOpen = {2}-- 时间：{3}\n", td.Name, port.PortName, port.IsOpen, DateTime.Now);
+                        Debug.debug.SetMsg(strMsg);
+                        //关闭串口
+                        port.Close();
+                        strMsg = string.Format("线程：{0}--串口{1}状态：IsOpen = {2}-- 时间：{3}\n", td.Name, port.PortName, port.IsOpen, DateTime.Now);
+                        Debug.debug.SetMsg(strMsg);
+                        Thread.Sleep(3000);//线程休眠3s
+                        strMsg = string.Format("线程：{0}--一次采集结束，进入休眠。。。：{1}-- 时间：{2}\n", td.Name, state, DateTime.Now);
+                        Debug.debug.SetMsg(strMsg);
                     }
-                    //关闭串口
-                    port.Close();
-                }
-                catch (Exception ex)
-                {
+                    catch (Exception ex)
+                    {
 
-                    MessageBox.Show(ex.Message);
+                        MessageBox.Show("采集中发生异常：" + ex.Message, "异常！", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
-                //会由间隔4秒的时候，为啥呢？？？？？？？？？？？？？
-                //Thread.CurrentThread.Join(3000);//方法间隔3s执行一次(阻止调用线程，直到某个线程终止时为止)
-                Thread.Sleep(3000);//线程休眠3s
             }
 
         }
+
         /// <summary>
-        /// 停止采集
+        /// 检查当前设备的串口号是否为空，为空时不能进行采集，弹出提示
+        /// </summary>
+        /// <param name="device"></param>
+        /// <returns></returns>
+        public bool CheckPort(Device device)
+        {
+            if (device.port == null)
+            {
+                MessageBox.Show("设备的串口号不能为空，请配置！", "提示！", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// 停止采集按钮点击事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -589,16 +650,16 @@ namespace ModbusRTU_TP1608
                 toolStripButton3.Image = Properties.Resources.stop1;//不亮
             }
         }
-
+        /// <summary>
+        /// 委托的方法
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="value"></param>
         public void SetValue(int i, string value)
         {
             ShowDataForm.showDataForm.SetValue(i, value);
         }
 
-        public void SetMsg(string msg)
-        {
-            richTextBox1.Invoke(new Action(() => { richTextBox1.AppendText(msg); }));
-        }
     }
 
 

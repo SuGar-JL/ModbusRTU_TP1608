@@ -51,7 +51,7 @@ namespace ModbusRTU_TP1608
                 sensor.sensorName = textBox_sensorName.Text.Trim();//传感器名称
                 sensor.sensorType = comboBox_sensorType.SelectedIndex;//类型
                 sensor.sensorLabel = textBox_sensorLabel.Text.Trim();//监测项
-                sensor.sensorValue = "-200";//监测值先设为-200
+                sensor.sensorValue = "0.00";//监测值先设为-200
                 sensor.sensorUnit = textBox_sensorUnit.Text.Trim();//监测单位
                 sensor.sensorExternal = 0;//外部构件标志
                 sensor.sensorPx = null;//px
@@ -89,14 +89,15 @@ namespace ModbusRTU_TP1608
                             //插入新表
                             //设置id（读数据库，看现在有几个）
                             List<Sensor> sensors = new SensorManage().GetListFromTable(tableName);
-                            sensor.id = "" + (sensors.Count + 1);//id
+                            //sensor.id = "" + (sensors.Count + 1);//id
+                            sensor.sensorId = "" + (sensors.Count + 1);//id
                             sensor.updateBy = "通道更换传感器类型";
                             sensor.updateTime = DateTime.Now;
                             sensor = new SensorManage().InsertByTableName(tableName, sensor);
                             //更新通道的传感器id和传感器数据库表名称
                             string updateBy = "通道更换传感器类型";
                             DateTime updateTime = DateTime.Now;
-                            new ChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.id, tableName, updateBy, updateTime);
+                            new ChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.sensorId, tableName, updateBy, updateTime);
                             this.Close();
                         }
                     }
@@ -106,14 +107,15 @@ namespace ModbusRTU_TP1608
                     //如果通道没有传感器id，那么之前没配置过传感器，直接插入数据库
                     //设置id（读数据库，看现在有几个）
                     List<Sensor> sensors = new SensorManage().GetListFromTable(tableName);
-                    sensor.id = "" + (sensors.Count + 1);//id
+                    //sensor.id = "" + (sensors.Count + 1);//id
+                    sensor.sensorId = "" + (sensors.Count + 1);//id
                     sensor.updateBy = "通道刚配置传感器";
                     sensor.updateTime = DateTime.Now;
                     sensor = new SensorManage().InsertByTableName(tableName, sensor);
                     //更新通道的传感器id和传感器数据库表名称
                     string updateBy = "通道刚配置传感器";
                     DateTime updateTime = DateTime.Now;
-                    new ChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.id, tableName, updateBy, updateTime);
+                    new ChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.sensorId, tableName, updateBy, updateTime);
                     this.Close();
                 }
                 

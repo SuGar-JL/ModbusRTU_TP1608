@@ -62,13 +62,11 @@
             this.contextMenuStrip_setChennalAndSensor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.通道设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.配置传感器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.contextMenuStrip_addDevice.SuspendLayout();
             this.contextMenuStrip_setDevice.SuspendLayout();
@@ -279,10 +277,6 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.treeView1);
             this.splitContainer1.Panel1MinSize = 300;
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
             this.splitContainer1.Size = new System.Drawing.Size(1009, 414);
             this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.SplitterWidth = 5;
@@ -367,14 +361,6 @@
             this.配置传感器ToolStripMenuItem.Text = "配置传感器";
             this.配置传感器ToolStripMenuItem.Click += new System.EventHandler(this.配置传感器ToolStripMenuItem_Click);
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(28, 21);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(608, 353);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            // 
             // DataCollectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -398,7 +384,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.contextMenuStrip_addDevice.ResumeLayout(false);
@@ -442,6 +427,5 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_setChennalAndSensor;
         private System.Windows.Forms.ToolStripMenuItem 通道设置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 配置传感器ToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

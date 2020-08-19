@@ -50,7 +50,7 @@ namespace ModbusRTU_TP1608
             {
                 TreeNode root = new TreeNode();
                 root.Text = device.deviceName;
-                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id);
+                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id.ToString());
                 foreach (Chennal chennal in chennals)
                 {
                     TreeNode chennalNode = new TreeNode();
@@ -145,7 +145,7 @@ namespace ModbusRTU_TP1608
                 //查询当前设备的id
                 Device device = new DeviceManage().GetByName(deviceName);
                 //查询设备的所有通道
-                List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id);
+                List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id.ToString());
                 //删除每个通道绑定的传感器
                 foreach (Chennal chennal in chennals)
                 {
@@ -155,9 +155,9 @@ namespace ModbusRTU_TP1608
                     }
                 }
                 //删除通道
-                new ChennalManage().DeleteByDeviceId(device.id);
+                new ChennalManage().DeleteByDeviceId(device.id.ToString());
                 //删除设备
-                new DeviceManage().DeleteById(device.id);
+                new DeviceManage().DeleteById(device.id.ToString());
                 DeviceManageForm.deviceManageForm.treeView1_InitFromDB();
             }
             

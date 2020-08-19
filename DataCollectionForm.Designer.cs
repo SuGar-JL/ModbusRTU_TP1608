@@ -61,7 +61,6 @@
             this.配置设备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_setChennalAndSensor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.通道设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.配置传感器ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -342,24 +341,16 @@
             // contextMenuStrip_setChennalAndSensor
             // 
             this.contextMenuStrip_setChennalAndSensor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.通道设置ToolStripMenuItem,
-            this.配置传感器ToolStripMenuItem});
+            this.通道设置ToolStripMenuItem});
             this.contextMenuStrip_setChennalAndSensor.Name = "contextMenuStrip_setChennalAndSensor";
-            this.contextMenuStrip_setChennalAndSensor.Size = new System.Drawing.Size(137, 48);
+            this.contextMenuStrip_setChennalAndSensor.Size = new System.Drawing.Size(181, 48);
             // 
             // 通道设置ToolStripMenuItem
             // 
             this.通道设置ToolStripMenuItem.Name = "通道设置ToolStripMenuItem";
-            this.通道设置ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.通道设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.通道设置ToolStripMenuItem.Text = "通道设置";
             this.通道设置ToolStripMenuItem.Click += new System.EventHandler(this.通道设置ToolStripMenuItem_Click);
-            // 
-            // 配置传感器ToolStripMenuItem
-            // 
-            this.配置传感器ToolStripMenuItem.Name = "配置传感器ToolStripMenuItem";
-            this.配置传感器ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.配置传感器ToolStripMenuItem.Text = "配置传感器";
-            this.配置传感器ToolStripMenuItem.Click += new System.EventHandler(this.配置传感器ToolStripMenuItem_Click);
             // 
             // DataCollectionForm
             // 
@@ -426,6 +417,5 @@
         private System.Windows.Forms.ToolStripMenuItem 配置设备ToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_setChennalAndSensor;
         private System.Windows.Forms.ToolStripMenuItem 通道设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 配置传感器ToolStripMenuItem;
     }
 }

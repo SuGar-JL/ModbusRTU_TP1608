@@ -25,31 +25,32 @@ namespace ModbusRTU_TP1608
         private void SetChennalForm_Load(object sender, EventArgs e)
         {
             //打开改窗口时加载显示的数据
-            textBox_chennalName.Text = DataCollectionForm.chennalName;
+            textBox_chennalName.Text = DataCollectionForm.chennalName;//通道名称
             chennal = new ChennalManage().GetByName(textBox_chennalName.Text);
-            textBox_chennalID.Text = chennal.chennalID.ToString();
-            comboBox_Waring.Text = chennal.stopWaring;
-            comboBox_color.Text = chennal.chennalColor;
-            comboBox_Unit.Text = chennal.chennalUnit;
-            comboBox_decimal_places.Text = chennal.decimalPlaces.ToString();
-            comboBox_chennalType.Text = chennal.chennalType;
-            textBox_adjustment.Text = chennal.adjustment.ToString("f2");//保留两位小数
-            textBox_lowerLimit.Text = chennal.lowerLimit.ToString("f2");
-            textBox_upperLimit.Text = chennal.upperLimit.ToString("f2");
-            textBox_lLowerLimit.Text = chennal.lLowerLimit.ToString("f2");
-            textBox_uUpperLimit.Text = chennal.uUpperLimit.ToString("f2");
-            textBox_smallRange.Text = chennal.smallRange.ToString("f2");
-            textBox_largeRange.Text = chennal.largeRange.ToString("f2");
-            comboBox_type.Text = chennal.chennalType;
+            textBox_chennalID.Text = chennal.chennalID.ToString();//通道ID
+            comboBox_Waring.Text = chennal.stopWaring;//报警
+            comboBox_label.Text = chennal.chennalLabel;//监测项
+            comboBox_Unit.Text = chennal.chennalUnit;//单位
+            comboBox_decimal_places.Text = chennal.decimalPlaces.ToString();//小数位
+            comboBox_chennalType.Text = chennal.chennalType;//类型
+            textBox_adjustment.Text = chennal.adjustment.ToString("f2");//调整，保留两位小数
+            textBox_lowerLimit.Text = chennal.lowerLimit.ToString("f2");//下限
+            textBox_upperLimit.Text = chennal.upperLimit.ToString("f2");//上限
+            textBox_lLowerLimit.Text = chennal.lLowerLimit.ToString("f2");//
+            textBox_uUpperLimit.Text = chennal.uUpperLimit.ToString("f2");//
+            textBox_smallRange.Text = chennal.smallRange.ToString("f2");//
+            textBox_largeRange.Text = chennal.largeRange.ToString("f2");//
+            comboBox_sensorType.Text = chennal.sensorType;//传感器类型
+            textBox_sensorName.Text = chennal.sensorName;//传感器名称
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             //对通道进行配置后，跟新数据库字段和设备管理页面
             //1.检查输入的内容
-            if (checkForm(textBox_chennalName.Text.Trim(), textBox_adjustment.Text.Trim(), textBox_lowerLimit.Text.Trim(), textBox_upperLimit.Text.Trim(), textBox_lLowerLimit.Text.Trim(), textBox_uUpperLimit.Text.Trim(), textBox_smallRange.Text.Trim(), textBox_largeRange.Text.Trim()))
+            if (checkForm(textBox_chennalName.Text.Trim(), comboBox_label.Text.Trim(), comboBox_Unit.Text.Trim(), textBox_adjustment.Text.Trim(), textBox_lowerLimit.Text.Trim(), textBox_upperLimit.Text.Trim(), textBox_lLowerLimit.Text.Trim(), textBox_uUpperLimit.Text.Trim(), textBox_smallRange.Text.Trim(), textBox_largeRange.Text.Trim(), comboBox_sensorType.Text.Trim(), textBox_sensorName.Text.Trim()))
             {
-                if (textBox_chennalName.Text.Trim().Equals(chennal.chennalName) && comboBox_Waring.Text.Trim().Equals(chennal.stopWaring) && comboBox_Unit.Text.Trim().Equals(chennal.chennalUnit) && comboBox_decimal_places.Text.Trim().Equals(chennal.decimalPlaces.ToString()) && comboBox_chennalType.Text.Trim().Equals(chennal.chennalType) && textBox_adjustment.Text.Trim().Equals(chennal.adjustment.ToString()) && textBox_lowerLimit.Text.Trim().Equals(chennal.lowerLimit.ToString()) && textBox_upperLimit.Text.Trim().Equals(chennal.upperLimit.ToString()) && textBox_lLowerLimit.Text.Trim().Equals(chennal.lLowerLimit.ToString()) && textBox_uUpperLimit.Text.Trim().Equals(chennal.uUpperLimit.ToString()) && textBox_smallRange.Text.Trim().Equals(chennal.smallRange.ToString()) && textBox_largeRange.Text.Trim().Equals(chennal.largeRange.ToString()))
+                if (textBox_chennalName.Text.Trim().Equals(chennal.chennalName) && comboBox_label.Text.Trim().Equals(chennal.chennalLabel) && comboBox_Unit.Text.Trim().Equals(chennal.chennalUnit) && comboBox_Waring.Text.Trim().Equals(chennal.stopWaring) && comboBox_Unit.Text.Trim().Equals(chennal.chennalUnit) && comboBox_decimal_places.Text.Trim().Equals(chennal.decimalPlaces.ToString()) && comboBox_chennalType.Text.Trim().Equals(chennal.chennalType) && textBox_adjustment.Text.Trim().Equals(chennal.adjustment.ToString()) && textBox_lowerLimit.Text.Trim().Equals(chennal.lowerLimit.ToString()) && textBox_upperLimit.Text.Trim().Equals(chennal.upperLimit.ToString()) && textBox_lLowerLimit.Text.Trim().Equals(chennal.lLowerLimit.ToString()) && textBox_uUpperLimit.Text.Trim().Equals(chennal.uUpperLimit.ToString()) && textBox_smallRange.Text.Trim().Equals(chennal.smallRange.ToString()) && textBox_largeRange.Text.Trim().Equals(chennal.largeRange.ToString()) && comboBox_sensorType.Text.Trim().Equals(chennal.sensorType) && textBox_sensorName.Text.Trim().Equals(chennal.sensorName))
                 {
                     //没做任何更改，直接关闭即可
                     this.Close();
@@ -58,8 +59,10 @@ namespace ModbusRTU_TP1608
                 {
                     double num;
                     string chennalName = textBox_chennalName.Text.Trim();//通道名称
+                    string sensorId = System.Guid.NewGuid().ToString("N");
                     string stopWaring = comboBox_Waring.Text.Trim();
-                    string chennalUnit = comboBox_Unit.Text.Trim();
+                    string chennalLabel = comboBox_label.Text.Trim();//监测项
+                    string chennalUnit = comboBox_Unit.Text.Trim();//监测单位
                     int decimalPlaces = int.Parse(comboBox_decimal_places.Text.Trim());
                     string chennalType = comboBox_chennalType.Text.Trim();
                     double.TryParse(textBox_adjustment.Text.Trim(), System.Globalization.NumberStyles.Float, System.Globalization.NumberFormatInfo.InvariantInfo, out num);
@@ -76,10 +79,22 @@ namespace ModbusRTU_TP1608
                     double smallRange = num;
                     double.TryParse(textBox_largeRange.Text.Trim(), System.Globalization.NumberStyles.Float, System.Globalization.NumberFormatInfo.InvariantInfo, out num);
                     double largeRange = num;
-                    string updateBy = "Sugar";
+                    string sensorType = comboBox_sensorType.Text.Trim();//传感器类型
+                    string sensorTableName = "";
+                    switch (comboBox_sensorType.SelectedIndex)
+                    {
+                        case 0:
+                            sensorTableName = "sensor";
+                            break;
+                        case 1:
+                            sensorTableName = "sensor_pm10";
+                            break;
+                    }
+                    string sensorName = textBox_sensorName.Text.Trim();//传感器名称
+                    string updateBy = "管理员";
                     DateTime updateTime = DateTime.Now;
                     //更新通道以上字段
-                    new ChennalManage().UpdateByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, chennalName, stopWaring, chennalUnit, decimalPlaces, chennalType, adjustment, lowerLimit, upperLimit, lLowerLimit, uUpperLimit, smallRange, largeRange, updateBy, updateTime);
+                    new ChennalManage().UpdateByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, chennalName, stopWaring, chennalLabel, chennalUnit, decimalPlaces, chennalType, adjustment, lowerLimit, upperLimit, lLowerLimit, uUpperLimit, smallRange, largeRange, sensorId, sensorType, sensorName, sensorTableName, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
                     DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
@@ -92,12 +107,22 @@ namespace ModbusRTU_TP1608
         {
             this.Close();
         }
-        public bool checkForm(string chennalName, string adjustment, string lowerLimit, string upperLimit, string lLowerLimit, string uUpperLimit, string smallRange, string largeRange)
+        public bool checkForm(string chennalName, string label, string unit, string adjustment, string lowerLimit, string upperLimit, string lLowerLimit, string uUpperLimit, string smallRange, string largeRange, string sensorType, string sensorName)
         {
             double num;
             if (chennalName == "")
             {
                 MessageBox.Show("请输入通道名称！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (label == "")
+            {
+                MessageBox.Show("请选择或输入监测项！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (unit == "")
+            {
+                MessageBox.Show("请选择或输入单位！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (adjustment == "" || double.TryParse(adjustment, System.Globalization.NumberStyles.Float, System.Globalization.NumberFormatInfo.InvariantInfo, out num) == false)//没输入或输入不是数字
@@ -143,6 +168,16 @@ namespace ModbusRTU_TP1608
             if (!chennal.chennalName.Equals(chennalName) && new ChennalManage().GetByDeviceIdAndName(chennal.deviceID, chennalName) != null)
             {
                 MessageBox.Show("通道名称已被使用！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (sensorType == "")
+            {
+                MessageBox.Show("请选择传感器类型！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (sensorName == "")
+            {
+                MessageBox.Show("请输入传感器名称！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;

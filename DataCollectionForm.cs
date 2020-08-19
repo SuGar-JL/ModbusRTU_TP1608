@@ -379,11 +379,13 @@ namespace ModbusRTU_TP1608
             DeviceManage deviceManage = new DeviceManage();
             ChennalManage chennalManage = new ChennalManage();
             List<Device> devices = deviceManage.GetAllOrderById();
+            devices.Sort();//排序（按时间）
             foreach (Device device in devices)
             {
                 TreeNode root = new TreeNode();
                 root.Text = device.deviceName;
-                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id.ToString());
+                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id);
+                chennals.Sort();//排序（按id）
                 foreach (Chennal chennal in chennals)
                 {
                     TreeNode chennalNode = new TreeNode();
@@ -495,12 +497,6 @@ namespace ModbusRTU_TP1608
             setChennal.ShowDialog();
         }
 
-        private void 配置传感器ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetSensorForm setSensorForm = new SetSensorForm();
-            setSensorForm.ShowDialog();
-        }
-
         /// <summary>
         /// 开始采集按钮点击事件
         /// </summary>
@@ -576,15 +572,17 @@ namespace ModbusRTU_TP1608
                             chennal = new ChennalManage().GetByDeviceIdAndId(device.id.ToString(), i + 1);
                             if (chennal.sensorID != null)
                             {
-                                Sensor sensor = new SensorManage().GetByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
+                                Sensor sensor = new Sensor();
+                                sensor.sensorId = chennal.sensorID;
+                                sensor.sensorName = chennal.sensorName;
+                                sensor.sensorType = chennal.sensorType;
+                                sensor.sensorLabel = chennal.chennalLabel;
                                 sensor.sensorValue = result[i].ToString();
+                                sensor.sensorUnit = chennal.chennalUnit;
                                 sensor.createBy = "设备：" + device.deviceName;
                                 sensor.createTime = DateTime.Now;
                                 sensor.updateBy = "设备：" + device.deviceName;
                                 sensor.updateTime = DateTime.Now;
-                                //将采集的数据存入对应的传感器表
-                                //new SensorManage().InsertByTableName("history_data", sensor);
-                                //new SensorManage().UpdateByTableNameAndId(chennal.sensorTableName, chennal.sensorID, sensor);
                                 new SensorManage().InsertByTableName(chennal.sensorTableName,sensor);
                                 strMsg = string.Format("线程：{0}--数据{1}存入数据库完成-- 时间：{2}\n", td.Name, result[i], DateTime.Now);
                                 Debug.debug.SetMsg(strMsg);

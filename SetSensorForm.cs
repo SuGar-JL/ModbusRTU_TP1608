@@ -29,7 +29,7 @@ namespace ModbusRTU_TP1608
             {
                 Sensor sensor = new SensorManage().GetByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
                 textBox_sensorName.Text = sensor.sensorName;
-                comboBox_sensorType.SelectedIndex = sensor.sensorType;
+                comboBox_sensorType.SelectedIndex = int.Parse(sensor.sensorType);
                 textBox_sensorLabel.Text = sensor.sensorLabel;
 
             }
@@ -49,9 +49,9 @@ namespace ModbusRTU_TP1608
                 string tableName = TableNameUtil.GetTableNameByType(comboBox_sensorType.SelectedIndex);
                 Sensor sensor = new Sensor();
                 sensor.sensorName = textBox_sensorName.Text.Trim();//传感器名称
-                sensor.sensorType = comboBox_sensorType.SelectedIndex;//类型
+                sensor.sensorType = comboBox_sensorType.SelectedIndex.ToString();//类型
                 sensor.sensorLabel = textBox_sensorLabel.Text.Trim();//监测项
-                sensor.sensorValue = "0.00";//监测值先设为-200
+                sensor.sensorValue = "0.00";//监测值先设为0.00
                 sensor.sensorUnit = textBox_sensorUnit.Text.Trim();//监测单位
                 sensor.sensorExternal = 0;//外部构件标志
                 sensor.sensorPx = null;//px
@@ -66,7 +66,7 @@ namespace ModbusRTU_TP1608
                 if (chennal.sensorTableName != null && chennal.sensorID != null)
                 {
                     Sensor sensor1 = new SensorManage().GetByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
-                    if (textBox_sensorName.Text.Trim().Equals(sensor1.sensorName) && comboBox_sensorType.SelectedIndex == sensor1.sensorType && textBox_sensorLabel.Text.Trim().Equals(sensor1.sensorLabel))
+                    if (textBox_sensorName.Text.Trim().Equals(sensor1.sensorName) && comboBox_sensorType.SelectedIndex == int.Parse(sensor1.sensorType) && textBox_sensorLabel.Text.Trim().Equals(sensor1.sensorLabel))
                     {
                         //未做任何更改，直接关闭即可
                         this.Close();

@@ -8,13 +8,19 @@ using System.Threading.Tasks;
 namespace ModbusRTU_TP1608.Entiry
 {
     [SugarTable("Chennal")]//数据库表名称
-    public class Chennal : Base
+    public class Chennal : Base, IComparable<Chennal>
     {
         [SugarColumn(ColumnName = "device_id", IsNullable = false, ColumnDescription = "附属于设备的id")]
         public string deviceID { get; set; }
 
         [SugarColumn(ColumnName = "sensor_id", IsNullable = true, ColumnDescription = "传感器id")]
         public string sensorID { get; set; }
+
+        [SugarColumn(ColumnName = "sensor_name", IsNullable = true, ColumnDescription = "传感器名称")]
+        public string sensorName { get; set; }
+
+        [SugarColumn(ColumnName = "sensor_type", IsNullable = true, ColumnDescription = "传感器类型")]
+        public string sensorType { get; set; }
 
         [SugarColumn(ColumnName = "sensor_tableName", IsNullable = true, ColumnDescription = "传感器对应数据库表名称")]
         public string sensorTableName { get; set; }
@@ -29,10 +35,10 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "stop_waring", ColumnDescription = "禁止报警")]
         public string stopWaring { get; set; }
 
-        [SugarColumn(ColumnName = "chennal_color", IsNullable = true, ColumnDescription = "通道颜色")]
-        public string chennalColor { get; set; }
+        [SugarColumn(ColumnName = "chennal_label", IsNullable = true, ColumnDescription = "监测项")]
+        public string chennalLabel { get; set; }
 
-        [SugarColumn(ColumnName = "chennal_unit", IsNullable = true, ColumnDescription = "通道单位")]
+        [SugarColumn(ColumnName = "chennal_unit", IsNullable = true, ColumnDescription = "单位")]
         public string chennalUnit { get; set; }
 
         [SugarColumn(ColumnName = "decimal_places", ColumnDescription = "小数位")]
@@ -65,5 +71,19 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "read_write", ColumnDescription = "读或写标志")]
         public int R_WFlag { get; set; }
 
+        public Chennal()
+        {
+            this.id = System.Guid.NewGuid().ToString("N");
+        }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Chennal other)
+        {
+            return this.chennalID.CompareTo(other.chennalID);
+        }
     }
 }

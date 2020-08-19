@@ -111,34 +111,9 @@ namespace ModbusRTU_TP1608
                 device.port = null;//设置COM口默认值为空
                 device.baudRate = "9600";//设置波特率默认值为9600
                 device.createTime = DateTime.Now;
-                device.createBy = "苏金领";
+                device.createBy = "管理员";
                 device.updateTime = null;
                 device.updateBy = null;
-                //2.设置通道的配置信息（初始化通道配置）
-                Chennal chennal = new Chennal();
-                //chennal.deviceID = device.id.ToString();//设备id
-                chennal.sensorID = null;//传感器id默认为空
-                chennal.sensorTableName = null;//传感器对应数据库表默认为空
-                //通道名称（有多个通道，需循环处理）
-                //通道id（有多个通道，需循环处理）
-                //id（有多个通道，需循环处理）
-                chennal.stopWaring = "否";//设置禁止报警标志默认值为0
-                chennal.chennalColor = null;//设置通道颜色默认值为空
-                chennal.chennalUnit = null;//设置通道单位默认为空
-                chennal.decimalPlaces = 1;//设置通道默认小数位为1位
-                chennal.chennalType = "K";//通道类型默认位K
-                chennal.adjustment = 0F;//设置通道调整默认值位0.0
-                chennal.lowerLimit = 0F;//下限默认0
-                chennal.upperLimit = 100F;//上限默认100
-                chennal.lLowerLimit = -1F;//下下限默认-1
-                chennal.uUpperLimit = 101F;//上上限默认101
-                chennal.smallRange = 0F;//小量程默认0
-                chennal.largeRange = 100F;//大量程默认100
-                chennal.R_WFlag = 0;//读写标志默认0
-                chennal.createBy = "苏金领";
-                chennal.createTime = DateTime.Now;
-                chennal.updateBy = null;
-                chennal.updateTime = null;
 
                 //3.将device和chennal存入数据库
                 if (new DeviceManage().GetById(device.id) == null && new DeviceManage().GetByName(device.deviceName) == null)
@@ -146,16 +121,35 @@ namespace ModbusRTU_TP1608
                     //存设备配置
                     new DeviceManage().Insert(device);
                     Device device1 = new DeviceManage().GetByName(device.deviceName);
-                    chennal.deviceID = device1.id.ToString();
-                    //查询当前的通道表的最大id（防止把id小的删除了，再添加时，id冲突）
-                    int maxId = new ChennalManage().GetMaxId();
-                    int j = 1;
                     //存通道配置
                     for (int i = startChennalId; i <= chennalNum; i++)
                     {
-                        //chennal.id = "" + (maxId + j++);
-                        chennal.chennalID = i;
-                        chennal.chennalName = device.deviceName + "-CH0" + i;
+                        Chennal chennal = new Chennal();
+                        chennal.deviceID = device1.id;//设备id
+                        chennal.sensorID = null;//传感器id默认为空
+                        chennal.sensorName = null;//传感器id默认为空
+                        chennal.sensorType = null;//传感器类型默认为空
+                        chennal.sensorTableName = null;//传感器对应数据库表默认为空
+                        chennal.chennalName = device.deviceName + "-CH0" + i;//通道名称
+                        chennal.chennalID = i;//通道id
+                        chennal.stopWaring = "否";//设置禁止报警标志默认值为否
+                        chennal.chennalLabel = null;//设置通道监测项默认值为空
+                        chennal.chennalUnit = null;//设置通道单位默认为空
+                        chennal.decimalPlaces = 1;//设置通道默认小数位为1位
+                        chennal.chennalType = "K";//通道类型默认位K
+                        chennal.adjustment = 0F;//设置通道调整默认值位0.0
+                        chennal.lowerLimit = 0F;//下限默认0
+                        chennal.upperLimit = 100F;//上限默认100
+                        chennal.lLowerLimit = -1F;//下下限默认-1
+                        chennal.uUpperLimit = 101F;//上上限默认101
+                        chennal.smallRange = 0F;//小量程默认0
+                        chennal.largeRange = 100F;//大量程默认100
+                        chennal.R_WFlag = 0;//读写标志默认0
+                        chennal.createBy = "管理员";
+                        chennal.createTime = DateTime.Now;
+                        chennal.updateBy = null;
+                        chennal.updateTime = null;
+
                         new ChennalManage().Insert(chennal);
                     }
                     //在treeView1中显示

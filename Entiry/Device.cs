@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ModbusRTU_TP1608.Entiry
 {
     [SugarTable("Device")]//数据库表名称
-    public class Device : Base
+    public class Device : Base, IComparable<Device>
     {
         [SugarColumn(ColumnName = "status", IsNullable = false, ColumnDescription = "设备状态：0、关闭，1、打开，2、采集")]
         public int status { get; set; }
@@ -45,6 +45,20 @@ namespace ModbusRTU_TP1608.Entiry
 
         [SugarColumn(ColumnName = "baud_rate", IsNullable = false, ColumnDescription = "波特率")]
         public string baudRate { get; set; }
+        
+        public Device()
+        {
+            this.id = System.Guid.NewGuid().ToString("N");
+        }
 
+        /// <summary>
+        /// 排序
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Device other)
+        {
+            return DateTime.Compare((DateTime)this.createTime , (DateTime)other.createTime);
+        }
     }
 }

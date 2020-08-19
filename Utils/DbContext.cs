@@ -14,7 +14,7 @@ namespace ModbusRTU_TP1608.Utils
             Db = new SqlSugarClient(new ConnectionConfig()
             {
                 //ConnectionString = "server=.;uid=root;pwd=root;database=sensordb",
-                ConnectionString = "user id=root;password=root;database=sensordb;server=localhost;port=3306;charset=utf8",
+                ConnectionString = "user id=root;password=root;database=sensordb;server=192.168.1.211;port=3306;charset=utf8",
                 DbType = DbType.MySql,
                 InitKeyType = InitKeyType.Attribute,//从特性读取主键和自增列信息
                 IsAutoCloseConnection = true,//开启自动释放模式和EF原理一样我就不多解释了

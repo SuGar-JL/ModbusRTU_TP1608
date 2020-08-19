@@ -10,8 +10,8 @@ namespace ModbusRTU_TP1608.Entiry
     public class Base
     {
         //SqlSugar的用法
-        [SugarColumn(IsNullable =false, IsPrimaryKey = true, IsIdentity = false,  ColumnDescription = "主键id")]//不能为空，是主键，不自增长
-        public string id { get; set; }
+        [SugarColumn(IsNullable =false, IsPrimaryKey = true, IsIdentity = true,  ColumnDescription = "主键id")]//不能为空，是主键，自增长
+        public int id { get; set; }
 
         [SugarColumn(IsNullable = true, ColumnName = "created_by", ColumnDescription = "创建者")]
         public string createBy { get; set; }

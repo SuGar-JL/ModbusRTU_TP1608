@@ -24,7 +24,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public Device GetById(string id)
         {
-            return CurrentDb.GetSingle(it => it.id == id);
+            return CurrentDb.GetSingle(it => it.id == int.Parse(id));
 
         }
         /// <summary>
@@ -60,7 +60,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public bool UpdateConfigById(string deviceId, string deviceName, double storeInterval, double collectInterval, double dropTimeDelay, string port, string baudRate, string updateBy, DateTime updateTime)
         {
-            return CurrentDb.Update(it => new Device() { deviceName = deviceName, storeInterval = storeInterval, collectInterval = collectInterval, dropTimeDelay = dropTimeDelay, port = port, baudRate = baudRate, updateBy = updateBy, updateTime = updateTime}, it => it.id == deviceId);
+            return CurrentDb.Update(it => new Device() { deviceName = deviceName, storeInterval = storeInterval, collectInterval = collectInterval, dropTimeDelay = dropTimeDelay, port = port, baudRate = baudRate, updateBy = updateBy, updateTime = updateTime}, it => it.id == int.Parse(deviceId));
         }
         /// <summary>
         /// 根据设备id删除设备配置
@@ -69,7 +69,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public bool DeleteById(string deviceId)
         {
-            return CurrentDb.Delete(it => it.id == deviceId);
+            return CurrentDb.Delete(it => it.id == int.Parse(deviceId));
         }
 
         public bool UpdateStatusByName(string deviceName, int status)
@@ -95,9 +95,9 @@ namespace ModbusRTU_TP1608.Utils
             int maxId = 0;
             foreach (Device device in devices)
             {
-                if (int.Parse(device.id) > maxId)
+                if (device.id > maxId)
                 {
-                    maxId = int.Parse(device.id);
+                    maxId = device.id;
                 }
             }
             return maxId;

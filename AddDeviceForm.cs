@@ -17,7 +17,7 @@ namespace ModbusRTU_TP1608
         public AddDeviceForm()
         {
             InitializeComponent();
-            
+
         }
 
         private void AddDeviceForm_Load(object sender, EventArgs e)
@@ -98,7 +98,7 @@ namespace ModbusRTU_TP1608
                 //将设备和通道配置信息写入数据库
                 //1.设置设备的配置信息（初始化设备配置）
                 Device device = new Device();
-                device.id = "" + (new DeviceManage().GetMaxId() + 1);
+                //device.id = "" + (new DeviceManage().GetMaxId() + 1);
                 device.status = 0;//设备默认为关闭状态
                 device.deviceType = deviceType;
                 device.deviceName = deviceName;
@@ -116,7 +116,7 @@ namespace ModbusRTU_TP1608
                 device.updateBy = null;
                 //2.设置通道的配置信息（初始化通道配置）
                 Chennal chennal = new Chennal();
-                chennal.deviceID = device.id;//设备id
+                //chennal.deviceID = device.id.ToString();//设备id
                 chennal.sensorID = null;//传感器id默认为空
                 chennal.sensorTableName = null;//传感器对应数据库表默认为空
                 //通道名称（有多个通道，需循环处理）
@@ -145,13 +145,15 @@ namespace ModbusRTU_TP1608
                 {
                     //存设备配置
                     new DeviceManage().Insert(device);
+                    Device device1 = new DeviceManage().GetByName(device.deviceName);
+                    chennal.deviceID = device1.id.ToString();
                     //查询当前的通道表的最大id（防止把id小的删除了，再添加时，id冲突）
                     int maxId = new ChennalManage().GetMaxId();
                     int j = 1;
                     //存通道配置
                     for (int i = startChennalId; i <= chennalNum; i++)
                     {
-                        chennal.id = "" + (maxId + j++);
+                        //chennal.id = "" + (maxId + j++);
                         chennal.chennalID = i;
                         chennal.chennalName = device.deviceName + "-CH0" + i;
                         new ChennalManage().Insert(chennal);
@@ -170,9 +172,9 @@ namespace ModbusRTU_TP1608
                     {
                         MessageBox.Show("设备ID已被使用！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    
+
                 }
-                
+
             }
         }
 
@@ -275,6 +277,6 @@ namespace ModbusRTU_TP1608
             return true;
         }
 
-        
+
     }
 }

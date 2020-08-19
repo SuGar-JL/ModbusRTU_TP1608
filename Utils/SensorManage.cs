@@ -9,6 +9,11 @@ namespace ModbusRTU_TP1608.Utils
 {
     class SensorManage : DbContext<Sensor>
     {
+
+        public SensorManage()
+        {
+            Db.CodeFirst.InitTables(typeof(Sensor));
+        }
         /// <summary>
         /// 通过数据库表名称插入
         /// </summary>
@@ -39,7 +44,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public int UpdateByTableNameAndId(string tableName, string id, Sensor sensor)
         {
-            return Db.Updateable(sensor).AS(tableName).Where(it => it.id == id).ExecuteCommand();
+            return Db.Updateable(sensor).AS(tableName).Where(it => it.id == int.Parse(id)).ExecuteCommand();
         }
 
         /// <summary>
@@ -50,12 +55,12 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public Sensor GetByTableNameAndId(string tableName, string id)
         {
-            return Db.Queryable<Sensor>().AS(tableName).Where(it => it.id == id).Single();
+            return Db.Queryable<Sensor>().AS(tableName).Where(it => it.id == int.Parse(id)).Single();
         }
 
         public int DeleteByTableNameAndId(string tableName, string id)
         {
-            return Db.Deleteable<Sensor>().AS(tableName).Where(it => it.id == id).ExecuteCommand();
+            return Db.Deleteable<Sensor>().AS(tableName).Where(it => it.id == int.Parse(id)).ExecuteCommand();
         }
         /// <summary>
         /// 通过类型和名称查询

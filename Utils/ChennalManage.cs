@@ -94,9 +94,9 @@ namespace ModbusRTU_TP1608.Utils
             int maxId = 0;
             foreach (Chennal chennal in chennals)
             {
-                if (int.Parse(chennal.id) > maxId)
+                if (chennal.id > maxId)
                 {
-                    maxId = int.Parse(chennal.id);
+                    maxId = chennal.id;
                 }
             }
             return maxId;

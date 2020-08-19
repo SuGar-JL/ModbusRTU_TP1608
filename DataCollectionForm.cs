@@ -58,7 +58,6 @@ namespace ModbusRTU_TP1608
             //创建数据库表：设备的和通道的2个表
             DeviceManage deviceManage = new DeviceManage();
             ChennalManage chennalManage = new ChennalManage();
-            SensorManage sensorManage = new SensorManage();
             //初始化设备管理页的设备和通道配置树
             treeView1_InitFromDB();
 

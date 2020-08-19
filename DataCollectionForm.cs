@@ -56,8 +56,8 @@ namespace ModbusRTU_TP1608
         private void DataCollection_Load(object sender, EventArgs e)
         {
             //创建数据库表：设备的和通道的2个表
-            DeviceManage deviceManage = new DeviceManage();
-            ChennalManage chennalManage = new ChennalManage();
+            new DeviceManage();
+            new ChennalManage();
             //初始化设备管理页的设备和通道配置树
             treeView1_InitFromDB();
 
@@ -511,7 +511,7 @@ namespace ModbusRTU_TP1608
             //获得当前的设备配置
             Device device = new DeviceManage().GetByName(deviceName_Open);
             //当开始采集的按钮是亮的，即，设备状态为：打开
-            if (device.status == 1 && CheckPort(device))
+            if (device != null && device.status == 1 && CheckPort(device))
             {
                 //实例化回调（委托）
                 setCallBack = new setTextValueCallBack(SetValue);
@@ -578,11 +578,14 @@ namespace ModbusRTU_TP1608
                             {
                                 Sensor sensor = new SensorManage().GetByTableNameAndId(chennal.sensorTableName, chennal.sensorID);
                                 sensor.sensorValue = result[i].ToString();
+                                sensor.createBy = "设备：" + device.deviceName;
+                                sensor.createTime = DateTime.Now;
                                 sensor.updateBy = "设备：" + device.deviceName;
                                 sensor.updateTime = DateTime.Now;
                                 //将采集的数据存入对应的传感器表
                                 //new SensorManage().InsertByTableName("history_data", sensor);
-                                new SensorManage().UpdateByTableNameAndId(chennal.sensorTableName, chennal.sensorID, sensor);
+                                //new SensorManage().UpdateByTableNameAndId(chennal.sensorTableName, chennal.sensorID, sensor);
+                                new SensorManage().InsertByTableName(chennal.sensorTableName,sensor);
                                 strMsg = string.Format("线程：{0}--数据{1}存入数据库完成-- 时间：{2}\n", td.Name, result[i], DateTime.Now);
                                 Debug.debug.SetMsg(strMsg);
                                 //设置ShowDataForm的显示

@@ -279,6 +279,8 @@
             // 
             this.comboBox_Unit.FormattingEnabled = true;
             this.comboBox_Unit.Items.AddRange(new object[] {
+            "ug/m³",
+            "ppm",
             "%",
             "K",
             "Ω",

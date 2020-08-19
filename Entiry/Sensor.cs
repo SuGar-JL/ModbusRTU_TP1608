@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModbusRTU_TP1608.Entiry
 {
-    [SugarTable("History_Data")]//数据库表名称
+    //[SugarTable("History_Data")]//数据库表名称
     public class Sensor : Base
     {
         [SugarColumn(ColumnName = "sensor_id", IsNullable = false, ColumnDescription = "传感器名称")]

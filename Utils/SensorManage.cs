@@ -55,12 +55,12 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public Sensor GetByTableNameAndId(string tableName, string id)
         {
-            return Db.Queryable<Sensor>().AS(tableName).Where(it => it.id == int.Parse(id)).Single();
+            return Db.Queryable<Sensor>().AS(tableName).Where(it => it.sensorId == id).First();
         }
 
         public int DeleteByTableNameAndId(string tableName, string id)
         {
-            return Db.Deleteable<Sensor>().AS(tableName).Where(it => it.id == int.Parse(id)).ExecuteCommand();
+            return Db.Deleteable<Sensor>().AS(tableName).Where(it => it.sensorId == id).ExecuteCommand();
         }
         /// <summary>
         /// 通过类型和名称查询

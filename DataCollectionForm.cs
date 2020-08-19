@@ -555,7 +555,9 @@ namespace ModbusRTU_TP1608
                         ushort numberOfPoints = 16;//读几个
                         Thread td = Thread.CurrentThread;
                         ThreadState state = td.ThreadState;
-                        string strMsg = string.Format("线程：{0}-- 状态：{1}-- 端口：{2}-- 地址：{3}-- 时间：{4}\n", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
+                        string strMsg = string.Format("========开始采集========线程：{0}---- 时间：{1}\n", td.Name, DateTime.Now);
+                        Debug.debug.SetMsg(strMsg);
+                        strMsg = string.Format("线程：{0}-- 状态：{1}-- 端口：{2}-- 地址：{3}-- 时间：{4}\n", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
                         Debug.debug.SetMsg(strMsg);
                         //每次操作是要开启串口 操作完成后需要关闭串口
                         if (port.IsOpen == false)
@@ -564,8 +566,6 @@ namespace ModbusRTU_TP1608
                             strMsg = string.Format("线程：{0}--打开串口：{1}-- 时间：{2}\n", td.Name, port.PortName, DateTime.Now);
                             Debug.debug.SetMsg(strMsg);
                         }
-                        strMsg = string.Format("线程：{0}--开始采集。。。。。。-- 时间：{1}\n", td.Name, DateTime.Now);
-                        Debug.debug.SetMsg(strMsg);
                         //返回的数据为unshort型，要转为float型
                         registerBuffer = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
                         //ushort[]=>float[]
@@ -598,9 +598,10 @@ namespace ModbusRTU_TP1608
                         port.Close();
                         strMsg = string.Format("线程：{0}--串口{1}状态：IsOpen = {2}-- 时间：{3}\n", td.Name, port.PortName, port.IsOpen, DateTime.Now);
                         Debug.debug.SetMsg(strMsg);
-                        Thread.Sleep(3000);//线程休眠3s
-                        strMsg = string.Format("线程：{0}--一次采集结束，进入休眠。。。：{1}-- 时间：{2}\n", td.Name, state, DateTime.Now);
+                        strMsg = string.Format("========本轮采集轮结束========线程：{0}---- 时间：{1}\n", td.Name, DateTime.Now);
                         Debug.debug.SetMsg(strMsg);
+                        Thread.Sleep(3000);//线程休眠3s
+                        
                     }
                     catch (Exception ex)
                     {

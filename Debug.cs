@@ -27,5 +27,11 @@ namespace ModbusRTU_TP1608
         {
             richTextBox1.Invoke(new Action(() => { richTextBox1.AppendText(msg); }));
         }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
+        }
     }
 }

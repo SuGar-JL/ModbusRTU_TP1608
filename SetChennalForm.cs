@@ -19,13 +19,13 @@ namespace ModbusRTU_TP1608
         public SetChennalForm()
         {
             InitializeComponent();
-
+            
         }
 
         private void SetChennalForm_Load(object sender, EventArgs e)
         {
             //打开改窗口时加载显示的数据
-            textBox_chennalName.Text = DataCollectionForm.chennalName;//通道名称
+            textBox_chennalName.Text = DataCollectionForm.currRightDownChennal;//通道名称
             chennal = new ChennalManage().GetByName(textBox_chennalName.Text);
             textBox_chennalID.Text = chennal.chennalID.ToString();//通道ID
             comboBox_Waring.Text = chennal.stopWaring;//报警
@@ -60,7 +60,6 @@ namespace ModbusRTU_TP1608
                     double num;
                     string chennalName = textBox_chennalName.Text.Trim();//通道名称
                     //string sensorId = System.Guid.NewGuid().ToString("N");
-                    string sensorId = "CO2_1";
                     string stopWaring = comboBox_Waring.Text.Trim();
                     string chennalLabel = comboBox_label.Text.Trim();//监测项
                     string chennalUnit = comboBox_Unit.Text.Trim();//监测单位
@@ -91,6 +90,7 @@ namespace ModbusRTU_TP1608
                             sensorTableName = "sensor_pm10";
                             break;
                     }
+                    string sensorId = new SensorManage().GetMaxSensorIdByTableName(sensorTableName) + 1;
                     string sensorName = textBox_sensorName.Text.Trim();//传感器名称
                     string updateBy = "管理员";
                     DateTime updateTime = DateTime.Now;
@@ -184,6 +184,6 @@ namespace ModbusRTU_TP1608
             return true;
         }
 
-
+        
     }
 }

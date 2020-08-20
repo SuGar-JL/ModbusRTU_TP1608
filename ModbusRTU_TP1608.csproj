@@ -222,6 +222,7 @@
       <DependentUpon>ShowDataForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\ChennalManage.cs" />
+    <Compile Include="Utils\Collector.cs" />
     <Compile Include="Utils\DataTypeConvert.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

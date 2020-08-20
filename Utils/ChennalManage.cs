@@ -39,8 +39,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public List<Chennal> GetByDeviceId(string deviceId)
         {
-            //return (List<Chennal>)CurrentDb.GetList(it => it.deviceID == deviceId).OrderBy(it => it.id);
-            return Db.Queryable<Chennal>().Where(it => it.deviceID == deviceId).OrderBy(it => it.id).ToList();
+            return Db.Queryable<Chennal>().Where(it => it.deviceID == deviceId).OrderBy(it => it.chennalID).ToList();
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace ModbusRTU_TP1608.Utils
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public bool UpdateByDeviceIdAndChennalId(string deviceId, int chennalId, string chennalName, string chennalLabel, string stopWaring, string chennalUnit, int decimalPlaces, string chennalType, double adjustment, double lowerLimit, double upperLimit, double lLowerLimit, double uUpperLimit, double smallRange, double largeRange, string sensorId, string sensorType, string sensorName, string sensorTableName, string updateBy, DateTime updateTime)
+        public bool UpdateByDeviceIdAndChennalId(string deviceId, int chennalId, string chennalName, string stopWaring, string chennalLabel, string chennalUnit, int decimalPlaces, string chennalType, double adjustment, double lowerLimit, double upperLimit, double lLowerLimit, double uUpperLimit, double smallRange, double largeRange, string sensorId, string sensorType, string sensorName, string sensorTableName, string updateBy, DateTime updateTime)
         {
             return CurrentDb.Update(it => new Chennal() { chennalName = chennalName, stopWaring = stopWaring, chennalLabel = chennalLabel, chennalUnit = chennalUnit, decimalPlaces = decimalPlaces, chennalType = chennalType, adjustment = adjustment, lowerLimit = lowerLimit, upperLimit = upperLimit, lLowerLimit = lLowerLimit, uUpperLimit = uUpperLimit, smallRange = smallRange, largeRange = largeRange, sensorID = sensorId, sensorType = sensorType, sensorName = sensorName, sensorTableName = sensorTableName, updateBy = updateBy, updateTime = updateTime }, it => it.deviceID == deviceId && it.chennalID == chennalId);
         }

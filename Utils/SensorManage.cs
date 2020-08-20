@@ -1,4 +1,5 @@
 ﻿using ModbusRTU_TP1608.Entiry;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,14 +61,13 @@ namespace ModbusRTU_TP1608.Utils
             return Db.Deleteable<Sensor>().AS(tableName).Where(it => it.sensorId == id).ExecuteCommand();
         }
         /// <summary>
-        /// 通过类型和名称查询
+        /// 查询最大的传感器id
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="name"></param>
+        /// <param name="tableName"></param>
         /// <returns></returns>
-        public Sensor GetByTypeAndName(string type, string name)
+        public string GetMaxSensorIdByTableName(string tableName)
         {
-            return CurrentDb.GetSingle(it => it.sensorType == type && it.sensorName == name);
+            return Db.Queryable<Sensor>().AS(tableName).Max(it => it.sensorId);
         }
     }
 }

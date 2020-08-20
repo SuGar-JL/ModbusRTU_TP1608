@@ -39,8 +39,7 @@ namespace ModbusRTU_TP1608.Utils
 
         public List<Device> GetAllOrderById()
         {
-            //return (List<Device>)CurrentDb.GetList().OrderBy(it => it.id);
-            return Db.Queryable<Device>().OrderBy(it => it.id).ToList();
+            return Db.Queryable<Device>().OrderBy(it => it.createTime).ToList();
         }
         /// <summary>
         /// 根据设备ID更新设备配置

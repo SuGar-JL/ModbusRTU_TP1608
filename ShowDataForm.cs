@@ -23,28 +23,28 @@ namespace ModbusRTU_TP1608
             switch (i)
             {
                 case 1:
-                    this.textBox1.Text = value;
+                    this.textBox1.Invoke(new Action(() => { textBox1.Text = value; }));
                     break;
                 case 2:
-                    this.textBox2.Text = value;
+                    this.textBox2.Invoke(new Action(() => { textBox2.Text = value; }));
                     break;
                 case 3:
-                    this.textBox3.Text = value;
+                    this.textBox3.Invoke(new Action(() => { textBox3.Text = value; }));
                     break;
                 case 4:
-                    this.textBox4.Text = value;
+                    this.textBox4.Invoke(new Action(() => { textBox4.Text = value; }));
                     break;
                 case 5:
-                    this.textBox5.Text = value;
+                    this.textBox5.Invoke(new Action(() => { textBox5.Text = value; }));
                     break;
                 case 6:
-                    this.textBox6.Text = value;
+                    this.textBox6.Invoke(new Action(() => { textBox6.Text = value; }));
                     break;
                 case 7:
-                    this.textBox7.Text = value;
+                    this.textBox7.Invoke(new Action(() => { textBox7.Text = value; }));
                     break;
                 case 8:
-                    this.textBox8.Text = value;
+                    this.textBox8.Invoke(new Action(() => { textBox8.Text = value; }));
                     break;
             }
         }

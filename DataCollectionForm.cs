@@ -37,9 +37,9 @@ namespace ModbusRTU_TP1608
         private ushort[] registerBuffer;
 
         //定义回调（委托）
-        private delegate void setTextValueCallBack(int i, string value);
+        public delegate void setTextValueCallBack(int i, string value);
         //声明委托
-        setTextValueCallBack setCallBack;
+        public setTextValueCallBack setCallBack;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -293,7 +293,7 @@ namespace ModbusRTU_TP1608
                             showDataForm.SetAllTextBoxText("0.000");
                             showDataForm.Show();
                             //将此页加入字典showDataForms中
-                            showDataForms.Add(key: deviceName_Open, value: showDataForm);
+                            showDataForms.Add(key: showDataForm.Text, value: showDataForm);
                         }
                         //2.设备是打开的
                         else if (device.status == 1)
@@ -416,7 +416,7 @@ namespace ModbusRTU_TP1608
                 showDataForm.SetAllTextBoxText("0.000");
                 showDataForm.Show();
                 //将此页加入字典showDataForms中
-                showDataForms.Add(key: deviceName_Open, value: showDataForm);
+                showDataForms.Add(key: showDataForm.Text, value: showDataForm);
             }
             //2.设备是打开的
             else if (device.status == 1)
@@ -509,9 +509,6 @@ namespace ModbusRTU_TP1608
             //当开始采集的按钮是亮的，即，设备状态为：打开
             if (device != null && device.status == 1 && CheckPort(device))
             {
-                //实例化回调（委托）
-                setCallBack = new setTextValueCallBack(SetValue);
-
                 //C#多线程和java里的用Runable实现多线程很像
                 Thread thread = new Thread(new ParameterizedThreadStart(Collection));
                 thread.Name = deviceName_Open;
@@ -539,22 +536,22 @@ namespace ModbusRTU_TP1608
             {
                 lock (device)
                 {
+                    SerialPort port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
+                    IModbusMaster master = ModbusSerialMaster.CreateRtu(port);
+                    //参数(分别为站号,起始地址,长度)
+                    byte slaveAddress = byte.Parse(device.deviceAddress);//设备地址
+                                                                         //ushort startAddress = ushort.Parse((device.startChennal * 2 - 2) + "");//起始地址
+                    ushort startAddress = 0;//起始地址
+                                            //ushort numberOfPoints = ushort.Parse((device.chennalNum * 2) + "");//读几个
+                    ushort numberOfPoints = 16;//读几个
+                    Thread td = Thread.CurrentThread;
+                    ThreadState state = td.ThreadState;
+                    string strMsg = string.Format("========开始采集========线程：{0}---- 时间：{1}\n", td.Name, DateTime.Now);
+                    Debug.debug.SetMsg(strMsg);
+                    strMsg = string.Format("线程：{0}-- 状态：{1}-- 端口：{2}-- 地址：{3}-- 时间：{4}\n", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
+                    Debug.debug.SetMsg(strMsg);
                     try
                     {
-                        SerialPort port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
-                        IModbusMaster master = ModbusSerialMaster.CreateRtu(port);
-                        //参数(分别为站号,起始地址,长度)
-                        byte slaveAddress = byte.Parse(device.deviceAddress);//设备地址
-                                                                             //ushort startAddress = ushort.Parse((device.startChennal * 2 - 2) + "");//起始地址
-                        ushort startAddress = 0;//起始地址
-                                                //ushort numberOfPoints = ushort.Parse((device.chennalNum * 2) + "");//读几个
-                        ushort numberOfPoints = 16;//读几个
-                        Thread td = Thread.CurrentThread;
-                        ThreadState state = td.ThreadState;
-                        string strMsg = string.Format("========开始采集========线程：{0}---- 时间：{1}\n", td.Name, DateTime.Now);
-                        Debug.debug.SetMsg(strMsg);
-                        strMsg = string.Format("线程：{0}-- 状态：{1}-- 端口：{2}-- 地址：{3}-- 时间：{4}\n", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
-                        Debug.debug.SetMsg(strMsg);
                         //每次操作是要开启串口 操作完成后需要关闭串口
                         if (port.IsOpen == false)
                         {
@@ -587,7 +584,10 @@ namespace ModbusRTU_TP1608
                                 strMsg = string.Format("线程：{0}--数据{1}存入数据库完成-- 时间：{2}\n", td.Name, result[i], DateTime.Now);
                                 Debug.debug.SetMsg(strMsg);
                                 //设置ShowDataForm的显示
-                                showDataForms[device.deviceName].Invoke(setCallBack, i, result[i].ToString());
+                                if (setCallBack != null)
+                                {
+                                    setCallBack(i, result[i].ToString());
+                                }
                             }
                         }
                         strMsg = string.Format("线程：{0}--串口{1}状态：IsOpen = {2}-- 时间：{3}\n", td.Name, port.PortName, port.IsOpen, DateTime.Now);
@@ -605,6 +605,13 @@ namespace ModbusRTU_TP1608
                     {
 
                         MessageBox.Show("采集中发生异常：" + ex.Message, "异常！", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    finally
+                    {
+                        if (port.IsOpen == true)
+                        {
+                            port.Close();//无论如何，关闭串口
+                        }
                     }
                 }
             }
@@ -650,15 +657,6 @@ namespace ModbusRTU_TP1608
                 toolStripButton2.Image = Properties.Resources.start2;//亮
                 toolStripButton3.Image = Properties.Resources.stop1;//不亮
             }
-        }
-        /// <summary>
-        /// 委托的方法
-        /// </summary>
-        /// <param name="i"></param>
-        /// <param name="value"></param>
-        public void SetValue(int i, string value)
-        {
-            ShowDataForm.showDataForm.SetValue(i, value);
         }
 
     }

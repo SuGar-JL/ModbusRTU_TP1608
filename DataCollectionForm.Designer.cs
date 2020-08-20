@@ -343,12 +343,12 @@
             this.contextMenuStrip_setChennalAndSensor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.通道设置ToolStripMenuItem});
             this.contextMenuStrip_setChennalAndSensor.Name = "contextMenuStrip_setChennalAndSensor";
-            this.contextMenuStrip_setChennalAndSensor.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip_setChennalAndSensor.Size = new System.Drawing.Size(125, 26);
             // 
             // 通道设置ToolStripMenuItem
             // 
             this.通道设置ToolStripMenuItem.Name = "通道设置ToolStripMenuItem";
-            this.通道设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.通道设置ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.通道设置ToolStripMenuItem.Text = "通道设置";
             this.通道设置ToolStripMenuItem.Click += new System.EventHandler(this.通道设置ToolStripMenuItem_Click);
             // 

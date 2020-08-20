@@ -12,39 +12,39 @@ namespace ModbusRTU_TP1608
 {
     public partial class ShowDataForm : Form
     {
-        public static ShowDataForm showDataForm;
+        public DataCollectionForm dataCollectionForm = new DataCollectionForm();
         public ShowDataForm()
         {
             InitializeComponent();
-            showDataForm = this;
+            dataCollectionForm.setCallBack = new DataCollectionForm.setTextValueCallBack(SetValue);
         }
         public void SetValue(int i, string value)
         {
             switch (i)
             {
                 case 1:
-                    textBox1.Text = value;
+                    this.textBox1.Text = value;
                     break;
                 case 2:
-                    textBox1.Text = value;
+                    this.textBox2.Text = value;
                     break;
                 case 3:
-                    textBox3.Text = value;
+                    this.textBox3.Text = value;
                     break;
                 case 4:
-                    textBox4.Text = value;
+                    this.textBox4.Text = value;
                     break;
                 case 5:
-                    textBox5.Text = value;
+                    this.textBox5.Text = value;
                     break;
                 case 6:
-                    textBox6.Text = value;
+                    this.textBox6.Text = value;
                     break;
                 case 7:
-                    textBox7.Text = value;
+                    this.textBox7.Text = value;
                     break;
                 case 8:
-                    textBox8.Text = value;
+                    this.textBox8.Text = value;
                     break;
             }
         }

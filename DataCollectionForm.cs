@@ -583,11 +583,6 @@ namespace ModbusRTU_TP1608
                                 new SensorManage().InsertByTableName(chennal.sensorTableName,sensor);
                                 strMsg = string.Format("线程：{0}--数据{1}存入数据库完成-- 时间：{2}\n", td.Name, result[i], DateTime.Now);
                                 Debug.debug.SetMsg(strMsg);
-                                //设置ShowDataForm的显示
-                                if (setCallBack != null)
-                                {
-                                    setCallBack(i, result[i].ToString());
-                                }
                             }
                         }
                         strMsg = string.Format("线程：{0}--串口{1}状态：IsOpen = {2}-- 时间：{3}\n", td.Name, port.PortName, port.IsOpen, DateTime.Now);
@@ -598,7 +593,7 @@ namespace ModbusRTU_TP1608
                         Debug.debug.SetMsg(strMsg);
                         strMsg = string.Format("========本轮采集轮结束========线程：{0}---- 时间：{1}\n", td.Name, DateTime.Now);
                         Debug.debug.SetMsg(strMsg);
-                        Thread.Sleep(3000);//线程休眠3s
+                        Thread.Sleep(2000);//线程休眠3s
                         
                     }
                     catch (Exception ex)

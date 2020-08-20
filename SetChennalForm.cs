@@ -19,7 +19,7 @@ namespace ModbusRTU_TP1608
         public SetChennalForm()
         {
             InitializeComponent();
-            
+
         }
 
         private void SetChennalForm_Load(object sender, EventArgs e)
@@ -59,7 +59,8 @@ namespace ModbusRTU_TP1608
                 {
                     double num;
                     string chennalName = textBox_chennalName.Text.Trim();//通道名称
-                    string sensorId = System.Guid.NewGuid().ToString("N");
+                    //string sensorId = System.Guid.NewGuid().ToString("N");
+                    string sensorId = "CO2_1";
                     string stopWaring = comboBox_Waring.Text.Trim();
                     string chennalLabel = comboBox_label.Text.Trim();//监测项
                     string chennalUnit = comboBox_Unit.Text.Trim();//监测单位
@@ -183,6 +184,6 @@ namespace ModbusRTU_TP1608
             return true;
         }
 
-        
+
     }
 }

@@ -12,43 +12,12 @@ namespace ModbusRTU_TP1608
 {
     public partial class ShowDataForm : Form
     {
-        public DataCollectionForm dataCollectionForm = new DataCollectionForm();
+        public static ShowDataForm showDataForm;
         public ShowDataForm()
         {
             InitializeComponent();
-            dataCollectionForm.setCallBack = new DataCollectionForm.setTextValueCallBack(SetValue);
+            showDataForm = this;
         }
-        public void SetValue(int i, string value)
-        {
-            switch (i)
-            {
-                case 1:
-                    this.textBox1.Invoke(new Action(() => { textBox1.Text = value; }));
-                    break;
-                case 2:
-                    this.textBox2.Invoke(new Action(() => { textBox2.Text = value; }));
-                    break;
-                case 3:
-                    this.textBox3.Invoke(new Action(() => { textBox3.Text = value; }));
-                    break;
-                case 4:
-                    this.textBox4.Invoke(new Action(() => { textBox4.Text = value; }));
-                    break;
-                case 5:
-                    this.textBox5.Invoke(new Action(() => { textBox5.Text = value; }));
-                    break;
-                case 6:
-                    this.textBox6.Invoke(new Action(() => { textBox6.Text = value; }));
-                    break;
-                case 7:
-                    this.textBox7.Invoke(new Action(() => { textBox7.Text = value; }));
-                    break;
-                case 8:
-                    this.textBox8.Invoke(new Action(() => { textBox8.Text = value; }));
-                    break;
-            }
-        }
-
 
         public void SetAllTextBoxText(string value)
         {
@@ -60,6 +29,44 @@ namespace ModbusRTU_TP1608
             textBox6.Text = value;
             textBox7.Text = value;
             textBox8.Text = value;
+        }
+
+        public void SetTextBox1(string value)
+        {
+            this.textBox1.Invoke(new Action(() => { this.textBox1.Text = value; }));
+        }
+        public void SetTextBox2(string value)
+        {
+            this.textBox2.Invoke(new Action(() => { this.textBox2.Text = value; }));
+        }
+        public void SetTextBox3(string value)
+        {
+            this.textBox3.Invoke(new Action(() => { this.textBox3.Text = value; }));
+        }
+        public void SetTextBox4(string value)
+        {
+            this.textBox4.Invoke(new Action(() => { this.textBox4.Text = value; }));
+        }
+        public void SetTextBox5(string value)
+        {
+            this.textBox5.Invoke(new Action(() => { this.textBox5.Text = value; }));
+        }
+        public void SetTextBox6(string value)
+        {
+            this.textBox6.Invoke(new Action(() => { this.textBox6.Text = value; }));
+        }
+        public void SetTextBox7(string value)
+        {
+            this.textBox7.Invoke(new Action(() => { this.textBox7.Text = value; }));
+        }
+        public void SetTextBox8(string value)
+        {
+            this.textBox8.Invoke(new Action(() => { this.textBox8.Text = value; }));
+        }
+
+        public void SetTextBox_time(string value)
+        {
+            this.textBox_time.Invoke(new Action(() => { this.textBox_time.Text = value; }));
         }
     }
 }

@@ -53,14 +53,29 @@ namespace ModbusRTU_TP1608
         private void DataCollection_Load(object sender, EventArgs e)
         {
             //创建数据库表：设备的和通道的2个表
-            new DeviceManage();
-            new ChennalManage();
+            try
+            {
+                new DeviceManage();
+                new ChennalManage();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("异常！" + ex.Message, "异常！", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             //初始化设备管理页的设备和通道配置树
             treeView1_InitFromDB();
 
             //调试窗口
-            //Debug debug = new Debug();
-            //debug.Show();
+            Debug debug = new Debug();
+            debug.Show();
+
+            ShowDataForm showDataForm = new ShowDataForm();
+            showDataForm.Text = currOpenDevice;
+            showDataForm.TopLevel = false;
+            showDataForm.WindowState = FormWindowState.Maximized;
+            showDataForm.Parent = this.splitContainer1.Panel2;
+            showDataForm.SetAllTextBoxText("0.00");
+            showDataForm.Show();
         }
         /// <summary>
         /// 右击空白处点击添加设备
@@ -170,7 +185,11 @@ namespace ModbusRTU_TP1608
             //将目前打开的所有设备状态字段status设为0（关闭）
             new DeviceManage().CloseAllOpendingDivice();
             //关闭所有线程
-
+            Dictionary<string, Thread>.KeyCollection keys = threads.Keys;
+            foreach (string key in keys)
+            {
+                threads[key].Abort();
+            }
             toolStripButton2.Image = Properties.Resources.start1;//不亮
             toolStripButton3.Image = Properties.Resources.stop1;//不亮
 
@@ -287,10 +306,11 @@ namespace ModbusRTU_TP1608
                             showDataForm.TopLevel = false;
                             showDataForm.WindowState = FormWindowState.Maximized;
                             showDataForm.Parent = this.splitContainer1.Panel2;
-                            showDataForm.SetAllTextBoxText("0.000");
-                            showDataForm.Show();
+                            showDataForm.SetAllTextBoxText("0.00");
+                            //showDataForm.Show();
                             //将此页加入字典showDataForms中
-                            showDataForms.Add(key: showDataForm.Text, value: showDataForm);
+                            showDataForms.Add(key: currOpenDevice, value: showDataForm);
+                            //showDataForms[currOpenDevice].Show();
                         }
                         //2.设备是打开的
                         else if (device.status == 1)
@@ -409,7 +429,7 @@ namespace ModbusRTU_TP1608
                 showDataForm.WindowState = FormWindowState.Maximized;
                 showDataForm.Parent = this.splitContainer1.Panel2;
                 showDataForm.SetAllTextBoxText("0.000");
-                showDataForm.Show();
+                //showDataForm.Show();
                 //将此页加入字典showDataForms中
                 showDataForms.Add(key: showDataForm.Text, value: showDataForm);
             }
@@ -545,10 +565,12 @@ namespace ModbusRTU_TP1608
                     ushort numberOfPoints = 16;//读几个
                     Thread td = Thread.CurrentThread;
                     ThreadState state = td.ThreadState;
-                    string strMsg = string.Format("***************开始采集{0}***************\n", DateTime.Now);
+                    string strMsg = string.Format("********************开始采集【{0}】********************\n", DateTime.Now);
                     SetMsg(strMsg);
+                    Debug.debug.SetMsg(strMsg);
                     strMsg = string.Format("线程：{0}-->状态：{1}-->端口：{2}-->地址：{3}-->时间：{4}\n", td.Name, state, port.PortName, slaveAddress, DateTime.Now);
                     SetMsg(strMsg);
+                    Debug.debug.SetMsg(strMsg);
                     try
                     {
                         //每次操作是要开启串口 操作完成后需要关闭串口
@@ -557,15 +579,16 @@ namespace ModbusRTU_TP1608
                             port.Open();
                             strMsg = string.Format("线程：{0}-->打开串口：{1}-->时间：{2}\n", td.Name, port.PortName, DateTime.Now);
                             SetMsg(strMsg);
+                            Debug.debug.SetMsg(strMsg);
                         }
                         //返回的数据为unshort型，要转为float型
                         ushort[] registerBuffer = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
                         //ushort[]=>float[]
                         float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
-                        Chennal chennal;
-                        for (int i = device.startChennal - 1; i < device.startChennal + device.chennalNum - 1; i++)
+                        List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id);
+                        int i = 0;
+                        foreach (Chennal chennal in chennals)
                         {
-                            chennal = new ChennalManage().GetByDeviceIdAndId(device.id.ToString(), i + 1);
                             if (chennal.sensorID != null)
                             {
                                 Sensor sensor = new Sensor();
@@ -580,19 +603,52 @@ namespace ModbusRTU_TP1608
                                 sensor.updateBy = "设备：" + device.deviceName;
                                 sensor.updateTime = DateTime.Now;
                                 new SensorManage().InsertByTableName(chennal.sensorTableName, sensor);
-                                strMsg = string.Format("线程：{0}-->传感器{1}数据{2}已存入数据库-->时间：{3}\n", td.Name, sensor.sensorName, result[i], DateTime.Now);
+                                strMsg = string.Format("线程：{0}-->传感器{1}数据【{2}】已存入数据库-->时间：{3}\n", td.Name, sensor.sensorName, result[i], DateTime.Now);
                                 SetMsg(strMsg);
-                                showDataForms[device.deviceName].SetValue(i, result[i].ToString());
+                                Debug.debug.SetMsg(strMsg);
+                                switch (i + 1)
+                                {
+                                    case 1:
+                                        ShowDataForm.showDataForm.SetTextBox1(result[i].ToString());
+                                        break;
+                                    case 2:
+                                        ShowDataForm.showDataForm.SetTextBox2(result[i].ToString());
+                                        break;
+                                    case 3:
+                                        ShowDataForm.showDataForm.SetTextBox3(result[i].ToString());
+                                        break;
+                                    case 4:
+                                        ShowDataForm.showDataForm.SetTextBox4(result[i].ToString());
+                                        break;
+                                    case 5:
+                                        ShowDataForm.showDataForm.SetTextBox5(result[i].ToString());
+                                        break;
+                                    case 6:
+                                        ShowDataForm.showDataForm.SetTextBox6(result[i].ToString());
+                                        break;
+                                    case 7:
+                                        ShowDataForm.showDataForm.SetTextBox7(result[i].ToString());
+                                        break;
+                                    case 8:
+                                        ShowDataForm.showDataForm.SetTextBox8(result[i].ToString());
+                                        break;
+                                }
+                                ShowDataForm.showDataForm.SetTextBox_time(sensor.createTime.ToString());
                             }
+                            i++;
                         }
+                        
                         strMsg = string.Format("线程：{0}--串口{1}状态：IsOpen = {2}-- 时间：{3}\n", td.Name, port.PortName, port.IsOpen, DateTime.Now);
                         SetMsg(strMsg);
+                        Debug.debug.SetMsg(strMsg);
                         //关闭串口
                         port.Close();
                         strMsg = string.Format("线程：{0}--串口{1}状态：IsOpen = {2}-- 时间：{3}\n", td.Name, port.PortName, port.IsOpen, DateTime.Now);
                         SetMsg(strMsg);
-                        strMsg = string.Format("***************采集结束{0}***************\n", DateTime.Now);
+                        Debug.debug.SetMsg(strMsg);
+                        strMsg = string.Format("********************采集结束【{0}】********************\n\n", DateTime.Now);
                         SetMsg(strMsg);
+                        Debug.debug.SetMsg(strMsg);
                         Thread.Sleep(3000);//线程休眠3s
 
                     }

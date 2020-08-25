@@ -519,7 +519,7 @@ namespace ModbusRTU_TP1608
         /// <param name="e"></param>
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            //获得当前的设备配置
+            //获得当前的设备配置信息
             Device device = new DeviceManage().GetByName(currOpenDevice);
             //当开始采集的按钮是亮的，即，设备状态为：打开
             if (device != null && device.status == 1 && CheckPort(device))

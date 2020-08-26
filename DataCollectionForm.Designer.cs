@@ -43,7 +43,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.stopCollectButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
@@ -61,13 +61,11 @@
             this.配置设备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_setChennalAndSensor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.通道设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.contextMenuStrip_addDevice.SuspendLayout();
             this.contextMenuStrip_setDevice.SuspendLayout();
@@ -159,7 +157,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
-            this.toolStripButton3,
+            this.stopCollectButton,
             this.toolStripButton4,
             this.toolStripButton5,
             this.toolStripButton6,
@@ -195,16 +193,16 @@
             this.toolStripButton2.ToolTipText = "开始采集";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
-            // toolStripButton3
+            // stopCollectButton
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::ModbusRTU_TP1608.Properties.Resources.stop1;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(23, 30);
-            this.toolStripButton3.Text = "toolStripButton3";
-            this.toolStripButton3.ToolTipText = "停止采集";
-            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.stopCollectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopCollectButton.Image = global::ModbusRTU_TP1608.Properties.Resources.stop1;
+            this.stopCollectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stopCollectButton.Name = "stopCollectButton";
+            this.stopCollectButton.Size = new System.Drawing.Size(23, 30);
+            this.stopCollectButton.Text = "toolStripButton3";
+            this.stopCollectButton.ToolTipText = "停止采集";
+            this.stopCollectButton.Click += new System.EventHandler(this.stopCollectButton_Click);
             // 
             // toolStripButton4
             // 
@@ -278,10 +276,6 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.treeView1);
             this.splitContainer1.Panel1MinSize = 300;
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
             this.splitContainer1.Size = new System.Drawing.Size(1009, 414);
             this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.SplitterWidth = 5;
@@ -358,16 +352,6 @@
             this.通道设置ToolStripMenuItem.Text = "通道设置";
             this.通道设置ToolStripMenuItem.Click += new System.EventHandler(this.通道设置ToolStripMenuItem_Click);
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(700, 410);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
-            // 
             // DataCollectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -391,7 +375,6 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.contextMenuStrip_addDevice.ResumeLayout(false);
@@ -416,7 +399,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton stopCollectButton;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
         private System.Windows.Forms.ToolStripButton toolStripButton6;
@@ -434,6 +417,5 @@
         private System.Windows.Forms.ToolStripMenuItem 配置设备ToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_setChennalAndSensor;
         private System.Windows.Forms.ToolStripMenuItem 通道设置ToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

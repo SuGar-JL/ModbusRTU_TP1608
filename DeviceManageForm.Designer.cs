@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.tV_advice = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.啊实打实的ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -45,18 +45,18 @@
             this.contextMenuStrip3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // treeView1
+            // tV_advice
             // 
-            this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.treeView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.treeView1.HotTracking = true;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(207, 491);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
+            this.tV_advice.ContextMenuStrip = this.contextMenuStrip1;
+            this.tV_advice.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tV_advice.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tV_advice.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tV_advice.HotTracking = true;
+            this.tV_advice.Location = new System.Drawing.Point(0, 0);
+            this.tV_advice.Name = "tV_advice";
+            this.tV_advice.Size = new System.Drawing.Size(249, 600);
+            this.tV_advice.TabIndex = 0;
+            this.tV_advice.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
             // 
             // contextMenuStrip1
             // 
@@ -136,9 +136,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(207, 491);
+            this.ClientSize = new System.Drawing.Size(249, 600);
             this.ContextMenuStrip = this.contextMenuStrip1;
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.tV_advice);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DeviceManageForm";
@@ -155,7 +156,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView tV_advice;
         private System.Windows.Forms.ToolStripMenuItem 啊实打实的ToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;

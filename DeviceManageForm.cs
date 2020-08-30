@@ -42,7 +42,7 @@ namespace ModbusRTU_TP1608
         /// </summary>
         public void treeView1_InitFromDB()
         {
-            treeView1.Nodes.Clear();
+            tV_advice.Nodes.Clear();
             DeviceManage deviceManage = new DeviceManage();
             ChennalManage chennalManage = new ChennalManage();
             List<Device> devices = deviceManage.GetAllOrderById();
@@ -57,7 +57,7 @@ namespace ModbusRTU_TP1608
                     chennalNode.Text = chennal.chennalName;
                     root.Nodes.Add(chennalNode);
                 }
-                treeView1.Nodes.Add(root);
+                tV_advice.Nodes.Add(root);
             }
         }
         /// <summary>
@@ -78,7 +78,7 @@ namespace ModbusRTU_TP1608
                 node.Text = deviceName + "-CH0" + i;
                 root.Nodes.Add(node);
             }
-            treeView1.Nodes.Add(root);
+            tV_advice.Nodes.Add(root);
             //展开所有节点
             //treeView1.ExpandAll();
         }
@@ -89,7 +89,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         public int treeView1_rootNodeNum()
         {
-            return treeView1.GetNodeCount(false);//不包含子节点
+            return tV_advice.GetNodeCount(false);//不包含子节点
         }
         //点击节点
         private void treeView1_MouseDown(object sender, MouseEventArgs e)
@@ -98,7 +98,7 @@ namespace ModbusRTU_TP1608
             if (e.Button == MouseButtons.Right)
             {
                 Point ClickPoint = new Point(e.X, e.Y);
-                TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+                TreeNode CurrentNode = tV_advice.GetNodeAt(ClickPoint);
                 //点击的是节点，且是节点所在区域
                 if (CurrentNode != null && CurrentNode.Bounds.Contains(e.X, e.Y))
                 {
@@ -106,20 +106,20 @@ namespace ModbusRTU_TP1608
                     if (CurrentNode.FirstNode != null)
                     {
                         DeviceManageForm.deviceName = CurrentNode.Text;
-                        treeView1.ContextMenuStrip = contextMenuStrip2;
+                        tV_advice.ContextMenuStrip = contextMenuStrip2;
                     }
                     //是子节点
                     else if (CurrentNode.Parent != null)
                     {
                         DeviceManageForm.chennalName = CurrentNode.Text;
-                        treeView1.ContextMenuStrip = contextMenuStrip3;
+                        tV_advice.ContextMenuStrip = contextMenuStrip3;
                     }
 
                 }
                 //点击的不是节点（空白处）
                 else
                 {
-                    treeView1.ContextMenuStrip = contextMenuStrip1;
+                    tV_advice.ContextMenuStrip = contextMenuStrip1;
                 }
             }
 

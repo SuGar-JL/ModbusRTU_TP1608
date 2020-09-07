@@ -123,21 +123,21 @@
             // 设备管理ToolStripMenuItem
             // 
             this.设备管理ToolStripMenuItem.Name = "设备管理ToolStripMenuItem";
-            this.设备管理ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.设备管理ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.设备管理ToolStripMenuItem.Text = "设备管理";
             this.设备管理ToolStripMenuItem.Click += new System.EventHandler(this.设备管理ToolStripMenuItem_Click);
             // 
             // 工具栏ToolStripMenuItem
             // 
             this.工具栏ToolStripMenuItem.Name = "工具栏ToolStripMenuItem";
-            this.工具栏ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.工具栏ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.工具栏ToolStripMenuItem.Text = "工具栏";
             this.工具栏ToolStripMenuItem.Click += new System.EventHandler(this.工具栏ToolStripMenuItem_Click);
             // 
             // 状态栏ToolStripMenuItem
             // 
             this.状态栏ToolStripMenuItem.Name = "状态栏ToolStripMenuItem";
-            this.状态栏ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.状态栏ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.状态栏ToolStripMenuItem.Text = "状态栏";
             this.状态栏ToolStripMenuItem.Click += new System.EventHandler(this.状态栏ToolStripMenuItem_Click);
             // 
@@ -408,11 +408,11 @@
             // 
             // ucBtnExt1
             // 
-            this.ucBtnExt1.BackColor = System.Drawing.Color.Transparent;
+            this.ucBtnExt1.BackColor = System.Drawing.Color.White;
             this.ucBtnExt1.BtnBackColor = System.Drawing.Color.White;
             this.ucBtnExt1.BtnFont = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.ucBtnExt1.BtnForeColor = System.Drawing.Color.White;
-            this.ucBtnExt1.BtnText = null;
+            this.ucBtnExt1.BtnText = "fdfd";
             this.ucBtnExt1.ConerRadius = 5;
             this.ucBtnExt1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ucBtnExt1.EnabledMouseEffect = false;

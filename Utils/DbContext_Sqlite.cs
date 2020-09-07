@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 
 namespace ModbusRTU_TP1608.Utils
 {
-    class DbContext<T> where T : class, new()//泛型约束：是类，且可以new
+    class DbContext_Sqlite<T> where T : class, new()//泛型约束：是类，且可以new
     {
         /// <summary>
         /// 构造方法
         /// </summary>
-        public DbContext()
+        public DbContext_Sqlite()
         {
             Db = new SqlSugarClient(new ConnectionConfig()
             {
                 //ConnectionString = "user id=root;password=root;database=sensordb;server=localhost;port=3306;charset=utf8",//本机服务器
                 ConnectionString = "user id=root;password=root;database=xboot;server=192.168.1.211;port=3306;charset=utf8",//实验室服务器
-                DbType = DbType.MySql,
+                DbType = DbType.Sqlite,
                 InitKeyType = InitKeyType.Attribute,//从特性读取主键和自增列信息，这是一个自定义特性，用于注释字段
                 IsAutoCloseConnection = true,//开启自动释放模式和EF原理一样
-
             });
             //调式代码 用来打印SQL 
             Db.Aop.OnLogExecuting = (sql, pars) =>

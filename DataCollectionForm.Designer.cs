@@ -59,14 +59,8 @@
             this.配置设备ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_setChennalAndSensor = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.通道设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            this.ucCombox1 = new HZH_Controls.Controls.UCCombox();
-            this.ucSwitch1 = new HZH_Controls.Controls.UCSwitch();
-            this.ucledNums2 = new HZH_Controls.Controls.UCLEDNums();
-            this.ucledData1 = new HZH_Controls.Controls.UCLEDData();
-            this.ucBtnExt1 = new HZH_Controls.Controls.UCBtnExt();
-            this.textBoxEx1 = new HZH_Controls.Controls.TextBoxEx();
+            this.dockPanel2 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -157,6 +151,8 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.AutoSize = false;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(45, 45);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
@@ -169,7 +165,7 @@
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1009, 33);
+            this.toolStrip1.Size = new System.Drawing.Size(1009, 50);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -180,7 +176,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(31, 30);
+            this.toolStripButton1.Size = new System.Drawing.Size(45, 45);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.ToolTipText = "设备管理";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
@@ -191,7 +187,7 @@
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(23, 30);
+            this.toolStripButton2.Size = new System.Drawing.Size(49, 47);
             this.toolStripButton2.Text = "toolStripButton2";
             this.toolStripButton2.ToolTipText = "开始采集";
             this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
@@ -202,7 +198,7 @@
             this.stopCollectButton.Image = global::ModbusRTU_TP1608.Properties.Resources.stop1;
             this.stopCollectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.stopCollectButton.Name = "stopCollectButton";
-            this.stopCollectButton.Size = new System.Drawing.Size(23, 30);
+            this.stopCollectButton.Size = new System.Drawing.Size(49, 47);
             this.stopCollectButton.Text = "toolStripButton3";
             this.stopCollectButton.ToolTipText = "停止采集";
             this.stopCollectButton.Click += new System.EventHandler(this.stopCollectButton_Click);
@@ -213,7 +209,7 @@
             this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 30);
+            this.toolStripButton4.Size = new System.Drawing.Size(49, 47);
             this.toolStripButton4.Text = "toolStripButton4";
             // 
             // toolStripButton5
@@ -222,7 +218,7 @@
             this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 30);
+            this.toolStripButton5.Size = new System.Drawing.Size(49, 47);
             this.toolStripButton5.Text = "toolStripButton5";
             // 
             // toolStripButton6
@@ -231,7 +227,7 @@
             this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(23, 30);
+            this.toolStripButton6.Size = new System.Drawing.Size(49, 47);
             this.toolStripButton6.Text = "toolStripButton6";
             // 
             // toolStripButton7
@@ -240,7 +236,7 @@
             this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(23, 30);
+            this.toolStripButton7.Size = new System.Drawing.Size(49, 47);
             this.toolStripButton7.Text = "toolStripButton7";
             // 
             // toolStripButton8
@@ -249,7 +245,7 @@
             this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
             this.toolStripButton8.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton8.Name = "toolStripButton8";
-            this.toolStripButton8.Size = new System.Drawing.Size(23, 30);
+            this.toolStripButton8.Size = new System.Drawing.Size(49, 47);
             this.toolStripButton8.Text = "toolStripButton8";
             // 
             // statusStrip1
@@ -326,19 +322,6 @@
             this.通道设置ToolStripMenuItem.Text = "通道设置";
             this.通道设置ToolStripMenuItem.Click += new System.EventHandler(this.通道设置ToolStripMenuItem_Click);
             // 
-            // treeView1
-            // 
-            this.treeView1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.treeView1.HotTracking = true;
-            this.treeView1.Location = new System.Drawing.Point(134, 234);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(139, 161);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeCollapse);
-            this.treeView1.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView1_BeforeExpand);
-            this.treeView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDoubleClick);
-            this.treeView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView1_MouseDown);
-            // 
             // dockPanel1
             // 
             this.dockPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -347,128 +330,20 @@
             this.dockPanel1.Size = new System.Drawing.Size(1009, 494);
             this.dockPanel1.TabIndex = 8;
             // 
-            // ucCombox1
+            // dockPanel2
             // 
-            this.ucCombox1.BackColor = System.Drawing.Color.Transparent;
-            this.ucCombox1.BackColorExt = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.ucCombox1.BoxStyle = System.Windows.Forms.ComboBoxStyle.DropDown;
-            this.ucCombox1.ConerRadius = 5;
-            this.ucCombox1.DropPanelHeight = -1;
-            this.ucCombox1.FillColor = System.Drawing.Color.White;
-            this.ucCombox1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.ucCombox1.IsRadius = true;
-            this.ucCombox1.IsShowRect = true;
-            this.ucCombox1.ItemWidth = 70;
-            this.ucCombox1.Location = new System.Drawing.Point(798, 101);
-            this.ucCombox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ucCombox1.Name = "ucCombox1";
-            this.ucCombox1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(220)))), ((int)(((byte)(220)))));
-            this.ucCombox1.RectWidth = 1;
-            this.ucCombox1.SelectedIndex = -1;
-            this.ucCombox1.SelectedValue = "";
-            this.ucCombox1.Size = new System.Drawing.Size(173, 32);
-            this.ucCombox1.Source = null;
-            this.ucCombox1.TabIndex = 10;
-            this.ucCombox1.TextValue = null;
-            this.ucCombox1.TriangleColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(77)))), ((int)(((byte)(59)))));
-            // 
-            // ucSwitch1
-            // 
-            this.ucSwitch1.BackColor = System.Drawing.Color.Transparent;
-            this.ucSwitch1.Checked = false;
-            this.ucSwitch1.FalseColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(189)))), ((int)(((byte)(189)))));
-            this.ucSwitch1.FalseTextColr = System.Drawing.Color.White;
-            this.ucSwitch1.Location = new System.Drawing.Point(770, 249);
-            this.ucSwitch1.Name = "ucSwitch1";
-            this.ucSwitch1.Size = new System.Drawing.Size(83, 31);
-            this.ucSwitch1.SwitchType = HZH_Controls.Controls.SwitchType.Ellipse;
-            this.ucSwitch1.TabIndex = 12;
-            this.ucSwitch1.Texts = null;
-            this.ucSwitch1.TrueColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(77)))), ((int)(((byte)(59)))));
-            this.ucSwitch1.TrueTextColr = System.Drawing.Color.White;
-            // 
-            // ucledNums2
-            // 
-            this.ucledNums2.LineWidth = 8;
-            this.ucledNums2.Location = new System.Drawing.Point(541, 234);
-            this.ucledNums2.Name = "ucledNums2";
-            this.ucledNums2.Size = new System.Drawing.Size(190, 58);
-            this.ucledNums2.TabIndex = 14;
-            this.ucledNums2.Value = "0.00";
-            // 
-            // ucledData1
-            // 
-            this.ucledData1.LineWidth = 8;
-            this.ucledData1.Location = new System.Drawing.Point(582, 363);
-            this.ucledData1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucledData1.Name = "ucledData1";
-            this.ucledData1.Size = new System.Drawing.Size(360, 58);
-            this.ucledData1.TabIndex = 15;
-            this.ucledData1.Value = new System.DateTime(2020, 8, 30, 21, 49, 21, 486);
-            // 
-            // ucBtnExt1
-            // 
-            this.ucBtnExt1.BackColor = System.Drawing.Color.White;
-            this.ucBtnExt1.BtnBackColor = System.Drawing.Color.White;
-            this.ucBtnExt1.BtnFont = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ucBtnExt1.BtnForeColor = System.Drawing.Color.White;
-            this.ucBtnExt1.BtnText = "fdfd";
-            this.ucBtnExt1.ConerRadius = 5;
-            this.ucBtnExt1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ucBtnExt1.EnabledMouseEffect = false;
-            this.ucBtnExt1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(77)))), ((int)(((byte)(59)))));
-            this.ucBtnExt1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.ucBtnExt1.IsRadius = true;
-            this.ucBtnExt1.IsShowRect = true;
-            this.ucBtnExt1.IsShowTips = false;
-            this.ucBtnExt1.Location = new System.Drawing.Point(517, 73);
-            this.ucBtnExt1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucBtnExt1.Name = "ucBtnExt1";
-            this.ucBtnExt1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(77)))), ((int)(((byte)(58)))));
-            this.ucBtnExt1.RectWidth = 1;
-            this.ucBtnExt1.Size = new System.Drawing.Size(184, 60);
-            this.ucBtnExt1.TabIndex = 16;
-            this.ucBtnExt1.TabStop = false;
-            this.ucBtnExt1.TipsColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(30)))), ((int)(((byte)(99)))));
-            this.ucBtnExt1.TipsText = "";
-            // 
-            // textBoxEx1
-            // 
-            this.textBoxEx1.DecLength = 2;
-            this.textBoxEx1.InputType = HZH_Controls.TextInputType.NotControl;
-            this.textBoxEx1.Location = new System.Drawing.Point(798, 170);
-            this.textBoxEx1.MaxValue = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            0});
-            this.textBoxEx1.MinValue = new decimal(new int[] {
-            1000000,
-            0,
-            0,
-            -2147483648});
-            this.textBoxEx1.MyRectangle = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.textBoxEx1.Name = "textBoxEx1";
-            this.textBoxEx1.OldText = null;
-            this.textBoxEx1.PromptColor = System.Drawing.Color.Gray;
-            this.textBoxEx1.PromptFont = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.textBoxEx1.PromptText = "";
-            this.textBoxEx1.RegexPattern = "";
-            this.textBoxEx1.Size = new System.Drawing.Size(100, 21);
-            this.textBoxEx1.TabIndex = 17;
+            this.dockPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dockPanel2.Location = new System.Drawing.Point(0, 75);
+            this.dockPanel2.Name = "dockPanel2";
+            this.dockPanel2.Size = new System.Drawing.Size(1009, 397);
+            this.dockPanel2.TabIndex = 20;
             // 
             // DataCollectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1009, 494);
-            this.Controls.Add(this.textBoxEx1);
-            this.Controls.Add(this.ucBtnExt1);
-            this.Controls.Add(this.ucledData1);
-            this.Controls.Add(this.ucledNums2);
-            this.Controls.Add(this.ucSwitch1);
-            this.Controls.Add(this.ucCombox1);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.dockPanel2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip2);
@@ -524,13 +399,7 @@
         private System.Windows.Forms.ToolStripMenuItem 配置设备ToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_setChennalAndSensor;
         private System.Windows.Forms.ToolStripMenuItem 通道设置ToolStripMenuItem;
-        private System.Windows.Forms.TreeView treeView1;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel1;
-        private HZH_Controls.Controls.UCCombox ucCombox1;
-        private HZH_Controls.Controls.UCSwitch ucSwitch1;
-        private HZH_Controls.Controls.UCLEDNums ucledNums2;
-        private HZH_Controls.Controls.UCLEDData ucledData1;
-        private HZH_Controls.Controls.UCBtnExt ucBtnExt1;
-        private HZH_Controls.Controls.TextBoxEx textBoxEx1;
+        private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel2;
     }
 }

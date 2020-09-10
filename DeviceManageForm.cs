@@ -9,10 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace ModbusRTU_TP1608
 {
-    public partial class DeviceManageForm : Form
+    public partial class DeviceManageForm : DockContent
     {
         public static DeviceManageForm deviceManageForm;
         public static string deviceName = "";

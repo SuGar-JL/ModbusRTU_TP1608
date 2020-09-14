@@ -56,10 +56,14 @@ namespace ModbusRTU_TP1608
         /// <param name="e"></param>
         private void DataCollection_Load(object sender, EventArgs e)
         {
+            var frm2 = new Form2();
+            frm2.Show(dockPanel1);
+            frm2.DockTo(dockPanel1, DockStyle.Left);//让Form2显示在dockPanel1左边
+
             //显示设备管理页
-            var deviceManageForm = new DeviceManageForm();
-            deviceManageForm.Show(dockPanel1);
-            deviceManageForm.DockTo(dockPanel1, DockStyle.Left);//让Form2显示在dockPanel1左边
+            //var deviceManageForm = new DeviceManageForm();
+            //deviceManageForm.Show(dockPanel1);
+            //deviceManageForm.DockTo(dockPanel1, DockStyle.Left);//让Form2显示在dockPanel1左边
 
             //创建数据库表：设备的和通道的2个表
             try
@@ -72,7 +76,7 @@ namespace ModbusRTU_TP1608
                 MessageBox.Show("异常！" + ex.Message, "异常！", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             //初始化设备管理页的设备和通道配置树
-            treeView1_InitFromDB();
+            //treeView1_InitFromDB();
 
             //调试窗口
             Debug debug = new Debug();
@@ -82,7 +86,7 @@ namespace ModbusRTU_TP1608
             showDataForm.Text = currOpenDevice;
             showDataForm.TopLevel = false;
             showDataForm.WindowState = FormWindowState.Maximized;
-            showDataForm.Parent = this.splitContainer1.Panel2;
+            //showDataForm.Parent = this.splitContainer1.Panel2;
             showDataForm.SetAllTextBoxText("0.00");
             showDataForm.Show();
         }
@@ -93,7 +97,7 @@ namespace ModbusRTU_TP1608
         /// <param name="e"></param>
         private void 添加设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddDeviceForm f = new AddDeviceForm();
+            F_AddDevice f = new F_AddDevice();
             f.ShowDialog();
         }
         /// <summary>
@@ -114,7 +118,7 @@ namespace ModbusRTU_TP1608
         /// <param name="e"></param>
         private void 添加设备ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            AddDeviceForm addDevice = new AddDeviceForm();
+            F_AddDevice addDevice = new F_AddDevice();
             addDevice.ShowDialog();
         }
         /// <summary>
@@ -163,26 +167,17 @@ namespace ModbusRTU_TP1608
                 flag = true;
             }
         }
-        public bool flag1 = false;
+        private bool flag1 = false;
         /// <summary>
         /// 工具栏第一个按钮：设备管理（目前没用）
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void tSB_设备管理_Click(object sender, EventArgs e)
         {
-            if (flag1)
-            {
-                DeviceManageForm f = new DeviceManageForm();
-                f.MdiParent = this;
-                f.Show();
-                flag1 = false;
-            }
-            else
-            {
-                DeviceManageForm.deviceManageForm.Close();
-                flag1 = true;
-            }
+            var deviceManageForm = new DeviceManageForm();
+            deviceManageForm.Show(dockPanel1);
+            deviceManageForm.DockTo(dockPanel1,DockStyle.Left);
         }
         /// <summary>
         /// 关闭软件X按钮
@@ -209,43 +204,43 @@ namespace ModbusRTU_TP1608
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void treeView1_MouseDown(object sender, MouseEventArgs e)
-        {
-            //右击节点弹出菜单，根节点与子节点不同
-            if (e.Button == MouseButtons.Right)
-            {
-                Point ClickPoint = new Point(e.X, e.Y);
-                TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
-                //点击的是节点，且是节点所在区域
-                if (CurrentNode != null && CurrentNode.Bounds.Contains(e.X, e.Y))
-                {
-                    //如果不是子节点，即是根节点
-                    if (CurrentNode.FirstNode != null)
-                    {
-                        currRightDownDevice = CurrentNode.Text;
-                        treeView1.ContextMenuStrip = contextMenuStrip_setDevice;
-                    }
-                    //是子节点
-                    else if (CurrentNode.Parent != null)
-                    {
-                        currRightDownChennal = CurrentNode.Text;
-                        treeView1.ContextMenuStrip = contextMenuStrip_setChennalAndSensor;
-                    }
+        //private void treeView1_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    //右击节点弹出菜单，根节点与子节点不同
+        //    if (e.Button == MouseButtons.Right)
+        //    {
+        //        Point ClickPoint = new Point(e.X, e.Y);
+        //        TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+        //        //点击的是节点，且是节点所在区域
+        //        if (CurrentNode != null && CurrentNode.Bounds.Contains(e.X, e.Y))
+        //        {
+        //            //如果不是子节点，即是根节点
+        //            if (CurrentNode.FirstNode != null)
+        //            {
+        //                currRightDownDevice = CurrentNode.Text;
+        //                treeView1.ContextMenuStrip = contextMenuStrip_setDevice;
+        //            }
+        //            //是子节点
+        //            else if (CurrentNode.Parent != null)
+        //            {
+        //                currRightDownChennal = CurrentNode.Text;
+        //                treeView1.ContextMenuStrip = contextMenuStrip_setChennalAndSensor;
+        //            }
 
-                }
-                //点击的不是节点（空白处）
-                else
-                {
-                    treeView1.ContextMenuStrip = contextMenuStrip_addDevice;
-                }
-            }
-            //为了我不让双击时展开节点，而是做其他操作，winform默认双击左键会展开节点
-            //左键点击
-            else if (e.Button == MouseButtons.Left)
-            {
-                num_MouseClicks = e.Clicks;//记录左键按下次数
-            }
-        }
+        //        }
+        //        //点击的不是节点（空白处）
+        //        else
+        //        {
+        //            treeView1.ContextMenuStrip = contextMenuStrip_addDevice;
+        //        }
+        //    }
+        //    //为了我不让双击时展开节点，而是做其他操作，winform默认双击左键会展开节点
+        //    //左键点击
+        //    else if (e.Button == MouseButtons.Left)
+        //    {
+        //        num_MouseClicks = e.Clicks;//记录左键按下次数
+        //    }
+        //}
         /// <summary>
         /// 展开节点前判断
         /// </summary>
@@ -287,84 +282,84 @@ namespace ModbusRTU_TP1608
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                Point ClickPoint = new Point(e.X, e.Y);
-                TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
-                //点击的是节点，且是节点所在区域
-                if (CurrentNode != null && CurrentNode.Bounds.Contains(e.X, e.Y))
-                {
-                    //如果不是子节点，即是根节点（设备）
-                    if (CurrentNode.FirstNode != null)
-                    {
-                        currOpenDevice = CurrentNode.Text;
-                        Device device = new DeviceManage().GetByName(currOpenDevice);
-                        //1.设备没有打开
-                        if (device.status == 0)
-                        {
-                            //设置设备为打开状态（status字段变为1）
-                            new DeviceManage().UpdateStatusByName(device.deviceName, 1);
-                            //设置开始采集按钮和停止采集按钮的图片
-                            toolStripButton2.Image = Properties.Resources.start2;//亮
-                            stopCollectButton.Image = Properties.Resources.stop1;//不亮
-                            //新建并打开数据采集页
-                            ShowDataForm showDataForm = new ShowDataForm();
-                            showDataForm.Text = currOpenDevice;
-                            showDataForm.TopLevel = false;
-                            showDataForm.WindowState = FormWindowState.Maximized;
-                            showDataForm.Parent = this.splitContainer1.Panel2;
-                            showDataForm.SetAllTextBoxText("0.00");
-                            //showDataForm.Show();
-                            //将此页加入字典showDataForms中
-                            showDataForms.Add(key: currOpenDevice, value: showDataForm);
-                            //showDataForms[currOpenDevice].Show();
-                        }
-                        //2.设备是打开的
-                        else if (device.status == 1)
-                        {
-                            //设置开始采集按钮和停止采集按钮的图片
-                            toolStripButton2.Image = Properties.Resources.start2;//亮
-                            stopCollectButton.Image = Properties.Resources.stop1;//不亮
-                            //打开数据采集页
-                            //关闭，删除，重新建
-                            //showDataForms[deviceName_Open].Close();
-                            //showDataForms.Remove(deviceName_Open);
+        //private void treeView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        //{
+        //    if (e.Button == MouseButtons.Left)
+        //    {
+        //        Point ClickPoint = new Point(e.X, e.Y);
+        //        TreeNode CurrentNode = treeView1.GetNodeAt(ClickPoint);
+        //        //点击的是节点，且是节点所在区域
+        //        if (CurrentNode != null && CurrentNode.Bounds.Contains(e.X, e.Y))
+        //        {
+        //            //如果不是子节点，即是根节点（设备）
+        //            if (CurrentNode.FirstNode != null)
+        //            {
+        //                currOpenDevice = CurrentNode.Text;
+        //                Device device = new DeviceManage().GetByName(currOpenDevice);
+        //                //1.设备没有打开
+        //                if (device.status == 0)
+        //                {
+        //                    //设置设备为打开状态（status字段变为1）
+        //                    new DeviceManage().UpdateStatusByName(device.deviceName, 1);
+        //                    //设置开始采集按钮和停止采集按钮的图片
+        //                    toolStripButton2.Image = Properties.Resources.start2;//亮
+        //                    stopCollectButton.Image = Properties.Resources.stop1;//不亮
+        //                    //新建并打开数据采集页
+        //                    ShowDataForm showDataForm = new ShowDataForm();
+        //                    showDataForm.Text = currOpenDevice;
+        //                    showDataForm.TopLevel = false;
+        //                    showDataForm.WindowState = FormWindowState.Maximized;
+        //                    showDataForm.Parent = this.splitContainer1.Panel2;
+        //                    showDataForm.SetAllTextBoxText("0.00");
+        //                    //showDataForm.Show();
+        //                    //将此页加入字典showDataForms中
+        //                    showDataForms.Add(key: currOpenDevice, value: showDataForm);
+        //                    //showDataForms[currOpenDevice].Show();
+        //                }
+        //                //2.设备是打开的
+        //                else if (device.status == 1)
+        //                {
+        //                    //设置开始采集按钮和停止采集按钮的图片
+        //                    toolStripButton2.Image = Properties.Resources.start2;//亮
+        //                    stopCollectButton.Image = Properties.Resources.stop1;//不亮
+        //                    //打开数据采集页
+        //                    //关闭，删除，重新建
+        //                    //showDataForms[deviceName_Open].Close();
+        //                    //showDataForms.Remove(deviceName_Open);
 
-                            //ShowDataForm showDataForm = new ShowDataForm();
-                            //showDataForm.Text = deviceName_Open;
-                            //showDataForm.TopLevel = false;
-                            //showDataForm.WindowState = FormWindowState.Maximized;
-                            //showDataForm.Parent = this.splitContainer1.Panel2;
-                            //showDataForm.Show();
-                            ////将此页加入字典showDataForms中
-                            //showDataForms.Add(key: deviceName_Open, value: showDataForm);
-                        }
-                        //3.设备在采集
-                        else if (device.status == 2)
-                        {
-                            //设置开始采集按钮和停止采集按钮的图片
-                            toolStripButton2.Image = Properties.Resources.start1;//不亮
-                            stopCollectButton.Image = Properties.Resources.stop2;//亮
-                            //打开数据采集页
-                            //关闭，删除，重新建
-                            //showDataForms[deviceName_Open].Close();
-                            //showDataForms.Remove(deviceName_Open);
+        //                    //ShowDataForm showDataForm = new ShowDataForm();
+        //                    //showDataForm.Text = deviceName_Open;
+        //                    //showDataForm.TopLevel = false;
+        //                    //showDataForm.WindowState = FormWindowState.Maximized;
+        //                    //showDataForm.Parent = this.splitContainer1.Panel2;
+        //                    //showDataForm.Show();
+        //                    ////将此页加入字典showDataForms中
+        //                    //showDataForms.Add(key: deviceName_Open, value: showDataForm);
+        //                }
+        //                //3.设备在采集
+        //                else if (device.status == 2)
+        //                {
+        //                    //设置开始采集按钮和停止采集按钮的图片
+        //                    toolStripButton2.Image = Properties.Resources.start1;//不亮
+        //                    stopCollectButton.Image = Properties.Resources.stop2;//亮
+        //                    //打开数据采集页
+        //                    //关闭，删除，重新建
+        //                    //showDataForms[deviceName_Open].Close();
+        //                    //showDataForms.Remove(deviceName_Open);
 
-                            //ShowDataForm showDataForm = new ShowDataForm();
-                            //showDataForm.Text = deviceName_Open;
-                            //showDataForm.TopLevel = false;
-                            //showDataForm.WindowState = FormWindowState.Maximized;
-                            //showDataForm.Parent = this.splitContainer1.Panel2;
-                            //showDataForm.Show();
-                            ////将此页加入字典showDataForms中
-                            //showDataForms.Add(key: deviceName_Open, value: showDataForm);
-                        }
-                    }
-                }
-            }
-        }
+        //                    //ShowDataForm showDataForm = new ShowDataForm();
+        //                    //showDataForm.Text = deviceName_Open;
+        //                    //showDataForm.TopLevel = false;
+        //                    //showDataForm.WindowState = FormWindowState.Maximized;
+        //                    //showDataForm.Parent = this.splitContainer1.Panel2;
+        //                    //showDataForm.Show();
+        //                    ////将此页加入字典showDataForms中
+        //                    //showDataForms.Add(key: deviceName_Open, value: showDataForm);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
         /// <summary>
         /// 新建设备方法，添加treeView1节点，在addDeviceForm窗体点击确定按钮调用此方法
         /// </summary>
@@ -383,7 +378,7 @@ namespace ModbusRTU_TP1608
                 node.Text = deviceName + "-CH0" + i;
                 root.Nodes.Add(node);
             }
-            treeView1.Nodes.Add(root);
+            //treeView1.Nodes.Add(root);
             //展开所有节点
             //treeView1.ExpandAll();
         }
@@ -391,34 +386,34 @@ namespace ModbusRTU_TP1608
         /// 获取树控件的根节点数（本来用于设置设备的id，但这样不可取，不用了）
         /// </summary>
         /// <returns></returns>
-        public int treeView1_rootNodeNum()
-        {
-            return treeView1.GetNodeCount(false);//不包含子节点
-        }
+        //public int treeView1_rootNodeNum()
+        //{
+        //    return treeView1.GetNodeCount(false);//不包含子节点
+        //}
 
         /// <summary>
         /// 用于每次打开软件，自动从数据库读取之前设置的配置信息
         /// </summary>
-        public void treeView1_InitFromDB()
-        {
-            treeView1.Nodes.Clear();
-            DeviceManage deviceManage = new DeviceManage();
-            ChennalManage chennalManage = new ChennalManage();
-            List<Device> devices = deviceManage.GetAllOrderById();
-            foreach (Device device in devices)
-            {
-                TreeNode root = new TreeNode();
-                root.Text = device.deviceName;
-                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id);
-                foreach (Chennal chennal in chennals)
-                {
-                    TreeNode chennalNode = new TreeNode();
-                    chennalNode.Text = chennal.chennalName;
-                    root.Nodes.Add(chennalNode);
-                }
-                treeView1.Nodes.Add(root);
-            }
-        }
+        //public void treeView1_InitFromDB()
+        //{
+        //    treeView1.Nodes.Clear();
+        //    DeviceManage deviceManage = new DeviceManage();
+        //    ChennalManage chennalManage = new ChennalManage();
+        //    List<Device> devices = deviceManage.GetAllOrderById();
+        //    foreach (Device device in devices)
+        //    {
+        //        TreeNode root = new TreeNode();
+        //        root.Text = device.deviceName;
+        //        List<Chennal> chennals = chennalManage.GetByDeviceId(device.id);
+        //        foreach (Chennal chennal in chennals)
+        //        {
+        //            TreeNode chennalNode = new TreeNode();
+        //            chennalNode.Text = chennal.chennalName;
+        //            root.Nodes.Add(chennalNode);
+        //        }
+        //        treeView1.Nodes.Add(root);
+        //    }
+        //}
         private void 打开设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currOpenDevice = currRightDownDevice;
@@ -436,7 +431,7 @@ namespace ModbusRTU_TP1608
                 showDataForm.Text = currOpenDevice;
                 showDataForm.TopLevel = false;
                 showDataForm.WindowState = FormWindowState.Maximized;
-                showDataForm.Parent = this.splitContainer1.Panel2;
+                //showDataForm.Parent = this.splitContainer1.Panel2;
                 showDataForm.SetAllTextBoxText("0.000");
                 //showDataForm.Show();
                 //将此页加入字典showDataForms中
@@ -506,7 +501,7 @@ namespace ModbusRTU_TP1608
                 new ChennalManage().DeleteByDeviceId(device.id.ToString());
                 //删除设备
                 new DeviceManage().DeleteById(device.id.ToString());
-                treeView1_InitFromDB();
+                //treeView1_InitFromDB();
             }
         }
         private void 配置设备ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -753,7 +748,6 @@ namespace ModbusRTU_TP1608
                 stopCollectButton.Image = Properties.Resources.stop1;//不亮
             }
         }
-
     }
 
 

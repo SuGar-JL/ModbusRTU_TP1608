@@ -97,7 +97,7 @@ namespace ModbusRTU_TP1608
                     //更新通道以上字段
                     new ChennalManage().UpdateByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, chennalName, stopWaring, chennalLabel, chennalUnit, decimalPlaces, chennalType, adjustment, lowerLimit, upperLimit, lLowerLimit, uUpperLimit, smallRange, largeRange, sensorId, sensorType, sensorName, sensorTableName, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
-                    DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
+                    //DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
                 }
             }

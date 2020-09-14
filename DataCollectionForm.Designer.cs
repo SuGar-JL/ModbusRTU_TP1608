@@ -41,7 +41,7 @@
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于DataCllectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.tSB_设备管理 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.stopCollectButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
@@ -154,7 +154,7 @@
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(45, 45);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
+            this.tSB_设备管理,
             this.toolStripButton2,
             this.stopCollectButton,
             this.toolStripButton4,
@@ -169,17 +169,17 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // tSB_设备管理
             // 
-            this.toolStripButton1.AutoSize = false;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(45, 45);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.ToolTipText = "设备管理";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.tSB_设备管理.AutoSize = false;
+            this.tSB_设备管理.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tSB_设备管理.Image = ((System.Drawing.Image)(resources.GetObject("tSB_设备管理.Image")));
+            this.tSB_设备管理.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tSB_设备管理.Name = "tSB_设备管理";
+            this.tSB_设备管理.Size = new System.Drawing.Size(45, 45);
+            this.tSB_设备管理.Text = "toolStripButton1";
+            this.tSB_设备管理.ToolTipText = "设备管理";
+            this.tSB_设备管理.Click += new System.EventHandler(this.tSB_设备管理_Click);
             // 
             // toolStripButton2
             // 
@@ -381,7 +381,7 @@
         private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于DataCllectionToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton tSB_设备管理;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton stopCollectButton;
         private System.Windows.Forms.ToolStripButton toolStripButton4;

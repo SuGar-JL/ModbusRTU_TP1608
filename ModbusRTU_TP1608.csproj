@@ -163,11 +163,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddDeviceForm.cs">
+    <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddDeviceForm.Designer.cs">
-      <DependentUpon>AddDeviceForm.cs</DependentUpon>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_AddDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_AddDevice.Designer.cs">
+      <DependentUpon>F_AddDevice.cs</DependentUpon>
     </Compile>
     <Compile Include="AddSensorTypeForm.cs">
       <SubType>Form</SubType>
@@ -245,8 +251,8 @@
     <Compile Include="Utils\SensorManage.cs" />
     <Compile Include="Utils\SensorTypeManage.cs" />
     <Compile Include="Utils\TableNameUtil.cs" />
-    <EmbeddedResource Include="AddDeviceForm.resx">
-      <DependentUpon>AddDeviceForm.cs</DependentUpon>
+    <EmbeddedResource Include="F_AddDevice.resx">
+      <DependentUpon>F_AddDevice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddSensorTypeForm.resx">
       <DependentUpon>AddSensorTypeForm.cs</DependentUpon>

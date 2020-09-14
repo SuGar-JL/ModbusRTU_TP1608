@@ -24,24 +24,18 @@ namespace ModbusRTU_TP1608
         {
             InitializeComponent();
             deviceManageForm = this;
-
         }
         private void DeviceManageForm_Load(object sender, EventArgs e)
         {
-            this.Location = new Point(0,0);
             //初始化设备管理页的设备和通道配置树
-            treeView1_InitFromDB();
+            //treeView1_InitFromDB();
         }
-        private void contextMenuStrip1_MouseClick(object sender, MouseEventArgs e)
-        {
-            AddDeviceForm addDevice = new AddDeviceForm();
-            addDevice.ShowDialog();
-        }
+        
 
         /// <summary>
         /// 用于每次打开软件，自动从数据库读取之前设置的配置信息
         /// </summary>
-        public void treeView1_InitFromDB()
+        public void tV_advice_InitFromDB()
         {
             tV_advice.Nodes.Clear();
             DeviceManage deviceManage = new DeviceManage();
@@ -67,7 +61,7 @@ namespace ModbusRTU_TP1608
         /// <param name="deviceName">设备名称</param>
         /// <param name="chennalNum">通道数量</param>
         /// <param name="startChennalId">起始通道</param>
-        public void treeView1_addNodes(string deviceName, int chennalNum, int startChennalId)
+        public void tV_advice_addNodes(string deviceName, int chennalNum, int startChennalId)
         {
             TreeNode root = new TreeNode();
             //root.Name = deviceName;
@@ -107,48 +101,57 @@ namespace ModbusRTU_TP1608
                     if (CurrentNode.FirstNode != null)
                     {
                         DeviceManageForm.deviceName = CurrentNode.Text;
-                        tV_advice.ContextMenuStrip = contextMenuStrip2;
+                        tV_advice.ContextMenuStrip = cMS_设备右键菜单;
                     }
                     //是子节点
                     else if (CurrentNode.Parent != null)
                     {
                         DeviceManageForm.chennalName = CurrentNode.Text;
-                        tV_advice.ContextMenuStrip = contextMenuStrip3;
+                        tV_advice.ContextMenuStrip = cMS_通道右键菜单;
                     }
 
                 }
                 //点击的不是节点（空白处）
                 else
                 {
-                    tV_advice.ContextMenuStrip = contextMenuStrip1;
+                    tV_advice.ContextMenuStrip = cMS_添加设备;
                 }
             }
 
         }
 
-        private void 打开设备ToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+        
+
+        private void TSMI_添加设备_Click(object sender, EventArgs e)
+        {
+            var addDevice = new F_AddDevice();
+            addDevice.ShowDialog();
+        }
+
+        private void TSMI_打开设备_Click(object sender, EventArgs e)
         {
             //设置设备为打开状态（isOpen字段变为1）
             //一旦打开，不可关闭，除非关闭软件或删除设备
             new DeviceManage().UpdateStatusByName(deviceName, 1);
-            Device device = new DeviceManage().GetByName(deviceName);
+            var device = new DeviceManage().GetByName(deviceName);
             //设置开始采集按钮的图标为可用状态
-            
         }
 
-        private void 删除设备ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TSMI_删除设备_Click(object sender, EventArgs e)
         {
-            DialogResult dr= MessageBox.Show("所有数据都将会删除，确定要删除设备吗！", "警告！", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+            DialogResult dr = MessageBox.Show("所有数据都将会删除，确定要删除设备吗！", "警告！", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
             if (dr == DialogResult.OK)
             {
                 //删除于设备相关联的一切
                 //1.删除传感器
                 //查询当前设备的id
-                Device device = new DeviceManage().GetByName(deviceName);
+                var device = new DeviceManage().GetByName(deviceName);
                 //查询设备的所有通道
                 List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id.ToString());
                 //删除每个通道绑定的传感器
-                foreach (Chennal chennal in chennals)
+                foreach (var chennal in chennals)
                 {
                     if (chennal.sensorID != null)
                     {
@@ -159,28 +162,26 @@ namespace ModbusRTU_TP1608
                 new ChennalManage().DeleteByDeviceId(device.id.ToString());
                 //删除设备
                 new DeviceManage().DeleteById(device.id.ToString());
-                DeviceManageForm.deviceManageForm.treeView1_InitFromDB();
+                DeviceManageForm.deviceManageForm.tV_advice_InitFromDB();
             }
-            
         }
-        private void 设备设置ToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void TSMI_设备设置_Click(object sender, EventArgs e)
         {
-            SetDeviceForm setDevice = new SetDeviceForm();
+            var setDevice = new SetDeviceForm();
             setDevice.ShowDialog();
         }
 
-        private void 通道设置ToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void TSMI_通道设置_Click(object sender, EventArgs e)
         {
-            SetChennalForm setChennal = new SetChennalForm();
+            var setChennal = new SetChennalForm();
             setChennal.ShowDialog();
         }
 
-        private void 传感器设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TSMI_传感器设置_Click(object sender, EventArgs e)
         {
-            SetSensorForm setSensorForm = new SetSensorForm();
+            var setSensorForm = new SetSensorForm();
             setSensorForm.ShowDialog();
         }
-
-        
     }
 }

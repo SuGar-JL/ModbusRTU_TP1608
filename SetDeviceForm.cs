@@ -70,7 +70,7 @@ namespace ModbusRTU_TP1608
                     //更新设备以上字段
                     new DeviceManage().UpdateConfigById(device.id.ToString(), deviceName, storeInterval, collectInterval, dropTimeDelay, port, baudRate, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
-                    DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
+                    //DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
                 }
             }

@@ -56,6 +56,11 @@ namespace ModbusRTU_TP1608
         /// <param name="e"></param>
         private void DataCollection_Load(object sender, EventArgs e)
         {
+            //显示设备管理页
+            var deviceManageForm = new DeviceManageForm();
+            deviceManageForm.Show(dockPanel1);
+            deviceManageForm.DockTo(dockPanel1, DockStyle.Left);//让Form2显示在dockPanel1左边
+
             //创建数据库表：设备的和通道的2个表
             try
             {

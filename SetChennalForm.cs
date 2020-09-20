@@ -25,7 +25,7 @@ namespace ModbusRTU_TP1608
         private void SetChennalForm_Load(object sender, EventArgs e)
         {
             //打开改窗口时加载显示的数据
-            textBox_chennalName.Text = DataCollectionForm.currRightDownChennal;//通道名称
+            textBox_chennalName.Text = F_Main.currRightDownChennal;//通道名称
             chennal = new ChennalManage().GetByName(textBox_chennalName.Text);
             textBox_chennalID.Text = chennal.chennalID.ToString();//通道ID
             comboBox_Waring.Text = chennal.stopWaring;//报警

@@ -1,5 +1,6 @@
 ﻿using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,17 +13,16 @@ using System.Windows.Forms;
 
 namespace ModbusRTU_TP1608
 {
-    public partial class F_AddDevice : Form
+    public partial class F_AddDevice : UIEditForm
     {
         public F_AddDevice()
         {
             InitializeComponent();
-
         }
 
         private void AddDeviceForm_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = 0;
+            uiCB_deviceType.SelectedIndex = 0;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -34,14 +34,14 @@ namespace ModbusRTU_TP1608
         //点击确定，检查表单是否有空值
         private void button1_Click(object sender, EventArgs e)
         {
-            if (checkForm(comboBox1.Text.Trim(), textBox1.Text.Trim(), textBox2.Text.Trim(), comboBox2.Text.Trim(), comboBox3.Text.Trim()))
+            if (checkForm(uiCB_deviceType.Text.Trim(), uiTB_deviceName.Text.Trim(), uiTB_deviceAddress.Text.Trim(), uiCB_chennalNum.Text.Trim(), uiCB_startChennal.Text.Trim()))
             {
-                string deviceType = comboBox1.Text.Trim();
-                string deviceName = textBox1.Text.Trim();
-                string deviceAddress = textBox2.Text.Trim();
+                string deviceType = uiCB_deviceType.Text.Trim();
+                string deviceName = uiTB_deviceName.Text.Trim();
+                string deviceAddress = uiTB_deviceAddress.Text.Trim();
                 int chennalNum = 0;
                 int startChennalId = 0;
-                switch (comboBox2.Text.Trim())
+                switch (uiCB_chennalNum.Text.Trim())
                 {
                     case "1 通道":
                         chennalNum = 1;
@@ -68,7 +68,7 @@ namespace ModbusRTU_TP1608
                         chennalNum = 8;
                         break;
                 }
-                switch (comboBox3.Text.Trim())
+                switch (uiCB_startChennal.Text.Trim())
                 {
                     case "第 1 通道":
                         startChennalId = 1;
@@ -153,7 +153,7 @@ namespace ModbusRTU_TP1608
                         new ChennalManage().Insert(chennal);
                     }
                     //在treeView1中显示
-                    DataCollectionForm.dataCollectionForm.treeView1_addNodes(deviceName, chennalNum, startChennalId);
+                    F_Main.f_Main.treeView1_addNodes(deviceName, chennalNum, startChennalId);
                     this.Close();
                 }
                 else
@@ -208,7 +208,7 @@ namespace ModbusRTU_TP1608
             {
                 int chennalNum1 = 0;
                 int startChennalId1 = 0;
-                switch (comboBox2.Text)
+                switch (uiCB_chennalNum.Text)
                 {
                     case "1 通道":
                         chennalNum1 = 1;
@@ -235,7 +235,7 @@ namespace ModbusRTU_TP1608
                         chennalNum1 = 8;
                         break;
                 }
-                switch (comboBox3.Text)
+                switch (uiCB_startChennal.Text)
                 {
                     case "第 1 通道":
                         startChennalId1 = 1;

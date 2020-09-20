@@ -23,7 +23,7 @@ namespace ModbusRTU_TP1608
 
         private void SetSensorForm_Load(object sender, EventArgs e)
         {
-            chennal = new ChennalManage().GetByName(DataCollectionForm.currRightDownChennal);
+            chennal = new ChennalManage().GetByName(F_Main.currRightDownChennal);
             textBox_sensorUnit.Text = chennal.chennalUnit;
             if (chennal.sensorTableName != null && chennal.sensorID != null)
             {

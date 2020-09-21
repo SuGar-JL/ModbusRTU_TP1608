@@ -23,7 +23,7 @@ namespace ModbusRTU_TP1608
 
         private void SetDeviceForm_Load(object sender, EventArgs e)
         {
-            textBox1.Text = DataCollectionForm.currRightDownDevice;
+            textBox1.Text = F_Main.currRightDownDevice;
             device = new DeviceManage().GetByName(textBox1.Text.Trim());
             textBox2.Text = device.id.ToString(); 
             textBox3.Text = device.storeInterval.ToString("f1");//保留一位小数
@@ -70,7 +70,7 @@ namespace ModbusRTU_TP1608
                     //更新设备以上字段
                     new DeviceManage().UpdateConfigById(device.id.ToString(), deviceName, storeInterval, collectInterval, dropTimeDelay, port, baudRate, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
-                    DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
+                    //DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
                 }
             }

@@ -210,11 +210,8 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Text.Json.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.ValueTuple.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csprojAssemblyReference.cache
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.AddDeviceForm.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.AddSensorTypeForm.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.DataCollectionForm.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Debug.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.DeviceManageForm.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form1.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Properties.Resources.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.SetChennalForm.resources
@@ -226,3 +223,8 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CoreCompil
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CopyComplete
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_AddDevice.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_DeviceManage.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\SunnyUI.Pluse.dll
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_Main.resources

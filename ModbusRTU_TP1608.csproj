@@ -41,9 +41,6 @@
     <Reference Include="Google.Protobuf, Version=3.12.4.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>packages\Google.Protobuf.3.12.4\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
-    <Reference Include="HZH_Controls, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\HZH_Controls.1.0.14\lib\net40\HZH_Controls.dll</HintPath>
-    </Reference>
     <Reference Include="K4os.Compression.LZ4, Version=1.1.11.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
       <HintPath>packages\K4os.Compression.LZ4.1.1.11\lib\net46\K4os.Compression.LZ4.dll</HintPath>
     </Reference>
@@ -96,6 +93,9 @@
     </Reference>
     <Reference Include="SqlSugar, Version=5.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\sqlSugar.5.0.0.15\lib\SqlSugar.dll</HintPath>
+    </Reference>
+    <Reference Include="SunnyUI.Pluse, Version=2.2.7.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SunnyUI.Pluse.2.2.7.2\lib\net40\SunnyUI.Pluse.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -163,11 +163,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddDeviceForm.cs">
+    <Compile Include="F_AddDevice.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddDeviceForm.Designer.cs">
-      <DependentUpon>AddDeviceForm.cs</DependentUpon>
+    <Compile Include="F_AddDevice.Designer.cs">
+      <DependentUpon>F_AddDevice.cs</DependentUpon>
     </Compile>
     <Compile Include="AddSensorTypeForm.cs">
       <SubType>Form</SubType>
@@ -175,11 +175,11 @@
     <Compile Include="AddSensorTypeForm.Designer.cs">
       <DependentUpon>AddSensorTypeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataCollectionForm.cs">
+    <Compile Include="F_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataCollectionForm.Designer.cs">
-      <DependentUpon>DataCollectionForm.cs</DependentUpon>
+    <Compile Include="F_Main.Designer.cs">
+      <DependentUpon>F_Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Debug.cs">
       <SubType>Form</SubType>
@@ -187,11 +187,11 @@
     <Compile Include="Debug.Designer.cs">
       <DependentUpon>Debug.cs</DependentUpon>
     </Compile>
-    <Compile Include="DeviceManageForm.cs">
+    <Compile Include="F_DeviceManage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeviceManageForm.Designer.cs">
-      <DependentUpon>DeviceManageForm.cs</DependentUpon>
+    <Compile Include="F_DeviceManage.Designer.cs">
+      <DependentUpon>F_DeviceManage.cs</DependentUpon>
     </Compile>
     <Compile Include="Entiry\Base.cs" />
     <Compile Include="Entiry\Chennal.cs" />
@@ -245,20 +245,20 @@
     <Compile Include="Utils\SensorManage.cs" />
     <Compile Include="Utils\SensorTypeManage.cs" />
     <Compile Include="Utils\TableNameUtil.cs" />
-    <EmbeddedResource Include="AddDeviceForm.resx">
-      <DependentUpon>AddDeviceForm.cs</DependentUpon>
+    <EmbeddedResource Include="F_AddDevice.resx">
+      <DependentUpon>F_AddDevice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddSensorTypeForm.resx">
       <DependentUpon>AddSensorTypeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataCollectionForm.resx">
-      <DependentUpon>DataCollectionForm.cs</DependentUpon>
+    <EmbeddedResource Include="F_Main.resx">
+      <DependentUpon>F_Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Debug.resx">
       <DependentUpon>Debug.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeviceManageForm.resx">
-      <DependentUpon>DeviceManageForm.cs</DependentUpon>
+    <EmbeddedResource Include="F_DeviceManage.resx">
+      <DependentUpon>F_DeviceManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

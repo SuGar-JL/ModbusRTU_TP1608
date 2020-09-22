@@ -212,7 +212,6 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.ValueTuple.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csprojAssemblyReference.cache
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.AddSensorTypeForm.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Debug.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form1.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Properties.Resources.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.SetChennalForm.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.SetDeviceForm.resources
@@ -307,3 +306,7 @@ D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.C
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CopyComplete
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.test.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ValueBox.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ValueBox2.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Logo.resources

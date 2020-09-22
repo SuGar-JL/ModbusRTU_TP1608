@@ -198,6 +198,12 @@
     <Compile Include="Entiry\Device.cs" />
     <Compile Include="Entiry\Sensor.cs" />
     <Compile Include="Entiry\SensorType.cs" />
+    <Compile Include="Logo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Logo.Designer.cs">
+      <DependentUpon>Logo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -227,15 +233,15 @@
     <Compile Include="ShowDataForm.Designer.cs">
       <DependentUpon>ShowDataForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="test.Designer.cs">
+      <DependentUpon>test.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ChennalManage.cs" />
     <Compile Include="Utils\Collector.cs" />
     <Compile Include="Utils\DataTypeConvert.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DbContext.cs" />
@@ -250,6 +256,12 @@
     </Compile>
     <Compile Include="ValueBox.Designer.cs">
       <DependentUpon>ValueBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ValueBox2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ValueBox2.Designer.cs">
+      <DependentUpon>ValueBox2.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="F_AddDevice.resx">
       <DependentUpon>F_AddDevice.cs</DependentUpon>
@@ -266,8 +278,8 @@
     <EmbeddedResource Include="F_DeviceManage.resx">
       <DependentUpon>F_DeviceManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Logo.resx">
+      <DependentUpon>Logo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -286,8 +298,14 @@
     <EmbeddedResource Include="ShowDataForm.resx">
       <DependentUpon>ShowDataForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="test.resx">
+      <DependentUpon>test.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ValueBox.resx">
       <DependentUpon>ValueBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValueBox2.resx">
+      <DependentUpon>ValueBox2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -245,6 +245,12 @@
     <Compile Include="Utils\SensorManage.cs" />
     <Compile Include="Utils\SensorTypeManage.cs" />
     <Compile Include="Utils\TableNameUtil.cs" />
+    <Compile Include="ValueBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ValueBox.Designer.cs">
+      <DependentUpon>ValueBox.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="F_AddDevice.resx">
       <DependentUpon>F_AddDevice.cs</DependentUpon>
     </EmbeddedResource>
@@ -279,6 +285,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ShowDataForm.resx">
       <DependentUpon>ShowDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValueBox.resx">
+      <DependentUpon>ValueBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -328,7 +328,7 @@
             // 
             this.dockPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dockPanel1.Location = new System.Drawing.Point(0, 0);
-            this.dockPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dockPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.dockPanel1.Name = "dockPanel1";
             this.dockPanel1.Size = new System.Drawing.Size(1102, 580);
             this.dockPanel1.TabIndex = 8;
@@ -343,7 +343,7 @@
             this.Controls.Add(this.menuStrip2);
             this.Controls.Add(this.dockPanel1);
             this.IsMdiContainer = true;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MinimumSize = new System.Drawing.Size(621, 321);
             this.Name = "F_Main";
             this.Text = "DataCollection";

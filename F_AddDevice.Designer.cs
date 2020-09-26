@@ -151,6 +151,7 @@
             this.uiLabel5.Size = new System.Drawing.Size(100, 23);
             this.uiLabel5.TabIndex = 23;
             this.uiLabel5.Text = "起始通道：";
+            this.uiLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiCB_startChennal
             // 
@@ -173,6 +174,7 @@
             this.uiLabel6.Size = new System.Drawing.Size(100, 23);
             this.uiLabel6.TabIndex = 25;
             this.uiLabel6.Text = "部署位置：";
+            this.uiLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // uiTB_installAddress
             // 

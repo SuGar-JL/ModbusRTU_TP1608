@@ -61,9 +61,7 @@
             this.通道设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dockPanel1 = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.valueBox1 = new ModbusRTU_TP1608.ValueBox();
             this.valueBox21 = new ModbusRTU_TP1608.ValueBox2();
-            this.logo1 = new ModbusRTU_TP1608.Logo();
             this.menuStrip2.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -336,37 +334,20 @@
             this.dockPanel1.Size = new System.Drawing.Size(1102, 580);
             this.dockPanel1.TabIndex = 8;
             // 
-            // valueBox1
-            // 
-            this.valueBox1.BackColor = System.Drawing.Color.White;
-            this.valueBox1.Location = new System.Drawing.Point(226, 212);
-            this.valueBox1.Name = "valueBox1";
-            this.valueBox1.Size = new System.Drawing.Size(250, 150);
-            this.valueBox1.TabIndex = 11;
-            // 
             // valueBox21
             // 
             this.valueBox21.BackColor = System.Drawing.Color.White;
-            this.valueBox21.Location = new System.Drawing.Point(517, 162);
+            this.valueBox21.Location = new System.Drawing.Point(208, 173);
             this.valueBox21.Name = "valueBox21";
             this.valueBox21.Size = new System.Drawing.Size(310, 200);
-            this.valueBox21.TabIndex = 12;
-            // 
-            // logo1
-            // 
-            this.logo1.Location = new System.Drawing.Point(817, 389);
-            this.logo1.Name = "logo1";
-            this.logo1.Size = new System.Drawing.Size(250, 56);
-            this.logo1.TabIndex = 15;
+            this.valueBox21.TabIndex = 15;
             // 
             // F_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1102, 580);
-            this.Controls.Add(this.logo1);
             this.Controls.Add(this.valueBox21);
-            this.Controls.Add(this.valueBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip2);
@@ -424,8 +405,6 @@
         private System.Windows.Forms.ToolStripMenuItem 通道设置ToolStripMenuItem;
         private WeifenLuo.WinFormsUI.Docking.DockPanel dockPanel1;
         private System.IO.Ports.SerialPort serialPort1;
-        private ValueBox valueBox1;
         private ValueBox2 valueBox21;
-        private Logo logo1;
     }
 }

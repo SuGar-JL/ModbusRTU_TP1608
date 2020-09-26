@@ -198,11 +198,11 @@
     <Compile Include="Entiry\Device.cs" />
     <Compile Include="Entiry\Sensor.cs" />
     <Compile Include="Entiry\SensorType.cs" />
-    <Compile Include="Logo.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="F_TitlePage.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Logo.Designer.cs">
-      <DependentUpon>Logo.cs</DependentUpon>
+    <Compile Include="F_TitlePage.Designer.cs">
+      <DependentUpon>F_TitlePage.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -278,8 +278,8 @@
     <EmbeddedResource Include="F_DeviceManage.resx">
       <DependentUpon>F_DeviceManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Logo.resx">
-      <DependentUpon>Logo.cs</DependentUpon>
+    <EmbeddedResource Include="F_TitlePage.resx">
+      <DependentUpon>F_TitlePage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -344,6 +344,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="static\stop1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.2.0.3\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.3\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />

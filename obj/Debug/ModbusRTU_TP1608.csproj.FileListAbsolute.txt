@@ -309,4 +309,4 @@ D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.test.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ValueBox.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ValueBox2.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Logo.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_TitlePage.resources

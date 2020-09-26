@@ -64,7 +64,7 @@
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 85.95744F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.04255F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 12F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 13F));
             this.tableLayoutPanel2.Controls.Add(this.pB_Info, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tB_ChennalName, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -78,7 +78,7 @@
             // pB_Info
             // 
             this.pB_Info.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pB_Info.Location = new System.Drawing.Point(202, 3);
+            this.pB_Info.Location = new System.Drawing.Point(201, 3);
             this.pB_Info.Name = "pB_Info";
             this.pB_Info.Size = new System.Drawing.Size(26, 24);
             this.pB_Info.TabIndex = 0;
@@ -93,7 +93,7 @@
             this.tB_ChennalName.Location = new System.Drawing.Point(15, 5);
             this.tB_ChennalName.Margin = new System.Windows.Forms.Padding(15, 3, 3, 3);
             this.tB_ChennalName.Name = "tB_ChennalName";
-            this.tB_ChennalName.Size = new System.Drawing.Size(181, 19);
+            this.tB_ChennalName.Size = new System.Drawing.Size(180, 19);
             this.tB_ChennalName.TabIndex = 1;
             this.tB_ChennalName.Text = "数据采集-CH01";
             // 

@@ -35,6 +35,10 @@
             this.valueBox22 = new ModbusRTU_TP1608.ValueBox2();
             this.valueBox23 = new ModbusRTU_TP1608.ValueBox2();
             this.valueBox24 = new ModbusRTU_TP1608.ValueBox2();
+            this.valueBox25 = new ModbusRTU_TP1608.ValueBox2();
+            this.valueBox26 = new ModbusRTU_TP1608.ValueBox2();
+            this.valueBox27 = new ModbusRTU_TP1608.ValueBox2();
+            this.valueBox28 = new ModbusRTU_TP1608.ValueBox2();
             this.SuspendLayout();
             // 
             // textBox1
@@ -81,7 +85,7 @@
             // valueBox21
             // 
             this.valueBox21.BackColor = System.Drawing.Color.White;
-            this.valueBox21.Location = new System.Drawing.Point(50, 67);
+            this.valueBox21.Location = new System.Drawing.Point(50, 80);
             this.valueBox21.Name = "valueBox21";
             this.valueBox21.Size = new System.Drawing.Size(200, 120);
             this.valueBox21.TabIndex = 7;
@@ -89,7 +93,7 @@
             // valueBox22
             // 
             this.valueBox22.BackColor = System.Drawing.Color.White;
-            this.valueBox22.Location = new System.Drawing.Point(284, 67);
+            this.valueBox22.Location = new System.Drawing.Point(283, 80);
             this.valueBox22.Name = "valueBox22";
             this.valueBox22.Size = new System.Drawing.Size(200, 120);
             this.valueBox22.TabIndex = 8;
@@ -97,7 +101,7 @@
             // valueBox23
             // 
             this.valueBox23.BackColor = System.Drawing.Color.White;
-            this.valueBox23.Location = new System.Drawing.Point(508, 67);
+            this.valueBox23.Location = new System.Drawing.Point(516, 80);
             this.valueBox23.Name = "valueBox23";
             this.valueBox23.Size = new System.Drawing.Size(200, 120);
             this.valueBox23.TabIndex = 9;
@@ -105,16 +109,52 @@
             // valueBox24
             // 
             this.valueBox24.BackColor = System.Drawing.Color.White;
-            this.valueBox24.Location = new System.Drawing.Point(733, 67);
+            this.valueBox24.Location = new System.Drawing.Point(749, 80);
             this.valueBox24.Name = "valueBox24";
             this.valueBox24.Size = new System.Drawing.Size(200, 120);
             this.valueBox24.TabIndex = 10;
+            // 
+            // valueBox25
+            // 
+            this.valueBox25.BackColor = System.Drawing.Color.White;
+            this.valueBox25.Location = new System.Drawing.Point(50, 231);
+            this.valueBox25.Name = "valueBox25";
+            this.valueBox25.Size = new System.Drawing.Size(200, 120);
+            this.valueBox25.TabIndex = 11;
+            // 
+            // valueBox26
+            // 
+            this.valueBox26.BackColor = System.Drawing.Color.White;
+            this.valueBox26.Location = new System.Drawing.Point(749, 231);
+            this.valueBox26.Name = "valueBox26";
+            this.valueBox26.Size = new System.Drawing.Size(200, 120);
+            this.valueBox26.TabIndex = 14;
+            // 
+            // valueBox27
+            // 
+            this.valueBox27.BackColor = System.Drawing.Color.White;
+            this.valueBox27.Location = new System.Drawing.Point(516, 231);
+            this.valueBox27.Name = "valueBox27";
+            this.valueBox27.Size = new System.Drawing.Size(200, 120);
+            this.valueBox27.TabIndex = 13;
+            // 
+            // valueBox28
+            // 
+            this.valueBox28.BackColor = System.Drawing.Color.White;
+            this.valueBox28.Location = new System.Drawing.Point(283, 231);
+            this.valueBox28.Name = "valueBox28";
+            this.valueBox28.Size = new System.Drawing.Size(200, 120);
+            this.valueBox28.TabIndex = 12;
             // 
             // F_TitlePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 610);
+            this.Controls.Add(this.valueBox26);
+            this.Controls.Add(this.valueBox27);
+            this.Controls.Add(this.valueBox28);
+            this.Controls.Add(this.valueBox25);
             this.Controls.Add(this.valueBox24);
             this.Controls.Add(this.valueBox23);
             this.Controls.Add(this.valueBox22);
@@ -141,5 +181,9 @@
         private ValueBox2 valueBox22;
         private ValueBox2 valueBox23;
         private ValueBox2 valueBox24;
+        private ValueBox2 valueBox25;
+        private ValueBox2 valueBox26;
+        private ValueBox2 valueBox27;
+        private ValueBox2 valueBox28;
     }
 }

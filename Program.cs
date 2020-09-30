@@ -17,8 +17,7 @@ namespace ModbusRTU_TP1608
         {
             Application.EnableVisualStyles();//将操作系统样式应用于您的应用程序
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            Application.Run(new F_Main());
+            Application.Run(new test());
         }
     }
 }

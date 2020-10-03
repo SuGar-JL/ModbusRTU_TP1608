@@ -10,6 +10,10 @@ namespace ModbusRTU_TP1608.Entiry
     [SugarTable("Chennal")]//数据库表名称
     public class Chennal : Base, IComparable<Chennal>
     {
+        public Chennal()
+        {
+            this.id = System.Guid.NewGuid().ToString("N");
+        }
         [SugarColumn(ColumnName = "device_id", IsNullable = false, ColumnDescription = "附属于设备的id")]
         public string deviceID { get; set; }
 
@@ -32,7 +36,7 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "chennal_id", ColumnDescription = "通道ID")]
         public int chennalID { get; set; }
 
-        [SugarColumn(ColumnName = "stop_waring", ColumnDescription = "禁止报警")]
+        [SugarColumn(ColumnName = "stop_waring", IsNullable = true, ColumnDescription = "禁止报警")]
         public string stopWaring { get; set; }
 
         [SugarColumn(ColumnName = "chennal_label", IsNullable = true, ColumnDescription = "监测项")]
@@ -41,41 +45,35 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "chennal_unit", IsNullable = true, ColumnDescription = "单位")]
         public string chennalUnit { get; set; }
 
-        [SugarColumn(ColumnName = "decimal_places", ColumnDescription = "小数位")]
+        [SugarColumn(ColumnName = "decimal_places", IsNullable = true, ColumnDescription = "小数位")]
         public int decimalPlaces { get; set; }
 
-        [SugarColumn(ColumnName = "chennal_type", IsNullable = false, ColumnDescription = "通道类型")]
+        [SugarColumn(ColumnName = "chennal_type", IsNullable = true, ColumnDescription = "通道类型")]
         public string chennalType { get; set; }
 
-        [SugarColumn(ColumnName = "adjustment", ColumnDescription = "调整")]
+        [SugarColumn(ColumnName = "adjustment", IsNullable = true, ColumnDescription = "调整")]
         public double adjustment { get; set; }
 
-        [SugarColumn(ColumnName = "lower_limit", ColumnDescription = "下限")]
+        [SugarColumn(ColumnName = "lower_limit", IsNullable = true, ColumnDescription = "下限")]
         public double lowerLimit { get; set; }
 
-        [SugarColumn(ColumnName = "upper_limit", ColumnDescription = "上限")]
+        [SugarColumn(ColumnName = "upper_limit", IsNullable = true, ColumnDescription = "上限")]
         public double upperLimit { get; set; }
 
-        [SugarColumn(ColumnName = "l_lower_limit", ColumnDescription = "下下限")]
+        [SugarColumn(ColumnName = "l_lower_limit", IsNullable = true, ColumnDescription = "下下限")]
         public double lLowerLimit { get; set; }
 
-        [SugarColumn(ColumnName = "u_upper_limit", ColumnDescription = "上上限")]
+        [SugarColumn(ColumnName = "u_upper_limit", IsNullable = true, ColumnDescription = "上上限")]
         public double uUpperLimit { get; set; }
 
-        [SugarColumn(ColumnName = "small_range", ColumnDescription = "小量程")]
+        [SugarColumn(ColumnName = "small_range", IsNullable = true, ColumnDescription = "小量程")]
         public double smallRange { get; set; }
 
-        [SugarColumn(ColumnName = "large_range", ColumnDescription = "大量程")]
+        [SugarColumn(ColumnName = "large_range", IsNullable = true, ColumnDescription = "大量程")]
         public double largeRange { get; set; }
 
-        [SugarColumn(ColumnName = "read_write", ColumnDescription = "读或写标志")]
+        [SugarColumn(ColumnName = "read_write", IsNullable = true, ColumnDescription = "读或写标志")]
         public int R_WFlag { get; set; }
-
-        public Chennal()
-        {
-            this.id = System.Guid.NewGuid().ToString("N");
-        }
-
         /// <summary>
         /// 排序
         /// </summary>

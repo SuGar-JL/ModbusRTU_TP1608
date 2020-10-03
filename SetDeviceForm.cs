@@ -26,12 +26,12 @@ namespace ModbusRTU_TP1608
             textBox1.Text = F_Main.currRightDownDevice;
             device = new DeviceManage().GetByName(textBox1.Text.Trim());
             textBox2.Text = device.id.ToString(); 
-            textBox3.Text = device.storeInterval.ToString("f1");//保留一位小数
-            textBox4.Text = device.collectInterval.ToString("f1");
+            //textBox3.Text = device.storeInterval.ToString("f1");//保留一位小数
+            //textBox4.Text = device.collectInterval.ToString("f1");
             textBox5.Text = device.deviceAddress;
             textBox6.Text = device.deviceType;
             textBox7.Text = device.startChennal.ToString("f1");
-            textBox8.Text = device.dropTimeDelay.ToString("f1");
+            //textBox8.Text = device.dropTimeDelay.ToString("f1");
             comboBox2.Text = device.baudRate;
 
             //初始化可用的串口号
@@ -40,14 +40,14 @@ namespace ModbusRTU_TP1608
             {
                 comboBox1.Items.Add(port);
             }
-            comboBox1.Text = device.port;
+            comboBox1.Text = device.serialPort;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             if (checkForm(textBox1.Text.Trim(), textBox3.Text.Trim(), textBox4.Text.Trim(), textBox8.Text.Trim()))//填写无误，且改了名称不重复
             {
-                if (textBox1.Text.Trim().Equals(device.deviceName)&&textBox3.Text.Trim().Equals(device.storeInterval.ToString())&& textBox4.Text.Trim().Equals(device.collectInterval.ToString())&& textBox8.Text.Trim().Equals(device.dropTimeDelay.ToString())&& comboBox1.Text.Trim().Equals(device.port)&&comboBox2.Text.Trim().Equals(device.baudRate))
+                if (textBox1.Text.Trim().Equals(device.deviceName) &&/*textBox3.Text.Trim().Equals(device.storeInterval.ToString())&& textBox4.Text.Trim().Equals(device.collectInterval.ToString())&& textBox8.Text.Trim().Equals(device.dropTimeDelay.ToString())&&*/ comboBox1.Text.Trim().Equals(device.serialPort)&&comboBox2.Text.Trim().Equals(device.baudRate))
                 {
                     //没做任何更改，直接关闭即可（还有COM口没判断，之后添加）
                     this.Close();

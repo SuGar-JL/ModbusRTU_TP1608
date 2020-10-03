@@ -9,14 +9,12 @@ namespace ModbusRTU_TP1608.Utils
 {
     class DeviceManage : DbContext<Device>
     {
-        /// <summary>
-        /// 用构造方法创建数据库表
-        /// </summary>
-        public DeviceManage()
+        
+        public void CreateTable()
         {
+            //创建设备信息表
             Db.CodeFirst.InitTables(typeof(Device));
         }
-
         /// <summary>
         /// 通过设备ID查询
         /// </summary>
@@ -24,7 +22,8 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public Device GetById(string id)
         {
-            return CurrentDb.GetSingle(it => it.id == id);
+            //return CurrentDb.GetSingle(it => it.id == id);
+            return Db.Queryable<Device>().Where(it => it.id == id).First();
 
         }
         /// <summary>
@@ -34,9 +33,51 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public Device GetByName(string deviceName)
         {
-            return CurrentDb.GetSingle(it => it.deviceName == deviceName);
+            //return CurrentDb.GetSingle(it => it.deviceName == deviceName);
+            return Db.Queryable<Device>().Where(it => it.deviceName == deviceName).First();
+        }
+        /// <summary>
+        /// 通过设备地址查询
+        /// </summary>
+        /// <param name="deviceAddress"></param>
+        /// <returns></returns>
+        public Device GetByAddress(string deviceAddress)
+        {
+            //return CurrentDb.GetSingle(it => it.deviceAddress == deviceAddress);
+            return Db.Queryable<Device>().Where(it => it.deviceAddress == deviceAddress).First();
         }
 
+        public int GetPageIndexs()
+        {
+            List<Device> devices = Db.Queryable<Device>().OrderBy(it => it.pageIndex).ToList();
+            //当没有设备时，用1作为pageIndex
+            if (devices.Count == 0)
+            {
+                return 1;
+            }
+            List<int> indexs = new List<int>();
+            foreach (var item in devices)
+            {
+                indexs.Add((int)item.pageIndex);
+            }
+            //一下操作是为了在有删除设备的情景下，indexs中的值（pageIndex）不是连续的，在新建设备时，可取被跳过的数作为pageIndex
+            int index = -1;
+            for (int i = 1; i < indexs.Max(); i++)
+            {
+                if (!indexs.Contains(i))
+                {
+                    index = i;
+                    //找到一个就停止
+                    break;
+                }
+            }
+            //当indexs中的值（pageIndex）是连续的时，用最大值+1作为pageIndex
+            if (index == -1)
+            {
+                index = indexs.Max() + 1;
+            }
+            return index;
+        }
         public List<Device> GetAllOrderById()
         {
             return Db.Queryable<Device>().OrderBy(it => it.createTime).ToList();
@@ -59,7 +100,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public bool UpdateConfigById(string deviceId, string deviceName, double storeInterval, double collectInterval, double dropTimeDelay, string port, string baudRate, string updateBy, DateTime updateTime)
         {
-            return CurrentDb.Update(it => new Device() { deviceName = deviceName, storeInterval = storeInterval, collectInterval = collectInterval, dropTimeDelay = dropTimeDelay, port = port, baudRate = baudRate, updateBy = updateBy, updateTime = updateTime}, it => it.id == deviceId);
+            return CurrentDb.Update(it => new Device() { deviceName = deviceName, /*storeInterval = storeInterval, collectInterval = collectInterval, dropTimeDelay = dropTimeDelay,*/ serialPort = port, baudRate = baudRate, updateBy = updateBy, updateTime = updateTime}, it => it.id == deviceId);
         }
         /// <summary>
         /// 根据设备id删除设备配置

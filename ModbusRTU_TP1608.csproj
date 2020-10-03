@@ -163,23 +163,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BtnAddDevice.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BtnAddDevice.Designer.cs">
+      <DependentUpon>BtnAddDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entiry\Sys.cs" />
     <Compile Include="Form1.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="F_AddDevice.cs">
+    <Compile Include="F_AddDeviceRTU.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="F_AddDevice.Designer.cs">
-      <DependentUpon>F_AddDevice.cs</DependentUpon>
+    <Compile Include="F_AddDeviceRTU.Designer.cs">
+      <DependentUpon>F_AddDeviceRTU.cs</DependentUpon>
     </Compile>
     <Compile Include="AddSensorTypeForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AddSensorTypeForm.Designer.cs">
       <DependentUpon>AddSensorTypeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="F_AddDeviceTCP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_AddDeviceTCP.Designer.cs">
+      <DependentUpon>F_AddDeviceTCP.cs</DependentUpon>
     </Compile>
     <Compile Include="F_Main.cs">
       <SubType>Form</SubType>
@@ -204,11 +217,23 @@
     <Compile Include="Entiry\Device.cs" />
     <Compile Include="Entiry\Sensor.cs" />
     <Compile Include="Entiry\SensorType.cs" />
+    <Compile Include="F_SelectProtocol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_SelectProtocol.Designer.cs">
+      <DependentUpon>F_SelectProtocol.cs</DependentUpon>
+    </Compile>
     <Compile Include="F_TitlePage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="F_TitlePage.Designer.cs">
       <DependentUpon>F_TitlePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MyTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MyTextBox.Designer.cs">
+      <DependentUpon>MyTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -256,27 +281,22 @@
     <Compile Include="Utils\MySQLUtil.cs" />
     <Compile Include="Utils\SensorManage.cs" />
     <Compile Include="Utils\SensorTypeManage.cs" />
+    <Compile Include="Utils\SysManage.cs" />
     <Compile Include="Utils\TableNameUtil.cs" />
-    <Compile Include="ValueBox.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ValueBox.Designer.cs">
-      <DependentUpon>ValueBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ValueBox2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ValueBox2.Designer.cs">
-      <DependentUpon>ValueBox2.cs</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="BtnAddDevice.resx">
+      <DependentUpon>BtnAddDevice.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="F_AddDevice.resx">
-      <DependentUpon>F_AddDevice.cs</DependentUpon>
+    <EmbeddedResource Include="F_AddDeviceRTU.resx">
+      <DependentUpon>F_AddDeviceRTU.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AddSensorTypeForm.resx">
       <DependentUpon>AddSensorTypeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_AddDeviceTCP.resx">
+      <DependentUpon>F_AddDeviceTCP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_Main.resx">
       <DependentUpon>F_Main.cs</DependentUpon>
@@ -287,8 +307,14 @@
     <EmbeddedResource Include="F_DeviceManage.resx">
       <DependentUpon>F_DeviceManage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="F_SelectProtocol.resx">
+      <DependentUpon>F_SelectProtocol.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F_TitlePage.resx">
       <DependentUpon>F_TitlePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyTextBox.resx">
+      <DependentUpon>MyTextBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -309,12 +335,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="test.resx">
       <DependentUpon>test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ValueBox.resx">
-      <DependentUpon>ValueBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ValueBox2.resx">
-      <DependentUpon>ValueBox2.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -362,6 +382,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="static\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\设备.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\add1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\add2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\protocol1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\protocol2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\protocol3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\protocol4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.2.0.3\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.3\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />

@@ -96,7 +96,7 @@ namespace ModbusRTU_TP1608
         private void TSMI_添加设备_Click(object sender, EventArgs e)
         {
             //将会通过F_AddDevice来更新本窗体的tV_advice
-            new F_AddDevice().ShowDialog(this);
+            new F_AddDeviceRTU().ShowDialog(this);
         }
 
         private void TSMI_打开设备_Click(object sender, EventArgs e)

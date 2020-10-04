@@ -85,8 +85,6 @@
             this.deviceType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.deviceType.FillColor = System.Drawing.Color.White;
             this.deviceType.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceType.Items.AddRange(new object[] {
-            "TP1608P-AI-A"});
             this.deviceType.Location = new System.Drawing.Point(127, 63);
             this.deviceType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceType.MinimumSize = new System.Drawing.Size(63, 0);
@@ -154,15 +152,6 @@
             this.deviceChennalNum.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.deviceChennalNum.FillColor = System.Drawing.Color.White;
             this.deviceChennalNum.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceChennalNum.Items.AddRange(new object[] {
-            "1 通道",
-            "2 通道",
-            "3 通道",
-            "4 通道",
-            "5 通道",
-            "6 通道",
-            "7 通道",
-            "8 通道"});
             this.deviceChennalNum.Location = new System.Drawing.Point(127, 180);
             this.deviceChennalNum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceChennalNum.MinimumSize = new System.Drawing.Size(63, 0);
@@ -191,15 +180,6 @@
             this.deviceStartChennal.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.deviceStartChennal.FillColor = System.Drawing.Color.White;
             this.deviceStartChennal.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceStartChennal.Items.AddRange(new object[] {
-            "第 1 通道",
-            "第 2 通道",
-            "第 3 通道",
-            "第 4 通道",
-            "第 5 通道",
-            "第 6 通道",
-            "第 7 通道",
-            "第 8 通道"});
             this.deviceStartChennal.Location = new System.Drawing.Point(127, 219);
             this.deviceStartChennal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceStartChennal.MinimumSize = new System.Drawing.Size(63, 0);
@@ -245,24 +225,6 @@
             this.deviceBaudRate.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.deviceBaudRate.FillColor = System.Drawing.Color.White;
             this.deviceBaudRate.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceBaudRate.Items.AddRange(new object[] {
-            "75",
-            "110",
-            "134",
-            "150",
-            "300",
-            "600",
-            "1200",
-            "2400",
-            "4800",
-            "7200",
-            "9600",
-            "14400",
-            "19200",
-            "38400",
-            "57600",
-            "115200",
-            "128000"});
             this.deviceBaudRate.Location = new System.Drawing.Point(127, 297);
             this.deviceBaudRate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceBaudRate.MinimumSize = new System.Drawing.Size(63, 0);
@@ -291,15 +253,6 @@
             this.deviceSerialPort.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.deviceSerialPort.FillColor = System.Drawing.Color.White;
             this.deviceSerialPort.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceSerialPort.Items.AddRange(new object[] {
-            "第 1 通道",
-            "第 2 通道",
-            "第 3 通道",
-            "第 4 通道",
-            "第 5 通道",
-            "第 6 通道",
-            "第 7 通道",
-            "第 8 通道"});
             this.deviceSerialPort.Location = new System.Drawing.Point(127, 258);
             this.deviceSerialPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceSerialPort.MinimumSize = new System.Drawing.Size(63, 0);

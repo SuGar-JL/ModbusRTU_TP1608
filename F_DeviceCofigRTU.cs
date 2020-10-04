@@ -12,22 +12,13 @@ using System.Windows.Forms;
 
 namespace ModbusRTU_TP1608
 {
-    public partial class F_AddDeviceTCP : UIEditForm
+    public partial class F_DeviceCofigRTU : UIEditForm
     {
-        public F_AddDeviceTCP()
+        public F_DeviceCofigRTU()
         {
             InitializeComponent();
-            //设备类型默认选择第一个
-            this.deviceType.SelectedIndex = 0;
         }
-        private void F_AddDeviceTCP_Load(object sender, EventArgs e)
-        {
-            this.deviceType.Items.AddRange(Common.DeviceType.ToArray());
-            this.deviceChennalNum.Items.AddRange(Common.DeviceChennalNum.ToArray());
-            this.deviceStartChennal.Items.AddRange(Common.DeviceStartChennal.ToArray());
-            //设备类型默认选择第一个
-            this.deviceType.SelectedIndex = 0;
-        }
+
         protected override bool CheckData()
         {
             return CheckEmpty(deviceType, "请选择设备类型")
@@ -38,8 +29,9 @@ namespace ModbusRTU_TP1608
                    && CheckEmpty(deviceChennalNum, "请选择通道数量")
                    && CheckEmpty(deviceStartChennal, "请选择起始通道")
                    && CheckChennalNumAndStartChennal(deviceChennalNum, deviceStartChennal, "通道数量与起始通道不匹配，需满足：\r\n\t8 - 起始通道 >= 通道数量")
-                   && CheckEmpty(deviceHostName, "请输入主机名")
-                   && CheckEmpty(devicePort, "请输入端口号")
+                   && CheckEmpty(deviceSerialPort, "请选择串口")
+                   && CheckSerialPort(deviceSerialPort, "串口不存在")
+                   && CheckEmpty(deviceBaudRate, "请选择波特率")
                    && CheckEmpty(devicePosition, "请简单描述设备安装位置");
         }
         /// <summary>
@@ -50,7 +42,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceNameRepeat(UITextBox deviceName, string desc)
         {
-            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()) == null;
+            bool result = new RTUDeviceManage().GetByName(deviceName.Text.Trim()).Count <= 1;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -66,7 +58,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceAddressRepeat(UITextBox deviceAddress, string desc)
         {
-            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()) == null;
+            bool result = new RTUDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count <= 1;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -92,6 +84,15 @@ namespace ModbusRTU_TP1608
             return result;
         }
 
-        
+        private bool CheckSerialPort(UIComboBox SerialPort, string desc)
+        {
+            bool result = SerialPort.Items.Contains(SerialPort.Text.Trim());
+            if (!result)
+            {
+                this.ShowWarningDialog(desc);
+                SerialPort.Focus();
+            }
+            return result;
+        }
     }
 }

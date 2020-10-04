@@ -18,15 +18,22 @@ namespace ModbusRTU_TP1608
         public F_AddDeviceRTU()
         {
             InitializeComponent();
-            //设备类型默认选择第一个
-            this.deviceType.SelectedIndex = 0;
-            //波特率默认选择9600
-            this.deviceBaudRate.SelectedIndex = 10;
         }
 
         private void F_AddDeviceRTU_Load(object sender, EventArgs e)
         {
+            this.deviceType.Items.AddRange(Common.DeviceType.ToArray());
+            this.deviceChennalNum.Items.AddRange(Common.DeviceChennalNum.ToArray());
+            this.deviceStartChennal.Items.AddRange(Common.DeviceStartChennal.ToArray());
             //获取可用串口
+            List<string> serialPorts = System.IO.Ports.SerialPort.GetPortNames().ToList();
+            serialPorts.Sort();
+            this.deviceSerialPort.Items.AddRange(serialPorts.ToArray());
+            this.deviceBaudRate.Items.AddRange(Common.DeviceBaudRate.ToArray());
+            //设备类型默认选择第一个
+            this.deviceType.SelectedIndex = 0;
+            //波特率默认选择9600
+            this.deviceBaudRate.SelectedIndex = 10;
 
         }
         protected override bool CheckData()
@@ -51,7 +58,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceNameRepeat(UITextBox deviceName, string desc)
         {
-            bool result = new RTUDeviceManage().GetByName(deviceName.Text.Trim()) == null;
+            bool result = new RTUDeviceManage().GetByName(deviceName.Text.Trim()).Count == 0;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -67,7 +74,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceAddressRepeat(UITextBox deviceAddress, string desc)
         {
-            bool result = new RTUDeviceManage().GetByAddress(deviceAddress.Text.Trim()) == null;
+            bool result = new RTUDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count == 0;
             if (!result)
             {
                 this.ShowWarningDialog(desc);

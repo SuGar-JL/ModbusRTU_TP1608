@@ -104,7 +104,7 @@ namespace ModbusRTU_TP1608
             //设置设备为打开状态（isOpen字段变为1）
             //一旦打开，不可关闭，除非关闭软件或删除设备
             new RTUDeviceManage().UpdateStatusByName(deviceName, 1);
-            var device = new RTUDeviceManage().GetByName(deviceName);
+            var device = new RTUDeviceManage().GetByName(deviceName)[0];
             //设置开始采集按钮的图标为可用状态
         }
 
@@ -116,7 +116,7 @@ namespace ModbusRTU_TP1608
                 //删除于设备相关联的一切
                 //1.删除传感器
                 //查询当前设备的id
-                var device = new RTUDeviceManage().GetByName(deviceName);
+                var device = new RTUDeviceManage().GetByName(deviceName)[0];
                 //查询设备的所有通道
                 List<RTUChennal> chennals = new RTUChennalManage().GetByDeviceId(device.id.ToString());
                 //删除每个通道绑定的传感器

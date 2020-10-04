@@ -12,22 +12,14 @@ using System.Windows.Forms;
 
 namespace ModbusRTU_TP1608
 {
-    public partial class F_AddDeviceTCP : UIEditForm
+    public partial class F_DeviceCofigTCP : UIEditForm
     {
-        public F_AddDeviceTCP()
+        public F_DeviceCofigTCP()
         {
             InitializeComponent();
-            //设备类型默认选择第一个
-            this.deviceType.SelectedIndex = 0;
         }
-        private void F_AddDeviceTCP_Load(object sender, EventArgs e)
-        {
-            this.deviceType.Items.AddRange(Common.DeviceType.ToArray());
-            this.deviceChennalNum.Items.AddRange(Common.DeviceChennalNum.ToArray());
-            this.deviceStartChennal.Items.AddRange(Common.DeviceStartChennal.ToArray());
-            //设备类型默认选择第一个
-            this.deviceType.SelectedIndex = 0;
-        }
+
+
         protected override bool CheckData()
         {
             return CheckEmpty(deviceType, "请选择设备类型")
@@ -50,7 +42,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceNameRepeat(UITextBox deviceName, string desc)
         {
-            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()) == null;
+            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()).Count <= 1;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -66,7 +58,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceAddressRepeat(UITextBox deviceAddress, string desc)
         {
-            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()) == null;
+            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count <= 1;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -91,7 +83,5 @@ namespace ModbusRTU_TP1608
             }
             return result;
         }
-
-        
     }
 }

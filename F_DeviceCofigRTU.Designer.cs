@@ -1,6 +1,6 @@
 ﻿namespace ModbusRTU_TP1608
 {
-    partial class F_AddDeviceTCP
+    partial class F_DeviceCofigRTU
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.deviceBaudRate = new Sunny.UI.UIComboBox();
             this.uiLabel9 = new Sunny.UI.UILabel();
+            this.deviceSerialPort = new Sunny.UI.UIComboBox();
             this.uiLabel8 = new Sunny.UI.UILabel();
             this.devicePosition = new Sunny.UI.UITextBox();
             this.uiLabel6 = new Sunny.UI.UILabel();
@@ -42,14 +44,28 @@
             this.deviceType = new Sunny.UI.UIComboBox();
             this.deviceAddress = new Sunny.UI.UITextBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
-            this.deviceHostName = new Sunny.UI.UITextBox();
-            this.devicePort = new Sunny.UI.UITextBox();
             this.SuspendLayout();
             // 
             // pnlBtm
             // 
             this.pnlBtm.Location = new System.Drawing.Point(1, 387);
             this.pnlBtm.Size = new System.Drawing.Size(398, 55);
+            // 
+            // deviceBaudRate
+            // 
+            this.deviceBaudRate.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            this.deviceBaudRate.FillColor = System.Drawing.Color.White;
+            this.deviceBaudRate.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.deviceBaudRate.Location = new System.Drawing.Point(127, 297);
+            this.deviceBaudRate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deviceBaudRate.MinimumSize = new System.Drawing.Size(63, 0);
+            this.deviceBaudRate.Name = "deviceBaudRate";
+            this.deviceBaudRate.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
+            this.deviceBaudRate.Radius = 8;
+            this.deviceBaudRate.Size = new System.Drawing.Size(225, 29);
+            this.deviceBaudRate.TabIndex = 52;
+            this.deviceBaudRate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.deviceBaudRate.Watermark = "";
             // 
             // uiLabel9
             // 
@@ -58,8 +74,24 @@
             this.uiLabel9.Name = "uiLabel9";
             this.uiLabel9.Size = new System.Drawing.Size(100, 23);
             this.uiLabel9.TabIndex = 53;
-            this.uiLabel9.Text = "端口号：";
+            this.uiLabel9.Text = "波特率：";
             this.uiLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // deviceSerialPort
+            // 
+            this.deviceSerialPort.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            this.deviceSerialPort.FillColor = System.Drawing.Color.White;
+            this.deviceSerialPort.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.deviceSerialPort.Location = new System.Drawing.Point(127, 258);
+            this.deviceSerialPort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deviceSerialPort.MinimumSize = new System.Drawing.Size(63, 0);
+            this.deviceSerialPort.Name = "deviceSerialPort";
+            this.deviceSerialPort.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
+            this.deviceSerialPort.Radius = 8;
+            this.deviceSerialPort.Size = new System.Drawing.Size(225, 29);
+            this.deviceSerialPort.TabIndex = 50;
+            this.deviceSerialPort.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.deviceSerialPort.Watermark = "";
             // 
             // uiLabel8
             // 
@@ -68,7 +100,7 @@
             this.uiLabel8.Name = "uiLabel8";
             this.uiLabel8.Size = new System.Drawing.Size(100, 23);
             this.uiLabel8.TabIndex = 51;
-            this.uiLabel8.Text = "主机名：";
+            this.uiLabel8.Text = "串口：";
             this.uiLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // devicePosition
@@ -94,7 +126,7 @@
             this.uiLabel6.Name = "uiLabel6";
             this.uiLabel6.Size = new System.Drawing.Size(100, 23);
             this.uiLabel6.TabIndex = 48;
-            this.uiLabel6.Text = "部署位置：";
+            this.uiLabel6.Text = "安装位置：";
             this.uiLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // uiLabel5
@@ -227,46 +259,14 @@
             this.uiLabel1.Text = "设备地址：";
             this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // deviceHostName
-            // 
-            this.deviceHostName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.deviceHostName.FillColor = System.Drawing.Color.White;
-            this.deviceHostName.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceHostName.Location = new System.Drawing.Point(127, 258);
-            this.deviceHostName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.deviceHostName.Maximum = 2147483647D;
-            this.deviceHostName.Minimum = -2147483648D;
-            this.deviceHostName.Name = "deviceHostName";
-            this.deviceHostName.Padding = new System.Windows.Forms.Padding(5);
-            this.deviceHostName.Radius = 8;
-            this.deviceHostName.Size = new System.Drawing.Size(225, 29);
-            this.deviceHostName.TabIndex = 54;
-            this.deviceHostName.Watermark = "";
-            // 
-            // devicePort
-            // 
-            this.devicePort.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.devicePort.FillColor = System.Drawing.Color.White;
-            this.devicePort.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.devicePort.Location = new System.Drawing.Point(127, 297);
-            this.devicePort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.devicePort.Maximum = 2147483647D;
-            this.devicePort.Minimum = -2147483648D;
-            this.devicePort.Name = "devicePort";
-            this.devicePort.Padding = new System.Windows.Forms.Padding(5);
-            this.devicePort.Radius = 8;
-            this.devicePort.Size = new System.Drawing.Size(225, 29);
-            this.devicePort.TabIndex = 50;
-            this.devicePort.Watermark = "";
-            // 
-            // F_AddDeviceTCP
+            // F_DeviceCofigRTU
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(400, 445);
-            this.Controls.Add(this.devicePort);
-            this.Controls.Add(this.deviceHostName);
+            this.Controls.Add(this.deviceBaudRate);
             this.Controls.Add(this.uiLabel9);
+            this.Controls.Add(this.deviceSerialPort);
             this.Controls.Add(this.uiLabel8);
             this.Controls.Add(this.devicePosition);
             this.Controls.Add(this.uiLabel6);
@@ -280,9 +280,8 @@
             this.Controls.Add(this.deviceType);
             this.Controls.Add(this.deviceAddress);
             this.Controls.Add(this.uiLabel1);
-            this.Name = "F_AddDeviceTCP";
-            this.Text = "新建设备";
-            this.Load += new System.EventHandler(this.F_AddDeviceTCP_Load);
+            this.Name = "F_DeviceCofigRTU";
+            this.Text = "设备属性";
             this.Controls.SetChildIndex(this.pnlBtm, 0);
             this.Controls.SetChildIndex(this.uiLabel1, 0);
             this.Controls.SetChildIndex(this.deviceAddress, 0);
@@ -297,15 +296,18 @@
             this.Controls.SetChildIndex(this.uiLabel6, 0);
             this.Controls.SetChildIndex(this.devicePosition, 0);
             this.Controls.SetChildIndex(this.uiLabel8, 0);
+            this.Controls.SetChildIndex(this.deviceSerialPort, 0);
             this.Controls.SetChildIndex(this.uiLabel9, 0);
-            this.Controls.SetChildIndex(this.deviceHostName, 0);
-            this.Controls.SetChildIndex(this.devicePort, 0);
+            this.Controls.SetChildIndex(this.deviceBaudRate, 0);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        public Sunny.UI.UIComboBox deviceBaudRate;
         private Sunny.UI.UILabel uiLabel9;
+        public Sunny.UI.UIComboBox deviceSerialPort;
         private Sunny.UI.UILabel uiLabel8;
         public Sunny.UI.UITextBox devicePosition;
         private Sunny.UI.UILabel uiLabel6;
@@ -319,7 +321,5 @@
         public Sunny.UI.UIComboBox deviceType;
         public Sunny.UI.UITextBox deviceAddress;
         private Sunny.UI.UILabel uiLabel1;
-        public Sunny.UI.UITextBox deviceHostName;
-        public Sunny.UI.UITextBox devicePort;
     }
 }

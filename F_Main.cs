@@ -66,8 +66,8 @@ namespace ModbusRTU_TP1608
             //创建数据库表：设备的和通道的2个表
             try
             {
-                new DeviceManage();
-                new ChennalManage();
+                new RTUDeviceManage();
+                new RTUChennalManage();
             }
             catch (Exception ex)
             {
@@ -189,7 +189,7 @@ namespace ModbusRTU_TP1608
         private void DataCollectionForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             //将目前打开的所有设备状态字段status设为0（关闭）
-            new DeviceManage().CloseAllOpendingDivice();
+            new RTUDeviceManage().CloseAllOpendingDivice();
             //关闭所有线程
             Dictionary<string, Thread>.KeyCollection keys = threads.Keys;
             foreach (string key in keys)
@@ -419,12 +419,12 @@ namespace ModbusRTU_TP1608
         private void 打开设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currOpenDevice = currRightDownDevice;
-            Device device = new DeviceManage().GetByName(currOpenDevice);
+            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice);
             //1.设备没有打开
             if (device.status == 0)
             {
                 //设置设备为打开状态（status字段变为1）
-                new DeviceManage().UpdateStatusByName(device.deviceName, 1);
+                new RTUDeviceManage().UpdateStatusByName(device.deviceName, 1);
                 //设置开始采集按钮和停止采集按钮的图片
                 toolStripButton2.Image = Properties.Resources.start2;//亮
                 stopCollectButton.Image = Properties.Resources.stop1;//不亮
@@ -488,11 +488,11 @@ namespace ModbusRTU_TP1608
                 //删除于设备相关联的一切
                 //1.删除传感器
                 //查询当前设备的id
-                Device device = new DeviceManage().GetByName(currRightDownDevice);
+                RTUDevice device = new RTUDeviceManage().GetByName(currRightDownDevice);
                 //查询设备的所有通道
-                List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id.ToString());
+                List<RTUChennal> chennals = new RTUChennalManage().GetByDeviceId(device.id.ToString());
                 //删除每个通道绑定的传感器
-                foreach (Chennal chennal in chennals)
+                foreach (RTUChennal chennal in chennals)
                 {
                     if (chennal.sensorID != null)
                     {
@@ -500,9 +500,9 @@ namespace ModbusRTU_TP1608
                     }
                 }
                 //删除通道
-                new ChennalManage().DeleteByDeviceId(device.id.ToString());
+                new RTUChennalManage().DeleteByDeviceId(device.id.ToString());
                 //删除设备
-                new DeviceManage().DeleteById(device.id.ToString());
+                new RTUDeviceManage().DeleteById(device.id.ToString());
                 //treeView1_InitFromDB();
             }
         }
@@ -526,7 +526,7 @@ namespace ModbusRTU_TP1608
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             //获得当前的设备配置信息
-            Device device = new DeviceManage().GetByName(currOpenDevice);
+            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice);
             //当开始采集的按钮是亮的，即，设备状态为：打开，且串口已经配置
             if (device != null && device.status == 1 && CheckPort(device.serialPort))
             {
@@ -568,7 +568,7 @@ namespace ModbusRTU_TP1608
                     //MessageBox.Show("开启线程，设备开始采集！", "提示！", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
-                new DeviceManage().UpdateStatusByName(device.deviceName, 2);//设置设备为采集状态（status字段变为2）
+                new RTUDeviceManage().UpdateStatusByName(device.deviceName, 2);//设置设备为采集状态（status字段变为2）
                 /*设置开始采集和停止采集按钮的图片*/
                 toolStripButton2.Image = Properties.Resources.start1;//不亮
                 stopCollectButton.Image = Properties.Resources.stop2;//亮
@@ -585,7 +585,7 @@ namespace ModbusRTU_TP1608
             ThreadState state = td.ThreadState;
             while (true)
             {
-                Dictionary<string, Device> devices = collector.GetDevices();//获取当前串口所有设备
+                Dictionary<string, RTUDevice> devices = collector.GetDevices();//获取当前串口所有设备
                 lock (devices)
                 {
                     string strMsg = string.Format("********************开始采集（轮询）【{0}】********************\n", DateTime.Now);
@@ -604,7 +604,7 @@ namespace ModbusRTU_TP1608
                                 if (dr == DialogResult.OK)
                                 {
                                     //设置设备为打开状态（status字段变为1）
-                                    new DeviceManage().UpdateStatusByName(devices[deviceAddress].deviceName, 1);
+                                    new RTUDeviceManage().UpdateStatusByName(devices[deviceAddress].deviceName, 1);
                                     //设置开始采集按钮和停止采集按钮的图片
                                     toolStripButton2.Image = Properties.Resources.start2;//亮
                                     stopCollectButton.Image = Properties.Resources.stop1;//不亮
@@ -616,9 +616,9 @@ namespace ModbusRTU_TP1608
                             float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
                             strMsg = string.Format("{0} {1} {2} {3} {4} {5} {6} {7}\n", result[0].ToString(), result[1].ToString(), result[2].ToString(), result[3].ToString(), result[4].ToString(), result[5].ToString(), result[6].ToString(), result[7].ToString());
                             Debug.debug.SetMsg(strMsg);
-                            List<Chennal> chennals = new ChennalManage().GetByDeviceId(devices[deviceAddress].id);
+                            List<RTUChennal> chennals = new RTUChennalManage().GetByDeviceId(devices[deviceAddress].id);
                             int i = 0;//遍历result的索引
-                            foreach (Chennal chennal in chennals)
+                            foreach (RTUChennal chennal in chennals)
                             {
                                 if (chennal.sensorID != null)
                                 {
@@ -681,7 +681,7 @@ namespace ModbusRTU_TP1608
                                 {
                                     if (devices[deviceAddress].status == 2)
                                     {
-                                        new DeviceManage().UpdateStatusByName(devices[deviceAddress].deviceName, 1);
+                                        new RTUDeviceManage().UpdateStatusByName(devices[deviceAddress].deviceName, 1);
                                     }
                                 }
                                 //设置开始采集按钮和停止采集按钮的图片
@@ -723,7 +723,7 @@ namespace ModbusRTU_TP1608
         private void stopCollectButton_Click(object sender, EventArgs e)
         {
             //获得当前的设备配置
-            Device device = new DeviceManage().GetByName(currOpenDevice);
+            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice);
             //当停止采集的按钮是亮的，即，设备状态为：采集
             if (device.status == 2)
             {
@@ -744,7 +744,7 @@ namespace ModbusRTU_TP1608
                     }
                 }
                 //设置设备为打开状态（status字段变为1）
-                new DeviceManage().UpdateStatusByName(device.deviceName, 1);
+                new RTUDeviceManage().UpdateStatusByName(device.deviceName, 1);
                 //设置开始采集和停止采集按钮的图片
                 toolStripButton2.Image = Properties.Resources.start2;//亮
                 stopCollectButton.Image = Properties.Resources.stop1;//不亮

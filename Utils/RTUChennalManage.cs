@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace ModbusRTU_TP1608.Utils
 {
-    class ChennalManage : DbContext<Chennal>
+    class RTUChennalManage : DbContext<RTUChennal>
     {
         /// <summary>
-        /// 用构造方法创建数据库表
+        /// 创建数据库表
         /// </summary>
-        public ChennalManage()
+        public void CreateTable()
         {
-            Db.CodeFirst.InitTables(typeof(Chennal));
+            Db.CodeFirst.InitTables(typeof(RTUChennal));
         }
 
         /// <summary>
@@ -23,12 +23,12 @@ namespace ModbusRTU_TP1608.Utils
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Chennal GetById(int id)
+        public RTUChennal GetById(int id)
         {
             return CurrentDb.GetById(id);
         }
 
-        public Chennal GetByName(string chennalName)
+        public RTUChennal GetByName(string chennalName)
         {
             return CurrentDb.GetSingle(it => it.chennalName == chennalName);
         }
@@ -37,9 +37,9 @@ namespace ModbusRTU_TP1608.Utils
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public List<Chennal> GetByDeviceId(string deviceId)
+        public List<RTUChennal> GetByDeviceId(string deviceId)
         {
-            return Db.Queryable<Chennal>().Where(it => it.deviceID == deviceId).OrderBy(it => it.chennalID).ToList();
+            return Db.Queryable<RTUChennal>().Where(it => it.deviceID == deviceId).OrderBy(it => it.chennalID).ToList();
         }
 
         /// <summary>
@@ -48,12 +48,12 @@ namespace ModbusRTU_TP1608.Utils
         /// <param name="deviceId"></param>
         /// <param name="chennalName"></param>
         /// <returns></returns>
-        public Chennal GetByDeviceIdAndName(string deviceId, string chennalName)
+        public RTUChennal GetByDeviceIdAndName(string deviceId, string chennalName)
         {
             return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalName == chennalName);
         }
 
-        public Chennal GetByDeviceIdAndId(string deviceId, int id)
+        public RTUChennal GetByDeviceIdAndId(string deviceId, int id)
         {
             return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalID == id);
         }
@@ -64,7 +64,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public bool UpdateByDeviceIdAndChennalId(string deviceId, int chennalId, string chennalName, string stopWaring, string chennalLabel, string chennalUnit, int decimalPlaces, string chennalType, double adjustment, double lowerLimit, double upperLimit, double lLowerLimit, double uUpperLimit, double smallRange, double largeRange, string sensorId, string sensorType, string sensorName, string sensorTableName, string updateBy, DateTime updateTime)
         {
-            return CurrentDb.Update(it => new Chennal() { chennalName = chennalName, stopWaring = stopWaring, chennalLabel = chennalLabel, chennalUnit = chennalUnit, decimalPlaces = decimalPlaces, chennalType = chennalType, adjustment = adjustment, lowerLimit = lowerLimit, upperLimit = upperLimit, lLowerLimit = lLowerLimit, uUpperLimit = uUpperLimit, smallRange = smallRange, largeRange = largeRange, sensorID = sensorId, sensorType = sensorType, sensorName = sensorName, sensorTableName = sensorTableName, updateBy = updateBy, updateTime = updateTime }, it => it.deviceID == deviceId && it.chennalID == chennalId);
+            return CurrentDb.Update(it => new RTUChennal() { chennalName = chennalName, stopWaring = stopWaring, chennalLabel = chennalLabel, chennalUnit = chennalUnit, decimalPlaces = decimalPlaces, chennalType = chennalType, adjustment = adjustment, lowerLimit = lowerLimit, upperLimit = upperLimit, lLowerLimit = lLowerLimit, uUpperLimit = uUpperLimit, smallRange = smallRange, largeRange = largeRange, sensorID = sensorId, sensorType = sensorType, sensorName = sensorName, sensorTableName = sensorTableName, updateBy = updateBy, updateTime = updateTime }, it => it.deviceID == deviceId && it.chennalID == chennalId);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public bool UpdateSensorIdAndTableNameByDeviceIdAndChennalId(string deviceId, int chennalId, string sensorId, string tableName, string updateBy, DateTime updateTime)
         {
-            return CurrentDb.Update(it => new Chennal() { sensorID = sensorId, sensorTableName = tableName, updateBy = updateBy, updateTime = updateTime }, it => it.deviceID == deviceId && it.chennalID == chennalId);
+            return CurrentDb.Update(it => new RTUChennal() { sensorID = sensorId, sensorTableName = tableName, updateBy = updateBy, updateTime = updateTime }, it => it.deviceID == deviceId && it.chennalID == chennalId);
         }
 
         //根据设备ID删除通道配置
@@ -89,9 +89,9 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public int GetMaxId()
         {
-            List<Chennal> chennals = CurrentDb.GetList();
+            List<RTUChennal> chennals = CurrentDb.GetList();
             int maxId = 0;
-            foreach (Chennal chennal in chennals)
+            foreach (RTUChennal chennal in chennals)
             {
                 if (int.Parse(chennal.id) > maxId)
                 {

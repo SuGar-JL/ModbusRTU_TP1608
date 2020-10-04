@@ -17,7 +17,7 @@ namespace ModbusRTU_TP1608.Utils
     public class Collector
     {
         private IModbusMaster master;
-        private Dictionary<string, Device> devices = new Dictionary<string, Device>();
+        private Dictionary<string, RTUDevice> devices = new Dictionary<string, RTUDevice>();
         private Thread thread;
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace ModbusRTU_TP1608.Utils
         /// 新增设备时，添加地址到地址目录
         /// </summary>
         /// <param name="deviceAddress"></param>
-        public bool AddDevice(Device device)
+        public bool AddDevice(RTUDevice device)
         {
             //若设备目录不存在该设备地址，则可以添加
             if (!this.devices.ContainsKey(device.deviceAddress))
@@ -51,7 +51,7 @@ namespace ModbusRTU_TP1608.Utils
         /// 设备停止采集时，要删除设备集合里对应的设备
         /// </summary>
         /// <returns></returns>
-        public bool DelDevice(Device device)
+        public bool DelDevice(RTUDevice device)
         {
             //若地址列表存在地址，则可以删除
             if (this.devices.ContainsKey(device.deviceAddress))
@@ -75,7 +75,7 @@ namespace ModbusRTU_TP1608.Utils
         /// 获取设备集合
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, Device> GetDevices()
+        public Dictionary<string, RTUDevice> GetDevices()
         {
             return this.devices;
         }

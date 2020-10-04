@@ -15,7 +15,7 @@ namespace ModbusRTU_TP1608
 
     public partial class SetDeviceForm : Form
     {
-        public Device device;
+        public RTUDevice device;
         public SetDeviceForm()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace ModbusRTU_TP1608
         private void SetDeviceForm_Load(object sender, EventArgs e)
         {
             textBox1.Text = F_Main.currRightDownDevice;
-            device = new DeviceManage().GetByName(textBox1.Text.Trim());
+            device = new RTUDeviceManage().GetByName(textBox1.Text.Trim());
             textBox2.Text = device.id.ToString(); 
             //textBox3.Text = device.storeInterval.ToString("f1");//保留一位小数
             //textBox4.Text = device.collectInterval.ToString("f1");
@@ -68,7 +68,7 @@ namespace ModbusRTU_TP1608
                     string updateBy = "SuGar";
                     DateTime updateTime = DateTime.Now;
                     //更新设备以上字段
-                    new DeviceManage().UpdateConfigById(device.id.ToString(), deviceName, storeInterval, collectInterval, dropTimeDelay, port, baudRate, updateBy, updateTime);
+                    new RTUDeviceManage().UpdateConfigById(device.id.ToString(), deviceName, storeInterval, collectInterval, dropTimeDelay, port, baudRate, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
                     //DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
@@ -107,7 +107,7 @@ namespace ModbusRTU_TP1608
                 MessageBox.Show("掉线延时输入有误！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (!device.deviceName.Equals(textBox1.Text.Trim()) && new DeviceManage().GetByName(textBox1.Text.Trim()) != null)
+            if (!device.deviceName.Equals(textBox1.Text.Trim()) && new RTUDeviceManage().GetByName(textBox1.Text.Trim()) != null)
             {
                 MessageBox.Show("设备名称已被使用！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;

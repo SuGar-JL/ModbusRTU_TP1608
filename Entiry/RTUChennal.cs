@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ModbusRTU_TP1608.Entiry
 {
-    [SugarTable("Chennal")]//数据库表名称
-    public class Chennal : Base, IComparable<Chennal>
+    [SugarTable("RTUChennal")]//数据库表名称
+    public class RTUChennal : Base, IComparable<RTUChennal>
     {
-        public Chennal()
+        public RTUChennal()
         {
             this.id = System.Guid.NewGuid().ToString("N");
         }
@@ -79,7 +79,7 @@ namespace ModbusRTU_TP1608.Entiry
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public int CompareTo(Chennal other)
+        public int CompareTo(RTUChennal other)
         {
             return this.chennalID.CompareTo(other.chennalID);
         }

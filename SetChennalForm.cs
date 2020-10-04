@@ -15,7 +15,7 @@ namespace ModbusRTU_TP1608
 
     public partial class SetChennalForm : Form
     {
-        public Chennal chennal;
+        public RTUChennal chennal;
         public SetChennalForm()
         {
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace ModbusRTU_TP1608
         {
             //打开改窗口时加载显示的数据
             textBox_chennalName.Text = F_Main.currRightDownChennal;//通道名称
-            chennal = new ChennalManage().GetByName(textBox_chennalName.Text);
+            chennal = new RTUChennalManage().GetByName(textBox_chennalName.Text);
             textBox_chennalID.Text = chennal.chennalID.ToString();//通道ID
             comboBox_Waring.Text = chennal.stopWaring;//报警
             comboBox_label.Text = chennal.chennalLabel;//监测项
@@ -95,7 +95,7 @@ namespace ModbusRTU_TP1608
                     string updateBy = "管理员";
                     DateTime updateTime = DateTime.Now;
                     //更新通道以上字段
-                    new ChennalManage().UpdateByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, chennalName, stopWaring, chennalLabel, chennalUnit, decimalPlaces, chennalType, adjustment, lowerLimit, upperLimit, lLowerLimit, uUpperLimit, smallRange, largeRange, sensorId, sensorType, sensorName, sensorTableName, updateBy, updateTime);
+                    new RTUChennalManage().UpdateByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, chennalName, stopWaring, chennalLabel, chennalUnit, decimalPlaces, chennalType, adjustment, lowerLimit, upperLimit, lLowerLimit, uUpperLimit, smallRange, largeRange, sensorId, sensorType, sensorName, sensorTableName, updateBy, updateTime);
                     //更新设备配置树treeView1的相应节点（这方法相当于从数据库获取刷新一遍）
                     //DataCollectionForm.dataCollectionForm.treeView1_InitFromDB();
                     this.Close();
@@ -166,7 +166,7 @@ namespace ModbusRTU_TP1608
                 MessageBox.Show("上限值输入有误！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (!chennal.chennalName.Equals(chennalName) && new ChennalManage().GetByDeviceIdAndName(chennal.deviceID, chennalName) != null)
+            if (!chennal.chennalName.Equals(chennalName) && new RTUChennalManage().GetByDeviceIdAndName(chennal.deviceID, chennalName) != null)
             {
                 MessageBox.Show("通道名称已被使用！", "错误！", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;

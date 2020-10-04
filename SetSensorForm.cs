@@ -14,7 +14,7 @@ namespace ModbusRTU_TP1608
 {
     public partial class SetSensorForm : Form
     {
-        public Chennal chennal;
+        public RTUChennal chennal;
         public SetSensorForm()
         {
             InitializeComponent();
@@ -23,7 +23,7 @@ namespace ModbusRTU_TP1608
 
         private void SetSensorForm_Load(object sender, EventArgs e)
         {
-            chennal = new ChennalManage().GetByName(F_Main.currRightDownChennal);
+            chennal = new RTUChennalManage().GetByName(F_Main.currRightDownChennal);
             textBox_sensorUnit.Text = chennal.chennalUnit;
             if (chennal.sensorTableName != null && chennal.sensorID != null)
             {
@@ -97,7 +97,7 @@ namespace ModbusRTU_TP1608
                             //更新通道的传感器id和传感器数据库表名称
                             string updateBy = "通道更换传感器类型";
                             DateTime updateTime = DateTime.Now;
-                            new ChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.sensorId, tableName, updateBy, updateTime);
+                            new RTUChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.sensorId, tableName, updateBy, updateTime);
                             this.Close();
                         }
                     }
@@ -115,7 +115,7 @@ namespace ModbusRTU_TP1608
                     //更新通道的传感器id和传感器数据库表名称
                     string updateBy = "通道刚配置传感器";
                     DateTime updateTime = DateTime.Now;
-                    new ChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.sensorId, tableName, updateBy, updateTime);
+                    new RTUChennalManage().UpdateSensorIdAndTableNameByDeviceIdAndChennalId(chennal.deviceID, chennal.chennalID, sensor.sensorId, tableName, updateBy, updateTime);
                     this.Close();
                 }
                 

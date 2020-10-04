@@ -95,7 +95,7 @@ namespace ModbusRTU_TP1608
         /// <param name="e"></param>
         private void 添加设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            F_AddDevice f = new F_AddDevice();
+            F_AddDeviceRTU f = new F_AddDeviceRTU();
             f.ShowDialog();
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace ModbusRTU_TP1608
         /// <param name="e"></param>
         private void 添加设备ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            F_AddDevice addDevice = new F_AddDevice();
+            F_AddDeviceRTU addDevice = new F_AddDeviceRTU();
             addDevice.ShowDialog();
         }
         /// <summary>
@@ -528,14 +528,14 @@ namespace ModbusRTU_TP1608
             //获得当前的设备配置信息
             Device device = new DeviceManage().GetByName(currOpenDevice);
             //当开始采集的按钮是亮的，即，设备状态为：打开，且串口已经配置
-            if (device != null && device.status == 1 && CheckPort(device.port))
+            if (device != null && device.status == 1 && CheckPort(device.serialPort))
             {
-                SerialPort port = new SerialPort(device.port, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
+                SerialPort port = new SerialPort(device.serialPort, int.Parse(device.baudRate), Parity.None, 8, StopBits.One);
                 //若串口已经存在（其他采集中的设备在使用）
-                if (ports.ContainsKey(device.port))
+                if (ports.ContainsKey(device.serialPort))
                 {
                     //根据port名称将设备地址接入到相应的collector中
-                    if (collectors[ports[device.port]].AddDevice(device))
+                    if (collectors[ports[device.serialPort]].AddDevice(device))
                     {
                         MessageBox.Show("操作成功，设备开始采集！","提示！",MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -553,7 +553,7 @@ namespace ModbusRTU_TP1608
                     }
                     //将串口与collector保存下来
                     collectors.Add(port,collector);
-                    ports.Add(device.port, port);
+                    ports.Add(device.serialPort, port);
                     //打开串口
                     if (!port.IsOpen)
                     {
@@ -595,7 +595,7 @@ namespace ModbusRTU_TP1608
                     {
                         try
                         {
-                            strMsg = string.Format("线程：{0}==>状态：{1}==>端口：{2}==>地址：{3}==>时间：{4}\n", td.Name, state, devices[deviceAddress].port, deviceAddress, DateTime.Now);
+                            strMsg = string.Format("线程：{0}==>状态：{1}==>端口：{2}==>地址：{3}==>时间：{4}\n", td.Name, state, devices[deviceAddress].serialPort, deviceAddress, DateTime.Now);
                             Debug.debug.SetMsg(strMsg);
                             ushort[] registerBuffer = collector.GetMaster().ReadHoldingRegisters(byte.Parse(deviceAddress), 0, 16);
                             if (registerBuffer.Length == 0)
@@ -731,7 +731,7 @@ namespace ModbusRTU_TP1608
                 //1.找到设备用的串口号
                 foreach (SerialPort port in collectors.Keys)
                 {
-                    if (port.PortName.Equals(device.port))
+                    if (port.PortName.Equals(device.serialPort))
                     {
                         //2.删除
                         collectors[port].DelDevice(device);

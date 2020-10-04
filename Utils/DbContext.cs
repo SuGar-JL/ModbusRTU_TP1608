@@ -16,14 +16,14 @@ namespace ModbusRTU_TP1608.Utils
         {
             Db = new SqlSugarClient(new ConnectionConfig()
             {
-                //ConnectionString = "user id=root;password=root;database=sensordb;server=localhost;port=3306;charset=utf8",//本机服务器
-                ConnectionString = "user id=root;password=root;database=xboot;server=192.168.1.211;port=3306;charset=utf8",//实验室服务器
+                ConnectionString = "user id=root;password=root;database=sensordb;server=localhost;port=3306;charset=utf8",//本机服务器
+                //ConnectionString = "user id=root;password=root;database=xboot;server=192.168.1.211;port=3306;charset=utf8",//实验室服务器
                 DbType = DbType.MySql,
                 InitKeyType = InitKeyType.Attribute,//从特性读取主键和自增列信息，这是一个自定义特性，用于注释字段
                 IsAutoCloseConnection = true,//开启自动释放模式和EF原理一样
 
             });
-            //调式代码 用来打印SQL 
+            //调式代码 用来打印SQL，开发中可以删掉这个代码
             Db.Aop.OnLogExecuting = (sql, pars) =>
             {
                 Console.WriteLine("SqlSugar: ");
@@ -37,28 +37,6 @@ namespace ModbusRTU_TP1608.Utils
         public SqlSugarClient Db;//用来处理事务多表查询和复杂的操作
         public SimpleClient<T> CurrentDb { get { return new SimpleClient<T>(Db); } }//用来处理T表的常用操作
 
-        public virtual T GetById(int id)
-        {
-            return CurrentDb.GetById(id);
-        }
-        /// <summary>
-        /// 获取所有
-        /// </summary>
-        /// <returns></returns>
-        public virtual List<T> GetList()
-        {
-            return CurrentDb.GetList();
-        }
-
-        /// <summary>
-        /// 根据主键删除
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual bool Delete(dynamic id)
-        {
-            return CurrentDb.Delete(id);
-        }
         /// <summary>
         /// 插入
         /// </summary>
@@ -67,36 +45,6 @@ namespace ModbusRTU_TP1608.Utils
         public virtual bool Insert(T obj)
         {
             return CurrentDb.Insert(obj);
-        }
-
-        /// <summary>
-        /// 批量插入
-        /// </summary>
-        /// <param name="objs"></param>
-        /// <returns></returns>
-        public virtual bool InsertRange(T[] objs)
-        {
-            return CurrentDb.InsertRange(objs);
-        }
-
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual bool Update(T obj)
-        {
-            return CurrentDb.Update(obj);
-        }
-
-        /// <summary>
-        /// 批量更新
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual bool UpdateRange(T[] objs)
-        {
-            return CurrentDb.UpdateRange(objs);
         }
     }
 }

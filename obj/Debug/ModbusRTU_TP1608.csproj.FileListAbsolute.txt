@@ -223,7 +223,6 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CopyComple
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_AddDevice.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_DeviceManage.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\SunnyUI.Pluse.dll
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_Main.resources
@@ -307,7 +306,10 @@ D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.C
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.test.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ValueBox.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.ValueBox2.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_TitlePage.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form1.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.BtnAddDevice.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.MyTextBox.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_AddDeviceRTU.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_AddDeviceTCP.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_SelectProtocol.resources

@@ -31,20 +31,18 @@ namespace ModbusRTU_TP1608.Utils
         /// </summary>
         /// <param name="deviceName"></param>
         /// <returns></returns>
-        public TCPDevice GetByName(string deviceName)
+        public List<TCPDevice> GetByName(string deviceName)
         {
-            //return CurrentDb.GetSingle(it => it.deviceName == deviceName);
-            return Db.Queryable<TCPDevice>().Where(it => it.deviceName == deviceName).First();
+            return Db.Queryable<TCPDevice>().Where(it => it.deviceName == deviceName).ToList();
         }
         /// <summary>
         /// 通过设备地址查询
         /// </summary>
         /// <param name="deviceAddress"></param>
         /// <returns></returns>
-        public TCPDevice GetByAddress(string deviceAddress)
+        public List<TCPDevice> GetByAddress(string deviceAddress)
         {
-            //return CurrentDb.GetSingle(it => it.deviceAddress == deviceAddress);
-            return Db.Queryable<TCPDevice>().Where(it => it.deviceAddress == deviceAddress).First();
+            return Db.Queryable<TCPDevice>().Where(it => it.deviceAddress == deviceAddress).ToList();
         }
 
         public int GetPageIndexs()
@@ -87,10 +85,9 @@ namespace ModbusRTU_TP1608.Utils
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public TCPDevice UpdateById(TCPDevice device)
+        public int UpdateByEntity(TCPDevice device)
         {
-            //return CurrentDb.Update(it => device, it => it.deviceName == device.deviceName);//返回值为bool类型
-            return (TCPDevice)CurrentDb.AsUpdateable(device).Where(it => it.id == device.id);
+            return Db.Updateable(device).ExecuteCommand();
         }
 
         /// <summary>

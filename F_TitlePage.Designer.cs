@@ -89,6 +89,8 @@
             this.p_ChennalLine = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.uiLine6 = new Sunny.UI.UILine();
+            this.onDeelte = new System.Windows.Forms.PictureBox();
+            this.onEdit = new System.Windows.Forms.PictureBox();
             this.uiAvatar2 = new Sunny.UI.UIAvatar();
             this.uiAvatar1 = new Sunny.UI.UIAvatar();
             this.p_Chennal1.SuspendLayout();
@@ -108,6 +110,8 @@
             this.p_Chennal2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pB_ChennalInfo2)).BeginInit();
             this.p_ChennalLine.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.onDeelte)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.onEdit)).BeginInit();
             this.SuspendLayout();
             // 
             // tB_DeviceName
@@ -148,7 +152,7 @@
             this.tB_ChennalValue1.Name = "tB_ChennalValue1";
             this.tB_ChennalValue1.ReadOnly = true;
             this.tB_ChennalValue1.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue1.TabIndex = 18;
+            this.tB_ChennalValue1.TabIndex = 21;
             this.tB_ChennalValue1.Text = "2.000";
             // 
             // tB_ChennalName1
@@ -162,7 +166,7 @@
             this.tB_ChennalName1.Name = "tB_ChennalName1";
             this.tB_ChennalName1.ReadOnly = true;
             this.tB_ChennalName1.Size = new System.Drawing.Size(130, 16);
-            this.tB_ChennalName1.TabIndex = 17;
+            this.tB_ChennalName1.TabIndex = 11;
             this.tB_ChennalName1.Text = "数据采集-CH01";
             // 
             // tB_ChennalUnit1
@@ -174,7 +178,7 @@
             this.tB_ChennalUnit1.Name = "tB_ChennalUnit1";
             this.tB_ChennalUnit1.ReadOnly = true;
             this.tB_ChennalUnit1.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit1.TabIndex = 19;
+            this.tB_ChennalUnit1.TabIndex = 31;
             this.tB_ChennalUnit1.Text = "℃";
             // 
             // tB_ChennalTime1
@@ -187,7 +191,7 @@
             this.tB_ChennalTime1.Name = "tB_ChennalTime1";
             this.tB_ChennalTime1.ReadOnly = true;
             this.tB_ChennalTime1.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime1.TabIndex = 21;
+            this.tB_ChennalTime1.TabIndex = 41;
             this.tB_ChennalTime1.Text = "09-22 11:21:55.328";
             // 
             // p_Chennal1
@@ -250,7 +254,7 @@
             this.tB_ChennalTime6.Name = "tB_ChennalTime6";
             this.tB_ChennalTime6.ReadOnly = true;
             this.tB_ChennalTime6.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime6.TabIndex = 21;
+            this.tB_ChennalTime6.TabIndex = 46;
             this.tB_ChennalTime6.Text = "09-22 11:21:55.328";
             // 
             // tB_ChennalUnit6
@@ -262,7 +266,7 @@
             this.tB_ChennalUnit6.Name = "tB_ChennalUnit6";
             this.tB_ChennalUnit6.ReadOnly = true;
             this.tB_ChennalUnit6.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit6.TabIndex = 19;
+            this.tB_ChennalUnit6.TabIndex = 36;
             this.tB_ChennalUnit6.Text = "℃";
             // 
             // tB_ChennalName6
@@ -276,7 +280,7 @@
             this.tB_ChennalName6.Name = "tB_ChennalName6";
             this.tB_ChennalName6.ReadOnly = true;
             this.tB_ChennalName6.Size = new System.Drawing.Size(130, 16);
-            this.tB_ChennalName6.TabIndex = 17;
+            this.tB_ChennalName6.TabIndex = 16;
             this.tB_ChennalName6.Text = "数据采集-CH06";
             // 
             // uiLine1
@@ -302,7 +306,7 @@
             this.tB_ChennalValue6.Name = "tB_ChennalValue6";
             this.tB_ChennalValue6.ReadOnly = true;
             this.tB_ChennalValue6.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue6.TabIndex = 18;
+            this.tB_ChennalValue6.TabIndex = 26;
             this.tB_ChennalValue6.Text = "2.000";
             // 
             // p_Chennal5
@@ -340,7 +344,7 @@
             this.tB_ChennalTime5.Name = "tB_ChennalTime5";
             this.tB_ChennalTime5.ReadOnly = true;
             this.tB_ChennalTime5.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime5.TabIndex = 21;
+            this.tB_ChennalTime5.TabIndex = 45;
             this.tB_ChennalTime5.Text = "09-22 11:21:55.328";
             // 
             // tB_ChennalUnit5
@@ -352,7 +356,7 @@
             this.tB_ChennalUnit5.Name = "tB_ChennalUnit5";
             this.tB_ChennalUnit5.ReadOnly = true;
             this.tB_ChennalUnit5.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit5.TabIndex = 19;
+            this.tB_ChennalUnit5.TabIndex = 35;
             this.tB_ChennalUnit5.Text = "℃";
             // 
             // tB_ChennalName5
@@ -366,7 +370,7 @@
             this.tB_ChennalName5.Name = "tB_ChennalName5";
             this.tB_ChennalName5.ReadOnly = true;
             this.tB_ChennalName5.Size = new System.Drawing.Size(130, 16);
-            this.tB_ChennalName5.TabIndex = 17;
+            this.tB_ChennalName5.TabIndex = 15;
             this.tB_ChennalName5.Text = "数据采集-CH05";
             // 
             // uiLine3
@@ -392,7 +396,7 @@
             this.tB_ChennalValue5.Name = "tB_ChennalValue5";
             this.tB_ChennalValue5.ReadOnly = true;
             this.tB_ChennalValue5.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue5.TabIndex = 18;
+            this.tB_ChennalValue5.TabIndex = 25;
             this.tB_ChennalValue5.Text = "2.000";
             // 
             // p_Chennal7
@@ -430,7 +434,7 @@
             this.tB_ChennalTime7.Name = "tB_ChennalTime7";
             this.tB_ChennalTime7.ReadOnly = true;
             this.tB_ChennalTime7.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime7.TabIndex = 21;
+            this.tB_ChennalTime7.TabIndex = 47;
             this.tB_ChennalTime7.Text = "09-22 11:21:55.328";
             // 
             // tB_ChennalUnit7
@@ -442,7 +446,7 @@
             this.tB_ChennalUnit7.Name = "tB_ChennalUnit7";
             this.tB_ChennalUnit7.ReadOnly = true;
             this.tB_ChennalUnit7.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit7.TabIndex = 19;
+            this.tB_ChennalUnit7.TabIndex = 37;
             this.tB_ChennalUnit7.Text = "℃";
             // 
             // tB_ChennalName7
@@ -482,7 +486,7 @@
             this.tB_ChennalValue7.Name = "tB_ChennalValue7";
             this.tB_ChennalValue7.ReadOnly = true;
             this.tB_ChennalValue7.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue7.TabIndex = 18;
+            this.tB_ChennalValue7.TabIndex = 27;
             this.tB_ChennalValue7.Text = "2.000";
             // 
             // p_Chennal8
@@ -520,7 +524,7 @@
             this.tB_ChennalTime8.Name = "tB_ChennalTime8";
             this.tB_ChennalTime8.ReadOnly = true;
             this.tB_ChennalTime8.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime8.TabIndex = 21;
+            this.tB_ChennalTime8.TabIndex = 48;
             this.tB_ChennalTime8.Text = "09-22 11:21:55.328";
             // 
             // tB_ChennalUnit8
@@ -532,7 +536,7 @@
             this.tB_ChennalUnit8.Name = "tB_ChennalUnit8";
             this.tB_ChennalUnit8.ReadOnly = true;
             this.tB_ChennalUnit8.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit8.TabIndex = 19;
+            this.tB_ChennalUnit8.TabIndex = 38;
             this.tB_ChennalUnit8.Text = "℃";
             // 
             // tB_ChennalName8
@@ -546,7 +550,7 @@
             this.tB_ChennalName8.Name = "tB_ChennalName8";
             this.tB_ChennalName8.ReadOnly = true;
             this.tB_ChennalName8.Size = new System.Drawing.Size(130, 16);
-            this.tB_ChennalName8.TabIndex = 17;
+            this.tB_ChennalName8.TabIndex = 18;
             this.tB_ChennalName8.Text = "数据采集-CH08";
             // 
             // uiLine9
@@ -572,7 +576,7 @@
             this.tB_ChennalValue8.Name = "tB_ChennalValue8";
             this.tB_ChennalValue8.ReadOnly = true;
             this.tB_ChennalValue8.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue8.TabIndex = 18;
+            this.tB_ChennalValue8.TabIndex = 28;
             this.tB_ChennalValue8.Text = "2.000";
             // 
             // p_Chennal4
@@ -610,7 +614,7 @@
             this.tB_ChennalTime4.Name = "tB_ChennalTime4";
             this.tB_ChennalTime4.ReadOnly = true;
             this.tB_ChennalTime4.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime4.TabIndex = 21;
+            this.tB_ChennalTime4.TabIndex = 44;
             this.tB_ChennalTime4.Text = "09-22 11:21:55.328";
             // 
             // tB_ChennalUnit4
@@ -622,7 +626,7 @@
             this.tB_ChennalUnit4.Name = "tB_ChennalUnit4";
             this.tB_ChennalUnit4.ReadOnly = true;
             this.tB_ChennalUnit4.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit4.TabIndex = 19;
+            this.tB_ChennalUnit4.TabIndex = 34;
             this.tB_ChennalUnit4.Text = "℃";
             // 
             // tB_ChennalName4
@@ -636,7 +640,7 @@
             this.tB_ChennalName4.Name = "tB_ChennalName4";
             this.tB_ChennalName4.ReadOnly = true;
             this.tB_ChennalName4.Size = new System.Drawing.Size(130, 16);
-            this.tB_ChennalName4.TabIndex = 17;
+            this.tB_ChennalName4.TabIndex = 14;
             this.tB_ChennalName4.Text = "数据采集-CH04";
             // 
             // uiLine10
@@ -662,7 +666,7 @@
             this.tB_ChennalValue4.Name = "tB_ChennalValue4";
             this.tB_ChennalValue4.ReadOnly = true;
             this.tB_ChennalValue4.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue4.TabIndex = 18;
+            this.tB_ChennalValue4.TabIndex = 24;
             this.tB_ChennalValue4.Text = "2.000";
             // 
             // p_Chennal3
@@ -700,7 +704,7 @@
             this.tB_ChennalTime3.Name = "tB_ChennalTime3";
             this.tB_ChennalTime3.ReadOnly = true;
             this.tB_ChennalTime3.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime3.TabIndex = 21;
+            this.tB_ChennalTime3.TabIndex = 43;
             this.tB_ChennalTime3.Text = "09-22 11:21:55.328";
             // 
             // tB_ChennalUnit3
@@ -712,7 +716,7 @@
             this.tB_ChennalUnit3.Name = "tB_ChennalUnit3";
             this.tB_ChennalUnit3.ReadOnly = true;
             this.tB_ChennalUnit3.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit3.TabIndex = 19;
+            this.tB_ChennalUnit3.TabIndex = 33;
             this.tB_ChennalUnit3.Text = "℃";
             // 
             // tB_ChennalName3
@@ -726,7 +730,7 @@
             this.tB_ChennalName3.Name = "tB_ChennalName3";
             this.tB_ChennalName3.ReadOnly = true;
             this.tB_ChennalName3.Size = new System.Drawing.Size(130, 16);
-            this.tB_ChennalName3.TabIndex = 17;
+            this.tB_ChennalName3.TabIndex = 13;
             this.tB_ChennalName3.Text = "数据采集-CH03";
             // 
             // uiLine11
@@ -752,7 +756,7 @@
             this.tB_ChennalValue3.Name = "tB_ChennalValue3";
             this.tB_ChennalValue3.ReadOnly = true;
             this.tB_ChennalValue3.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue3.TabIndex = 18;
+            this.tB_ChennalValue3.TabIndex = 23;
             this.tB_ChennalValue3.Text = "2.000";
             // 
             // p_Chennal2
@@ -790,7 +794,7 @@
             this.tB_ChennalTime2.Name = "tB_ChennalTime2";
             this.tB_ChennalTime2.ReadOnly = true;
             this.tB_ChennalTime2.Size = new System.Drawing.Size(130, 14);
-            this.tB_ChennalTime2.TabIndex = 21;
+            this.tB_ChennalTime2.TabIndex = 42;
             this.tB_ChennalTime2.Text = "09-22 11:21:55.328";
             // 
             // tB_ChennalUnit2
@@ -802,7 +806,7 @@
             this.tB_ChennalUnit2.Name = "tB_ChennalUnit2";
             this.tB_ChennalUnit2.ReadOnly = true;
             this.tB_ChennalUnit2.Size = new System.Drawing.Size(130, 22);
-            this.tB_ChennalUnit2.TabIndex = 19;
+            this.tB_ChennalUnit2.TabIndex = 32;
             this.tB_ChennalUnit2.Text = "℃";
             // 
             // tB_ChennalName2
@@ -816,7 +820,7 @@
             this.tB_ChennalName2.Name = "tB_ChennalName2";
             this.tB_ChennalName2.ReadOnly = true;
             this.tB_ChennalName2.Size = new System.Drawing.Size(130, 16);
-            this.tB_ChennalName2.TabIndex = 17;
+            this.tB_ChennalName2.TabIndex = 12;
             this.tB_ChennalName2.Text = "数据采集-CH02";
             // 
             // uiLine12
@@ -842,7 +846,7 @@
             this.tB_ChennalValue2.Name = "tB_ChennalValue2";
             this.tB_ChennalValue2.ReadOnly = true;
             this.tB_ChennalValue2.Size = new System.Drawing.Size(130, 44);
-            this.tB_ChennalValue2.TabIndex = 18;
+            this.tB_ChennalValue2.TabIndex = 22;
             this.tB_ChennalValue2.Text = "2.000";
             // 
             // uiLine5
@@ -891,6 +895,30 @@
             this.uiLine6.Style = Sunny.UI.UIStyle.Custom;
             this.uiLine6.TabIndex = 27;
             // 
+            // onDeelte
+            // 
+            this.onDeelte.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.onDeelte.Image = global::ModbusRTU_TP1608.Properties.Resources.delete2;
+            this.onDeelte.Location = new System.Drawing.Point(898, 27);
+            this.onDeelte.Name = "onDeelte";
+            this.onDeelte.Size = new System.Drawing.Size(25, 25);
+            this.onDeelte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.onDeelte.TabIndex = 29;
+            this.onDeelte.TabStop = false;
+            this.onDeelte.Click += new System.EventHandler(this.onDeelte_Click);
+            // 
+            // onEdit
+            // 
+            this.onEdit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.onEdit.Image = global::ModbusRTU_TP1608.Properties.Resources.cofig7;
+            this.onEdit.Location = new System.Drawing.Point(858, 27);
+            this.onEdit.Name = "onEdit";
+            this.onEdit.Size = new System.Drawing.Size(25, 25);
+            this.onEdit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.onEdit.TabIndex = 28;
+            this.onEdit.TabStop = false;
+            this.onEdit.Click += new System.EventHandler(this.onEdit_Click);
+            // 
             // uiAvatar2
             // 
             this.uiAvatar2.AvatarSize = 30;
@@ -904,8 +932,9 @@
             this.uiAvatar2.Name = "uiAvatar2";
             this.uiAvatar2.Size = new System.Drawing.Size(30, 30);
             this.uiAvatar2.Style = Sunny.UI.UIStyle.Custom;
+            this.uiAvatar2.SymbolSize = 30;
             this.uiAvatar2.TabIndex = 6;
-            this.uiAvatar2.Text = "uiAvatar2";
+            this.uiAvatar2.Text = "stop";
             // 
             // uiAvatar1
             // 
@@ -920,8 +949,9 @@
             this.uiAvatar1.Name = "uiAvatar1";
             this.uiAvatar1.Size = new System.Drawing.Size(30, 30);
             this.uiAvatar1.Style = Sunny.UI.UIStyle.Custom;
+            this.uiAvatar1.SymbolSize = 30;
             this.uiAvatar1.TabIndex = 5;
-            this.uiAvatar1.Text = "uiAvatar1";
+            this.uiAvatar1.Text = "start";
             // 
             // F_TitlePage
             // 
@@ -929,6 +959,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
             this.ClientSize = new System.Drawing.Size(1000, 610);
+            this.Controls.Add(this.onDeelte);
+            this.Controls.Add(this.onEdit);
             this.Controls.Add(this.p_ChennalLine);
             this.Controls.Add(this.p_Chennal5);
             this.Controls.Add(this.p_Chennal7);
@@ -947,6 +979,7 @@
             this.Name = "F_TitlePage";
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "F_TitlePage";
+            this.Load += new System.EventHandler(this.F_TitlePage_Load);
             this.SizeChanged += new System.EventHandler(this.F_TitlePage_SizeChanged);
             this.p_Chennal1.ResumeLayout(false);
             this.p_Chennal1.PerformLayout();
@@ -974,6 +1007,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pB_ChennalInfo2)).EndInit();
             this.p_ChennalLine.ResumeLayout(false);
             this.p_ChennalLine.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.onDeelte)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.onEdit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1043,5 +1078,7 @@
         private Sunny.UI.UILine uiLine6;
         public System.Windows.Forms.TextBox tB_DeviceName;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.PictureBox onEdit;
+        private System.Windows.Forms.PictureBox onDeelte;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ModbusRTU_TP1608
 {
-    partial class F_AddDeviceTCP
+    partial class F_DeviceCofigTCP
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.devicePort = new Sunny.UI.UITextBox();
+            this.deviceHostName = new Sunny.UI.UITextBox();
             this.uiLabel9 = new Sunny.UI.UILabel();
             this.uiLabel8 = new Sunny.UI.UILabel();
             this.devicePosition = new Sunny.UI.UITextBox();
@@ -42,8 +44,6 @@
             this.deviceType = new Sunny.UI.UIComboBox();
             this.deviceAddress = new Sunny.UI.UITextBox();
             this.uiLabel1 = new Sunny.UI.UILabel();
-            this.deviceHostName = new Sunny.UI.UITextBox();
-            this.devicePort = new Sunny.UI.UITextBox();
             this.SuspendLayout();
             // 
             // pnlBtm
@@ -51,13 +51,45 @@
             this.pnlBtm.Location = new System.Drawing.Point(1, 387);
             this.pnlBtm.Size = new System.Drawing.Size(398, 55);
             // 
+            // devicePort
+            // 
+            this.devicePort.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.devicePort.FillColor = System.Drawing.Color.White;
+            this.devicePort.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.devicePort.Location = new System.Drawing.Point(127, 297);
+            this.devicePort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.devicePort.Maximum = 2147483647D;
+            this.devicePort.Minimum = -2147483648D;
+            this.devicePort.Name = "devicePort";
+            this.devicePort.Padding = new System.Windows.Forms.Padding(5);
+            this.devicePort.Radius = 8;
+            this.devicePort.Size = new System.Drawing.Size(225, 29);
+            this.devicePort.TabIndex = 67;
+            this.devicePort.Watermark = "";
+            // 
+            // deviceHostName
+            // 
+            this.deviceHostName.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.deviceHostName.FillColor = System.Drawing.Color.White;
+            this.deviceHostName.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.deviceHostName.Location = new System.Drawing.Point(127, 258);
+            this.deviceHostName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deviceHostName.Maximum = 2147483647D;
+            this.deviceHostName.Minimum = -2147483648D;
+            this.deviceHostName.Name = "deviceHostName";
+            this.deviceHostName.Padding = new System.Windows.Forms.Padding(5);
+            this.deviceHostName.Radius = 8;
+            this.deviceHostName.Size = new System.Drawing.Size(225, 29);
+            this.deviceHostName.TabIndex = 70;
+            this.deviceHostName.Watermark = "";
+            // 
             // uiLabel9
             // 
             this.uiLabel9.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.uiLabel9.Location = new System.Drawing.Point(25, 300);
             this.uiLabel9.Name = "uiLabel9";
             this.uiLabel9.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel9.TabIndex = 53;
+            this.uiLabel9.TabIndex = 69;
             this.uiLabel9.Text = "端口号：";
             this.uiLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -67,7 +99,7 @@
             this.uiLabel8.Location = new System.Drawing.Point(25, 261);
             this.uiLabel8.Name = "uiLabel8";
             this.uiLabel8.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel8.TabIndex = 51;
+            this.uiLabel8.TabIndex = 68;
             this.uiLabel8.Text = "主机名：";
             this.uiLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -84,7 +116,7 @@
             this.devicePosition.Padding = new System.Windows.Forms.Padding(5);
             this.devicePosition.Radius = 8;
             this.devicePosition.Size = new System.Drawing.Size(225, 29);
-            this.devicePosition.TabIndex = 49;
+            this.devicePosition.TabIndex = 66;
             this.devicePosition.Watermark = "";
             // 
             // uiLabel6
@@ -93,7 +125,7 @@
             this.uiLabel6.Location = new System.Drawing.Point(25, 339);
             this.uiLabel6.Name = "uiLabel6";
             this.uiLabel6.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel6.TabIndex = 48;
+            this.uiLabel6.TabIndex = 65;
             this.uiLabel6.Text = "部署位置：";
             this.uiLabel6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -103,7 +135,7 @@
             this.uiLabel5.Location = new System.Drawing.Point(25, 222);
             this.uiLabel5.Name = "uiLabel5";
             this.uiLabel5.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel5.TabIndex = 47;
+            this.uiLabel5.TabIndex = 64;
             this.uiLabel5.Text = "起始通道：";
             this.uiLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -119,7 +151,7 @@
             this.deviceStartChennal.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
             this.deviceStartChennal.Radius = 8;
             this.deviceStartChennal.Size = new System.Drawing.Size(225, 29);
-            this.deviceStartChennal.TabIndex = 46;
+            this.deviceStartChennal.TabIndex = 63;
             this.deviceStartChennal.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.deviceStartChennal.Watermark = "";
             // 
@@ -129,7 +161,7 @@
             this.uiLabel4.Location = new System.Drawing.Point(25, 183);
             this.uiLabel4.Name = "uiLabel4";
             this.uiLabel4.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel4.TabIndex = 45;
+            this.uiLabel4.TabIndex = 62;
             this.uiLabel4.Text = "通道数量：";
             this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -145,7 +177,7 @@
             this.deviceChennalNum.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
             this.deviceChennalNum.Radius = 8;
             this.deviceChennalNum.Size = new System.Drawing.Size(225, 29);
-            this.deviceChennalNum.TabIndex = 44;
+            this.deviceChennalNum.TabIndex = 61;
             this.deviceChennalNum.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.deviceChennalNum.Watermark = "";
             // 
@@ -155,7 +187,7 @@
             this.uiLabel3.Location = new System.Drawing.Point(25, 104);
             this.uiLabel3.Name = "uiLabel3";
             this.uiLabel3.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel3.TabIndex = 43;
+            this.uiLabel3.TabIndex = 60;
             this.uiLabel3.Text = "设备名称：";
             this.uiLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -172,7 +204,7 @@
             this.deviceName.Padding = new System.Windows.Forms.Padding(5);
             this.deviceName.Radius = 8;
             this.deviceName.Size = new System.Drawing.Size(225, 29);
-            this.deviceName.TabIndex = 42;
+            this.deviceName.TabIndex = 59;
             this.deviceName.Watermark = "";
             // 
             // uiLabel2
@@ -181,7 +213,7 @@
             this.uiLabel2.Location = new System.Drawing.Point(25, 63);
             this.uiLabel2.Name = "uiLabel2";
             this.uiLabel2.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel2.TabIndex = 41;
+            this.uiLabel2.TabIndex = 58;
             this.uiLabel2.Text = "设备类型：";
             this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -197,7 +229,7 @@
             this.deviceType.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
             this.deviceType.Radius = 8;
             this.deviceType.Size = new System.Drawing.Size(225, 29);
-            this.deviceType.TabIndex = 40;
+            this.deviceType.TabIndex = 57;
             this.deviceType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.deviceType.Watermark = "";
             // 
@@ -214,7 +246,7 @@
             this.deviceAddress.Padding = new System.Windows.Forms.Padding(5);
             this.deviceAddress.Radius = 8;
             this.deviceAddress.Size = new System.Drawing.Size(225, 29);
-            this.deviceAddress.TabIndex = 39;
+            this.deviceAddress.TabIndex = 56;
             this.deviceAddress.Watermark = "";
             // 
             // uiLabel1
@@ -223,43 +255,11 @@
             this.uiLabel1.Location = new System.Drawing.Point(25, 143);
             this.uiLabel1.Name = "uiLabel1";
             this.uiLabel1.Size = new System.Drawing.Size(100, 23);
-            this.uiLabel1.TabIndex = 38;
+            this.uiLabel1.TabIndex = 55;
             this.uiLabel1.Text = "设备地址：";
             this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // deviceHostName
-            // 
-            this.deviceHostName.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.deviceHostName.FillColor = System.Drawing.Color.White;
-            this.deviceHostName.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceHostName.Location = new System.Drawing.Point(127, 258);
-            this.deviceHostName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.deviceHostName.Maximum = 2147483647D;
-            this.deviceHostName.Minimum = -2147483648D;
-            this.deviceHostName.Name = "deviceHostName";
-            this.deviceHostName.Padding = new System.Windows.Forms.Padding(5);
-            this.deviceHostName.Radius = 8;
-            this.deviceHostName.Size = new System.Drawing.Size(225, 29);
-            this.deviceHostName.TabIndex = 54;
-            this.deviceHostName.Watermark = "";
-            // 
-            // devicePort
-            // 
-            this.devicePort.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.devicePort.FillColor = System.Drawing.Color.White;
-            this.devicePort.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.devicePort.Location = new System.Drawing.Point(127, 297);
-            this.devicePort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.devicePort.Maximum = 2147483647D;
-            this.devicePort.Minimum = -2147483648D;
-            this.devicePort.Name = "devicePort";
-            this.devicePort.Padding = new System.Windows.Forms.Padding(5);
-            this.devicePort.Radius = 8;
-            this.devicePort.Size = new System.Drawing.Size(225, 29);
-            this.devicePort.TabIndex = 50;
-            this.devicePort.Watermark = "";
-            // 
-            // F_AddDeviceTCP
+            // F_DeviceCofigTCP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -280,9 +280,8 @@
             this.Controls.Add(this.deviceType);
             this.Controls.Add(this.deviceAddress);
             this.Controls.Add(this.uiLabel1);
-            this.Name = "F_AddDeviceTCP";
-            this.Text = "新建设备";
-            this.Load += new System.EventHandler(this.F_AddDeviceTCP_Load);
+            this.Name = "F_DeviceCofigTCP";
+            this.Text = "F_DeviceCofigTCP";
             this.Controls.SetChildIndex(this.pnlBtm, 0);
             this.Controls.SetChildIndex(this.uiLabel1, 0);
             this.Controls.SetChildIndex(this.deviceAddress, 0);
@@ -305,6 +304,9 @@
         }
 
         #endregion
+
+        public Sunny.UI.UITextBox devicePort;
+        public Sunny.UI.UITextBox deviceHostName;
         private Sunny.UI.UILabel uiLabel9;
         private Sunny.UI.UILabel uiLabel8;
         public Sunny.UI.UITextBox devicePosition;
@@ -319,7 +321,5 @@
         public Sunny.UI.UIComboBox deviceType;
         public Sunny.UI.UITextBox deviceAddress;
         private Sunny.UI.UILabel uiLabel1;
-        public Sunny.UI.UITextBox deviceHostName;
-        public Sunny.UI.UITextBox devicePort;
     }
 }

@@ -419,7 +419,7 @@ namespace ModbusRTU_TP1608
         private void 打开设备ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currOpenDevice = currRightDownDevice;
-            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice);
+            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice)[0];
             //1.设备没有打开
             if (device.status == 0)
             {
@@ -488,7 +488,7 @@ namespace ModbusRTU_TP1608
                 //删除于设备相关联的一切
                 //1.删除传感器
                 //查询当前设备的id
-                RTUDevice device = new RTUDeviceManage().GetByName(currRightDownDevice);
+                RTUDevice device = new RTUDeviceManage().GetByName(currRightDownDevice)[0];
                 //查询设备的所有通道
                 List<RTUChennal> chennals = new RTUChennalManage().GetByDeviceId(device.id.ToString());
                 //删除每个通道绑定的传感器
@@ -526,7 +526,7 @@ namespace ModbusRTU_TP1608
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             //获得当前的设备配置信息
-            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice);
+            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice)[0];
             //当开始采集的按钮是亮的，即，设备状态为：打开，且串口已经配置
             if (device != null && device.status == 1 && CheckPort(device.serialPort))
             {
@@ -723,7 +723,7 @@ namespace ModbusRTU_TP1608
         private void stopCollectButton_Click(object sender, EventArgs e)
         {
             //获得当前的设备配置
-            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice);
+            RTUDevice device = new RTUDeviceManage().GetByName(currOpenDevice)[0];
             //当停止采集的按钮是亮的，即，设备状态为：采集
             if (device.status == 2)
             {

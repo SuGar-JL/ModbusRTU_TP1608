@@ -52,7 +52,13 @@ namespace ModbusRTU_TP1608.Utils
         {
             return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalName == chennalName);
         }
-
+        /// <summary>
+        /// 根据id批量删除
+        /// </summary>
+        public int DeleteByIds(string[] ids)
+        {
+            return Db.Deleteable<RTUChennal>().In(ids).ExecuteCommand();
+        }
         public RTUChennal GetByDeviceIdAndId(string deviceId, int id)
         {
             return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalID == id);

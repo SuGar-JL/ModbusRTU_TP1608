@@ -128,7 +128,10 @@ namespace ModbusRTU_TP1608
                     //创建数据库表（若没创建过）
                     this.CreateTable(this.sys.protocol);
                     //加载设备列表
+                    //清空左边栏
                     Aside.Nodes.Clear();
+                    //清空MainContainer的page，MainContainer实质为TabControl
+                    MainContainer.TabPages.Clear();
                     //增加首页到Main
                     MainContainer.AddPage(home);
                     Aside.CreateNode("首页", this.home.PageIndex);

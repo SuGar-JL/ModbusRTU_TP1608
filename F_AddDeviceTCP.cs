@@ -17,8 +17,6 @@ namespace ModbusRTU_TP1608
         public F_AddDeviceTCP()
         {
             InitializeComponent();
-            //设备类型默认选择第一个
-            this.deviceType.SelectedIndex = 0;
         }
         private void F_AddDeviceTCP_Load(object sender, EventArgs e)
         {
@@ -50,7 +48,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceNameRepeat(UITextBox deviceName, string desc)
         {
-            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()) == null;
+            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()).Count == 0;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -66,7 +64,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceAddressRepeat(UITextBox deviceAddress, string desc)
         {
-            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()) == null;
+            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count == 0;
             if (!result)
             {
                 this.ShowWarningDialog(desc);

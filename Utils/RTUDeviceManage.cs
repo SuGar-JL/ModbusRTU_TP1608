@@ -7,23 +7,23 @@ using System.Threading.Tasks;
 
 namespace ModbusRTU_TP1608.Utils
 {
-    class DeviceManage : DbContext<Device>
+    class RTUDeviceManage : DbContext<RTUDevice>
     {
         
         public void CreateTable()
         {
             //创建设备信息表
-            Db.CodeFirst.InitTables(typeof(Device));
+            Db.CodeFirst.InitTables(typeof(RTUDevice));
         }
         /// <summary>
         /// 通过设备ID查询
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Device GetById(string id)
+        public RTUDevice GetById(string id)
         {
             //return CurrentDb.GetSingle(it => it.id == id);
-            return Db.Queryable<Device>().Where(it => it.id == id).First();
+            return Db.Queryable<RTUDevice>().Where(it => it.id == id).First();
 
         }
         /// <summary>
@@ -31,25 +31,25 @@ namespace ModbusRTU_TP1608.Utils
         /// </summary>
         /// <param name="deviceName"></param>
         /// <returns></returns>
-        public Device GetByName(string deviceName)
+        public RTUDevice GetByName(string deviceName)
         {
             //return CurrentDb.GetSingle(it => it.deviceName == deviceName);
-            return Db.Queryable<Device>().Where(it => it.deviceName == deviceName).First();
+            return Db.Queryable<RTUDevice>().Where(it => it.deviceName == deviceName).First();
         }
         /// <summary>
         /// 通过设备地址查询
         /// </summary>
         /// <param name="deviceAddress"></param>
         /// <returns></returns>
-        public Device GetByAddress(string deviceAddress)
+        public RTUDevice GetByAddress(string deviceAddress)
         {
             //return CurrentDb.GetSingle(it => it.deviceAddress == deviceAddress);
-            return Db.Queryable<Device>().Where(it => it.deviceAddress == deviceAddress).First();
+            return Db.Queryable<RTUDevice>().Where(it => it.deviceAddress == deviceAddress).First();
         }
 
         public int GetPageIndexs()
         {
-            List<Device> devices = Db.Queryable<Device>().OrderBy(it => it.pageIndex).ToList();
+            List<RTUDevice> devices = Db.Queryable<RTUDevice>().OrderBy(it => it.pageIndex).ToList();
             //当没有设备时，用1作为pageIndex
             if (devices.Count == 0)
             {
@@ -78,19 +78,19 @@ namespace ModbusRTU_TP1608.Utils
             }
             return index;
         }
-        public List<Device> GetAllOrderById()
+        public List<RTUDevice> GetAllOrderByCreateTime()
         {
-            return Db.Queryable<Device>().OrderBy(it => it.createTime).ToList();
+            return Db.Queryable<RTUDevice>().OrderBy(it => it.createTime).ToList();
         }
         /// <summary>
         /// 根据设备ID更新设备配置
         /// </summary>
         /// <param name="device"></param>
         /// <returns></returns>
-        public Device UpdateById(Device device)
+        public RTUDevice UpdateById(RTUDevice device)
         {
             //return CurrentDb.Update(it => device, it => it.deviceName == device.deviceName);//返回值为bool类型
-            return (Device)CurrentDb.AsUpdateable(device).Where(it => it.id == device.id);
+            return (RTUDevice)CurrentDb.AsUpdateable(device).Where(it => it.id == device.id);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public bool UpdateConfigById(string deviceId, string deviceName, double storeInterval, double collectInterval, double dropTimeDelay, string port, string baudRate, string updateBy, DateTime updateTime)
         {
-            return CurrentDb.Update(it => new Device() { deviceName = deviceName, /*storeInterval = storeInterval, collectInterval = collectInterval, dropTimeDelay = dropTimeDelay,*/ serialPort = port, baudRate = baudRate, updateBy = updateBy, updateTime = updateTime}, it => it.id == deviceId);
+            return CurrentDb.Update(it => new RTUDevice() { deviceName = deviceName, /*storeInterval = storeInterval, collectInterval = collectInterval, dropTimeDelay = dropTimeDelay,*/ serialPort = port, baudRate = baudRate, updateBy = updateBy, updateTime = updateTime}, it => it.id == deviceId);
         }
         /// <summary>
         /// 根据设备id删除设备配置
@@ -114,7 +114,7 @@ namespace ModbusRTU_TP1608.Utils
 
         public bool UpdateStatusByName(string deviceName, int status)
         {
-            return CurrentDb.Update(it => new Device() { status = status, updateBy = "打开设备", updateTime = DateTime.Now }, it => it.deviceName == deviceName);
+            return CurrentDb.Update(it => new RTUDevice() { status = status, updateBy = "打开设备", updateTime = DateTime.Now }, it => it.deviceName == deviceName);
         }
         /// <summary>
         /// 关闭软件，将所有设备的状态设为0，即关闭状态
@@ -122,7 +122,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public bool CloseAllOpendingDivice()
         {
-            return CurrentDb.Update(it => new Device() { status = 0, updateBy = "关闭软件=>关闭设备", updateTime = DateTime.Now }, it => it.status != 0);
+            return CurrentDb.Update(it => new RTUDevice() { status = 0, updateBy = "关闭软件=>关闭设备", updateTime = DateTime.Now }, it => it.status != 0);
         }
 
         /// <summary>
@@ -131,9 +131,9 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public int GetMaxId()
         {
-            List<Device> devices = CurrentDb.GetList();
+            List<RTUDevice> devices = CurrentDb.GetList();
             int maxId = 0;
-            foreach (Device device in devices)
+            foreach (RTUDevice device in devices)
             {
                 if (int.Parse(device.id) > maxId)
                 {

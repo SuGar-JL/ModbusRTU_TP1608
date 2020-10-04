@@ -43,7 +43,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceNameRepeat(UITextBox deviceName, string desc)
         {
-            bool result = new DeviceManage().GetByName(deviceName.Text.Trim()) == null;
+            bool result = new RTUDeviceManage().GetByName(deviceName.Text.Trim()) == null;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -59,7 +59,7 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceAddressRepeat(UITextBox deviceAddress, string desc)
         {
-            bool result = new DeviceManage().GetByAddress(deviceAddress.Text.Trim()) == null;
+            bool result = new RTUDeviceManage().GetByAddress(deviceAddress.Text.Trim()) == null;
             if (!result)
             {
                 this.ShowWarningDialog(desc);

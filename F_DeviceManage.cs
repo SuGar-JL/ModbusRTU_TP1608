@@ -38,15 +38,15 @@ namespace ModbusRTU_TP1608
         public void tV_advice_InitFromDB()
         {
             tV_advice.Nodes.Clear();
-            DeviceManage deviceManage = new DeviceManage();
-            ChennalManage chennalManage = new ChennalManage();
-            List<Device> devices = deviceManage.GetAllOrderById();
-            foreach (Device device in devices)
+            RTUDeviceManage deviceManage = new RTUDeviceManage();
+            RTUChennalManage chennalManage = new RTUChennalManage();
+            List<RTUDevice> devices = deviceManage.GetAllOrderByCreateTime();
+            foreach (RTUDevice device in devices)
             {
                 TreeNode root = new TreeNode();
                 root.Text = device.deviceName;
-                List<Chennal> chennals = chennalManage.GetByDeviceId(device.id.ToString());
-                foreach (Chennal chennal in chennals)
+                List<RTUChennal> chennals = chennalManage.GetByDeviceId(device.id.ToString());
+                foreach (RTUChennal chennal in chennals)
                 {
                     TreeNode chennalNode = new TreeNode();
                     chennalNode.Text = chennal.chennalName;
@@ -103,8 +103,8 @@ namespace ModbusRTU_TP1608
         {
             //设置设备为打开状态（isOpen字段变为1）
             //一旦打开，不可关闭，除非关闭软件或删除设备
-            new DeviceManage().UpdateStatusByName(deviceName, 1);
-            var device = new DeviceManage().GetByName(deviceName);
+            new RTUDeviceManage().UpdateStatusByName(deviceName, 1);
+            var device = new RTUDeviceManage().GetByName(deviceName);
             //设置开始采集按钮的图标为可用状态
         }
 
@@ -116,9 +116,9 @@ namespace ModbusRTU_TP1608
                 //删除于设备相关联的一切
                 //1.删除传感器
                 //查询当前设备的id
-                var device = new DeviceManage().GetByName(deviceName);
+                var device = new RTUDeviceManage().GetByName(deviceName);
                 //查询设备的所有通道
-                List<Chennal> chennals = new ChennalManage().GetByDeviceId(device.id.ToString());
+                List<RTUChennal> chennals = new RTUChennalManage().GetByDeviceId(device.id.ToString());
                 //删除每个通道绑定的传感器
                 foreach (var chennal in chennals)
                 {
@@ -128,9 +128,9 @@ namespace ModbusRTU_TP1608
                     }
                 }
                 //删除通道
-                new ChennalManage().DeleteByDeviceId(device.id.ToString());
+                new RTUChennalManage().DeleteByDeviceId(device.id.ToString());
                 //删除设备
-                new DeviceManage().DeleteById(device.id.ToString());
+                new RTUDeviceManage().DeleteById(device.id.ToString());
                 F_DeviceManage.f_DeviceManage.tV_advice_InitFromDB();
             }
         }

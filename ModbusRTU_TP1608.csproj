@@ -170,8 +170,10 @@
       <DependentUpon>BtnAddDevice.cs</DependentUpon>
     </Compile>
     <Compile Include="Entiry\Sys.cs" />
+    <Compile Include="Entiry\TCPChennal.cs" />
+    <Compile Include="Entiry\TCPDevice.cs" />
     <Compile Include="Form1.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -213,8 +215,8 @@
       <DependentUpon>F_DeviceManage.cs</DependentUpon>
     </Compile>
     <Compile Include="Entiry\Base.cs" />
-    <Compile Include="Entiry\Chennal.cs" />
-    <Compile Include="Entiry\Device.cs" />
+    <Compile Include="Entiry\RTUChennal.cs" />
+    <Compile Include="Entiry\RTUDevice.cs" />
     <Compile Include="Entiry\Sensor.cs" />
     <Compile Include="Entiry\SensorType.cs" />
     <Compile Include="F_SelectProtocol.cs">
@@ -270,19 +272,21 @@
     <Compile Include="test.Designer.cs">
       <DependentUpon>test.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils\ChennalManage.cs" />
+    <Compile Include="Utils\RTUChennalManage.cs" />
     <Compile Include="Utils\Collector.cs" />
     <Compile Include="Utils\DataTypeConvert.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DbContext.cs" />
     <Compile Include="Utils\DbContext_Sqlite.cs" />
-    <Compile Include="Utils\DeviceManage.cs" />
+    <Compile Include="Utils\RTUDeviceManage.cs" />
     <Compile Include="Utils\MySQLUtil.cs" />
     <Compile Include="Utils\SensorManage.cs" />
     <Compile Include="Utils\SensorTypeManage.cs" />
     <Compile Include="Utils\SysManage.cs" />
     <Compile Include="Utils\TableNameUtil.cs" />
+    <Compile Include="Utils\TCPChennalManage.cs" />
+    <Compile Include="Utils\TCPDeviceManage.cs" />
     <EmbeddedResource Include="BtnAddDevice.resx">
       <DependentUpon>BtnAddDevice.cs</DependentUpon>
     </EmbeddedResource>

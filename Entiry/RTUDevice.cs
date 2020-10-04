@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ModbusRTU_TP1608.Entiry
 {
-    [SugarTable("Device", TableDescription = "设备信息表")]//数据库表名称
-    public class Device : Base, IComparable<Device>
+    [SugarTable("RTUDevice", TableDescription = "RTU设备信息表")]//数据库表名称
+    public class RTUDevice : Base, IComparable<RTUDevice>
     {
-        public Device()
+        public RTUDevice()
         {
             this.id = System.Guid.NewGuid().ToString("N");
         }
@@ -51,12 +51,6 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "baud_rate", IsNullable = true, ColumnDescription = "波特率")]
         public string baudRate { get; set; }
 
-        [SugarColumn(ColumnName = "port", IsNullable = true, ColumnDescription = "tcp端口")]
-        public string port { get; set; }
-
-        [SugarColumn(ColumnName = "host_name", IsNullable = true, ColumnDescription = "主机名")]
-        public string hostName { get; set; }
-
         [SugarColumn(ColumnName = "position", IsNullable = false, ColumnDescription = "设备安装位置")]
         public string position { get; set; }
 
@@ -68,7 +62,7 @@ namespace ModbusRTU_TP1608.Entiry
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public int CompareTo(Device other)
+        public int CompareTo(RTUDevice other)
         {
             return DateTime.Compare((DateTime)this.createTime , (DateTime)other.createTime);
         }

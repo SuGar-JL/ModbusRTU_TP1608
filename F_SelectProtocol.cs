@@ -39,5 +39,14 @@ namespace ModbusRTU_TP1608
                 this.TCP.Checked = true;
             }
         }
+        protected override bool CheckData()
+        {
+            if (this.RTU.Checked == false && this.TCP.Checked == false)
+            {
+                this.ShowWarningDialog("需选择一个通信协议才能使用系统");
+                return false;
+            }
+            return true;
+        }
     }
 }

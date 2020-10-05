@@ -92,10 +92,7 @@ namespace ModbusRTU_TP1608
             setControls(scaleX, scaleY, this);
         }
         #endregion
-
-        /// <summary>
-        /// 用双缓冲绘制窗口的所有子控件
-        /// </summary>
+        #region 用双缓冲绘制窗口的所有子控件
         protected override CreateParams CreateParams
         {
             get
@@ -105,13 +102,13 @@ namespace ModbusRTU_TP1608
                 return cp;
             }
         }
+        #endregion
         #region 窗体加载
         private void F_TitlePage_Load(object sender, EventArgs e)
         {
 
         }
         #endregion
-
         #region 设置通道数据显示页面的通道名称
         public void SetChennalName(int index, string chennalName)
         {
@@ -299,10 +296,9 @@ namespace ModbusRTU_TP1608
                                 new RTUChennalManage().Insert(chennal);
                             }
                         }
-
                     }
-                    Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, device.chennalNum, device.startChennal, f);
-
+                    Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, f);
+                    this.ShowSuccessTip("修改已保存");
                 }
             }
             else if (sys.protocol == (int)Common.Protocol.TCP)
@@ -442,18 +438,69 @@ namespace ModbusRTU_TP1608
                         }
 
                     }
-                    Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, device.chennalNum, device.startChennal, f);
+                    Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, f);
+                    this.ShowSuccessTip("修改已保存");
                 }
             }
-
         }
         #endregion
         #region 删除设备
-        private void onDeelte_Click(object sender, EventArgs e)
+        private void onDelete_Click(object sender, EventArgs e)
         {
-
+            Sys sys = new SysManage().GetSysInfo()[0];
+            if (sys.protocol == (int)Common.Protocol.RTU)
+            {
+                //1.设备正在采集时是不能删除的
+                var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                if (device.status == (int)Common.DeviceStatus.START)
+                {
+                    this.ShowWarningDialog("设备正在采集数据，不能删除！");
+                    return;
+                }
+                //其它状态时可删除，得询问
+                bool OK = this.ShowAskDialog("确定要删除该设备吗？\r\n警告：将会删除已采集的数据！");
+                if (OK)
+                {
+                    //点击确认按钮
+                    new RTUChennalManage().DeleteByDeviceId(device.id);//是批量吗？
+                    new RTUDeviceManage().DeleteById(device.id);
+                    Form1.Instance.DeleteAsideNode((int)device.pageIndex);
+                    this.ShowSuccessTip("删除设备成功");
+                }
+                else
+                {
+                    //点击取消按钮
+                    this.ShowSuccessTip("取消删除");
+                }
+            }
+            else if (sys.protocol == (int)Common.Protocol.TCP)
+            {
+                //1.设备正在采集时是不能删除的
+                var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                if (device.status == (int)Common.DeviceStatus.START)
+                {
+                    this.ShowWarningDialog("设备正在采集数据，不能删除！");
+                    return;
+                }
+                //其它状态时可删除，得询问
+                bool OK = this.ShowAskDialog("确定要删除该设备吗？\r\n警告：将会删除已采集的数据！");
+                if (OK)
+                {
+                    //点击确认按钮
+                    new TCPChennalManage().DeleteByDeviceId(device.id);//是批量吗？
+                    new TCPDeviceManage().DeleteById(device.id);
+                    Form1.Instance.DeleteAsideNode((int)device.pageIndex);
+                    this.ShowSuccessTip("删除设备成功");
+                }
+                else
+                {
+                    //点击取消按钮
+                    this.ShowSuccessTip("取消删除");
+                }
+            }
         }
         #endregion
+
 
     }
 }

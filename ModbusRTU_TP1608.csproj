@@ -163,13 +163,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BtnAddDevice.cs">
+    <Compile Include="F_ChennalInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_ChennalInfo.Designer.cs">
+      <DependentUpon>F_ChennalInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UCBtnAddDevice.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BtnAddDevice.Designer.cs">
-      <DependentUpon>BtnAddDevice.cs</DependentUpon>
+    <Compile Include="UCBtnAddDevice.Designer.cs">
+      <DependentUpon>UCBtnAddDevice.cs</DependentUpon>
     </Compile>
-    <Compile Include="Common.cs" />
+    <Compile Include="Utils\Common.cs" />
     <Compile Include="Entiry\Sys.cs" />
     <Compile Include="Entiry\TCPChennal.cs" />
     <Compile Include="Entiry\TCPDevice.cs" />
@@ -184,12 +190,6 @@
     </Compile>
     <Compile Include="F_AddDeviceRTU.Designer.cs">
       <DependentUpon>F_AddDeviceRTU.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AddSensorTypeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AddSensorTypeForm.Designer.cs">
-      <DependentUpon>AddSensorTypeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="F_AddDeviceTCP.cs">
       <SubType>Form</SubType>
@@ -215,9 +215,7 @@
     <Compile Include="F_Home.Designer.cs">
       <DependentUpon>F_Home.cs</DependentUpon>
     </Compile>
-    <Compile Include="F_Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="F_Main.cs" />
     <Compile Include="F_Main.Designer.cs">
       <DependentUpon>F_Main.cs</DependentUpon>
     </Compile>
@@ -226,12 +224,6 @@
     </Compile>
     <Compile Include="Debug.Designer.cs">
       <DependentUpon>Debug.cs</DependentUpon>
-    </Compile>
-    <Compile Include="F_DeviceManage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="F_DeviceManage.Designer.cs">
-      <DependentUpon>F_DeviceManage.cs</DependentUpon>
     </Compile>
     <Compile Include="Entiry\Base.cs" />
     <Compile Include="Entiry\RTUChennal.cs" />
@@ -250,46 +242,16 @@
     <Compile Include="F_TitlePage.Designer.cs">
       <DependentUpon>F_TitlePage.cs</DependentUpon>
     </Compile>
-    <Compile Include="F_Verify.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UCChennal.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="F_Verify.Designer.cs">
-      <DependentUpon>F_Verify.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="MyTextBox.Designer.cs">
-      <DependentUpon>MyTextBox.cs</DependentUpon>
+    <Compile Include="UCChennal.Designer.cs">
+      <DependentUpon>UCChennal.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="SetChennalForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetChennalForm.Designer.cs">
-      <DependentUpon>SetChennalForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetDeviceForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetDeviceForm.Designer.cs">
-      <DependentUpon>SetDeviceForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SetSensorForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetSensorForm.Designer.cs">
-      <DependentUpon>SetSensorForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ShowDataForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ShowDataForm.Designer.cs">
-      <DependentUpon>ShowDataForm.cs</DependentUpon>
     </Compile>
     <Compile Include="test.cs">
       <SubType>Form</SubType>
@@ -312,17 +274,17 @@
     <Compile Include="Utils\TableNameUtil.cs" />
     <Compile Include="Utils\TCPChennalManage.cs" />
     <Compile Include="Utils\TCPDeviceManage.cs" />
-    <EmbeddedResource Include="BtnAddDevice.resx">
-      <DependentUpon>BtnAddDevice.cs</DependentUpon>
+    <EmbeddedResource Include="F_ChennalInfo.resx">
+      <DependentUpon>F_ChennalInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCBtnAddDevice.resx">
+      <DependentUpon>UCBtnAddDevice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_AddDeviceRTU.resx">
       <DependentUpon>F_AddDeviceRTU.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AddSensorTypeForm.resx">
-      <DependentUpon>AddSensorTypeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_AddDeviceTCP.resx">
       <DependentUpon>F_AddDeviceTCP.cs</DependentUpon>
@@ -342,37 +304,19 @@
     <EmbeddedResource Include="Debug.resx">
       <DependentUpon>Debug.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="F_DeviceManage.resx">
-      <DependentUpon>F_DeviceManage.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="F_SelectProtocol.resx">
       <DependentUpon>F_SelectProtocol.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_TitlePage.resx">
       <DependentUpon>F_TitlePage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="F_Verify.resx">
-      <DependentUpon>F_Verify.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyTextBox.resx">
-      <DependentUpon>MyTextBox.cs</DependentUpon>
+    <EmbeddedResource Include="UCChennal.resx">
+      <DependentUpon>UCChennal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetChennalForm.resx">
-      <DependentUpon>SetChennalForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetDeviceForm.resx">
-      <DependentUpon>SetDeviceForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SetSensorForm.resx">
-      <DependentUpon>SetSensorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ShowDataForm.resx">
-      <DependentUpon>ShowDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="test.resx">
       <DependentUpon>test.cs</DependentUpon>
@@ -422,9 +366,6 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="static\info.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="static\设备.png" />
   </ItemGroup>
   <ItemGroup>
@@ -441,6 +382,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="static\delete2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\info2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\info1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\info3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\info4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\update1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="static\delete1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.2.0.3\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.3\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />

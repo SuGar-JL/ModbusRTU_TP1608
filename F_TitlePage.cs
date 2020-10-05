@@ -1,5 +1,6 @@
 ﻿using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
+using ModbusTCP_TP1608.Entiry;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.TextFormatting;
 
 namespace ModbusRTU_TP1608
 {
@@ -115,28 +117,28 @@ namespace ModbusRTU_TP1608
             switch (index)
             {
                 case 1:
-                    this.tB_ChennalName1.Text = chennalName;
+                    this.ucChennal1.uiChennalName.Text = chennalName;
                     break;
                 case 2:
-                    this.tB_ChennalName2.Text = chennalName;
+                    this.ucChennal2.uiChennalName.Text = chennalName;
                     break;
                 case 3:
-                    this.tB_ChennalName3.Text = chennalName;
+                    this.ucChennal3.uiChennalName.Text = chennalName;
                     break;
                 case 4:
-                    this.tB_ChennalName4.Text = chennalName;
+                    this.ucChennal4.uiChennalName.Text = chennalName;
                     break;
                 case 5:
-                    this.tB_ChennalName5.Text = chennalName;
+                    this.ucChennal5.uiChennalName.Text = chennalName;
                     break;
                 case 6:
-                    this.tB_ChennalName6.Text = chennalName;
+                    this.ucChennal6.uiChennalName.Text = chennalName;
                     break;
                 case 7:
-                    this.tB_ChennalName7.Text = chennalName;
+                    this.ucChennal7.uiChennalName.Text = chennalName;
                     break;
                 case 8:
-                    this.tB_ChennalName8.Text = chennalName;
+                    this.ucChennal8.uiChennalName.Text = chennalName;
                     break;
             }
         }
@@ -155,6 +157,7 @@ namespace ModbusRTU_TP1608
                 var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
                 //打开配置对话框
                 var f_DeviceCofigRTU = new F_DeviceCofigRTU();
+                f_DeviceCofigRTU.device = device;
                 f_DeviceCofigRTU.deviceType.Items.AddRange(Common.DeviceType.ToArray());
                 f_DeviceCofigRTU.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
                 f_DeviceCofigRTU.deviceName.Text = device.deviceName;
@@ -174,8 +177,8 @@ namespace ModbusRTU_TP1608
                 {
                     f_DeviceCofigRTU.deviceSerialPort.Text = device.serialPort;
                 }
-                f_DeviceCofigRTU.deviceBaudRate.Items.AddRange(Common.DeviceBaudRate.ToArray());
-                f_DeviceCofigRTU.deviceBaudRate.SelectedIndex = Common.DeviceBaudRate.IndexOf(device.baudRate);
+                f_DeviceCofigRTU.deviceBaudRate.Items.AddRange(Common.BaudRate.ToArray());
+                f_DeviceCofigRTU.deviceBaudRate.SelectedIndex = Common.BaudRate.IndexOf(device.baudRate);
                 f_DeviceCofigRTU.devicePosition.Text = device.position;
                 f_DeviceCofigRTU.ShowDialog();
                 if (f_DeviceCofigRTU.IsOK)
@@ -198,7 +201,7 @@ namespace ModbusRTU_TP1608
                     //将device存入数据库
                     new RTUDeviceManage().UpdateByEntity(device);
                     //设置本页面的标题与设备名称一致
-                    this.Text = device.deviceName;
+                    this.tB_DeviceName.Text = device.deviceName;
                     //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
                     if (f)
                     {
@@ -306,6 +309,7 @@ namespace ModbusRTU_TP1608
                 var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
                 //打开配置对话框
                 var f_DeviceCofigTCP = new F_DeviceCofigTCP();
+                f_DeviceCofigTCP.device = device;
                 f_DeviceCofigTCP.deviceType.Items.AddRange(Common.DeviceType.ToArray());
                 f_DeviceCofigTCP.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
                 f_DeviceCofigTCP.deviceName.Text = device.deviceName;
@@ -338,7 +342,7 @@ namespace ModbusRTU_TP1608
                     //将device存入数据库
                     new TCPDeviceManage().UpdateByEntity(device);
                     //设置本页面的标题与设备名称一致
-                    this.Text = device.deviceName;
+                    this.tB_DeviceName.Text = device.deviceName;
                     //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
                     if (f)
                     {
@@ -499,8 +503,71 @@ namespace ModbusRTU_TP1608
                 }
             }
         }
+
         #endregion
 
+        //点击ucChennal(通道)的圈i
+        //做到了代码的封闭性（多个控件使用一个点击事件）
+        private void ucChennal_ShowInfo_Click(object sender, EventArgs e)
+        {
+            //通过点击事件可以获得ucChennal上子控件的信息
+            UCChennal ucChennal = (UCChennal)sender;
+            Sys sys = new SysManage().GetSysInfo()[0];
+            if (sys.protocol == (int)Common.Protocol.RTU)
+            {
+                var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                var chennal = new RTUChennalManage().GetByDeviceIdAndName(device.id, ucChennal.uiChennalName.Text.Trim());
+                var f_ChennalInfo = new F_ChennalInfo();
+                f_ChennalInfo.chennalName.Text = chennal.chennalName;
+                f_ChennalInfo.chennalID.Text = chennal.chennalID.ToString();
+                f_ChennalInfo.chennalLabel.Text = chennal.chennalLabel;
+                f_ChennalInfo.chennalUnit.Text = chennal.chennalUnit;
+                f_ChennalInfo.chennalType.Text = chennal.chennalType;
+                f_ChennalInfo.chennalDecimalPlaces.Text = chennal.decimalPlaces.ToString();
+                f_ChennalInfo.chennalSensorType.Text = chennal.sensorType;
+                f_ChennalInfo.chennalSensorName.Text = chennal.sensorName;
+                f_ChennalInfo.chennalSensorRangeL.Text = chennal.RangeL.ToString();
+                f_ChennalInfo.chennalSensorRangeH.Text = chennal.RangeH.ToString();
+                f_ChennalInfo.chennalWarning1L.Text = chennal.Warning1L.ToString();
+                f_ChennalInfo.chennalWarning1H.Text = chennal.Warning1H.ToString();
+                f_ChennalInfo.chennalWarning2L.Text = chennal.Warning2L.ToString();
+                f_ChennalInfo.chennalWarning2H.Text = chennal.Warning2H.ToString();
+                f_ChennalInfo.chennalWarning3L.Text = chennal.Warning3L.ToString();
+                f_ChennalInfo.chennalWarning3H.Text = chennal.Warning3H.ToString();
+                f_ChennalInfo.ShowDialog();
+                if (f_ChennalInfo.IsOK)
+                {
 
+                }
+            }
+            else if (sys.protocol == (int)Common.Protocol.TCP)
+            {
+                var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                var chennal = new TCPChennalManage().GetByDeviceIdAndName(device.id, ucChennal.uiChennalName.Text.Trim());
+                var f_ChennalInfo = new F_ChennalInfo();
+                f_ChennalInfo.chennalName.Text = chennal.chennalName;
+                f_ChennalInfo.chennalID.Text = chennal.chennalID.ToString();
+                f_ChennalInfo.chennalLabel.Text = chennal.chennalLabel;
+                f_ChennalInfo.chennalUnit.Text = chennal.chennalUnit;
+                f_ChennalInfo.chennalType.Text = chennal.chennalType;
+                f_ChennalInfo.chennalDecimalPlaces.Text = chennal.decimalPlaces.ToString();
+                f_ChennalInfo.chennalSensorType.Text = chennal.sensorType;
+                f_ChennalInfo.chennalSensorName.Text = chennal.sensorName;
+                f_ChennalInfo.chennalSensorRangeL.Text = chennal.RangeL.ToString();
+                f_ChennalInfo.chennalSensorRangeH.Text = chennal.RangeH.ToString();
+                f_ChennalInfo.chennalWarning1L.Text = chennal.Warning1L.ToString();
+                f_ChennalInfo.chennalWarning1H.Text = chennal.Warning1H.ToString();
+                f_ChennalInfo.chennalWarning2L.Text = chennal.Warning2L.ToString();
+                f_ChennalInfo.chennalWarning2H.Text = chennal.Warning2H.ToString();
+                f_ChennalInfo.chennalWarning3L.Text = chennal.Warning3L.ToString();
+                f_ChennalInfo.chennalWarning3H.Text = chennal.Warning3H.ToString();
+                f_ChennalInfo.ShowDialog();
+                if (f_ChennalInfo.IsOK)
+                {
+
+                }
+            }
+
+        }
     }
 }

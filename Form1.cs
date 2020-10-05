@@ -1,5 +1,6 @@
 ﻿using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
+using ModbusTCP_TP1608.Entiry;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace ModbusRTU_TP1608
             //增加首页到Main
             this.home.PageIndex = 1111;
             MainContainer.AddPage(home);
-            Aside.CreateNode("首页", 1111);
+            Aside.CreateNode("首页", 57460, 27, this.home.PageIndex);
 
             //显示默认界面(第一个)
             Aside.SelectFirst();
@@ -134,7 +135,7 @@ namespace ModbusRTU_TP1608
                     MainContainer.TabPages.Clear();
                     //增加首页到Main
                     MainContainer.AddPage(home);
-                    Aside.CreateNode("首页", this.home.PageIndex);
+                    Aside.CreateNode("首页", 57460, 27, this.home.PageIndex);
                     //从数据库加载设备到左侧菜单
                     this.LoadDeviceCofigFDB(this.sys.protocol);
                     //显示默认界面(第一个)
@@ -199,7 +200,7 @@ namespace ModbusRTU_TP1608
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
-                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 61451, 24, page.PageIndex);
+                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
                     //存通道配置
                     for (int i = device.startChennal; i <= device.chennalNum; i++)
                     {
@@ -213,7 +214,7 @@ namespace ModbusRTU_TP1608
                         page.SetChennalName(chennal.chennalID, chennal.chennalName);
                         //创建设备管理菜单子节点（设备下的通道）
                         //参数：父节点，节点名称，图标，图标尺寸，节点名称，关联的页面id
-                        Aside.CreateChildNode(parent, chennal.chennalName, page.PageIndex);
+                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
                     }
                     //将关联的页面存入字典，已备他用
                     D_f_TitlePages.Add(page.PageIndex, page);
@@ -266,7 +267,7 @@ namespace ModbusRTU_TP1608
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
-                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 61451, 24, page.PageIndex);
+                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
                     //存通道配置
                     for (int i = device.startChennal; i <= device.chennalNum; i++)
                     {
@@ -280,7 +281,7 @@ namespace ModbusRTU_TP1608
                         page.SetChennalName(chennal.chennalID, chennal.chennalName);
                         //创建设备管理菜单子节点（设备下的通道）
                         //参数：父节点，节点名称，图标，图标尺寸，节点名称，关联的页面id
-                        Aside.CreateChildNode(parent, chennal.chennalName, page.PageIndex);
+                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
                     }
                     //将关联的页面存入字典，已备他用
                     D_f_TitlePages.Add(page.PageIndex, page);
@@ -309,13 +310,13 @@ namespace ModbusRTU_TP1608
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
-                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 61451, 24, page.PageIndex);
+                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
                     List<RTUChennal> chennals = new RTUChennalManage().GetByDeviceId(device.id);//按chennalId排序的
                     foreach (var chennal in chennals)
                     {
                         //设置page上的通道对应的名称
                         page.SetChennalName(chennal.chennalID, chennal.chennalName);
-                        Aside.CreateChildNode(parent, chennal.chennalName, page.PageIndex);
+                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
                     }
                 }
             }
@@ -331,13 +332,13 @@ namespace ModbusRTU_TP1608
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
-                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 61451, 24, page.PageIndex);
+                    TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
                     List<TCPChennal> chennals = new TCPChennalManage().GetByDeviceId(device.id);//按chennalId排序的
                     foreach (var chennal in chennals)
                     {
                         //设置page上的通道对应的名称
                         page.SetChennalName(chennal.chennalID, chennal.chennalName);
-                        Aside.CreateChildNode(parent, chennal.chennalName, page.PageIndex);
+                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
                     }
                 }
             }

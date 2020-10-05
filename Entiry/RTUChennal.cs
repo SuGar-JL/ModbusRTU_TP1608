@@ -36,9 +36,6 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "chennal_id", ColumnDescription = "通道ID")]
         public int chennalID { get; set; }
 
-        [SugarColumn(ColumnName = "stop_waring", IsNullable = true, ColumnDescription = "禁止报警")]
-        public string stopWaring { get; set; }
-
         [SugarColumn(ColumnName = "chennal_label", IsNullable = true, ColumnDescription = "监测项")]
         public string chennalLabel { get; set; }
 
@@ -51,29 +48,29 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "chennal_type", IsNullable = true, ColumnDescription = "通道类型")]
         public string chennalType { get; set; }
 
-        [SugarColumn(ColumnName = "adjustment", IsNullable = true, ColumnDescription = "调整")]
-        public double adjustment { get; set; }
+        [SugarColumn(ColumnName = "range_l", IsNullable = true, ColumnDescription = "量程下限")]
+        public double RangeL { get; set; }
 
-        [SugarColumn(ColumnName = "lower_limit", IsNullable = true, ColumnDescription = "下限")]
-        public double lowerLimit { get; set; }
+        [SugarColumn(ColumnName = "range_h", IsNullable = true, ColumnDescription = "量程上限")]
+        public double RangeH { get; set; }
 
-        [SugarColumn(ColumnName = "upper_limit", IsNullable = true, ColumnDescription = "上限")]
-        public double upperLimit { get; set; }
+        [SugarColumn(ColumnName = "warning1_l", IsNullable = true, ColumnDescription = "一级报警下限")]
+        public double Warning1L { get; set; }
 
-        [SugarColumn(ColumnName = "l_lower_limit", IsNullable = true, ColumnDescription = "下下限")]
-        public double lLowerLimit { get; set; }
+        [SugarColumn(ColumnName = "warning1_h", IsNullable = true, ColumnDescription = "一级报警上限")]
+        public double Warning1H { get; set; }
 
-        [SugarColumn(ColumnName = "u_upper_limit", IsNullable = true, ColumnDescription = "上上限")]
-        public double uUpperLimit { get; set; }
+        [SugarColumn(ColumnName = "warning2_l", IsNullable = true, ColumnDescription = "二级报警下限")]
+        public double Warning2L { get; set; }
 
-        [SugarColumn(ColumnName = "small_range", IsNullable = true, ColumnDescription = "小量程")]
-        public double smallRange { get; set; }
+        [SugarColumn(ColumnName = "warning2_h", IsNullable = true, ColumnDescription = "二级报警上限")]
+        public double Warning2H { get; set; }
 
-        [SugarColumn(ColumnName = "large_range", IsNullable = true, ColumnDescription = "大量程")]
-        public double largeRange { get; set; }
+        [SugarColumn(ColumnName = "warning3_l", IsNullable = true, ColumnDescription = "三级报警下限")]
+        public double Warning3L { get; set; }
 
-        [SugarColumn(ColumnName = "read_write", IsNullable = true, ColumnDescription = "读或写标志")]
-        public int R_WFlag { get; set; }
+        [SugarColumn(ColumnName = "warning3_h", IsNullable = true, ColumnDescription = "三级报警上限")]
+        public double Warning3H { get; set; }
         /// <summary>
         /// 排序
         /// </summary>

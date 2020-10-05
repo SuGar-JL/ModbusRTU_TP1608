@@ -225,6 +225,23 @@
             this.chennalType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.chennalType.FillColor = System.Drawing.Color.White;
             this.chennalType.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.chennalType.Items.AddRange(new object[] {
+            "电压-20~+20mV",
+            "电压-78~+78mV",
+            "电压-312~+312mV",
+            "PT100",
+            "电流4~20mA",
+            "电流0~20mA",
+            "电压0~10V",
+            "电压0~5000mV",
+            "J",
+            "K",
+            "T",
+            "E",
+            "R",
+            "S",
+            "B",
+            "湿度AM2302"});
             this.chennalType.Location = new System.Drawing.Point(122, 138);
             this.chennalType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chennalType.MinimumSize = new System.Drawing.Size(63, 0);
@@ -261,6 +278,10 @@
             this.chennalSensorType.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
             this.chennalSensorType.FillColor = System.Drawing.Color.White;
             this.chennalSensorType.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.chennalSensorType.Items.AddRange(new object[] {
+            "CO",
+            "CO2",
+            "温度"});
             this.chennalSensorType.Location = new System.Drawing.Point(122, 177);
             this.chennalSensorType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chennalSensorType.MinimumSize = new System.Drawing.Size(63, 0);

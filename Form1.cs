@@ -139,6 +139,7 @@ namespace ModbusRTU_TP1608
                     this.LoadDeviceCofigFDB(this.sys.protocol);
                     //显示默认界面(第一个)
                     Aside.SelectFirst();
+                    this.ShowSuccessTip("协议切换成功");
                 }
             }
         }
@@ -216,6 +217,7 @@ namespace ModbusRTU_TP1608
                     }
                     //将关联的页面存入字典，已备他用
                     D_f_TitlePages.Add(page.PageIndex, page);
+                    this.ShowSuccessTip("添加设备成功");
                 }
                 f_AddDeviceRTU.Dispose();
             }
@@ -282,10 +284,10 @@ namespace ModbusRTU_TP1608
                     }
                     //将关联的页面存入字典，已备他用
                     D_f_TitlePages.Add(page.PageIndex, page);
+                    this.ShowSuccessTip("添加设备成功");
                 }
                 f_AddDeviceTCP.Dispose();
             }
-
         }
         #endregion
         #region 从数据库加载设备菜单到左边栏
@@ -341,8 +343,8 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
-        #region 修改Aside的Node（）设备名称及通道数
-        public void SetAsideNode(string deviceName, string deviceId, int pageIndex, int chennalNum, int startChennal, bool f)
+        #region 设置设备 修改Aside的Node（）设备名称及通道数
+        public void SetAsideNode(string deviceName, string deviceId, int pageIndex, bool f)
         {
             TreeNode node = Aside.SelectedNode;
             if (this.sys.protocol == (int)Common.Protocol.RTU)
@@ -417,6 +419,21 @@ namespace ModbusRTU_TP1608
 
         }
         #endregion
-
+        #region 删除设备 删除Aside的节点
+        internal void DeleteAsideNode(int pageIndex)
+        {
+            TreeNode node = Aside.SelectedNode;
+            if (node.Parent == null)
+            {
+                Aside.Nodes.Remove(node);
+                MainContainer.TabPages.RemoveAt(pageIndex);
+            }
+            else
+            {
+                Aside.Nodes.Remove(node.Parent);
+                MainContainer.TabPages.RemoveAt(pageIndex);
+            }
+        }
+        #endregion
     }
 }

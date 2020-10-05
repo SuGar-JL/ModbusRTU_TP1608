@@ -89,7 +89,7 @@
             this.p_ChennalLine = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.uiLine6 = new Sunny.UI.UILine();
-            this.onDeelte = new System.Windows.Forms.PictureBox();
+            this.onDelete = new System.Windows.Forms.PictureBox();
             this.onEdit = new System.Windows.Forms.PictureBox();
             this.uiAvatar2 = new Sunny.UI.UIAvatar();
             this.uiAvatar1 = new Sunny.UI.UIAvatar();
@@ -110,7 +110,7 @@
             this.p_Chennal2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pB_ChennalInfo2)).BeginInit();
             this.p_ChennalLine.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.onDeelte)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.onDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.onEdit)).BeginInit();
             this.SuspendLayout();
             // 
@@ -895,17 +895,17 @@
             this.uiLine6.Style = Sunny.UI.UIStyle.Custom;
             this.uiLine6.TabIndex = 27;
             // 
-            // onDeelte
+            // onDelete
             // 
-            this.onDeelte.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.onDeelte.Image = global::ModbusRTU_TP1608.Properties.Resources.delete2;
-            this.onDeelte.Location = new System.Drawing.Point(898, 27);
-            this.onDeelte.Name = "onDeelte";
-            this.onDeelte.Size = new System.Drawing.Size(25, 25);
-            this.onDeelte.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.onDeelte.TabIndex = 29;
-            this.onDeelte.TabStop = false;
-            this.onDeelte.Click += new System.EventHandler(this.onDeelte_Click);
+            this.onDelete.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.onDelete.Image = global::ModbusRTU_TP1608.Properties.Resources.delete2;
+            this.onDelete.Location = new System.Drawing.Point(898, 27);
+            this.onDelete.Name = "onDelete";
+            this.onDelete.Size = new System.Drawing.Size(25, 25);
+            this.onDelete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.onDelete.TabIndex = 29;
+            this.onDelete.TabStop = false;
+            this.onDelete.Click += new System.EventHandler(this.onDelete_Click);
             // 
             // onEdit
             // 
@@ -959,7 +959,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
             this.ClientSize = new System.Drawing.Size(1000, 610);
-            this.Controls.Add(this.onDeelte);
+            this.Controls.Add(this.onDelete);
             this.Controls.Add(this.onEdit);
             this.Controls.Add(this.p_ChennalLine);
             this.Controls.Add(this.p_Chennal5);
@@ -1007,7 +1007,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pB_ChennalInfo2)).EndInit();
             this.p_ChennalLine.ResumeLayout(false);
             this.p_ChennalLine.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.onDeelte)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.onDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.onEdit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1079,6 +1079,6 @@
         public System.Windows.Forms.TextBox tB_DeviceName;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox onEdit;
-        private System.Windows.Forms.PictureBox onDeelte;
+        private System.Windows.Forms.PictureBox onDelete;
     }
 }

@@ -250,6 +250,12 @@
     <Compile Include="F_TitlePage.Designer.cs">
       <DependentUpon>F_TitlePage.cs</DependentUpon>
     </Compile>
+    <Compile Include="F_Verify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="F_Verify.Designer.cs">
+      <DependentUpon>F_Verify.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -344,6 +350,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="F_TitlePage.resx">
       <DependentUpon>F_TitlePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="F_Verify.resx">
+      <DependentUpon>F_Verify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyTextBox.resx">
       <DependentUpon>MyTextBox.cs</DependentUpon>

@@ -24,7 +24,7 @@ namespace ModbusRTU_TP1608.Entiry
         public string sensorName { get; set; }
 
         [SugarColumn(ColumnName = "sensor_type", IsNullable = true, ColumnDescription = "传感器类型")]
-        public string sensorType { get; set; }
+        public int? sensorType { get; set; }
 
         [SugarColumn(ColumnName = "sensor_tableName", IsNullable = true, ColumnDescription = "传感器对应数据库表名称")]
         public string sensorTableName { get; set; }
@@ -34,7 +34,7 @@ namespace ModbusRTU_TP1608.Entiry
 
         //不能用Base类的id代替，因为要重复
         [SugarColumn(ColumnName = "chennal_id", ColumnDescription = "通道ID")]
-        public int chennalID { get; set; }
+        public int? chennalID { get; set; }
 
         [SugarColumn(ColumnName = "chennal_label", IsNullable = true, ColumnDescription = "监测项")]
         public string chennalLabel { get; set; }
@@ -43,34 +43,37 @@ namespace ModbusRTU_TP1608.Entiry
         public string chennalUnit { get; set; }
 
         [SugarColumn(ColumnName = "decimal_places", IsNullable = true, ColumnDescription = "小数位")]
-        public int decimalPlaces { get; set; }
+        public int? decimalPlaces { get; set; }
 
         [SugarColumn(ColumnName = "chennal_type", IsNullable = true, ColumnDescription = "通道类型")]
         public string chennalType { get; set; }
 
-        [SugarColumn(ColumnName = "range_l", IsNullable = true, ColumnDescription = "量程下限")]
-        public double RangeL { get; set; }
+        [SugarColumn(ColumnName = "sensor_range_l", IsNullable = true, ColumnDescription = "量程下限")]
+        public double? sensorRangeL { get; set; }
 
-        [SugarColumn(ColumnName = "range_h", IsNullable = true, ColumnDescription = "量程上限")]
-        public double RangeH { get; set; }
+        [SugarColumn(ColumnName = "sensor_range_h", IsNullable = true, ColumnDescription = "量程上限")]
+        public double? sensorRangeH { get; set; }
+
+        [SugarColumn(ColumnName = "is_warning", IsNullable = true, ColumnDescription = "是否报警")]
+        public int? isWaring { get; set; }
 
         [SugarColumn(ColumnName = "warning1_l", IsNullable = true, ColumnDescription = "一级报警下限")]
-        public double Warning1L { get; set; }
+        public double? warning1L { get; set; }
 
         [SugarColumn(ColumnName = "warning1_h", IsNullable = true, ColumnDescription = "一级报警上限")]
-        public double Warning1H { get; set; }
+        public double? warning1H { get; set; }
 
         [SugarColumn(ColumnName = "warning2_l", IsNullable = true, ColumnDescription = "二级报警下限")]
-        public double Warning2L { get; set; }
+        public double? warning2L { get; set; }
 
         [SugarColumn(ColumnName = "warning2_h", IsNullable = true, ColumnDescription = "二级报警上限")]
-        public double Warning2H { get; set; }
+        public double? warning2H { get; set; }
 
         [SugarColumn(ColumnName = "warning3_l", IsNullable = true, ColumnDescription = "三级报警下限")]
-        public double Warning3L { get; set; }
+        public double? warning3L { get; set; }
 
         [SugarColumn(ColumnName = "warning3_h", IsNullable = true, ColumnDescription = "三级报警上限")]
-        public double Warning3H { get; set; }
+        public double? warning3H { get; set; }
         /// <summary>
         /// 排序
         /// </summary>
@@ -78,7 +81,7 @@ namespace ModbusRTU_TP1608.Entiry
         /// <returns></returns>
         public int CompareTo(RTUChennal other)
         {
-            return this.chennalID.CompareTo(other.chennalID);
+            return ((int)this.chennalID).CompareTo((int)other.chennalID);
         }
     }
 }

@@ -32,5 +32,15 @@ namespace ModbusRTU_TP1608
         /// 波特率
         /// </summary>
         public static List<string> BaudRate = new List<string>() { "75", "110", "134", "150", "300", "600", "1200", "2400", "4800", "7200", "9600", "14400", "19200", "38400", "57600", "115200", "128000" };
+        /// <summary>
+        /// 传感器类型与传感器数据所存数据库表的对应关系
+        /// </summary>
+        public static Dictionary<string, string> SensorTable = new Dictionary<string, string>()
+        {
+            { "CO","sensor_co"},
+            { "CO2","sensor_co2"},
+            { "温度","sensor_temp"},
+
+        };
     }
 }

@@ -211,7 +211,7 @@ namespace ModbusRTU_TP1608
                         chennal.createBy = "管理员";
                         chennal.createTime = DateTime.Now;
                         new RTUChennalManage().Insert(chennal);
-                        page.SetChennalName(chennal.chennalID, chennal.chennalName);
+                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
                         //创建设备管理菜单子节点（设备下的通道）
                         //参数：父节点，节点名称，图标，图标尺寸，节点名称，关联的页面id
                         Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
@@ -278,7 +278,7 @@ namespace ModbusRTU_TP1608
                         chennal.createBy = "管理员";
                         chennal.createTime = DateTime.Now;
                         new TCPChennalManage().Insert(chennal);
-                        page.SetChennalName(chennal.chennalID, chennal.chennalName);
+                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
                         //创建设备管理菜单子节点（设备下的通道）
                         //参数：父节点，节点名称，图标，图标尺寸，节点名称，关联的页面id
                         Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
@@ -315,7 +315,7 @@ namespace ModbusRTU_TP1608
                     foreach (var chennal in chennals)
                     {
                         //设置page上的通道对应的名称
-                        page.SetChennalName(chennal.chennalID, chennal.chennalName);
+                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
                         Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
                     }
                 }
@@ -337,7 +337,7 @@ namespace ModbusRTU_TP1608
                     foreach (var chennal in chennals)
                     {
                         //设置page上的通道对应的名称
-                        page.SetChennalName(chennal.chennalID, chennal.chennalName);
+                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
                         Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
                     }
                 }

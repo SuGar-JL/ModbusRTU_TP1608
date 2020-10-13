@@ -24,7 +24,7 @@ namespace ModbusRTU_TP1608.Entiry
         public string sensorName { get; set; }
 
         [SugarColumn(ColumnName = "sensor_type", IsNullable = true, ColumnDescription = "传感器类型")]
-        public string sensorType { get; set; }
+        public int? sensorType { get; set; }
 
         [SugarColumn(ColumnName = "sensor_tableName", IsNullable = true, ColumnDescription = "传感器对应数据库表名称")]
         public string sensorTableName { get; set; }
@@ -34,10 +34,7 @@ namespace ModbusRTU_TP1608.Entiry
 
         //不能用Base类的id代替，因为要重复
         [SugarColumn(ColumnName = "chennal_id", ColumnDescription = "通道ID")]
-        public int chennalID { get; set; }
-
-        [SugarColumn(ColumnName = "stop_waring", IsNullable = true, ColumnDescription = "禁止报警")]
-        public string stopWaring { get; set; }
+        public int? chennalID { get; set; }
 
         [SugarColumn(ColumnName = "chennal_label", IsNullable = true, ColumnDescription = "监测项")]
         public string chennalLabel { get; set; }
@@ -46,34 +43,37 @@ namespace ModbusRTU_TP1608.Entiry
         public string chennalUnit { get; set; }
 
         [SugarColumn(ColumnName = "decimal_places", IsNullable = true, ColumnDescription = "小数位")]
-        public int decimalPlaces { get; set; }
+        public int? decimalPlaces { get; set; }
 
         [SugarColumn(ColumnName = "chennal_type", IsNullable = true, ColumnDescription = "通道类型")]
         public string chennalType { get; set; }
 
-        [SugarColumn(ColumnName = "adjustment", IsNullable = true, ColumnDescription = "调整")]
-        public double adjustment { get; set; }
+        [SugarColumn(ColumnName = "sensor_range_l", IsNullable = true, ColumnDescription = "量程下限")]
+        public double? sensorRangeL { get; set; }
 
-        [SugarColumn(ColumnName = "lower_limit", IsNullable = true, ColumnDescription = "下限")]
-        public double lowerLimit { get; set; }
+        [SugarColumn(ColumnName = "sensor_range_h", IsNullable = true, ColumnDescription = "量程上限")]
+        public double? sensorRangeH { get; set; }
 
-        [SugarColumn(ColumnName = "upper_limit", IsNullable = true, ColumnDescription = "上限")]
-        public double upperLimit { get; set; }
+        [SugarColumn(ColumnName = "is_warning", IsNullable = true, ColumnDescription = "是否报警")]
+        public int? isWaring { get; set; }
 
-        [SugarColumn(ColumnName = "l_lower_limit", IsNullable = true, ColumnDescription = "下下限")]
-        public double lLowerLimit { get; set; }
+        [SugarColumn(ColumnName = "warning1_l", IsNullable = true, ColumnDescription = "一级报警下限")]
+        public double? warning1L { get; set; }
 
-        [SugarColumn(ColumnName = "u_upper_limit", IsNullable = true, ColumnDescription = "上上限")]
-        public double uUpperLimit { get; set; }
+        [SugarColumn(ColumnName = "warning1_h", IsNullable = true, ColumnDescription = "一级报警上限")]
+        public double? warning1H { get; set; }
 
-        [SugarColumn(ColumnName = "small_range", IsNullable = true, ColumnDescription = "小量程")]
-        public double smallRange { get; set; }
+        [SugarColumn(ColumnName = "warning2_l", IsNullable = true, ColumnDescription = "二级报警下限")]
+        public double? warning2L { get; set; }
 
-        [SugarColumn(ColumnName = "large_range", IsNullable = true, ColumnDescription = "大量程")]
-        public double largeRange { get; set; }
+        [SugarColumn(ColumnName = "warning2_h", IsNullable = true, ColumnDescription = "二级报警上限")]
+        public double? warning2H { get; set; }
 
-        [SugarColumn(ColumnName = "read_write", IsNullable = true, ColumnDescription = "读或写标志")]
-        public int R_WFlag { get; set; }
+        [SugarColumn(ColumnName = "warning3_l", IsNullable = true, ColumnDescription = "三级报警下限")]
+        public double? warning3L { get; set; }
+
+        [SugarColumn(ColumnName = "warning3_h", IsNullable = true, ColumnDescription = "三级报警上限")]
+        public double? warning3H { get; set; }
         /// <summary>
         /// 排序
         /// </summary>
@@ -81,7 +81,7 @@ namespace ModbusRTU_TP1608.Entiry
         /// <returns></returns>
         public int CompareTo(RTUChennal other)
         {
-            return this.chennalID.CompareTo(other.chennalID);
+            return ((int)this.chennalID).CompareTo((int)other.chennalID);
         }
     }
 }

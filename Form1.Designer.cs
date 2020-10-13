@@ -44,8 +44,8 @@
             this.试图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnAddDevice1 = new ModbusRTU_TP1608.BtnAddDevice();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnAddDevice1 = new ModbusRTU_TP1608.UCBtnAddDevice();
             this.MainContainer.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -54,9 +54,9 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(0, 40);
+            this.tabPage2.Location = new System.Drawing.Point(0, 0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(450, 230);
+            this.tabPage2.Size = new System.Drawing.Size(980, 610);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -79,7 +79,7 @@
             this.MainContainer.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.MainContainer.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.MainContainer.ItemSize = new System.Drawing.Size(0, 1);
-            this.MainContainer.Location = new System.Drawing.Point(200, 60);
+            this.MainContainer.Location = new System.Drawing.Point(220, 60);
             this.MainContainer.Margin = new System.Windows.Forms.Padding(0);
             this.MainContainer.Name = "MainContainer";
             this.tableLayoutPanel1.SetRowSpan(this.MainContainer, 2);
@@ -105,15 +105,15 @@
             this.Aside.MenuStyle = Sunny.UI.UIMenuStyle.Custom;
             this.Aside.Name = "Aside";
             this.Aside.ShowLines = false;
-            this.Aside.Size = new System.Drawing.Size(200, 560);
+            this.Aside.Size = new System.Drawing.Size(220, 560);
             this.Aside.TabIndex = 1;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(19)))), ((int)(((byte)(36)))));
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.menuStrip1, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.MainContainer, 2, 1);
@@ -128,7 +128,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1200, 670);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1220, 670);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // menuStrip1
@@ -144,7 +144,7 @@
             this.实时采集ToolStripMenuItem,
             this.试图ToolStripMenuItem,
             this.帮助ToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(200, 0);
+            this.menuStrip1.Location = new System.Drawing.Point(220, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
             this.menuStrip1.Size = new System.Drawing.Size(1000, 60);
@@ -218,10 +218,24 @@
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 60);
+            this.pictureBox1.Size = new System.Drawing.Size(60, 60);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(60, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.label1.Size = new System.Drawing.Size(160, 60);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "智慧消防数据采集";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnAddDevice1
             // 
@@ -233,28 +247,14 @@
             this.btnAddDevice1.Location = new System.Drawing.Point(0, 620);
             this.btnAddDevice1.Margin = new System.Windows.Forms.Padding(0);
             this.btnAddDevice1.Name = "btnAddDevice1";
-            this.btnAddDevice1.Size = new System.Drawing.Size(200, 50);
+            this.btnAddDevice1.Size = new System.Drawing.Size(220, 50);
             this.btnAddDevice1.TabIndex = 8;
             this.btnAddDevice1.Text = "添加设备";
             this.btnAddDevice1.AddDevice += new System.EventHandler(this.btnAddDevice1_AddDevice);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(50, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.label1.Size = new System.Drawing.Size(150, 60);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "智慧消防数据采集";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(1200, 705);
+            this.ClientSize = new System.Drawing.Size(1220, 705);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -286,7 +286,7 @@
         private System.Windows.Forms.ToolStripMenuItem 实时采集ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 试图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 帮助ToolStripMenuItem;
-        private BtnAddDevice btnAddDevice1;
+        private UCBtnAddDevice btnAddDevice1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem 通信协议ToolStripMenuItem;
     }

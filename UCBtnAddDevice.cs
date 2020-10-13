@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ModbusRTU_TP1608
 {
-    public partial class BtnAddDevice : UserControl
+    public partial class UCBtnAddDevice : UserControl
     {
-        public BtnAddDevice()
+        public UCBtnAddDevice()
         {
             InitializeComponent();
         }

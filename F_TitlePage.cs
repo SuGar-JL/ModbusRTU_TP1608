@@ -1,5 +1,6 @@
 ﻿using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
+using ModbusTCP_TP1608.Entiry;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.TextFormatting;
 
 namespace ModbusRTU_TP1608
 {
@@ -115,28 +117,28 @@ namespace ModbusRTU_TP1608
             switch (index)
             {
                 case 1:
-                    this.tB_ChennalName1.Text = chennalName;
+                    this.ucChennal1.uiChennalName.Text = chennalName;
                     break;
                 case 2:
-                    this.tB_ChennalName2.Text = chennalName;
+                    this.ucChennal2.uiChennalName.Text = chennalName;
                     break;
                 case 3:
-                    this.tB_ChennalName3.Text = chennalName;
+                    this.ucChennal3.uiChennalName.Text = chennalName;
                     break;
                 case 4:
-                    this.tB_ChennalName4.Text = chennalName;
+                    this.ucChennal4.uiChennalName.Text = chennalName;
                     break;
                 case 5:
-                    this.tB_ChennalName5.Text = chennalName;
+                    this.ucChennal5.uiChennalName.Text = chennalName;
                     break;
                 case 6:
-                    this.tB_ChennalName6.Text = chennalName;
+                    this.ucChennal6.uiChennalName.Text = chennalName;
                     break;
                 case 7:
-                    this.tB_ChennalName7.Text = chennalName;
+                    this.ucChennal7.uiChennalName.Text = chennalName;
                     break;
                 case 8:
-                    this.tB_ChennalName8.Text = chennalName;
+                    this.ucChennal8.uiChennalName.Text = chennalName;
                     break;
             }
         }
@@ -155,6 +157,7 @@ namespace ModbusRTU_TP1608
                 var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
                 //打开配置对话框
                 var f_DeviceCofigRTU = new F_DeviceCofigRTU();
+                f_DeviceCofigRTU.device = device;
                 f_DeviceCofigRTU.deviceType.Items.AddRange(Common.DeviceType.ToArray());
                 f_DeviceCofigRTU.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
                 f_DeviceCofigRTU.deviceName.Text = device.deviceName;
@@ -174,8 +177,8 @@ namespace ModbusRTU_TP1608
                 {
                     f_DeviceCofigRTU.deviceSerialPort.Text = device.serialPort;
                 }
-                f_DeviceCofigRTU.deviceBaudRate.Items.AddRange(Common.DeviceBaudRate.ToArray());
-                f_DeviceCofigRTU.deviceBaudRate.SelectedIndex = Common.DeviceBaudRate.IndexOf(device.baudRate);
+                f_DeviceCofigRTU.deviceBaudRate.Items.AddRange(Common.BaudRate.ToArray());
+                f_DeviceCofigRTU.deviceBaudRate.SelectedIndex = Common.BaudRate.IndexOf(device.baudRate);
                 f_DeviceCofigRTU.devicePosition.Text = device.position;
                 f_DeviceCofigRTU.ShowDialog();
                 if (f_DeviceCofigRTU.IsOK)
@@ -198,7 +201,7 @@ namespace ModbusRTU_TP1608
                     //将device存入数据库
                     new RTUDeviceManage().UpdateByEntity(device);
                     //设置本页面的标题与设备名称一致
-                    this.Text = device.deviceName;
+                    this.tB_DeviceName.Text = device.deviceName;
                     //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
                     if (f)
                     {
@@ -225,7 +228,7 @@ namespace ModbusRTU_TP1608
                                 {
                                     chennalIds.Add(chennal.id);
                                 }
-                                chennalIds.RemoveRange(0, device.startChennal + device.chennalNum - 1 - chennals[0].chennalID);
+                                chennalIds.RemoveRange(0, device.startChennal + device.chennalNum - 1 - (int)chennals[0].chennalID);
                                 chennalIds.RemoveAt(0);
                                 //根据id批量删除
                                 new RTUChennalManage().DeleteByIds(chennalIds.ToArray());
@@ -234,7 +237,7 @@ namespace ModbusRTU_TP1608
                         else if (chennals[0].chennalID <= device.startChennal && chennals[chennals.Count - 1].chennalID <= (device.startChennal + device.chennalNum - 1))
                         {
                             //补后(第二个=满足时，补后不进行)
-                            for (int i = chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
+                            for (int i = (int)chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
                             {
                                 RTUChennal chennal = new RTUChennal();
                                 chennal.deviceID = device.id;//设备id
@@ -252,7 +255,7 @@ namespace ModbusRTU_TP1608
                                 {
                                     chennalIds.Add(chennal.id);
                                 }
-                                chennalIds.RemoveRange(device.startChennal - 1, chennals[chennals.Count - 1].chennalID - device.startChennal + 1);
+                                chennalIds.RemoveRange(device.startChennal - 1, (int)chennals[chennals.Count - 1].chennalID - device.startChennal + 1);
                                 //根据id批量删除
                                 new RTUChennalManage().DeleteByIds(chennalIds.ToArray());
                             }
@@ -285,7 +288,7 @@ namespace ModbusRTU_TP1608
                                 new RTUChennalManage().Insert(chennal);
                             }
                             //补后（第二个=满足时，补后不进行）
-                            for (int i = chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
+                            for (int i = (int)chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
                             {
                                 RTUChennal chennal = new RTUChennal();
                                 chennal.deviceID = device.id;//设备id
@@ -306,6 +309,7 @@ namespace ModbusRTU_TP1608
                 var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
                 //打开配置对话框
                 var f_DeviceCofigTCP = new F_DeviceCofigTCP();
+                f_DeviceCofigTCP.device = device;
                 f_DeviceCofigTCP.deviceType.Items.AddRange(Common.DeviceType.ToArray());
                 f_DeviceCofigTCP.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
                 f_DeviceCofigTCP.deviceName.Text = device.deviceName;
@@ -338,7 +342,7 @@ namespace ModbusRTU_TP1608
                     //将device存入数据库
                     new TCPDeviceManage().UpdateByEntity(device);
                     //设置本页面的标题与设备名称一致
-                    this.Text = device.deviceName;
+                    this.tB_DeviceName.Text = device.deviceName;
                     //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
                     if (f)
                     {
@@ -365,7 +369,7 @@ namespace ModbusRTU_TP1608
                                 {
                                     chennalIds.Add(chennal.id);
                                 }
-                                chennalIds.RemoveRange(0, device.startChennal + device.chennalNum - 1 - chennals[0].chennalID);
+                                chennalIds.RemoveRange(0, device.startChennal + device.chennalNum - 1 - (int)chennals[0].chennalID);
                                 chennalIds.RemoveAt(0);
                                 //根据id批量删除
                                 new TCPChennalManage().DeleteByIds(chennalIds.ToArray());
@@ -374,7 +378,7 @@ namespace ModbusRTU_TP1608
                         else if (chennals[0].chennalID <= device.startChennal && chennals[chennals.Count - 1].chennalID <= (device.startChennal + device.chennalNum - 1))
                         {
                             //补后(第二个=满足时，补后不进行)
-                            for (int i = chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
+                            for (int i = (int)chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
                             {
                                 TCPChennal chennal = new TCPChennal();
                                 chennal.deviceID = device.id;//设备id
@@ -392,7 +396,7 @@ namespace ModbusRTU_TP1608
                                 {
                                     chennalIds.Add(chennal.id);
                                 }
-                                chennalIds.RemoveRange(device.startChennal - 1, chennals[chennals.Count - 1].chennalID - device.startChennal + 1);
+                                chennalIds.RemoveRange(device.startChennal - 1, (int)chennals[chennals.Count - 1].chennalID - device.startChennal + 1);
                                 //根据id批量删除
                                 new TCPChennalManage().DeleteByIds(chennalIds.ToArray());
                             }
@@ -425,7 +429,7 @@ namespace ModbusRTU_TP1608
                                 new TCPChennalManage().Insert(chennal);
                             }
                             //补后（第二个=满足时，补后不进行）
-                            for (int i = chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
+                            for (int i = (int)chennals[chennals.Count - 1].chennalID + 1; i <= device.startChennal + device.chennalNum - 1; i++)
                             {
                                 TCPChennal chennal = new TCPChennal();
                                 chennal.deviceID = device.id;//设备id
@@ -499,8 +503,159 @@ namespace ModbusRTU_TP1608
                 }
             }
         }
+
         #endregion
 
+        //点击ucChennal(通道)的圈i
+        //做到了代码的封闭性（多个控件使用一个点击事件）
+        private void ucChennal_ShowInfo_Click(object sender, EventArgs e)
+        {
+            //通过点击事件可以获得ucChennal上子控件的信息
+            UCChennal ucChennal = (UCChennal)sender;
+            Sys sys = new SysManage().GetSysInfo()[0];
+            if (sys.protocol == (int)Common.Protocol.RTU)
+            {
+                var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                var chennal = new RTUChennalManage().GetByDeviceIdAndName(device.id, ucChennal.uiChennalName.Text.Trim());
+                var sensorIds = new RTUChennalManage().GetSensorIds();
+                var f_ChennalInfo = new F_ChennalInfo();
+                f_ChennalInfo.chennalName.Text = chennal.chennalName;
+                f_ChennalInfo.chennalID.Text = chennal.chennalID.ToString();
+                f_ChennalInfo.chennalLabel.Text = chennal.chennalLabel;
+                f_ChennalInfo.chennalUnit.Text = chennal.chennalUnit;
+                f_ChennalInfo.chennalSensorType.Text = chennal.sensorType == null ? "" : chennal.sensorType.ToString();
+                f_ChennalInfo.chennalSensorName.Text = chennal.sensorName;
+                f_ChennalInfo.chennalSensorId.Text = chennal.sensorID;
+                //将数据库现以配置有的传感器id填充到传感器id的下拉框
+                if (sensorIds != null)
+                {
+                    f_ChennalInfo.chennalSensorId.Items.AddRange(sensorIds.ToArray());
+                }
+                if (chennal.isWaring == 1)
+                {
+                    f_ChennalInfo.isWraning.Checked = true;
+                }
+                else
+                {
+                    f_ChennalInfo.isWraning.Checked = false;
+                }
+                f_ChennalInfo.chennalDecimalPlaces.Text = chennal.decimalPlaces == null ? "4" : chennal.decimalPlaces.ToString();//小数位默认选择4
+                f_ChennalInfo.chennalSensorRangeL.Text = chennal.sensorRangeL == null ? "0.00" : chennal.sensorRangeL.ToString();
+                f_ChennalInfo.chennalSensorRangeH.Text = chennal.sensorRangeH == null ? "0.00" : chennal.sensorRangeH.ToString();
+                f_ChennalInfo.chennalWarning1L.Text = chennal.warning1L == null ? "0.00" : chennal.warning1L.ToString();
+                f_ChennalInfo.chennalWarning1H.Text = chennal.warning1H == null ? "0.00" : chennal.warning1H.ToString();
+                f_ChennalInfo.chennalWarning2L.Text = chennal.warning2L == null ? "0.00" : chennal.warning2L.ToString();
+                f_ChennalInfo.chennalWarning2H.Text = chennal.warning2H == null ? "0.00" : chennal.warning2H.ToString();
+                f_ChennalInfo.chennalWarning3L.Text = chennal.warning3L == null ? "0.00" : chennal.warning3L.ToString();
+                f_ChennalInfo.chennalWarning3H.Text = chennal.warning3H == null ? "0.00" : chennal.warning3H.ToString();
+                f_ChennalInfo.chennalType.Text = chennal.chennalType;
+                f_ChennalInfo.ShowDialog();
+                if (f_ChennalInfo.IsOK)
+                {
+                    chennal.chennalName = f_ChennalInfo.chennalName.Text.Trim();
+                    chennal.chennalLabel = f_ChennalInfo.chennalLabel.Text.Trim();
+                    chennal.chennalUnit = f_ChennalInfo.chennalUnit.Text.Trim();
+                    chennal.sensorType = f_ChennalInfo.chennalSensorType.SelectedIndex + 1;//传感器类型不取0
+                    chennal.sensorName = f_ChennalInfo.chennalSensorName.Text.Trim();
+                    chennal.sensorRangeL = double.Parse(f_ChennalInfo.chennalSensorRangeL.Text.Trim());
+                    chennal.sensorRangeH = double.Parse(f_ChennalInfo.chennalSensorRangeH.Text.Trim());
+                    if (f_ChennalInfo.isWraning.Checked)
+                    {
+                        chennal.isWaring = 1;
+                    }
+                    else
+                    {
+                        chennal.isWaring = 0;
+                    }
+                    chennal.decimalPlaces = f_ChennalInfo.chennalDecimalPlaces.SelectedIndex + 1;
+                    chennal.warning1L = double.Parse(f_ChennalInfo.chennalWarning1L.Text.Trim());
+                    chennal.warning1H = double.Parse(f_ChennalInfo.chennalWarning1H.Text.Trim());
+                    chennal.warning2L = double.Parse(f_ChennalInfo.chennalWarning2L.Text.Trim());
+                    chennal.warning2H = double.Parse(f_ChennalInfo.chennalWarning2H.Text.Trim());
+                    chennal.warning3L = double.Parse(f_ChennalInfo.chennalWarning3L.Text.Trim());
+                    chennal.warning3H = double.Parse(f_ChennalInfo.chennalWarning3H.Text.Trim());
+                    chennal.chennalType = f_ChennalInfo.chennalType.Text.Trim();
+                    chennal.updateBy = "管理员";
+                    chennal.updateTime = DateTime.Now;
+                    //给通道配置传感器id与传感器表
+                    chennal.sensorID = f_ChennalInfo.chennalSensorId.Text.Trim();
+                    chennal.sensorTableName = Common.SensorTable[f_ChennalInfo.chennalSensorType.Text.Trim()];
+                    new RTUChennalManage().UpdateByEntity(chennal);
+                    
+                }
+            }
+            else if (sys.protocol == (int)Common.Protocol.TCP)
+            {
+                var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                var chennal = new TCPChennalManage().GetByDeviceIdAndName(device.id, ucChennal.uiChennalName.Text.Trim());
+                var sensorIds = new TCPChennalManage().GetSensorIds();
+                var f_ChennalInfo = new F_ChennalInfo();
+                f_ChennalInfo.chennalName.Text = chennal.chennalName;
+                f_ChennalInfo.chennalID.Text = chennal.chennalID.ToString();
+                f_ChennalInfo.chennalLabel.Text = chennal.chennalLabel;
+                f_ChennalInfo.chennalUnit.Text = chennal.chennalUnit;
+                f_ChennalInfo.chennalSensorType.Text = chennal.sensorType == null ? "" : chennal.sensorType.ToString();
+                f_ChennalInfo.chennalSensorName.Text = chennal.sensorName;
+                f_ChennalInfo.chennalSensorId.Text = chennal.sensorID;
+                //将数据库现以配置有的传感器id填充到传感器id的下拉框
+                if (sensorIds != null)
+                {
+                    f_ChennalInfo.chennalSensorId.Items.AddRange(sensorIds.ToArray());
+                }
+                if (chennal.isWaring == 1)
+                {
+                    f_ChennalInfo.isWraning.Checked = true;
+                }
+                else
+                {
+                    f_ChennalInfo.isWraning.Checked = false;
+                }
+                f_ChennalInfo.chennalDecimalPlaces.Text = chennal.decimalPlaces == null ? "4" : chennal.decimalPlaces.ToString();//小数位默认选择4
+                f_ChennalInfo.chennalSensorRangeL.Text = chennal.sensorRangeL == null ? "0.00" : chennal.sensorRangeL.ToString();
+                f_ChennalInfo.chennalSensorRangeH.Text = chennal.sensorRangeH == null ? "0.00" : chennal.sensorRangeH.ToString();
+                f_ChennalInfo.chennalWarning1L.Text = chennal.warning1L == null ? "0.00" : chennal.warning1L.ToString();
+                f_ChennalInfo.chennalWarning1H.Text = chennal.warning1H == null ? "0.00" : chennal.warning1H.ToString();
+                f_ChennalInfo.chennalWarning2L.Text = chennal.warning2L == null ? "0.00" : chennal.warning2L.ToString();
+                f_ChennalInfo.chennalWarning2H.Text = chennal.warning2H == null ? "0.00" : chennal.warning2H.ToString();
+                f_ChennalInfo.chennalWarning3L.Text = chennal.warning3L == null ? "0.00" : chennal.warning3L.ToString();
+                f_ChennalInfo.chennalWarning3H.Text = chennal.warning3H == null ? "0.00" : chennal.warning3H.ToString();
+                f_ChennalInfo.chennalType.Text = chennal.chennalType;
+                f_ChennalInfo.ShowDialog();
+                if (f_ChennalInfo.IsOK)
+                {
+                    chennal.chennalName = f_ChennalInfo.chennalName.Text.Trim();
+                    chennal.chennalLabel = f_ChennalInfo.chennalLabel.Text.Trim();
+                    chennal.chennalUnit = f_ChennalInfo.chennalUnit.Text.Trim();
+                    chennal.sensorType = f_ChennalInfo.chennalSensorType.SelectedIndex + 1;//传感器类型不取0
+                    chennal.sensorName = f_ChennalInfo.chennalSensorName.Text.Trim();
+                    chennal.sensorRangeL = double.Parse(f_ChennalInfo.chennalSensorRangeL.Text.Trim());
+                    chennal.sensorRangeH = double.Parse(f_ChennalInfo.chennalSensorRangeH.Text.Trim());
+                    if (f_ChennalInfo.isWraning.Checked)
+                    {
+                        chennal.isWaring = 1;
+                    }
+                    else
+                    {
+                        chennal.isWaring = 0;
+                    }
+                    chennal.decimalPlaces = f_ChennalInfo.chennalDecimalPlaces.SelectedIndex + 1;
+                    chennal.warning1L = double.Parse(f_ChennalInfo.chennalWarning1L.Text.Trim());
+                    chennal.warning1H = double.Parse(f_ChennalInfo.chennalWarning1H.Text.Trim());
+                    chennal.warning2L = double.Parse(f_ChennalInfo.chennalWarning2L.Text.Trim());
+                    chennal.warning2H = double.Parse(f_ChennalInfo.chennalWarning2H.Text.Trim());
+                    chennal.warning3L = double.Parse(f_ChennalInfo.chennalWarning3L.Text.Trim());
+                    chennal.warning3H = double.Parse(f_ChennalInfo.chennalWarning3H.Text.Trim());
+                    chennal.chennalType = f_ChennalInfo.chennalType.Text.Trim();
+                    chennal.updateBy = "管理员";
+                    chennal.updateTime = DateTime.Now;
+                    //给通道配置传感器id与传感器表
+                    chennal.sensorID = f_ChennalInfo.chennalSensorId.Text.Trim();
+                    chennal.sensorTableName = Common.SensorTable[f_ChennalInfo.chennalSensorType.Text.Trim()];
+                    new TCPChennalManage().UpdateByEntity(chennal);
+                    
+                }
+            }
 
+        }
     }
 }

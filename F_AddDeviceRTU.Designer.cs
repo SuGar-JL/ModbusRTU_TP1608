@@ -96,6 +96,7 @@
             this.deviceType.TabIndex = 16;
             this.deviceType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.deviceType.Watermark = "";
+            this.deviceType.SelectedIndexChanged += new System.EventHandler(this.deviceType_SelectedIndexChanged);
             // 
             // uiLabel2
             // 

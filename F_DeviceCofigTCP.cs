@@ -1,4 +1,5 @@
-﻿using ModbusRTU_TP1608.Utils;
+﻿using ModbusRTU_TP1608.Entiry;
+using ModbusRTU_TP1608.Utils;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace ModbusRTU_TP1608
 {
     public partial class F_DeviceCofigTCP : UIEditForm
     {
+        /// <summary>
+        /// 正在修改的设备
+        /// </summary>
+        public TCPDevice device = new TCPDevice();
         public F_DeviceCofigTCP()
         {
             InitializeComponent();
@@ -42,7 +47,11 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceNameRepeat(UITextBox deviceName, string desc)
         {
-            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()).Count <= 1;
+            if (deviceName.Text.Trim().Equals(this.device.deviceName))
+            {
+                return true;
+            }
+            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()).Count == 0;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -58,7 +67,11 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceAddressRepeat(UITextBox deviceAddress, string desc)
         {
-            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count <= 1;
+            if (deviceAddress.Text.Trim().Equals(this.device.deviceAddress))
+            {
+                return true;
+            }
+            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count == 0;
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -75,6 +88,10 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckChennalNumAndStartChennal(UIComboBox deviceChennalNum, UIComboBox deviceStartChennal, string desc)
         {
+            if (deviceStartChennal.SelectedIndex + 1 == this.device.startChennal && deviceChennalNum.SelectedIndex + 1 == this.device.chennalNum)
+            {
+                return true;
+            }
             bool result = (8 - (deviceStartChennal.SelectedIndex + 1) + 1) >= (deviceChennalNum.SelectedIndex + 1);
             if (!result)
             {

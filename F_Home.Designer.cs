@@ -52,6 +52,7 @@
             this.Name = "F_Home";
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "F_Home";
+            this.SizeChanged += new System.EventHandler(this.F_Home_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 

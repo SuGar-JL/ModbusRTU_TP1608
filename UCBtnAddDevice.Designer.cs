@@ -1,6 +1,6 @@
 ﻿namespace ModbusRTU_TP1608
 {
-    partial class BtnAddDevice
+    partial class UCBtnAddDevice
     {
         /// <summary> 
         /// 必需的设计器变量。

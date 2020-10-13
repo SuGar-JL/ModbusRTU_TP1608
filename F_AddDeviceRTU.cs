@@ -29,7 +29,7 @@ namespace ModbusRTU_TP1608
             List<string> serialPorts = System.IO.Ports.SerialPort.GetPortNames().ToList();
             serialPorts.Sort();
             this.deviceSerialPort.Items.AddRange(serialPorts.ToArray());
-            this.deviceBaudRate.Items.AddRange(Common.DeviceBaudRate.ToArray());
+            this.deviceBaudRate.Items.AddRange(Common.BaudRate.ToArray());
             //设备类型默认选择第一个
             this.deviceType.SelectedIndex = 0;
             //波特率默认选择9600
@@ -98,6 +98,11 @@ namespace ModbusRTU_TP1608
                 deviceChennalNum.Focus();
             }
             return result;
+        }
+
+        private void deviceType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

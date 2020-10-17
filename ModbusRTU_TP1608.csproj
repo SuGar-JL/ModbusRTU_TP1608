@@ -236,6 +236,7 @@
     <Compile Include="Utils\DeviceManage.cs" />
     <Compile Include="Utils\MySQLUtil.cs" />
     <Compile Include="Utils\SensorManage.cs" />
+    <Compile Include="Utils\SensorTable.cs" />
     <Compile Include="Utils\SensorTypeManage.cs" />
     <Compile Include="Utils\TableNameUtil.cs" />
     <EmbeddedResource Include="AddDeviceForm.resx">

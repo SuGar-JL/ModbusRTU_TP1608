@@ -58,13 +58,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_sensorName = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
             this.comboBox_sensorType = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBox_sensorName = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -110,8 +109,10 @@
             // 
             this.comboBox_label.FormattingEnabled = true;
             this.comboBox_label.Items.AddRange(new object[] {
-            "CO2",
-            "PM10"});
+            "CO2浓度",
+            "CO浓度",
+            "温度",
+            "PM10浓度"});
             this.comboBox_label.Location = new System.Drawing.Point(259, 50);
             this.comboBox_label.Name = "comboBox_label";
             this.comboBox_label.Size = new System.Drawing.Size(100, 20);
@@ -317,8 +318,24 @@
             this.comboBox_Waring.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Waring.FormattingEnabled = true;
             this.comboBox_Waring.Items.AddRange(new object[] {
-            "是",
-            "否"});
+            "CO2_001",
+            "CO2_002",
+            "CO2_003",
+            "CO2-004",
+            "CO2-005",
+            "CO2-006",
+            "CO-001",
+            "CO-002",
+            "CO-003",
+            "CO-004",
+            "CO-005",
+            "CO-006",
+            "T-001",
+            "T-002",
+            "T-003",
+            "T-004",
+            "T-005",
+            "T-006"});
             this.comboBox_Waring.Location = new System.Drawing.Point(80, 50);
             this.comboBox_Waring.Name = "comboBox_Waring";
             this.comboBox_Waring.Size = new System.Drawing.Size(100, 20);
@@ -381,9 +398,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(13, 53);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 12);
+            this.label2.Size = new System.Drawing.Size(53, 12);
             this.label2.TabIndex = 1;
-            this.label2.Text = "禁止报警：";
+            this.label2.Text = "传感器ID";
             // 
             // label1
             // 
@@ -407,13 +424,31 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "传感器";
             // 
+            // textBox_sensorName
+            // 
+            this.textBox_sensorName.Location = new System.Drawing.Point(259, 37);
+            this.textBox_sensorName.Name = "textBox_sensorName";
+            this.textBox_sensorName.Size = new System.Drawing.Size(100, 21);
+            this.textBox_sensorName.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(216, 40);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(41, 12);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "名称：";
+            // 
             // comboBox_sensorType
             // 
             this.comboBox_sensorType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_sensorType.FormattingEnabled = true;
             this.comboBox_sensorType.Items.AddRange(new object[] {
-            "CO2",
-            "PM10"});
+            "CO2浓度",
+            "CO浓度",
+            "温度",
+            "PM10浓度"});
             this.comboBox_sensorType.Location = new System.Drawing.Point(80, 37);
             this.comboBox_sensorType.Name = "comboBox_sensorType";
             this.comboBox_sensorType.Size = new System.Drawing.Size(105, 20);
@@ -447,22 +482,6 @@
             this.button4.Text = "取消";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(216, 40);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(41, 12);
-            this.label16.TabIndex = 2;
-            this.label16.Text = "名称：";
-            // 
-            // textBox_sensorName
-            // 
-            this.textBox_sensorName.Location = new System.Drawing.Point(259, 37);
-            this.textBox_sensorName.Name = "textBox_sensorName";
-            this.textBox_sensorName.Size = new System.Drawing.Size(100, 21);
-            this.textBox_sensorName.TabIndex = 3;
             // 
             // SetChennalForm
             // 
@@ -522,7 +541,6 @@
         private System.Windows.Forms.ComboBox comboBox_label;
         private System.Windows.Forms.ComboBox comboBox_sensorType;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textBox_sensorName;

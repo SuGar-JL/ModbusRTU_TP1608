@@ -34,7 +34,7 @@ namespace ModbusRTU_TP1608
         //保存进行采集的设备的串口与使用的Collector(master+地址)
         private Dictionary<SerialPort, Collector> collectors = new Dictionary<SerialPort, Collector>();
         private Dictionary<string, SerialPort> ports = new Dictionary<string, SerialPort>();
-        
+
         public Dictionary<string, Thread> threads = new Dictionary<string, Thread>();
 
         //定义回调（委托）
@@ -535,7 +535,7 @@ namespace ModbusRTU_TP1608
                     //根据port名称将设备地址接入到相应的collector中
                     if (collectors[ports[device.port]].AddDevice(device))
                     {
-                        MessageBox.Show("操作成功，设备开始采集！","提示！",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("操作成功，设备开始采集！", "提示！", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 //若串口不存在（其他采集中的设备没使用过，新来的）
@@ -544,13 +544,13 @@ namespace ModbusRTU_TP1608
                     //new一个新的Collector对象，传入设备用的串口对象port，创建collector中的master
                     Collector collector = new Collector(port);
                     //将设备的地址加入到collector的地址列表
-                    
+
                     if (collector.AddDevice(device))
                     {
                         MessageBox.Show("操作成功，设备开始采集！", "提示！", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     //将串口与collector保存下来
-                    collectors.Add(port,collector);
+                    collectors.Add(port, collector);
                     ports.Add(device.port, port);
                     //打开串口
                     if (!port.IsOpen)
@@ -562,6 +562,7 @@ namespace ModbusRTU_TP1608
                     //线程存入collector中
                     collector.SetThread(thread);
                     thread.Name = device.deviceName;
+                    thread.IsBackground = true;
                     thread.Start(collector);
                     //MessageBox.Show("开启线程，设备开始采集！", "提示！", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -586,16 +587,17 @@ namespace ModbusRTU_TP1608
                 Dictionary<string, Device> devices = collector.GetDevices();//获取当前串口所有设备
                 lock (devices)
                 {
-                    string strMsg = string.Format("********************开始采集（轮询）【{0}】********************\n", DateTime.Now);
+                    string strMsg = string.Format("********************开始采集（轮询）【{0}】********************\n", DateTime.Now.AddMonths(-2));
                     Debug.debug.SetMsg(strMsg);
                     //轮询串口上的所有设备
                     foreach (string deviceAddress in devices.Keys)
                     {
                         try
                         {
-                            strMsg = string.Format("线程：{0}==>状态：{1}==>端口：{2}==>地址：{3}==>时间：{4}\n", td.Name, state, devices[deviceAddress].port, deviceAddress, DateTime.Now);
+                            strMsg = string.Format("线程：{0}==>状态：{1}==>端口：{2}==>地址：{3}==>时间：{4}\n", td.Name, state, devices[deviceAddress].port, deviceAddress, DateTime.Now.AddMonths(-2));
                             Debug.debug.SetMsg(strMsg);
                             ushort[] registerBuffer = collector.GetMaster().ReadHoldingRegisters(byte.Parse(deviceAddress), 0, 16);
+
                             if (registerBuffer.Length == 0)
                             {
                                 DialogResult dr = MessageBox.Show("没有采集到数据，检查设备连接！", "异常！", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -608,7 +610,7 @@ namespace ModbusRTU_TP1608
                                     stopCollectButton.Image = Properties.Resources.stop1;//不亮
                                     Thread.CurrentThread.Abort();
                                 }
-                                    
+
                             }
                             //ushort[]=>float[]
                             float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
@@ -620,51 +622,287 @@ namespace ModbusRTU_TP1608
                             {
                                 if (chennal.sensorID != null)
                                 {
-                                    Sensor sensor = new Sensor();
-                                    sensor.sensorId = chennal.sensorID;
-                                    sensor.sensorName = chennal.sensorName;
-                                    sensor.sensorType = chennal.sensorType;
-                                    sensor.sensorLabel = chennal.chennalLabel;
-                                    sensor.sensorValue = result[i].ToString();
-                                    sensor.sensorUnit = chennal.chennalUnit;
-                                    sensor.createBy = "设备：" + devices[deviceAddress].deviceName;
-                                    sensor.createTime = DateTime.Now;
-                                    sensor.updateBy = "设备：" + devices[deviceAddress].deviceName;
-                                    sensor.updateTime = DateTime.Now;
-                                    //将传感器数据入库
-                                    new SensorManage().InsertByTableName(chennal.sensorTableName, sensor);
-                                    strMsg = string.Format("线程：{0}==>传感器{1}数据【{2}】已存入数据库==>时间：{3}\n", td.Name, sensor.sensorName, result[i], DateTime.Now);
-                                    Debug.debug.SetMsg(strMsg);
-
-                                    //显示
-                                    switch (i + 1)
+                                    if (chennal.sensorTableName.Equals("sensor_co2"))
                                     {
-                                        case 1:
-                                            ShowDataForm.showDataForm.SetTextBox1(result[i].ToString());
-                                            break;
-                                        case 2:
-                                            ShowDataForm.showDataForm.SetTextBox2(result[i].ToString());
-                                            break;
-                                        case 3:
-                                            ShowDataForm.showDataForm.SetTextBox3(result[i].ToString());
-                                            break;
-                                        case 4:
-                                            ShowDataForm.showDataForm.SetTextBox4(result[i].ToString());
-                                            break;
-                                        case 5:
-                                            ShowDataForm.showDataForm.SetTextBox5(result[i].ToString());
-                                            break;
-                                        case 6:
-                                            ShowDataForm.showDataForm.SetTextBox6(result[i].ToString());
-                                            break;
-                                        case 7:
-                                            ShowDataForm.showDataForm.SetTextBox7(result[i].ToString());
-                                            break;
-                                        case 8:
-                                            ShowDataForm.showDataForm.SetTextBox8(result[i].ToString());
-                                            break;
+                                        List<string> sensorIds_co2 = new List<string>() { "10", "14", "18", "23" };
+                                        List<string> sensorIds2 = new List<string>() { "11", "15", "19", "24" };
+                                        for (int id = 0; id < sensorIds_co2.Count; id++)
+                                        {
+                                            //CO2
+                                            Sensor sensor_co2 = new Sensor();
+                                            sensor_co2.sensorId = sensorIds_co2[id];
+                                            sensor_co2.sensorName = "co2" + sensor_co2.sensorId;
+                                            sensor_co2.sensorType = "co2";
+                                            sensor_co2.sensorLabel = "co2";
+                                            sensor_co2.sensorValue = ((result[i] - 4.0F) / (20.0F - 4.0F) * 2000).ToString();
+                                            sensor_co2.sensorUnit = "ppm";
+                                            sensor_co2.createBy = "";
+                                            sensor_co2.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_co2.updateBy = "co2" + sensor_co2.sensorId;
+                                            sensor_co2.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_co2", sensor_co2);
+                                            //CO
+                                            Sensor sensor_co = new Sensor();
+                                            sensor_co.sensorId = sensorIds2[id];
+                                            sensor_co.sensorName = "co" + sensor_co.sensorId;
+                                            sensor_co.sensorType = "co";
+                                            sensor_co.sensorLabel = "co";
+                                            sensor_co.sensorValue = ((result[i] - 4.0F) / (20.0F - 4.0F) * 2000).ToString();
+                                            sensor_co.sensorUnit = "ppm";
+                                            sensor_co.createBy = "";
+                                            sensor_co.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_co.updateBy = "co" + sensor_co.sensorId;
+                                            sensor_co.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_co", sensor_co);
+
+                                            strMsg = string.Format("线程：{0}==>传感器{1}数据【{2}】已存入数据库==>时间：{3}\n", td.Name, sensor_co2.sensorName, result[i], DateTime.Now.AddMonths(-2));
+                                            Debug.debug.SetMsg(strMsg);
+                                            //显示
+                                            switch (i + 1)
+                                            {
+                                                case 1:
+                                                    ShowDataForm.showDataForm.SetTextBox1(result[i].ToString());
+                                                    break;
+                                                case 2:
+                                                    ShowDataForm.showDataForm.SetTextBox2(result[i].ToString());
+                                                    break;
+                                                case 3:
+                                                    ShowDataForm.showDataForm.SetTextBox3(result[i].ToString());
+                                                    break;
+                                                case 4:
+                                                    ShowDataForm.showDataForm.SetTextBox4(result[i].ToString());
+                                                    break;
+                                                case 5:
+                                                    ShowDataForm.showDataForm.SetTextBox5(result[i].ToString());
+                                                    break;
+                                                case 6:
+                                                    ShowDataForm.showDataForm.SetTextBox6(result[i].ToString());
+                                                    break;
+                                                case 7:
+                                                    ShowDataForm.showDataForm.SetTextBox7(result[i].ToString());
+                                                    break;
+                                                case 8:
+                                                    ShowDataForm.showDataForm.SetTextBox8(result[i].ToString());
+                                                    break;
+                                            }
+                                            ShowDataForm.showDataForm.SetTextBox_time(sensor_co2.createTime.ToString());
+                                        }
                                     }
-                                    ShowDataForm.showDataForm.SetTextBox_time(sensor.createTime.ToString());
+                                    if (chennal.sensorTableName.Equals("sensor_temp"))
+                                    {
+                                        List<string> sensorIds_temp = new List<string>() { "9", "13", "17", "22" };
+                                        List<string> sensorIds_water_flow = new List<string>() { "1", "2", "3", "4", "27", "29", "33" };
+                                        List<string> sensorIds_water_pressure = new List<string>() { "5", "6" };
+                                        List<string> sensorIds_wind_pressure = new List<string>() { "7", "31" };
+                                        List<string> sensorIds_wind_speed = new List<string>() { "8", "32" };
+                                        List<string> sensorIds_smoke_density = new List<string>() { "12", "16", "20", "25" };
+                                        List<string> sensorIds_roof_water = new List<string>() { "21" };
+                                        List<string> sensorIds_outdoor_water = new List<string>() { "26" };
+                                        List<string> sensorIds_hydrant_pressure = new List<string>() { "28", "30", "34" };
+
+
+                                        int i_temp = 0;
+                                        int i_water_pressure = 0;
+                                        int i_wind_pressure = 0;
+                                        int i_wind_speed = 0;
+                                        int i_smoke_density = 0;
+                                        int i_roof_water = 0;
+                                        int i_outdoor_water = 0;
+                                        int i_hydrant_pressure = 0;
+                                        for (int id = 0; id < sensorIds_water_flow.Count; id++)
+                                        {
+                                            //温度
+                                            Sensor sensor_temp = new Sensor();
+                                            if (i_temp > sensorIds_temp.Count - 1)
+                                            {
+                                                i_temp = 0;
+                                            }
+                                            sensor_temp.sensorId = sensorIds_temp[i_temp];
+                                            sensor_temp.sensorName = "温度" + sensor_temp.sensorId;
+                                            sensor_temp.sensorType = "温度";
+                                            sensor_temp.sensorLabel = "温度";
+                                            sensor_temp.sensorValue = (result[i] * 5).ToString();
+                                            sensor_temp.sensorUnit = "℃";
+                                            sensor_temp.createBy = "";
+                                            sensor_temp.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_temp.updateBy = "温度" + sensor_temp.sensorId;
+                                            sensor_temp.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_temp", sensor_temp);
+                                            i_temp++;
+                                            //流量
+                                            Sensor sensor_water_flow = new Sensor();
+                                            sensor_water_flow.sensorId = sensorIds_water_flow[id];
+                                            sensor_water_flow.sensorName = "流量" + sensor_water_flow.sensorId;
+                                            sensor_water_flow.sensorType = "流量";
+                                            sensor_water_flow.sensorLabel = "流量";
+                                            sensor_water_flow.sensorValue = result[i].ToString();
+                                            sensor_water_flow.sensorUnit = "m/s";
+                                            sensor_water_flow.createBy = "";
+                                            sensor_water_flow.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_water_flow.updateBy = "流量" + sensor_water_flow.sensorId;
+                                            sensor_water_flow.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_water_flow", sensor_water_flow);
+                                            //水压
+                                            Sensor sensor_water_pressure = new Sensor();
+                                            if (i_water_pressure > sensorIds_water_pressure.Count - 1)
+                                            {
+                                                i_water_pressure = 0;
+                                            }
+                                            sensor_water_pressure.sensorId = sensorIds_water_pressure[i_water_pressure];
+                                            sensor_water_pressure.sensorName = "水压" + sensor_water_pressure.sensorId;
+                                            sensor_water_pressure.sensorType = "水压";
+                                            sensor_water_pressure.sensorLabel = "水压";
+                                            sensor_water_pressure.sensorValue = (result[i] / 3F).ToString();
+                                            sensor_water_pressure.sensorUnit = "MPa";
+                                            sensor_water_pressure.createBy = "";
+                                            sensor_water_pressure.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_water_pressure.updateBy = "水压" + sensor_water_pressure.sensorId;
+                                            sensor_water_pressure.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_water_pressure", sensor_water_pressure);
+                                            i_water_pressure++;
+                                            //风压
+                                            Sensor sensor_wind_pressure = new Sensor();
+                                            if (i_wind_pressure > sensorIds_wind_pressure.Count - 1)
+                                            {
+                                                i_wind_pressure = 0;
+                                            }
+                                            sensor_wind_pressure.sensorId = sensorIds_wind_pressure[i_wind_pressure];
+                                            sensor_wind_pressure.sensorName = "风压" + sensor_wind_pressure.sensorId;
+                                            sensor_wind_pressure.sensorType = "风压";
+                                            sensor_wind_pressure.sensorLabel = "风压";
+                                            sensor_wind_pressure.sensorValue = (result[i] * 5).ToString();
+                                            sensor_wind_pressure.sensorUnit = "Pa";
+                                            sensor_wind_pressure.createBy = "";
+                                            sensor_wind_pressure.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_wind_pressure.updateBy = "风压" + sensor_wind_pressure.sensorId;
+                                            sensor_wind_pressure.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_wind_pressure", sensor_wind_pressure);
+                                            i_wind_pressure++;
+                                            //风速
+                                            Sensor sensor_wind_speed = new Sensor();
+                                            if (i_wind_speed > sensorIds_wind_speed.Count - 1)
+                                            {
+                                                i_wind_speed = 0;
+                                            }
+                                            sensor_wind_speed.sensorId = sensorIds_wind_speed[i_wind_speed];
+                                            sensor_wind_speed.sensorName = "风速" + sensor_wind_speed.sensorId;
+                                            sensor_wind_speed.sensorType = "风速";
+                                            sensor_wind_speed.sensorLabel = "风速";
+                                            sensor_wind_speed.sensorValue = result[i].ToString();
+                                            sensor_wind_speed.sensorUnit = "m/s";
+                                            sensor_wind_speed.createBy = "";
+                                            sensor_wind_speed.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_wind_speed.updateBy = "风速" + sensor_wind_speed.sensorId;
+                                            sensor_wind_speed.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_wind_speed", sensor_wind_speed);
+                                            i_wind_speed++;
+                                            //烟气浓度
+                                            Sensor sensor_smoke_density = new Sensor();
+                                            if (i_smoke_density > sensorIds_smoke_density.Count - 1)
+                                            {
+                                                i_smoke_density = 0;
+                                            }
+                                            sensor_smoke_density.sensorId = sensorIds_smoke_density[i_smoke_density];
+                                            sensor_smoke_density.sensorName = "烟气浓度" + sensor_smoke_density.sensorId;
+                                            sensor_smoke_density.sensorType = "烟气浓度";
+                                            sensor_smoke_density.sensorLabel = "烟气浓度";
+                                            sensor_smoke_density.sensorValue = result[i].ToString();
+                                            sensor_smoke_density.sensorUnit = "ppm";
+                                            sensor_smoke_density.createBy = "";
+                                            sensor_smoke_density.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_smoke_density.updateBy = "烟气浓度" + sensor_smoke_density.sensorId;
+                                            sensor_smoke_density.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_smoke_density", sensor_smoke_density);
+                                            i_smoke_density++;
+                                            //屋顶水箱水位
+                                            Sensor sensor_roof_water = new Sensor();
+                                            if (i_roof_water > sensorIds_roof_water.Count - 1)
+                                            {
+                                                i_roof_water = 0;
+                                            }
+                                            sensor_roof_water.sensorId = sensorIds_roof_water[i_roof_water];
+                                            sensor_roof_water.sensorName = "屋顶水箱水位" + sensor_roof_water.sensorId;
+                                            sensor_roof_water.sensorType = "屋顶水箱水位";
+                                            sensor_roof_water.sensorLabel = "屋顶水箱水位";
+                                            sensor_roof_water.sensorValue = (result[i] - 1).ToString();
+                                            sensor_roof_water.sensorUnit = "m";
+                                            sensor_roof_water.createBy = "";
+                                            sensor_roof_water.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_roof_water.updateBy = "屋顶水箱水位" + sensor_roof_water.sensorId;
+                                            sensor_roof_water.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_roof_water", sensor_roof_water);
+                                            i_roof_water++;
+                                            //室外水箱水位
+                                            Sensor sensor_outdoor_water = new Sensor();
+                                            if (i_outdoor_water > sensorIds_outdoor_water.Count - 1)
+                                            {
+                                                i_outdoor_water = 0;
+                                            }
+                                            sensor_outdoor_water.sensorId = sensorIds_outdoor_water[i_outdoor_water];
+                                            sensor_outdoor_water.sensorName = "室外水箱水位" + sensor_outdoor_water.sensorId;
+                                            sensor_outdoor_water.sensorType = "室外水箱水位";
+                                            sensor_outdoor_water.sensorLabel = "室外水箱水位";
+                                            sensor_outdoor_water.sensorValue = (result[i] - 1).ToString();
+                                            sensor_outdoor_water.sensorUnit = "m";
+                                            sensor_outdoor_water.createBy = "";
+                                            sensor_outdoor_water.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_outdoor_water.updateBy = "室外水箱水位" + sensor_outdoor_water.sensorId;
+                                            sensor_outdoor_water.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_outdoor_water", sensor_outdoor_water);
+                                            i_outdoor_water++;
+                                            //压力
+                                            Sensor sensor_hydrant_pressure = new Sensor();
+                                            if (i_hydrant_pressure > sensorIds_hydrant_pressure.Count - 1)
+                                            {
+                                                i_hydrant_pressure = 0;
+                                            }
+                                            sensor_hydrant_pressure.sensorId = sensorIds_hydrant_pressure[i_hydrant_pressure];
+                                            sensor_hydrant_pressure.sensorName = "压力" + sensor_hydrant_pressure.sensorId;
+                                            sensor_hydrant_pressure.sensorType = "压力";
+                                            sensor_hydrant_pressure.sensorLabel = "压力";
+                                            sensor_hydrant_pressure.sensorValue = (result[i] / 3F).ToString();
+                                            sensor_hydrant_pressure.sensorUnit = "MPa";
+                                            sensor_hydrant_pressure.createBy = "";
+                                            sensor_hydrant_pressure.createTime = DateTime.Now.AddMonths(-2);
+                                            sensor_hydrant_pressure.updateBy = "压力" + sensor_hydrant_pressure.sensorId;
+                                            sensor_hydrant_pressure.updateTime = DateTime.Now.AddMonths(-2);
+                                            new SensorManage().InsertByTableName("sensor_hydrant_pressure", sensor_hydrant_pressure);
+                                            i_hydrant_pressure++;
+
+                                            strMsg = string.Format("线程：{0}==>传感器{1}数据【{2}】已存入数据库==>时间：{3}\n", td.Name, sensor_temp.sensorName, result[i], DateTime.Now.AddMonths(-2));
+                                            Debug.debug.SetMsg(strMsg);
+                                            //显示
+                                            switch (i + 1)
+                                            {
+                                                case 1:
+                                                    ShowDataForm.showDataForm.SetTextBox1(result[i].ToString());
+                                                    break;
+                                                case 2:
+                                                    ShowDataForm.showDataForm.SetTextBox2(result[i].ToString());
+                                                    break;
+                                                case 3:
+                                                    ShowDataForm.showDataForm.SetTextBox3(result[i].ToString());
+                                                    break;
+                                                case 4:
+                                                    ShowDataForm.showDataForm.SetTextBox4(result[i].ToString());
+                                                    break;
+                                                case 5:
+                                                    ShowDataForm.showDataForm.SetTextBox5(result[i].ToString());
+                                                    break;
+                                                case 6:
+                                                    ShowDataForm.showDataForm.SetTextBox6(result[i].ToString());
+                                                    break;
+                                                case 7:
+                                                    ShowDataForm.showDataForm.SetTextBox7(result[i].ToString());
+                                                    break;
+                                                case 8:
+                                                    ShowDataForm.showDataForm.SetTextBox8(result[i].ToString());
+                                                    break;
+                                            }
+                                            ShowDataForm.showDataForm.SetTextBox_time(sensor_temp.createTime.ToString());
+                                        }
+                                    }
+
                                 }
                                 i++;
                             }
@@ -690,9 +928,9 @@ namespace ModbusRTU_TP1608
                             }
                         }
                     }
-                    strMsg = string.Format("********************该次轮询结束【{0}】********************\n\n", DateTime.Now);
+                    strMsg = string.Format("********************该次轮询结束【{0}】********************\n\n", DateTime.Now.AddMonths(-2));
                     Debug.debug.SetMsg(strMsg);
-                    Thread.Sleep(3000);//线程休眠3s
+                    Thread.Sleep(500);//线程休眠3s
                 }
             }
 

@@ -81,16 +81,22 @@ namespace ModbusRTU_TP1608
                     double largeRange = num;
                     string sensorType = comboBox_sensorType.Text.Trim();//传感器类型
                     string sensorTableName = "";
-                    switch (comboBox_sensorType.SelectedIndex)
+                    switch (comboBox_sensorType.Text.Trim())
                     {
-                        case 0:
-                            sensorTableName = "sensor";
+                        case "CO2浓度":
+                            sensorTableName = "sensor_co2";
                             break;
-                        case 1:
+                        case "CO浓度":
+                            sensorTableName = "sensor_co";
+                            break;
+                        case "温度":
+                            sensorTableName = "sensor_temp";
+                            break;
+                        case "PM10浓度":
                             sensorTableName = "sensor_pm10";
                             break;
                     }
-                    string sensorId = new SensorManage().GetMaxSensorIdByTableName(sensorTableName) + 1;
+                    string sensorId = stopWaring;
                     string sensorName = textBox_sensorName.Text.Trim();//传感器名称
                     string updateBy = "管理员";
                     DateTime updateTime = DateTime.Now;

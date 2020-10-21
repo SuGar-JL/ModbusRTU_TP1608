@@ -130,6 +130,7 @@
             // chennalID
             // 
             this.chennalID.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.chennalID.Enabled = false;
             this.chennalID.FillColor = System.Drawing.Color.White;
             this.chennalID.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.chennalID.Location = new System.Drawing.Point(442, 60);
@@ -260,6 +261,7 @@
             this.chennalSensorRangeL.Radius = 8;
             this.chennalSensorRangeL.Size = new System.Drawing.Size(200, 29);
             this.chennalSensorRangeL.TabIndex = 41;
+            this.chennalSensorRangeL.Text = "0.00";
             this.chennalSensorRangeL.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalSensorRangeL.Watermark = "";
             // 
@@ -277,6 +279,7 @@
             this.chennalSensorRangeH.Radius = 8;
             this.chennalSensorRangeH.Size = new System.Drawing.Size(200, 29);
             this.chennalSensorRangeH.TabIndex = 42;
+            this.chennalSensorRangeH.Text = "0.00";
             this.chennalSensorRangeH.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalSensorRangeH.Watermark = "";
             // 
@@ -313,6 +316,7 @@
             this.chennalWarning1L.Radius = 8;
             this.chennalWarning1L.Size = new System.Drawing.Size(201, 29);
             this.chennalWarning1L.TabIndex = 45;
+            this.chennalWarning1L.Text = "0.00";
             this.chennalWarning1L.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalWarning1L.Watermark = "";
             // 
@@ -339,6 +343,7 @@
             this.chennalWarning1H.Radius = 8;
             this.chennalWarning1H.Size = new System.Drawing.Size(201, 29);
             this.chennalWarning1H.TabIndex = 60;
+            this.chennalWarning1H.Text = "0.00";
             this.chennalWarning1H.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalWarning1H.Watermark = "";
             // 
@@ -377,6 +382,7 @@
             this.chennalWarning3L.Radius = 8;
             this.chennalWarning3L.Size = new System.Drawing.Size(201, 29);
             this.chennalWarning3L.TabIndex = 66;
+            this.chennalWarning3L.Text = "0.00";
             this.chennalWarning3L.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalWarning3L.Watermark = "";
             // 
@@ -403,6 +409,7 @@
             this.chennalWarning3H.Radius = 8;
             this.chennalWarning3H.Size = new System.Drawing.Size(201, 29);
             this.chennalWarning3H.TabIndex = 68;
+            this.chennalWarning3H.Text = "0.00";
             this.chennalWarning3H.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalWarning3H.Watermark = "";
             // 
@@ -420,6 +427,7 @@
             this.chennalWarning2H.Radius = 8;
             this.chennalWarning2H.Size = new System.Drawing.Size(201, 29);
             this.chennalWarning2H.TabIndex = 64;
+            this.chennalWarning2H.Text = "0.00";
             this.chennalWarning2H.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalWarning2H.Watermark = "";
             // 
@@ -446,6 +454,7 @@
             this.chennalWarning2L.Radius = 8;
             this.chennalWarning2L.Size = new System.Drawing.Size(201, 29);
             this.chennalWarning2L.TabIndex = 62;
+            this.chennalWarning2L.Text = "0.00";
             this.chennalWarning2L.Type = Sunny.UI.UITextBox.UIEditType.Double;
             this.chennalWarning2L.Watermark = "";
             // 
@@ -478,6 +487,7 @@
             this.chennalTypeRead.Size = new System.Drawing.Size(68, 29);
             this.chennalTypeRead.TabIndex = 77;
             this.chennalTypeRead.Text = "读取";
+            this.chennalTypeRead.Click += new System.EventHandler(this.chennalTypeRead_Click);
             // 
             // uiLabel8
             // 
@@ -568,7 +578,7 @@
             this.chennalSensorId.FillColor = System.Drawing.Color.White;
             this.chennalSensorId.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.chennalSensorId.Items.AddRange(new object[] {
-            "已被使用的ID："});
+            "以下ID不能再使用："});
             this.chennalSensorId.Location = new System.Drawing.Point(122, 177);
             this.chennalSensorId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chennalSensorId.MinimumSize = new System.Drawing.Size(63, 0);
@@ -578,7 +588,7 @@
             this.chennalSensorId.Size = new System.Drawing.Size(200, 29);
             this.chennalSensorId.TabIndex = 81;
             this.chennalSensorId.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.chennalSensorId.Watermark = "";
+            this.chennalSensorId.Watermark = "不选择，手动输...";
             // 
             // F_ChennalInfo
             // 

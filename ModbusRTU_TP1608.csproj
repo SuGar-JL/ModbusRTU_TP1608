@@ -260,18 +260,16 @@
       <DependentUpon>test.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\RTUChennalManage.cs" />
-    <Compile Include="Utils\Collector.cs" />
+    <Compile Include="Utils\ModbusUtil.cs" />
     <Compile Include="Utils\DataTypeConvert.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DbContext.cs" />
     <Compile Include="Utils\DbContext_Sqlite.cs" />
     <Compile Include="Utils\RTUDeviceManage.cs" />
-    <Compile Include="Utils\MySQLUtil.cs" />
     <Compile Include="Utils\SensorManage.cs" />
     <Compile Include="Utils\SensorTypeManage.cs" />
     <Compile Include="Utils\SysManage.cs" />
-    <Compile Include="Utils\TableNameUtil.cs" />
     <Compile Include="Utils\TCPChennalManage.cs" />
     <Compile Include="Utils\TCPDeviceManage.cs" />
     <EmbeddedResource Include="F_ChennalInfo.resx">

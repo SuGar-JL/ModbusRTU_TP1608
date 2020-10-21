@@ -15,7 +15,7 @@ namespace ModbusRTU_TP1608
         /// <summary>
         /// 设备状态
         /// </summary>
-        public enum DeviceStatus { START, STOP }
+        public enum DeviceStatus { STOP, START }
         /// <summary>
         /// 设备类型
         /// </summary>

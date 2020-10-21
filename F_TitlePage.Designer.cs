@@ -91,7 +91,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(436, 68);
+            this.textBox1.Location = new System.Drawing.Point(319, 79);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(217, 29);
             this.textBox1.TabIndex = 0;
@@ -151,6 +151,7 @@
             this.BtnStop.SymbolSize = 30;
             this.BtnStop.TabIndex = 6;
             this.BtnStop.Text = "stop";
+            this.BtnStop.Click += new System.EventHandler(this.BtnStop_Click);
             // 
             // BtnStart
             // 
@@ -168,6 +169,7 @@
             this.BtnStart.SymbolSize = 30;
             this.BtnStart.TabIndex = 5;
             this.BtnStart.Text = "start";
+            this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // ucChennal8
             // 

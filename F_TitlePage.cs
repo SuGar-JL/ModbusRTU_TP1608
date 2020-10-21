@@ -1,4 +1,5 @@
-﻿using ModbusRTU_TP1608.Entiry;
+﻿using Modbus.Device;
+using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
 using ModbusTCP_TP1608.Entiry;
 using Sunny.UI;
@@ -7,9 +8,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media.TextFormatting;
@@ -29,6 +32,9 @@ namespace ModbusRTU_TP1608
             setTag(this);
             textBox1.Text = String.Format("({0},{1})", this.Width, this.Height);
         }
+        Debug debug = new Debug();
+        //volatile告诉编译器，该值将被多个线程使用，不对其状态进行优化
+        public volatile bool stop = false;
 
         #region 控件大小随窗体大小等比例缩放
         private float w1;
@@ -94,6 +100,7 @@ namespace ModbusRTU_TP1608
             setControls(scaleX, scaleY, this);
         }
         #endregion
+
         #region 用双缓冲绘制窗口的所有子控件
         protected override CreateParams CreateParams
         {
@@ -105,12 +112,14 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
+
         #region 窗体加载
         private void F_TitlePage_Load(object sender, EventArgs e)
         {
 
         }
         #endregion
+
         #region 设置通道数据显示页面的通道名称
         public void SetChennalName(int index, string chennalName)
         {
@@ -144,6 +153,7 @@ namespace ModbusRTU_TP1608
         }
 
         #endregion
+
         #region 配置设备
         private void onEdit_Click(object sender, EventArgs e)
         {
@@ -448,6 +458,7 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
+
         #region 删除设备
         private void onDelete_Click(object sender, EventArgs e)
         {
@@ -506,6 +517,7 @@ namespace ModbusRTU_TP1608
 
         #endregion
 
+        #region 配置通道
         //点击ucChennal(通道)的圈i
         //做到了代码的封闭性（多个控件使用一个点击事件）
         private void ucChennal_ShowInfo_Click(object sender, EventArgs e)
@@ -519,18 +531,19 @@ namespace ModbusRTU_TP1608
                 var chennal = new RTUChennalManage().GetByDeviceIdAndName(device.id, ucChennal.uiChennalName.Text.Trim());
                 var sensorIds = new RTUChennalManage().GetSensorIds();
                 var f_ChennalInfo = new F_ChennalInfo();
+                f_ChennalInfo.rTUChennal = chennal;
                 f_ChennalInfo.chennalName.Text = chennal.chennalName;
                 f_ChennalInfo.chennalID.Text = chennal.chennalID.ToString();
                 f_ChennalInfo.chennalLabel.Text = chennal.chennalLabel;
                 f_ChennalInfo.chennalUnit.Text = chennal.chennalUnit;
-                f_ChennalInfo.chennalSensorType.Text = chennal.sensorType == null ? "" : chennal.sensorType.ToString();
+                f_ChennalInfo.chennalSensorType.SelectedIndex = chennal.sensorType == null ? -1 : (int)chennal.sensorType - 1;
                 f_ChennalInfo.chennalSensorName.Text = chennal.sensorName;
-                f_ChennalInfo.chennalSensorId.Text = chennal.sensorID;
                 //将数据库现以配置有的传感器id填充到传感器id的下拉框
                 if (sensorIds != null)
                 {
                     f_ChennalInfo.chennalSensorId.Items.AddRange(sensorIds.ToArray());
                 }
+                f_ChennalInfo.chennalSensorId.Text = chennal.sensorID;
                 if (chennal.isWaring == 1)
                 {
                     f_ChennalInfo.isWraning.Checked = true;
@@ -567,7 +580,7 @@ namespace ModbusRTU_TP1608
                     {
                         chennal.isWaring = 0;
                     }
-                    chennal.decimalPlaces = f_ChennalInfo.chennalDecimalPlaces.SelectedIndex + 1;
+                    chennal.decimalPlaces = int.Parse(f_ChennalInfo.chennalDecimalPlaces.Text.Trim());
                     chennal.warning1L = double.Parse(f_ChennalInfo.chennalWarning1L.Text.Trim());
                     chennal.warning1H = double.Parse(f_ChennalInfo.chennalWarning1H.Text.Trim());
                     chennal.warning2L = double.Parse(f_ChennalInfo.chennalWarning2L.Text.Trim());
@@ -581,7 +594,7 @@ namespace ModbusRTU_TP1608
                     chennal.sensorID = f_ChennalInfo.chennalSensorId.Text.Trim();
                     chennal.sensorTableName = Common.SensorTable[f_ChennalInfo.chennalSensorType.Text.Trim()];
                     new RTUChennalManage().UpdateByEntity(chennal);
-                    
+
                 }
             }
             else if (sys.protocol == (int)Common.Protocol.TCP)
@@ -590,18 +603,19 @@ namespace ModbusRTU_TP1608
                 var chennal = new TCPChennalManage().GetByDeviceIdAndName(device.id, ucChennal.uiChennalName.Text.Trim());
                 var sensorIds = new TCPChennalManage().GetSensorIds();
                 var f_ChennalInfo = new F_ChennalInfo();
+                f_ChennalInfo.tCPChennal = chennal;
                 f_ChennalInfo.chennalName.Text = chennal.chennalName;
                 f_ChennalInfo.chennalID.Text = chennal.chennalID.ToString();
                 f_ChennalInfo.chennalLabel.Text = chennal.chennalLabel;
                 f_ChennalInfo.chennalUnit.Text = chennal.chennalUnit;
-                f_ChennalInfo.chennalSensorType.Text = chennal.sensorType == null ? "" : chennal.sensorType.ToString();
+                f_ChennalInfo.chennalSensorType.SelectedIndex = chennal.sensorType == null ? -1 : (int)chennal.sensorType - 1;
                 f_ChennalInfo.chennalSensorName.Text = chennal.sensorName;
-                f_ChennalInfo.chennalSensorId.Text = chennal.sensorID;
                 //将数据库现以配置有的传感器id填充到传感器id的下拉框
                 if (sensorIds != null)
                 {
                     f_ChennalInfo.chennalSensorId.Items.AddRange(sensorIds.ToArray());
                 }
+                f_ChennalInfo.chennalSensorId.Text = chennal.sensorID;
                 if (chennal.isWaring == 1)
                 {
                     f_ChennalInfo.isWraning.Checked = true;
@@ -638,7 +652,7 @@ namespace ModbusRTU_TP1608
                     {
                         chennal.isWaring = 0;
                     }
-                    chennal.decimalPlaces = f_ChennalInfo.chennalDecimalPlaces.SelectedIndex + 1;
+                    chennal.decimalPlaces = int.Parse(f_ChennalInfo.chennalDecimalPlaces.Text.Trim());
                     chennal.warning1L = double.Parse(f_ChennalInfo.chennalWarning1L.Text.Trim());
                     chennal.warning1H = double.Parse(f_ChennalInfo.chennalWarning1H.Text.Trim());
                     chennal.warning2L = double.Parse(f_ChennalInfo.chennalWarning2L.Text.Trim());
@@ -652,10 +666,181 @@ namespace ModbusRTU_TP1608
                     chennal.sensorID = f_ChennalInfo.chennalSensorId.Text.Trim();
                     chennal.sensorTableName = Common.SensorTable[f_ChennalInfo.chennalSensorType.Text.Trim()];
                     new TCPChennalManage().UpdateByEntity(chennal);
-                    
+
                 }
             }
 
+        }
+        #endregion
+
+        #region 开始采集
+        private void BtnStart_Click(object sender, EventArgs e)
+        {
+            //如果按钮的图标是灭的时，点击不响应
+            if (BtnStart.Image == Properties.Resources.start1)
+            {
+                return;
+            }
+            int protocol = new SysManage().GetSysInfo()[0].protocol;
+            if (protocol == (int)Common.Protocol.RTU)
+            {
+                RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                if (rTUDevice != null && rTUDevice.status == (int)Common.DeviceStatus.STOP && CheckPort(rTUDevice.serialPort))
+                {
+                    //TP1608要求数据位为8，无奇偶校验，停止位为1
+                    SerialPort serialPort = new SerialPort(rTUDevice.serialPort, int.Parse(rTUDevice.baudRate), Parity.None, 8, StopBits.One);
+                    //将串口实例与设备实例存下来
+                    bool f = false;
+                    foreach (var key in ModbusUtil.RTUdevices.Keys)
+                    {
+                        if (key.PortName.Equals(serialPort.PortName))
+                        {
+                            //串口已经在采集，那么不用创建新的线程
+                            ModbusUtil.RTUdevices[key].Add(rTUDevice.deviceAddress, rTUDevice);
+                            f = true;
+                            break;
+                        }
+                    }
+                    if (!f)
+                    {
+                        var device = new Dictionary<string, RTUDevice>();
+                        device.Add(rTUDevice.deviceAddress, rTUDevice);
+                        ModbusUtil.RTUdevices.Add(serialPort, device);
+                        try
+                        {
+                            if (!serialPort.IsOpen)
+                            {
+                                serialPort.Open();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            this.ShowErrorDialog("串口" + serialPort.PortName + "打开失败！");
+                        }
+                        Thread thread = new Thread(new ParameterizedThreadStart(this.RTUDataCollect));//调用方法，需要提供参数：串口（用于实例化master）
+                        thread.Name = serialPort.PortName + "的工作线程";
+                        thread.IsBackground = true;//后台线程，关闭程序时，线程也会停止
+                        thread.Start(serialPort);
+                        ModbusUtil.RTUThreads.Add(serialPort, thread);
+                    }
+                    //设置设备为采集状态（status字段变为1）
+                    new RTUDeviceManage().UpdateStatusByName(rTUDevice.deviceName, (int)Common.DeviceStatus.START);
+
+                    //设置开始采集和停止采集按钮的图片
+                    BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
+                    BtnStop.Image = Properties.Resources.stop2;//停止采集亮
+
+                }
+            }
+            else if (protocol == (int)Common.Protocol.TCP)
+            {
+
+            }
+        }
+        #endregion
+
+        public bool CheckPort(string serialPort)
+        {
+            if (serialPort == null)
+            {
+                this.ShowWarningDialog("设备的串口号为空，请配置！");
+                return false;
+            }
+            return true;
+        }
+
+        //RTU协议下的采集方法
+        public void RTUDataCollect(object serialPort)
+        {
+            //新建一个master
+            IModbusMaster RTUMaster = ModbusSerialMaster.CreateRtu((SerialPort)serialPort);
+            debug.Show();
+            while (!this.stop)
+            {
+                List<RTUDevice> rTUDevices = ModbusUtil.RTUdevices[(SerialPort)serialPort].Values.ToList();
+                for (int i = 0; i < rTUDevices.Count; i++)
+                {
+                    //读取设备的寄存器数据（8个通道，一个通道2个寄存器），参数：设备地址，起始地址，寄存器数
+                    ushort[] registerBuffer = RTUMaster.ReadHoldingRegisters(byte.Parse(rTUDevices[i].deviceAddress), 0, 16);
+                    //ushort[]=>float[]
+                    float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
+                    List<RTUChennal> rTUChennals = new RTUChennalManage().GetByDeviceId(rTUDevices[i].id);
+                    foreach (RTUChennal rTUChennal in rTUChennals)
+                    {
+                        if (rTUChennal.sensorID != null)
+                        {
+                            Sensor sensor = new Sensor();
+                            sensor.sensorId = rTUChennal.sensorID;
+                            sensor.sensorName = rTUChennal.sensorName;
+                            sensor.sensorType = rTUChennal.sensorType.ToString();/////这是int,要改
+                            sensor.sensorLabel = rTUChennal.chennalLabel;
+                            double value = (result[(int)rTUChennal.chennalID - 1] - 4.0F) / (20.0F - 4.0F) * ((double)rTUChennal.sensorRangeH - (double)rTUChennal.sensorRangeL);
+                            if ((double)rTUChennal.sensorRangeL < 0 && (double)rTUChennal.sensorRangeH >= 0)
+                            {
+                                if (value < (double)rTUChennal.sensorRangeL * (-1))
+                                {
+                                    sensor.sensorValue = (value * (-1)).ToString();
+                                }
+                                else
+                                {
+                                    sensor.sensorValue = (value - (double)rTUChennal.sensorRangeL * (-1)).ToString();
+                                }
+                            }
+                            else if ((double)rTUChennal.sensorRangeL < 0 && (double)rTUChennal.sensorRangeH <= 0)
+                            {
+
+                            }
+                            else if ((double)rTUChennal.sensorRangeL >= 0 && (double)rTUChennal.sensorRangeH > 0)
+                            {
+                                sensor.sensorValue = (value + (double)rTUChennal.sensorRangeL).ToString();
+                            }
+                            sensor.sensorUnit = "ppm";
+                            sensor.createBy = "";
+                            sensor.createTime = DateTime.Now;
+                            sensor.updateBy = "co2" + sensor.sensorId;
+                            sensor.updateTime = DateTime.Now;
+                            new SensorManage().InsertByTableName("sensor_co2", sensor);
+                        }
+                    }
+                }
+            }
+            this.stop = false;
+            debug.SetMsg("");
+            debug.Close();
+
+        }
+
+        private void BtnStop_Click(object sender, EventArgs e)
+        {
+            RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+            //当设备时停止状态时，点击不响应
+            if (rTUDevice.status == (int)Common.DeviceStatus.STOP)
+            {
+                return;
+            }
+            this.stop = true;
+            foreach (var key in ModbusUtil.RTUdevices.Keys)
+            {
+                if (key.PortName.Equals(rTUDevice.serialPort))
+                {
+                    ModbusUtil.RTUdevices[key].Remove(rTUDevice.deviceName);
+                }
+            }
+            string s = string.Empty;
+            foreach (var key in ModbusUtil.RTUThreads.Keys)
+            {
+                if (key.PortName.Equals(rTUDevice.serialPort))
+                {
+                    s = ModbusUtil.RTUThreads[key].ThreadState.ToString();
+                    this.ShowInfoDialog("线程状态：" + s);
+                }
+            }
+
+            //设置设备为停止状态（status字段变为0）
+            new RTUDeviceManage().UpdateStatusByName(rTUDevice.deviceName, (int)Common.DeviceStatus.STOP);
+            //设置开始采集和停止采集按钮的图片
+            BtnStart.Image = Properties.Resources.start2;//开始采集熄灭
+            BtnStop.Image = Properties.Resources.stop1;//停止采集亮
         }
     }
 }

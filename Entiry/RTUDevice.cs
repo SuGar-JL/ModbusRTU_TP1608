@@ -15,7 +15,7 @@ namespace ModbusRTU_TP1608.Entiry
             this.id = System.Guid.NewGuid().ToString("N");
         }
 
-        [SugarColumn(ColumnName = "status", IsNullable = false, ColumnDescription = "设备状态：0、关闭，1、打开，2、采集")]
+        [SugarColumn(ColumnName = "status", IsNullable = false, ColumnDescription = "设备状态：0、停止，1、采集")]
         public int status { get; set; }
         [SugarColumn(ColumnName = "device_type", IsNullable = false, ColumnDescription = "设备类型")]
         public string deviceType { get; set; }

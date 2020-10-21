@@ -1,4 +1,7 @@
-﻿using Sunny.UI;
+﻿using ModbusRTU_TP1608.Entiry;
+using ModbusRTU_TP1608.Utils;
+using ModbusTCP_TP1608.Entiry;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +16,10 @@ namespace ModbusRTU_TP1608
 {
     public partial class F_ChennalInfo : UIEditForm
     {
+        //获取系统当前的协议
+        private int protocol = new SysManage().GetSysInfo()[0].protocol;
+        public RTUChennal rTUChennal = new RTUChennal();
+        public TCPChennal tCPChennal = new TCPChennal();
         public F_ChennalInfo()
         {
             InitializeComponent();
@@ -20,16 +27,50 @@ namespace ModbusRTU_TP1608
 
         protected override bool CheckData()
         {
-            return CheckEmpty(chennalName, "通道名称不能为空")
-                   && CheckEmpty(chennalLabel, "监测项不能为空")
+            return CheckEmpty(chennalName, "请输入通道名称")
+                   && CheckEmpty(chennalLabel, "请输入监测项")
                    && CheckEmpty(chennalUnit, "请选择监测单位")
-                   && CheckEmpty(chennalSensorType, "请输选择传感器类型")
-                   && CheckEmpty(chennalSensorName, "请为传感器命个名")
+                   && CheckEmpty(chennalSensorType, "请选择传感器类型")
+                   && CheckEmpty(chennalSensorName, "请输入传感器名称")
+                   && CheckEmpty(chennalSensorId, "请输入传感器id")
+                   && CheckSensorId(chennalSensorId, "传感器id重复")
+                   && CheckEmpty(chennalDecimalPlaces, "请选择小数位")
                    && CheckEmpty(chennalSensorRangeL, "传感器量程需填完整")
                    && CheckEmpty(chennalSensorRangeH, "传感器量程需填完整")
                    && CheckSensorRange(chennalSensorRangeL, chennalSensorRangeH, "传感器量程不合理")
                    && CheckWarning(isWraning, chennalWarning1L, chennalWarning1H, chennalWarning2L, chennalWarning2H, chennalWarning3L, chennalWarning3H)
                    && CheckEmpty(chennalType, "请选择通道类型");
+        }
+        private bool CheckSensorId(UIComboBox chennalSensorId, string desc)
+        {
+            bool result = false;
+            if (protocol == (int)Common.Protocol.RTU)
+            {
+                if (chennalSensorId.Text.Trim().Equals(this.rTUChennal.sensorID))
+                {
+                    return true;
+                }
+                result = new RTUChennalManage().GetBySensorId(chennalSensorId.Text.Trim()).Count == 0;
+                if (!result)
+                {
+                    this.ShowWarningDialog(desc);
+                    chennalSensorId.Focus();
+                }
+            }
+            else if (protocol == (int)Common.Protocol.TCP)
+            {
+                if (chennalSensorId.Text.Trim().Equals(this.tCPChennal.sensorID))
+                {
+                    return true;
+                }
+                result = new TCPChennalManage().GetBySensorId(chennalSensorId.Text.Trim()).Count == 0;
+                if (!result)
+                {
+                    this.ShowWarningDialog(desc);
+                    chennalSensorId.Focus();
+                }
+            }
+            return result;
         }
         private bool CheckSensorRange(UITextBox chennalSensorRangeL, UITextBox chennalSensorRangeH, string desc)
         {
@@ -97,6 +138,23 @@ namespace ModbusRTU_TP1608
                 && CheckEmpty(chennalWarning2H, "勾选了报警，则报警阈值范围不能有空值")
                 && CheckEmpty(chennalWarning3L, "勾选了报警，则报警阈值范围不能有空值")
                 && CheckEmpty(chennalWarning3H, "勾选了报警，则报警阈值范围不能有空值");
+        }
+        /// <summary>
+        /// 读取通道的类型
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void chennalTypeRead_Click(object sender, EventArgs e)
+        {
+            if (protocol == (int)Common.Protocol.RTU)
+            {
+                RTUDevice rTUDevice = new RTUDeviceManage().GetById(this.rTUChennal.deviceID);
+
+            }
+            else if (protocol == (int)Common.Protocol.TCP)
+            {
+                
+            }
         }
 
     }

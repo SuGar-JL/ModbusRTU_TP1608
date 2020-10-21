@@ -64,9 +64,9 @@ namespace ModbusRTU_TP1608.Utils
         {
             List<TCPChennal> chennals = Db.Queryable<TCPChennal>().Where(it => it.sensorID != null).ToList();
             List<string> sensorIds = new List<string>();
-            for (int i = 0; i < chennals.Count; i++)
+            foreach (var chennal in chennals)
             {
-                sensorIds.Append(chennals[i].sensorID);
+                sensorIds.Add(chennal.sensorID);
             }
             sensorIds.Sort();
             return sensorIds;
@@ -104,6 +104,11 @@ namespace ModbusRTU_TP1608.Utils
                 }
             }
             return maxId;
+        }
+
+        public List<TCPChennal> GetBySensorId(string sensorId)
+        {
+            return Db.Queryable<TCPChennal>().Where(it => it.sensorID == sensorId).ToList();
         }
     }
 }

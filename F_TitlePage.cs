@@ -775,31 +775,15 @@ namespace ModbusRTU_TP1608
                             sensor.sensorType = rTUChennal.sensorType.ToString();/////这是int,要改
                             sensor.sensorLabel = rTUChennal.chennalLabel;
                             double value = (result[(int)rTUChennal.chennalID - 1] - 4.0F) / (20.0F - 4.0F) * ((double)rTUChennal.sensorRangeH - (double)rTUChennal.sensorRangeL);
-                            if ((double)rTUChennal.sensorRangeL < 0 && (double)rTUChennal.sensorRangeH >= 0)
-                            {
-                                if (value < (double)rTUChennal.sensorRangeL * (-1))
-                                {
-                                    sensor.sensorValue = (value * (-1)).ToString();
-                                }
-                                else
-                                {
-                                    sensor.sensorValue = (value - (double)rTUChennal.sensorRangeL * (-1)).ToString();
-                                }
-                            }
-                            else if ((double)rTUChennal.sensorRangeL < 0 && (double)rTUChennal.sensorRangeH <= 0)
-                            {
-
-                            }
-                            else if ((double)rTUChennal.sensorRangeL >= 0 && (double)rTUChennal.sensorRangeH > 0)
-                            {
-                                sensor.sensorValue = (value + (double)rTUChennal.sensorRangeL).ToString();
-                            }
-                            sensor.sensorUnit = "ppm";
-                            sensor.createBy = "";
+                            sensor.sensorValue = (value + (double)rTUChennal.sensorRangeL).ToString();
+                            sensor.sensorUnit = rTUChennal.chennalUnit;
+                            sensor.createBy = "传感器" + sensor.sensorId;
                             sensor.createTime = DateTime.Now;
-                            sensor.updateBy = "co2" + sensor.sensorId;
+                            sensor.updateBy = "传感器" + sensor.sensorId;
                             sensor.updateTime = DateTime.Now;
-                            new SensorManage().InsertByTableName("sensor_co2", sensor);
+                            new SensorManage().InsertByTableName(rTUChennal.sensorTableName, sensor);//////表还没做关联
+                            //接下来做显示
+
                         }
                     }
                 }

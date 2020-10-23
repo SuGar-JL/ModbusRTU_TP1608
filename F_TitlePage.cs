@@ -754,6 +754,7 @@ namespace ModbusRTU_TP1608
         {
             //新建一个master
             IModbusMaster RTUMaster = ModbusSerialMaster.CreateRtu((SerialPort)serialPort);
+            ThreadPool.SetMaxThreads(8, 8);//使用线程池来写数据库，异步来提高速度
             debug.Show();
             while (!this.stop)
             {
@@ -781,7 +782,8 @@ namespace ModbusRTU_TP1608
                             sensor.createTime = DateTime.Now;
                             sensor.updateBy = "传感器" + sensor.sensorId;
                             sensor.updateTime = DateTime.Now;
-                            new SensorManage().InsertByTableName(rTUChennal.sensorTableName, sensor);//////表还没做关联
+                            sensor.tableName = rTUChennal.sensorTableName;
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(WriteDB), sensor);
                             //接下来做显示
 
                         }
@@ -794,6 +796,12 @@ namespace ModbusRTU_TP1608
 
         }
 
+        private static void WriteDB(object obj)
+        {
+            Sensor sensor = (Sensor)obj;
+            new SensorManage().InsertByTableName(sensor.tableName, sensor);//////表还没做关联
+        }
+
         private void BtnStop_Click(object sender, EventArgs e)
         {
             RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
@@ -802,6 +810,7 @@ namespace ModbusRTU_TP1608
             {
                 return;
             }
+            //当某个串口上没有设备在采集时，停止采集线程，关闭串口，但停止线程采集线程前要确保内部的线程池已经结束（空闲线程数==最大线程数）
             this.stop = true;
             foreach (var key in ModbusUtil.RTUdevices.Keys)
             {

@@ -35,12 +35,19 @@ namespace ModbusRTU_TP1608
         /// <summary>
         /// 传感器类型与传感器数据所存数据库表的对应关系
         /// </summary>
-        public static Dictionary<string, string> SensorTable = new Dictionary<string, string>()
+        public static Dictionary<int, string> SensorTable = new Dictionary<int, string>()
         {
-            { "CO","sensor_co"},
-            { "CO2","sensor_co2"},
-            { "温度","sensor_temp"},
-
+            { 1,"sensor_water_flow"},
+            { 2,"sensor_water_pressure"},
+            { 3,"sensor_wind_pressure"},
+            { 4,"sensor_wind_speed"},
+            { 5,"sensor_temp"},
+            { 6,"sensor_co2"},
+            { 7,"sensor_co"},
+            { 8,"sensor_smoke_density"},
+            { 9,"sensor_roof_water"},
+            { 10,"sensor_outdoor_water"},
+            { 11,"sensor_hydrant_pressure"},
         };
     }
 }

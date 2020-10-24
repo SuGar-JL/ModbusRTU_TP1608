@@ -28,6 +28,7 @@ namespace ModbusRTU_TP1608
         protected override bool CheckData()
         {
             return CheckEmpty(chennalName, "请输入通道名称")
+                   && CheckChennalName(chennalName, "通道名称重复")
                    && CheckEmpty(chennalLabel, "请输入监测项")
                    && CheckEmpty(chennalUnit, "请选择监测单位")
                    && CheckEmpty(chennalSensorType, "请选择传感器类型")
@@ -41,6 +42,39 @@ namespace ModbusRTU_TP1608
                    && CheckWarning(isWraning, chennalWarning1L, chennalWarning1H, chennalWarning2L, chennalWarning2H, chennalWarning3L, chennalWarning3H)
                    && CheckEmpty(chennalType, "请选择通道类型");
         }
+
+        private bool CheckChennalName(UITextBox chennalName, string desc)
+        {
+            bool result = false;
+            if (protocol == (int)Common.Protocol.RTU)
+            {
+                if (chennalName.Text.Trim().Equals(this.rTUChennal.chennalName))
+                {
+                    return true;
+                }
+                result = new RTUChennalManage().GetByName(chennalName.Text.Trim()) == null;
+                if (!result)
+                {
+                    this.ShowWarningDialog(desc);
+                    this.chennalName.Focus();
+                }
+            }
+            else if (protocol == (int)Common.Protocol.TCP)
+            {
+                if (chennalName.Text.Trim().Equals(this.tCPChennal.chennalName))
+                {
+                    return true;
+                }
+                result = new TCPChennalManage().GetByName(chennalName.Text.Trim()) == null;
+                if (!result)
+                {
+                    this.ShowWarningDialog(desc);
+                    this.chennalName.Focus();
+                }
+            }
+            return result;
+        }
+
         private bool CheckSensorId(UIComboBox chennalSensorId, string desc)
         {
             bool result = false;
@@ -54,7 +88,7 @@ namespace ModbusRTU_TP1608
                 if (!result)
                 {
                     this.ShowWarningDialog(desc);
-                    chennalSensorId.Focus();
+                    this.chennalSensorId.Focus();
                 }
             }
             else if (protocol == (int)Common.Protocol.TCP)
@@ -67,7 +101,7 @@ namespace ModbusRTU_TP1608
                 if (!result)
                 {
                     this.ShowWarningDialog(desc);
-                    chennalSensorId.Focus();
+                    this.chennalSensorId.Focus();
                 }
             }
             return result;
@@ -80,7 +114,7 @@ namespace ModbusRTU_TP1608
             if (!result)
             {
                 this.ShowWarningDialog(desc);
-                chennalSensorRangeL.Focus();
+                this.chennalSensorRangeL.Focus();
             }
             return result;
         }
@@ -101,7 +135,7 @@ namespace ModbusRTU_TP1608
             if (!isWraning.Checked)
             {
                 //如果报警没有勾选，那么所有的阈值必须全空或全填且合理
-                if (chennalWarning1L.Text.Trim().Length == 0 && chennalWarning1H.Text.Trim().Length == 0 && chennalWarning2L.Text.Trim().Length == 0 && chennalWarning2H.Text.Trim().Length == 0 && chennalWarning3L.Text.Trim().Length == 0 && chennalWarning3H.Text.Trim().Length == 0)
+                if (double.Parse(chennalWarning1L.Text.Trim()) == 0 && double.Parse(chennalWarning1H.Text.Trim()) == 0 && double.Parse(chennalWarning2L.Text.Trim()) == 0 && double.Parse(chennalWarning2H.Text.Trim()) == 0 && double.Parse(chennalWarning3L.Text.Trim()) == 0 && double.Parse(chennalWarning3H.Text.Trim()) == 0)
                 {
                     return true;
                 }
@@ -130,7 +164,8 @@ namespace ModbusRTU_TP1608
                 && CheckEmpty(chennalWarning2H, "没有勾选报警，则只可以全空或全填且合理")
                 && CheckEmpty(chennalWarning3L, "没有勾选报警，则只可以全空或全填且合理")
                 && CheckEmpty(chennalWarning3H, "没有勾选报警，则只可以全空或全填且合理");
-        }private bool CheckWarningEmpty2(UITextBox chennalWarning1L, UITextBox chennalWarning1H, UITextBox chennalWarning2L, UITextBox chennalWarning2H, UITextBox chennalWarning3L, UITextBox chennalWarning3H)
+        }
+        private bool CheckWarningEmpty2(UITextBox chennalWarning1L, UITextBox chennalWarning1H, UITextBox chennalWarning2L, UITextBox chennalWarning2H, UITextBox chennalWarning3L, UITextBox chennalWarning3H)
         {
             return CheckEmpty(chennalWarning1L, "勾选了报警，则报警阈值范围不能有空值")
                 && CheckEmpty(chennalWarning1H, "勾选了报警，则报警阈值范围不能有空值")
@@ -153,7 +188,7 @@ namespace ModbusRTU_TP1608
             }
             else if (protocol == (int)Common.Protocol.TCP)
             {
-                
+
             }
         }
 

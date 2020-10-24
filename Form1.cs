@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,6 +78,7 @@ namespace ModbusRTU_TP1608
             this.LoadDeviceCofigFDB(this.sys.protocol);
         }
         #endregion
+
         #region 创建数据库表
         private void CreateTable(int protocol)
         {
@@ -100,6 +102,7 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
+
         #region 设置->通信协议
         private void 通信协议ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -145,6 +148,7 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
+
         #region 添加设备 点击添加设备：文字或“+”号
         private void btnAddDevice1_AddDevice(object sender, EventArgs e)
         {
@@ -291,6 +295,7 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
+
         #region 从数据库加载设备菜单到左边栏
         public void LoadDeviceCofigFDB(int protocol)
         {
@@ -344,6 +349,7 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
+
         #region 设置设备 修改Aside的Node（）设备名称及通道数
         public void SetAsideNode(string deviceName, string deviceId, int pageIndex, bool f)
         {
@@ -420,6 +426,7 @@ namespace ModbusRTU_TP1608
 
         }
         #endregion
+
         #region 删除设备 删除Aside的节点
         internal void DeleteAsideNode(int pageIndex)
         {
@@ -436,5 +443,39 @@ namespace ModbusRTU_TP1608
             }
         }
         #endregion
+
+        #region 更改子节点的名称
+        public void UpdateChildNodeName(string oldName, string newName)
+        {
+            TreeNode parentNode = Aside.SelectedNode.Parent == null ? Aside.SelectedNode : Aside.SelectedNode.Parent;
+            foreach (TreeNode node in parentNode.Nodes)
+            {
+                if (node.Text.Equals(oldName))
+                {
+                    node.Text = newName;
+                }
+            }
+        }
+
+        #endregion
+
+        #region 关闭系统
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //所有设备停止采集，再关闭系统
+
+            List<string> deviceAddress = ModbusUtil.RTUF_TitlePages.Keys.ToList();
+            for (int i = 0; i < deviceAddress.Count; i++)
+            {
+                List<F_TitlePage> f_TitlePages = ModbusUtil.RTUF_TitlePages[deviceAddress[i]];
+                int count = f_TitlePages.Count;
+                for (int j = 0; j < count; j++)
+                {
+                    ModbusUtil.RTUF_TitlePages[deviceAddress[i]][j].BtnStop_Click(this, new EventArgs());
+                }
+            }
+        }
+        #endregion
+
     }
 }

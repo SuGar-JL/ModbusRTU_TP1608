@@ -42,7 +42,7 @@ namespace ModbusRTU_TP1608
                    && CheckEmpty(deviceName, "请输入设备名称")
                    && CheckDeviceNameRepeat(deviceName, "设备名称已被占用")
                    && CheckEmpty(deviceAddress, "请输入设备地址")
-                   && CheckDeviceAddressRepeat(deviceAddress, "设备地址已被占用")
+                   //&& CheckDeviceAddressRepeat(deviceAddress, "设备地址已被占用")
                    && CheckEmpty(deviceChennalNum, "请选择通道数量")
                    && CheckEmpty(deviceStartChennal, "请选择起始通道")
                    && CheckChennalNumAndStartChennal(deviceChennalNum, deviceStartChennal, "通道数量与起始通道不匹配，需满足：\r\n\t8 - 起始通道 >= 通道数量")

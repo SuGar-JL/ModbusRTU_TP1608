@@ -115,7 +115,12 @@
             this.chennalUnit.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.chennalUnit.Items.AddRange(new object[] {
             "ppm",
-            "℃"});
+            "℃",
+            "Pa",
+            "MPa",
+            "%",
+            "m",
+            "m/s"});
             this.chennalUnit.Location = new System.Drawing.Point(442, 99);
             this.chennalUnit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chennalUnit.MinimumSize = new System.Drawing.Size(63, 0);
@@ -207,9 +212,17 @@
             this.chennalSensorType.FillColor = System.Drawing.Color.White;
             this.chennalSensorType.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.chennalSensorType.Items.AddRange(new object[] {
-            "CO",
-            "CO2",
-            "温度"});
+            "流量传感器",
+            "水压传感器",
+            "风压传感器",
+            "风速传感器",
+            "温度传感器",
+            "CO2浓度传感器",
+            "CO浓度传感器",
+            "烟雾浓度传感器",
+            "屋顶水箱液位信号",
+            "室外水箱液位信号",
+            "压力传感器"});
             this.chennalSensorType.Location = new System.Drawing.Point(122, 138);
             this.chennalSensorType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chennalSensorType.MinimumSize = new System.Drawing.Size(63, 0);

@@ -260,6 +260,7 @@
             this.Name = "Form1";
             this.ShowIcon = true;
             this.Text = "";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.MainContainer.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);

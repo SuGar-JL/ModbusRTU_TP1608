@@ -676,15 +676,20 @@ namespace ModbusRTU_TP1608
         #region 开始采集
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            //如果按钮的图标是灭的时，点击不响应
-            if (BtnStart.Image == Properties.Resources.start1)
-            {
-                return;
-            }
             int protocol = new SysManage().GetSysInfo()[0].protocol;
             if (protocol == (int)Common.Protocol.RTU)
             {
                 RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                if (rTUDevice == null || rTUDevice.status == (int)Common.DeviceStatus.START)
+                {
+                    return;
+                }
+                //检查设备串口是否插在电脑上
+                if (true)
+                {
+
+                }
+                //有了上面的判断，下面的if可以不用了
                 if (rTUDevice != null && rTUDevice.status == (int)Common.DeviceStatus.STOP && CheckPort(rTUDevice.serialPort))
                 {
                     //TP1608要求数据位为8，无奇偶校验，停止位为1
@@ -731,6 +736,10 @@ namespace ModbusRTU_TP1608
                     BtnStop.Image = Properties.Resources.stop2;//停止采集亮
 
                 }
+                else
+                {
+                    return;//此处因报告原因
+                }
             }
             else if (protocol == (int)Common.Protocol.TCP)
             {
@@ -754,6 +763,7 @@ namespace ModbusRTU_TP1608
         {
             //新建一个master
             IModbusMaster RTUMaster = ModbusSerialMaster.CreateRtu((SerialPort)serialPort);
+            ThreadPool.SetMaxThreads(8, 8);//使用线程池来写数据库，异步来提高速度
             debug.Show();
             while (!this.stop)
             {
@@ -775,31 +785,16 @@ namespace ModbusRTU_TP1608
                             sensor.sensorType = rTUChennal.sensorType.ToString();/////这是int,要改
                             sensor.sensorLabel = rTUChennal.chennalLabel;
                             double value = (result[(int)rTUChennal.chennalID - 1] - 4.0F) / (20.0F - 4.0F) * ((double)rTUChennal.sensorRangeH - (double)rTUChennal.sensorRangeL);
-                            if ((double)rTUChennal.sensorRangeL < 0 && (double)rTUChennal.sensorRangeH >= 0)
-                            {
-                                if (value < (double)rTUChennal.sensorRangeL * (-1))
-                                {
-                                    sensor.sensorValue = (value * (-1)).ToString();
-                                }
-                                else
-                                {
-                                    sensor.sensorValue = (value - (double)rTUChennal.sensorRangeL * (-1)).ToString();
-                                }
-                            }
-                            else if ((double)rTUChennal.sensorRangeL < 0 && (double)rTUChennal.sensorRangeH <= 0)
-                            {
-
-                            }
-                            else if ((double)rTUChennal.sensorRangeL >= 0 && (double)rTUChennal.sensorRangeH > 0)
-                            {
-                                sensor.sensorValue = (value + (double)rTUChennal.sensorRangeL).ToString();
-                            }
-                            sensor.sensorUnit = "ppm";
-                            sensor.createBy = "";
+                            sensor.sensorValue = (value + (double)rTUChennal.sensorRangeL).ToString();
+                            sensor.sensorUnit = rTUChennal.chennalUnit;
+                            sensor.createBy = "传感器" + sensor.sensorId;
                             sensor.createTime = DateTime.Now;
-                            sensor.updateBy = "co2" + sensor.sensorId;
+                            sensor.updateBy = "传感器" + sensor.sensorId;
                             sensor.updateTime = DateTime.Now;
-                            new SensorManage().InsertByTableName("sensor_co2", sensor);
+                            sensor.tableName = rTUChennal.sensorTableName;
+                            ThreadPool.QueueUserWorkItem(new WaitCallback(WriteSensorData2DB), sensor);
+                            //接下来做显示
+
                         }
                     }
                 }
@@ -810,6 +805,12 @@ namespace ModbusRTU_TP1608
 
         }
 
+        private static void WriteSensorData2DB(object obj)
+        {
+            Sensor sensor = (Sensor)obj;
+            new SensorManage().InsertByTableName(sensor.tableName, sensor);//////表还没做关联
+        }
+
         private void BtnStop_Click(object sender, EventArgs e)
         {
             RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
@@ -818,6 +819,7 @@ namespace ModbusRTU_TP1608
             {
                 return;
             }
+            //当某个串口上没有设备在采集时，停止采集线程，关闭串口，但停止线程采集线程前要确保内部的线程池已经结束（空闲线程数==最大线程数）
             this.stop = true;
             foreach (var key in ModbusUtil.RTUdevices.Keys)
             {

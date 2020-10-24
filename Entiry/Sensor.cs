@@ -31,6 +31,9 @@ namespace ModbusRTU_TP1608.Entiry
         [SugarColumn(ColumnName = "pz", IsNullable = true, ColumnDescription = "传感器坐标z")]
         public string sensorPz { get; set; }
 
+        [SugarColumn(IsIgnore = true, IsNullable = true, ColumnDescription = "传感器对应的数据库表名称，该字段不存入数据库")]
+        public string tableName { get; set; }
+
         public Sensor()
         {
             this.id = System.Guid.NewGuid().ToString("N");

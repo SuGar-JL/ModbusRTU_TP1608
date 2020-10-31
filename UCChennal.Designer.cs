@@ -111,7 +111,7 @@
             this.uiChennalName.Location = new System.Drawing.Point(16, 2);
             this.uiChennalName.Margin = new System.Windows.Forms.Padding(0);
             this.uiChennalName.Name = "uiChennalName";
-            this.uiChennalName.Size = new System.Drawing.Size(130, 20);
+            this.uiChennalName.Size = new System.Drawing.Size(156, 20);
             this.uiChennalName.Style = Sunny.UI.UIStyle.Custom;
             this.uiChennalName.TabIndex = 0;
             this.uiChennalName.Text = "数据采集1";

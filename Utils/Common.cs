@@ -48,6 +48,7 @@ namespace ModbusRTU_TP1608
             { 9,"sensor_roof_water"},
             { 10,"sensor_outdoor_water"},
             { 11,"sensor_hydrant_pressure"},
+            { 12,"sensor"},
         };
     }
 }

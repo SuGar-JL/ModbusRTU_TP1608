@@ -222,7 +222,8 @@
             "烟雾浓度传感器",
             "屋顶水箱液位信号",
             "室外水箱液位信号",
-            "压力传感器"});
+            "压力传感器",
+            "其它"});
             this.chennalSensorType.Location = new System.Drawing.Point(122, 138);
             this.chennalSensorType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chennalSensorType.MinimumSize = new System.Drawing.Size(63, 0);

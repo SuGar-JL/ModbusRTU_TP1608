@@ -5,9 +5,7 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusRTU_TP1608", "ModbusRTU_TP1608.csproj", "{D1C28B7F-0A6D-4EA6-95DE-90ED925E0A8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "..\ConsoleApp1\ConsoleApp1.csproj", "{53B88F5F-E189-4FC1-A25F-C22DBE8AC2E4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "..\ConsoleApp2\ConsoleApp2.csproj", "{72200714-D00F-4CF2-BED7-41273F13B72D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "..\ConsoleApp1\ConsoleApp1.csproj", "{53B88F5F-E189-4FC1-A25F-C22DBE8AC2E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{53B88F5F-E189-4FC1-A25F-C22DBE8AC2E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53B88F5F-E189-4FC1-A25F-C22DBE8AC2E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53B88F5F-E189-4FC1-A25F-C22DBE8AC2E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72200714-D00F-4CF2-BED7-41273F13B72D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72200714-D00F-4CF2-BED7-41273F13B72D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72200714-D00F-4CF2-BED7-41273F13B72D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72200714-D00F-4CF2-BED7-41273F13B72D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

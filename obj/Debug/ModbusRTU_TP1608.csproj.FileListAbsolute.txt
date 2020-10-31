@@ -314,3 +314,6 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChennalInfo.res
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChennalInfo.resources
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCBtnAddDevice.resources
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChennal.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChartLine.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\NModbus.dll
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\NModbus.xml

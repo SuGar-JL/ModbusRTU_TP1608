@@ -253,7 +253,7 @@ namespace ModbusRTU_TP1608
                     device.hostName = f_AddDeviceTCP.deviceHostName.Text.Trim();//设置主机名
                     device.port = f_AddDeviceTCP.devicePort.Text.Trim();//设置端口号
                     device.position = f_AddDeviceTCP.devicePosition.Text.Trim();//设备安装位置
-                    device.pageIndex = new RTUDeviceManage().GetPageIndexs();//设备对应pageId
+                    device.pageIndex = new TCPDeviceManage().GetPageIndexs();//设备对应pageId
 
                     device.createTime = DateTime.Now;
                     device.createBy = "管理员";
@@ -464,14 +464,15 @@ namespace ModbusRTU_TP1608
         {
             //所有设备停止采集，再关闭系统
 
-            List<string> deviceAddress = ModbusUtil.RTUF_TitlePages.Keys.ToList();
-            for (int i = 0; i < deviceAddress.Count; i++)
+            List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
+            int counti = deviceAddress.Count;
+            for (int i = 0; i < counti; i++)
             {
-                List<F_TitlePage> f_TitlePages = ModbusUtil.RTUF_TitlePages[deviceAddress[i]];
-                int count = f_TitlePages.Count;
-                for (int j = 0; j < count; j++)
+                List<F_TitlePage> f_TitlePages = ModbusUtil.F_TitlePages[deviceAddress[i]];
+                int countj = f_TitlePages.Count;
+                for (int j = 0; j < countj; j++)
                 {
-                    ModbusUtil.RTUF_TitlePages[deviceAddress[i]][j].BtnStop_Click(this, new EventArgs());
+                    ModbusUtil.F_TitlePages[deviceAddress[i]][0].BtnStop_Click(this, new EventArgs());
                 }
             }
         }

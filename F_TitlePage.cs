@@ -2,19 +2,24 @@
 using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
 using ModbusTCP_TP1608.Entiry;
+using NModbus;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Media.TextFormatting;
 
 namespace ModbusRTU_TP1608
@@ -30,8 +35,44 @@ namespace ModbusRTU_TP1608
             w1 = this.Width;//窗口最开始的宽
             h1 = this.Height;//窗口最开始的高
             setTag(this);
-            textBox1.Text = String.Format("({0},{1})", this.Width, this.Height);
+
+            List<string> x = new List<string>() { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", };
+            Xs.Add(1, x);
+            Xs.Add(2, x);
+            Xs.Add(3, x);
+            Xs.Add(4, x);
+            Xs.Add(5, x);
+            Xs.Add(6, x);
+            Xs.Add(7, x);
+            Xs.Add(8, x);
+            List<double> y = new List<double>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
+            Ys.Add(1, y);
+            Ys.Add(2, y);
+            Ys.Add(3, y);
+            Ys.Add(4, y);
+            Ys.Add(5, y);
+            Ys.Add(6, y);
+            Ys.Add(7, y);
+            Ys.Add(8, y);
+            ucChartLine1.chart1.Series.Clear();
+            ChartHelper.AddSeries(ucChartLine1.chart1, "曲线图", SeriesChartType.SplineRange, Color.FromArgb(100, 46, 199, 201), Color.Red, true);
+            ChartHelper.SetTitle(ucChartLine1.chart1, "曲线图", new Font("微软雅黑", 10), Docking.Top, Color.Black);
+            ucChartLine1.chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;//隐藏竖线。
+            ucChartLine1.chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(100, 225, 225, 225);
+            ucChartLine1.chart1.ChartAreas[0].AxisX.LabelStyle.Format = "MM-dd\nHH:mm:ss";//时间格式。
+            ucChartLine1.chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Milliseconds;
+            //List<int> x1 = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            List<DateTime> x1 = new List<DateTime>() { DateTime.Now, DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3) };
+            List<double> y1 = new List<double>() { 3, 1.12, 1.11, 1.2 };
+            ucChartLine1.chart1.ChartAreas[0].AxisX.Minimum = x1[0].ToOADate();
+            ucChartLine1.chart1.ChartAreas[0].AxisX.Maximum = x1[0].AddMinutes(5).ToOADate();
+            ucChartLine1.chart1.Series[0].Points.DataBindXY(x1, y1);
         }
+        #region 属性
+        public Dictionary<int, List<string>> Xs = new Dictionary<int, List<string>>();
+        public Dictionary<int, List<double>> Ys = new Dictionary<int, List<double>>();
+
+        #endregion
 
         #region 控件大小随窗体大小等比例缩放
         private float w1;
@@ -91,7 +132,6 @@ namespace ModbusRTU_TP1608
         /// </summary>
         private void F_TitlePage_SizeChanged(object sender, EventArgs e)
         {
-            textBox1.Text = String.Format("({0},{1})", this.Width, this.Height);
             float scaleX = (this.Width) / w1;
             float scaleY = (this.Height) / h1;
             setControls(scaleX, scaleY, this);
@@ -712,6 +752,7 @@ namespace ModbusRTU_TP1608
         private void BtnStart_Click(object sender, EventArgs e)
         {
             int protocol = new SysManage().GetSysInfo()[0].protocol;
+            /////////////////////////////RTU协议下的采集///////////////////////////////
             if (protocol == (int)Common.Protocol.RTU)
             {
                 RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
@@ -758,15 +799,15 @@ namespace ModbusRTU_TP1608
                             ModbusUtil.RTUdevices[key].Add(rTUDevice.deviceAddress, rTUDevices);
                         }
                         //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
-                        if (ModbusUtil.RTUF_TitlePages.Keys.Contains(rTUDevice.deviceAddress))
+                        if (ModbusUtil.F_TitlePages.Keys.Contains(rTUDevice.deviceAddress))
                         {
-                            ModbusUtil.RTUF_TitlePages[rTUDevice.deviceAddress].Add(this);
+                            ModbusUtil.F_TitlePages[rTUDevice.deviceAddress].Add(this);
                         }
                         else
                         {
                             List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
                             f_TitlePages.Add(this);
-                            ModbusUtil.RTUF_TitlePages.Add(rTUDevice.deviceAddress, f_TitlePages);
+                            ModbusUtil.F_TitlePages.Add(rTUDevice.deviceAddress, f_TitlePages);
                         }
                         f = true;
                         break;
@@ -782,15 +823,15 @@ namespace ModbusRTU_TP1608
 
                     ModbusUtil.RTUdevices.Add(serialPort, devices);
                     //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
-                    if (ModbusUtil.RTUF_TitlePages.Keys.Contains(rTUDevice.deviceAddress))
+                    if (ModbusUtil.F_TitlePages.Keys.Contains(rTUDevice.deviceAddress))
                     {
-                        ModbusUtil.RTUF_TitlePages[rTUDevice.deviceAddress].Add(this);
+                        ModbusUtil.F_TitlePages[rTUDevice.deviceAddress].Add(this);
                     }
                     else
                     {
                         List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
                         f_TitlePages.Add(this);
-                        ModbusUtil.RTUF_TitlePages.Add(rTUDevice.deviceAddress, f_TitlePages);
+                        ModbusUtil.F_TitlePages.Add(rTUDevice.deviceAddress, f_TitlePages);
                     }
                     //设置信号灯，当创建线程没有设备在创建时设为true，以停止采集线程
                     bool signal_STOP = false;
@@ -819,20 +860,119 @@ namespace ModbusRTU_TP1608
                 new RTUDeviceManage().UpdateStatusByName(rTUDevice.deviceName, (int)Common.DeviceStatus.START);
 
                 //设置开始采集和停止采集按钮的图片
-                BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
-                BtnStop.Image = Properties.Resources.stop2;//停止采集亮
+                this.BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
+                this.BtnStop.Image = Properties.Resources.stop2;//停止采集亮
             }
+            /////////////////////////////TCP协议下的采集///////////////////////////////
             else if (protocol == (int)Common.Protocol.TCP)
             {
+                TCPDevice tCPDevice = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                if (tCPDevice.status == (int)Common.DeviceStatus.START)
+                {
+                    return;
+                }
+                if (tCPDevice == null)
+                {
+                    this.ShowWarningDialog("设备不存在");
+                    return;
+                }
+                if (tCPDevice.hostName == null || tCPDevice.hostName.Length == 0)
+                {
+                    this.ShowWarningDialog("请为设备配置从机IP");
+                    return;
+                }
+                if (tCPDevice.port == null || tCPDevice.port.Length == 0 || !tCPDevice.port.Equals("502"))
+                {
+                    this.ShowWarningDialog("请为设备配置从机端口号为502");
+                    return;
+                }
+                
+                //创建TCP客户端
+                try
+                {
+                    TcpClient tcpClient = new TcpClient(tCPDevice.hostName, int.Parse(tCPDevice.port));
+                    //将TCP客户端实例tcpClient与设备实例tCPDevice存下来
+                    bool f = false;
+                    foreach (var key in ModbusUtil.TCPdevices.Keys)
+                    {
+                        if (key.Client.RemoteEndPoint.ToString().Split(':')[0].Equals(tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0]))
+                        {
+                            //TCP客户端实例tcpClient已经在采集，那么不用创建新的线程，只需在串口的设备列表增加设备（设备地址可复用：一个地址对应多个F_TitlePage）
+                            if (ModbusUtil.TCPdevices[key].Keys.Contains(tCPDevice.deviceAddress))
+                            {
+                                ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress].Add(tCPDevice);
+                            }
+                            else
+                            {
+                                List<TCPDevice> tCPDevices = new List<TCPDevice>();
+                                tCPDevices.Add(tCPDevice);
+                                ModbusUtil.TCPdevices[key].Add(tCPDevice.deviceAddress, tCPDevices);
+                            }
+                            //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
+                            if (ModbusUtil.F_TitlePages.Keys.Contains(tCPDevice.deviceAddress))
+                            {
+                                ModbusUtil.F_TitlePages[tCPDevice.deviceAddress].Add(this);
+                            }
+                            else
+                            {
+                                List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
+                                f_TitlePages.Add(this);
+                                ModbusUtil.F_TitlePages.Add(tCPDevice.deviceAddress, f_TitlePages);
+                            }
+                            f = true;
+                            break;
+                        }
+                    }
+                    //tcpClient没有在采集，那么要创建新的线程，为tcpClient新建设备列表，并增加当前设备
+                    if (!f)
+                    {
+                        var devices = new Dictionary<string, List<TCPDevice>>();
+                        List<TCPDevice> tCPDevices = new List<TCPDevice>();
+                        tCPDevices.Add(tCPDevice);
+                        devices.Add(tCPDevice.deviceAddress, tCPDevices);
+                        ModbusUtil.TCPdevices.Add(tcpClient, devices);
+                        //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
+                        if (ModbusUtil.F_TitlePages.Keys.Contains(tCPDevice.deviceAddress))
+                        {
+                            ModbusUtil.F_TitlePages[tCPDevice.deviceAddress].Add(this);
+                        }
+                        else
+                        {
+                            List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
+                            f_TitlePages.Add(this);
+                            ModbusUtil.F_TitlePages.Add(tCPDevice.deviceAddress, f_TitlePages);
+                        }
+                        //设置信号灯，当创建线程没有设备在创建时设为true，以停止采集线程
+                        bool signal_STOP = false;
+                        ModbusUtil.TCPSignals.Add(tcpClient, signal_STOP);
+                        //新建一个采集线程
+                        Thread thread = new Thread(new ParameterizedThreadStart(this.TCPDataCollect));//调用方法，需要提供参数：串口（用于实例化master）
+                        thread.Name = tcpClient.Client.RemoteEndPoint.ToString() + "的采集线程";
+                        thread.IsBackground = true;//后台线程，关闭程序时，线程也会停止
+                        thread.Start(tcpClient);
+                        //存下线程，在串口串口的采集设备列表为空时，要停止线程（通过跳出所调用的采集方法中的while循环）
+                        ModbusUtil.TCPThreads.Add(tcpClient, thread);
+                    }
+                    //设置设备为采集状态（status字段变为1）
+                    new TCPDeviceManage().UpdateStatusByName(tCPDevice.deviceName, (int)Common.DeviceStatus.START);
 
+                    //设置开始采集和停止采集按钮的图片
+                    this.BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
+                    this.BtnStop.Image = Properties.Resources.stop2;//停止采集亮
+                }
+                catch (Exception exception)
+                {
+                    this.ShowErrorDialog(exception.Message);
+                }
             }
 
         }
+
         #region RTU协议下的采集方法
         public void RTUDataCollect(object serialPort)
         {
             //新建一个master
-            IModbusMaster RTUMaster = ModbusSerialMaster.CreateRtu((SerialPort)serialPort);
+            Modbus.Device.IModbusMaster RTUMaster = ModbusSerialMaster.CreateRtu((SerialPort)serialPort);
             ThreadPool.SetMaxThreads(8, 8);//使用线程池来写数据库，异步来提高速度
             while (!ModbusUtil.RTUSignals[(SerialPort)serialPort])
             {
@@ -854,7 +994,7 @@ namespace ModbusRTU_TP1608
                         List<RTUChennal> rTUChennals = new RTUChennalManage().GetByDeviceId(rTUDevices[i].id);
                         foreach (RTUChennal rTUChennal in rTUChennals)
                         {
-                            if (rTUChennal.sensorID != null)
+                            if (rTUChennal.sensorID != null && rTUChennal.sensorID.Length != 0)
                             {
                                 Sensor sensor = new Sensor();
                                 sensor.sensorId = rTUChennal.sensorID;
@@ -862,19 +1002,24 @@ namespace ModbusRTU_TP1608
                                 sensor.sensorType = rTUChennal.sensorType.ToString();/////这是int,要改
                                 sensor.sensorLabel = rTUChennal.chennalLabel;
                                 double value = (result[(int)rTUChennal.chennalID - 1] - 4.0F) / (20.0F - 4.0F) * ((double)rTUChennal.sensorRangeH - (double)rTUChennal.sensorRangeL);
-                                sensor.sensorValue = (value + (double)rTUChennal.sensorRangeL).ToString();
+                                value = double.Parse((value + (double)rTUChennal.sensorRangeL).ToString("F" + rTUChennal.decimalPlaces));
+                                sensor.sensorValue = value.ToString();
                                 sensor.sensorUnit = rTUChennal.chennalUnit;
                                 sensor.createBy = "传感器" + sensor.sensorId;
                                 sensor.createTime = DateTime.Now;
                                 sensor.updateBy = "传感器" + sensor.sensorId;
                                 sensor.updateTime = DateTime.Now;
                                 sensor.tableName = rTUChennal.sensorTableName;
-                                //ThreadPool.QueueUserWorkItem(new WaitCallback(WriteSensorData2DB), sensor);
+                                //sensor.tableName = "sensor";
+                                //this.Xs[(int)rTUChennal.chennalID].Add(((DateTime)sensor.createTime).ToLongTimeString());
+                                //this.Xs[(int)rTUChennal.chennalID].RemoveAt(0);
+                                //this.Ys[(int)rTUChennal.chennalID].Add(value);
+                                //this.Ys[(int)rTUChennal.chennalID].RemoveAt(0);
                                 //接下来做显示
                                 //找出当前（看到的）设备对应的F_TitlePage
                                 try
                                 {
-                                    List<F_TitlePage> f_TitlePages = ModbusUtil.RTUF_TitlePages[rTUDevices[i].deviceAddress];
+                                    List<F_TitlePage> f_TitlePages = ModbusUtil.F_TitlePages[rTUDevices[i].deviceAddress];
                                     foreach (var f in f_TitlePages)
                                     {
                                         if (f.tB_DeviceName.Text.Equals(rTUDevices[i].deviceName))
@@ -888,15 +1033,18 @@ namespace ModbusRTU_TP1608
                                 {
                                     continue;
                                 }
+                                //数据入库
+                                ThreadPool.QueueUserWorkItem(new WaitCallback(WriteSensorData2DB), sensor);
                             }
                         }
                     }
                     catch (Exception e)
                     {
-                        this.ShowErrorDialog("采集中发生错误\r\n" + e.Message);
+                        this.ShowErrorDialog("采集中发生错误:\r\n" + e.Message);
                     }
 
                 }
+                Thread.Sleep(1000);//采集线程睡眠1s
             }
             //while循环停止则说明将会停止采集线程，但在采集线程停止前，要确保线程池的任务结束
             int availableThreads = 0;
@@ -928,6 +1076,115 @@ namespace ModbusRTU_TP1608
             {
                 this.ShowErrorDialog(string.Format("关闭串口{0}失败！", ((SerialPort)serialPort).PortName));
             }
+        }
+        #endregion
+
+        #region TCP协议下的采集方法
+        private void TCPDataCollect(object obj)
+        {
+            //新建一个master
+            NModbus.IModbusMaster TCPMaster = new ModbusFactory().CreateMaster((TcpClient)obj);
+            //设置读取超时时间
+            TCPMaster.Transport.ReadTimeout = 5000;
+            TCPMaster.Transport.Retries = 8000;
+            ThreadPool.SetMaxThreads(8, 8);//使用线程池来写数据库，异步来提高速度
+            while (!ModbusUtil.TCPSignals[(TcpClient)obj])
+            {
+                List<List<TCPDevice>> devices = ModbusUtil.TCPdevices[(TcpClient)obj].Values.ToList();
+                List<TCPDevice> tCPDevices = new List<TCPDevice>();
+                for (int i = 0; i < devices.Count; i++)
+                {
+                    tCPDevices.AddRange(devices[i]);
+                }
+                for (int i = 0; i < tCPDevices.Count; i++)
+                {
+                    try
+                    {
+                        TCPMaster = new ModbusFactory().CreateMaster((TcpClient)obj);
+                        //设置读取超时时间
+                        TCPMaster.Transport.ReadTimeout = 5000;
+                        TCPMaster.Transport.Retries = 8000;
+                        //读取设备的寄存器数据（8个通道，一个通道2个寄存器），参数：设备地址，起始地址，寄存器数
+                        ushort[] registerBuffer = TCPMaster.ReadHoldingRegisters(byte.Parse(tCPDevices[i].deviceAddress), 0, 16);
+                        //ushort[]=>float[]
+                        float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
+                        List<TCPChennal> tCPChennals = new TCPChennalManage().GetByDeviceId(tCPDevices[i].id);
+                        foreach (TCPChennal tCPChennal in tCPChennals)
+                        {
+                            if (tCPChennal.sensorID != null && tCPChennal.sensorID.Length != 0)
+                            {
+                                Sensor sensor = new Sensor();
+                                sensor.sensorId = tCPChennal.sensorID;
+                                sensor.sensorName = tCPChennal.sensorName;
+                                sensor.sensorType = tCPChennal.sensorType.ToString();/////这是int,要改
+                                sensor.sensorLabel = tCPChennal.chennalLabel;
+                                double value = (result[(int)tCPChennal.chennalID - 1] - 4.0F) / (20.0F - 4.0F) * ((double)tCPChennal.sensorRangeH - (double)tCPChennal.sensorRangeL);
+                                value = double.Parse((value + (double)tCPChennal.sensorRangeL).ToString("F" + tCPChennal.decimalPlaces));
+                                sensor.sensorValue = value.ToString();
+                                sensor.sensorUnit = tCPChennal.chennalUnit;
+                                sensor.createBy = "传感器" + sensor.sensorId;
+                                sensor.createTime = DateTime.Now;
+                                sensor.updateBy = "传感器" + sensor.sensorId;
+                                sensor.updateTime = DateTime.Now;
+                                sensor.tableName = tCPChennal.sensorTableName;
+                                //sensor.tableName = "sensor";
+                                //接下来做显示
+                                //找出当前（看到的）设备对应的F_TitlePage
+                                try
+                                {
+                                    List<F_TitlePage> f_TitlePages = ModbusUtil.F_TitlePages[tCPDevices[i].deviceAddress];
+                                    foreach (var f in f_TitlePages)
+                                    {
+                                        if (f.tB_DeviceName.Text.Equals(tCPDevices[i].deviceName))
+                                        {
+                                            this.SetUcChennalValue(tCPChennal.chennalID, sensor.sensorValue, sensor.sensorUnit, sensor.createTime.ToString(), f);
+                                            break;
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    continue;
+                                }
+                                //数据入库
+                                ThreadPool.QueueUserWorkItem(new WaitCallback(WriteSensorData2DB), sensor);
+                            }
+                        }
+                    }
+                    catch (TimeoutException)
+                    {
+                        continue;
+                    }
+                    catch (IOException)
+                    {
+                        continue;
+                    }
+                    catch (Exception e)
+                    {
+                        this.ShowErrorDialog("采集中发生错误:\r\n" + e.GetType().Name + "\r\n" + e.Message);
+                    }
+
+                }
+                Thread.Sleep(1000);//采集线程睡眠1s
+            }
+            //while循环停止则说明将会停止采集线程，但在采集线程停止前，要确保线程池的任务结束
+            int availableThreads = 0;
+            int maxWorkerThreads = 0;
+            int completionPortThreads = 0;
+            System.Threading.ThreadPool.GetAvailableThreads(out availableThreads, out completionPortThreads);
+            System.Threading.ThreadPool.GetMaxThreads(out maxWorkerThreads, out completionPortThreads);
+            //当线程池的可用线程数与最大线程数不等时说明还没结束，则阻塞父线程进行等待
+            while (availableThreads != maxWorkerThreads)
+            {
+                Thread.Sleep(50);
+                System.Threading.ThreadPool.GetAvailableThreads(out availableThreads, out completionPortThreads);
+                System.Threading.ThreadPool.GetMaxThreads(out maxWorkerThreads, out completionPortThreads);
+            }
+            //采集线程停止后
+            //1、把信号灯移除
+            ModbusUtil.TCPSignals.Remove((TcpClient)obj);
+            //2、从采集的串口列表移除串口
+            ModbusUtil.TCPdevices.Remove(((TcpClient)obj));
         }
         #endregion
 
@@ -1043,7 +1300,7 @@ namespace ModbusRTU_TP1608
         private static void WriteSensorData2DB(object obj)
         {
             Sensor sensor = (Sensor)obj;
-            new SensorManage().InsertByTableName(sensor.tableName, sensor);//////表还没做关联
+            new SensorManage().InsertByTableName(sensor.tableName, sensor);
         }
         #endregion
         #endregion
@@ -1051,65 +1308,171 @@ namespace ModbusRTU_TP1608
         #region 停止采集
         public void BtnStop_Click(object sender, EventArgs e)
         {
-            RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-            //当设备时停止状态时，点击不响应
-            if (rTUDevice.status == (int)Common.DeviceStatus.STOP)
+            int protocol = new SysManage().GetSysInfo()[0].protocol;
+            /////////////////////////////RTU协议下的停止采集///////////////////////////////
+            if (protocol == (int)Common.Protocol.RTU)
             {
-                return;
-            }
-            //1、将当前设备从串口的采集设备列表删除（根据设备地址）
-            foreach (var key in ModbusUtil.RTUdevices.Keys)
-            {
-                if (key.PortName.Equals(rTUDevice.serialPort))
+                RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                //当设备是停止状态时，点击不响应
+                if (rTUDevice.status == (int)Common.DeviceStatus.STOP)
                 {
-                    var devices = ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress];
-                    foreach (var device in devices)
+                    return;
+                }
+                //1、将当前设备从串口的采集设备列表删除（根据设备地址）
+                foreach (var key in ModbusUtil.RTUdevices.Keys)
+                {
+                    if (key.PortName.Equals(rTUDevice.serialPort))
                     {
-                        if (device.deviceName.Equals(rTUDevice.deviceName))
+                        var devices = ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress];
+                        foreach (var device in devices)
                         {
-                            ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Remove(device);
-                            if (ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Count == 0)
+                            if (device.deviceName.Equals(rTUDevice.deviceName))
                             {
-                                ModbusUtil.RTUdevices[key].Remove(rTUDevice.deviceAddress);
+                                ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Remove(device);
+                                if (ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Count == 0)
+                                {
+                                    ModbusUtil.RTUdevices[key].Remove(rTUDevice.deviceAddress);
+                                }
+                                break;
                             }
-                            break;
+                        }
+                        break;
+                    }
+                }
+                foreach (var f in ModbusUtil.F_TitlePages[rTUDevice.deviceAddress])
+                {
+                    if (f.tB_DeviceName.Text.Equals(rTUDevice.deviceName))
+                    {
+                        ModbusUtil.F_TitlePages[rTUDevice.deviceAddress].Remove(f);
+                        break;
+                    }
+                }
+                if (ModbusUtil.F_TitlePages[rTUDevice.deviceAddress].Count == 0)
+                {
+                    ModbusUtil.F_TitlePages.Remove(rTUDevice.deviceAddress);
+                }
+                //2、将设备的状态改为停止（status=0）
+                new RTUDeviceManage().UpdateStatusByName(rTUDevice.deviceName, (int)Common.DeviceStatus.STOP);
+                //3、设置开始采集和停止采集按钮的图片
+                this.BtnStart.Image = Properties.Resources.start2;//开始采集熄灭
+                this.BtnStop.Image = Properties.Resources.stop1;//停止采集亮
+                                                           //4、检查当前设备在使用的串口还有没有设备在采集
+                                                           //若有，不做任何操作，若无，则停止采集线程
+                foreach (var key in ModbusUtil.RTUdevices.Keys)
+                {
+                    if (key.PortName.Equals(rTUDevice.serialPort))
+                    {
+                        if (ModbusUtil.RTUdevices[key].Count == 0)
+                        {
+                            ModbusUtil.RTUSignals[key] = true;//停止采集线程
                         }
                     }
-                    break;
                 }
             }
-            foreach (var f in ModbusUtil.RTUF_TitlePages[rTUDevice.deviceAddress])
+            else if (protocol == (int)Common.Protocol.TCP)
             {
-                if (f.tB_DeviceName.Text.Equals(rTUDevice.deviceName))
+                TCPDevice tCPDevice = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                //当设备是停止状态时，点击不响应
+                if (tCPDevice.status == (int)Common.DeviceStatus.STOP)
                 {
-                    ModbusUtil.RTUF_TitlePages[rTUDevice.deviceAddress].Remove(f);
-                    break;
+                    return;
                 }
-            }
-            if (ModbusUtil.RTUF_TitlePages[rTUDevice.deviceAddress].Count == 0)
-            {
-                ModbusUtil.RTUF_TitlePages.Remove(rTUDevice.deviceAddress);
-            }
-            //2、将设备的状态改为停止（status=0）
-            new RTUDeviceManage().UpdateStatusByName(rTUDevice.deviceName, (int)Common.DeviceStatus.STOP);
-            //3、设置开始采集和停止采集按钮的图片
-            BtnStart.Image = Properties.Resources.start2;//开始采集熄灭
-            BtnStop.Image = Properties.Resources.stop1;//停止采集亮
-            //4、检查当前设备在使用的串口还有没有设备在采集
-            //若有，不做任何操作，若无，则停止采集线程
-            foreach (var key in ModbusUtil.RTUdevices.Keys)
-            {
-                if (key.PortName.Equals(rTUDevice.serialPort))
+                //1、将当前设备从tcpClient的采集设备列表删除（根据设备地址）
+                foreach (var key in ModbusUtil.TCPdevices.Keys)
                 {
-                    if (ModbusUtil.RTUdevices[key].Count == 0)
+                    if (key.Client.RemoteEndPoint.ToString().Split(':')[0].Equals(tCPDevice.hostName))
                     {
-                        ModbusUtil.RTUSignals[key] = true;//停止采集线程
+                        var devices = ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress];
+                        foreach (var device in devices)
+                        {
+                            if (device.deviceName.Equals(tCPDevice.deviceName))
+                            {
+                                ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress].Remove(device);
+                                if (ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress].Count == 0)
+                                {
+                                    ModbusUtil.TCPdevices[key].Remove(tCPDevice.deviceAddress);
+                                }
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+                }
+                foreach (var f in ModbusUtil.F_TitlePages[tCPDevice.deviceAddress])
+                {
+                    if (f.tB_DeviceName.Text.Equals(tCPDevice.deviceName))
+                    {
+                        ModbusUtil.F_TitlePages[tCPDevice.deviceAddress].Remove(f);
+                        break;
+                    }
+                }
+                if (ModbusUtil.F_TitlePages[tCPDevice.deviceAddress].Count == 0)
+                {
+                    ModbusUtil.F_TitlePages.Remove(tCPDevice.deviceAddress);
+                }
+                //2、将设备的状态改为停止（status=0）
+                new TCPDeviceManage().UpdateStatusByName(tCPDevice.deviceName, (int)Common.DeviceStatus.STOP);
+                //3、设置开始采集和停止采集按钮的图片
+                this.BtnStart.Image = Properties.Resources.start2;//开始采集熄灭
+                this.BtnStop.Image = Properties.Resources.stop1;//停止采集亮
+                                                           //4、检查当前设备在使用的串口还有没有设备在采集
+                                                           //若有，不做任何操作，若无，则停止采集线程
+                foreach (var key in ModbusUtil.TCPdevices.Keys)
+                {
+                    if (key.Client.RemoteEndPoint.ToString().Split(':')[0].Equals(tCPDevice.hostName))
+                    {
+                        if (ModbusUtil.TCPdevices[key].Count == 0)
+                        {
+                            ModbusUtil.TCPSignals[key] = true;//停止采集线程
+                        }
                     }
                 }
             }
 
         }
         #endregion
+
+
+        public void RefreshData()
+        {
+            List<int> x1 = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            List<int> y1 = new List<int>();
+            Random ra = new Random();
+            y1 = new List<int>() {
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10),
+                ra.Next(1, 10)
+            };
+            RefreshChart(x1, y1, "chart1");
+        }
+
+        public delegate void RefreshChartDelegate(List<int> x, List<int> y, string type);
+        public void RefreshChart(List<int> x, List<int> y, string type)
+        {
+            if (type == "chart1")
+            {
+                if (this.ucChartLine1.chart1.InvokeRequired)
+                {
+                    RefreshChartDelegate stcb = new RefreshChartDelegate(RefreshChart);
+                    this.Invoke(stcb, new object[] { x, y, type });
+                }
+                else
+                {
+                    ucChartLine1.chart1.Series[0].Points.DataBindXY(x, y);
+                }
+            }
+        }
+
 
     }
 }

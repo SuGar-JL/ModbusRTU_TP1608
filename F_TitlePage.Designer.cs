@@ -30,8 +30,6 @@
         {
             this.tB_DeviceName = new System.Windows.Forms.TextBox();
             this.uiLine5 = new Sunny.UI.UILine();
-            this.p_ChennalLine = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.uiLine6 = new Sunny.UI.UILine();
             this.onDelete = new System.Windows.Forms.PictureBox();
             this.onEdit = new System.Windows.Forms.PictureBox();
@@ -45,7 +43,7 @@
             this.ucChennal4 = new ModbusRTU_TP1608.UCChennal();
             this.ucChennal3 = new ModbusRTU_TP1608.UCChennal();
             this.ucChennal1 = new ModbusRTU_TP1608.UCChennal();
-            this.p_ChennalLine.SuspendLayout();
+            this.ucChartLine1 = new ModbusRTU_TP1608.UCChartLine();
             ((System.ComponentModel.ISupportInitialize)(this.onDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.onEdit)).BeginInit();
             this.SuspendLayout();
@@ -79,22 +77,6 @@
             this.uiLine5.Size = new System.Drawing.Size(898, 29);
             this.uiLine5.Style = Sunny.UI.UIStyle.Custom;
             this.uiLine5.TabIndex = 25;
-            // 
-            // p_ChennalLine
-            // 
-            this.p_ChennalLine.BackColor = System.Drawing.Color.White;
-            this.p_ChennalLine.Controls.Add(this.textBox1);
-            this.p_ChennalLine.Location = new System.Drawing.Point(50, 377);
-            this.p_ChennalLine.Name = "p_ChennalLine";
-            this.p_ChennalLine.Size = new System.Drawing.Size(898, 211);
-            this.p_ChennalLine.TabIndex = 26;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(319, 79);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(217, 29);
-            this.textBox1.TabIndex = 0;
             // 
             // uiLine6
             // 
@@ -235,12 +217,22 @@
             this.ucChennal1.TabIndex = 30;
             this.ucChennal1.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
             // 
+            // ucChartLine1
+            // 
+            this.ucChartLine1.BackColor = System.Drawing.Color.White;
+            this.ucChartLine1.Location = new System.Drawing.Point(50, 366);
+            this.ucChartLine1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucChartLine1.Name = "ucChartLine1";
+            this.ucChartLine1.Size = new System.Drawing.Size(892, 227);
+            this.ucChartLine1.TabIndex = 38;
+            // 
             // F_TitlePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
             this.ClientSize = new System.Drawing.Size(1000, 610);
+            this.Controls.Add(this.ucChartLine1);
             this.Controls.Add(this.ucChennal8);
             this.Controls.Add(this.ucChennal2);
             this.Controls.Add(this.ucChennal7);
@@ -251,7 +243,6 @@
             this.Controls.Add(this.ucChennal1);
             this.Controls.Add(this.onDelete);
             this.Controls.Add(this.onEdit);
-            this.Controls.Add(this.p_ChennalLine);
             this.Controls.Add(this.BtnStop);
             this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.tB_DeviceName);
@@ -263,8 +254,6 @@
             this.Text = "F_TitlePage";
             this.Load += new System.EventHandler(this.F_TitlePage_Load);
             this.SizeChanged += new System.EventHandler(this.F_TitlePage_SizeChanged);
-            this.p_ChennalLine.ResumeLayout(false);
-            this.p_ChennalLine.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.onDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.onEdit)).EndInit();
             this.ResumeLayout(false);
@@ -276,10 +265,8 @@
         private Sunny.UI.UIAvatar BtnStart;
         private Sunny.UI.UIAvatar BtnStop;
         private Sunny.UI.UILine uiLine5;
-        private System.Windows.Forms.Panel p_ChennalLine;
         private Sunny.UI.UILine uiLine6;
         public System.Windows.Forms.TextBox tB_DeviceName;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox onEdit;
         private System.Windows.Forms.PictureBox onDelete;
         public UCChennal ucChennal1;
@@ -290,5 +277,6 @@
         public UCChennal ucChennal6;
         public UCChennal ucChennal7;
         public UCChennal ucChennal8;
+        private UCChartLine ucChartLine1;
     }
 }

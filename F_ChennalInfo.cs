@@ -33,7 +33,7 @@ namespace ModbusRTU_TP1608
                    && CheckEmpty(chennalUnit, "请选择监测单位")
                    && CheckEmpty(chennalSensorType, "请选择传感器类型")
                    && CheckEmpty(chennalSensorName, "请输入传感器名称")
-                   && CheckEmpty(chennalSensorId, "请输入传感器id")
+                   //&& CheckEmpty(chennalSensorId, "请输入传感器id")
                    && CheckSensorId(chennalSensorId, "传感器id重复")
                    && CheckEmpty(chennalDecimalPlaces, "请选择小数位")
                    && CheckEmpty(chennalSensorRangeL, "传感器量程需填完整")
@@ -80,7 +80,7 @@ namespace ModbusRTU_TP1608
             bool result = false;
             if (protocol == (int)Common.Protocol.RTU)
             {
-                if (chennalSensorId.Text.Trim().Equals(this.rTUChennal.sensorID))
+                if (chennalSensorId.Text.Trim().Equals(this.rTUChennal.sensorID) || chennalSensorId.Text.Trim().Length == 0)
                 {
                     return true;
                 }
@@ -93,7 +93,7 @@ namespace ModbusRTU_TP1608
             }
             else if (protocol == (int)Common.Protocol.TCP)
             {
-                if (chennalSensorId.Text.Trim().Equals(this.tCPChennal.sensorID))
+                if (chennalSensorId.Text.Trim().Equals(this.tCPChennal.sensorID) || chennalSensorId.Text.Trim().Length == 0)
                 {
                     return true;
                 }

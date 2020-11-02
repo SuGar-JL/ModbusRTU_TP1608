@@ -35,25 +35,6 @@ namespace ModbusRTU_TP1608
             w1 = this.Width;//窗口最开始的宽
             h1 = this.Height;//窗口最开始的高
             setTag(this);
-
-            List<string> x = new List<string>() { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", };
-            Xs.Add(1, x);
-            Xs.Add(2, x);
-            Xs.Add(3, x);
-            Xs.Add(4, x);
-            Xs.Add(5, x);
-            Xs.Add(6, x);
-            Xs.Add(7, x);
-            Xs.Add(8, x);
-            List<double> y = new List<double>() { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
-            Ys.Add(1, y);
-            Ys.Add(2, y);
-            Ys.Add(3, y);
-            Ys.Add(4, y);
-            Ys.Add(5, y);
-            Ys.Add(6, y);
-            Ys.Add(7, y);
-            Ys.Add(8, y);
             ucChartLine1.chart1.Series.Clear();
             ChartHelper.AddSeries(ucChartLine1.chart1, "曲线图", SeriesChartType.SplineRange, Color.FromArgb(100, 46, 199, 201), Color.Red, true);
             ChartHelper.SetTitle(ucChartLine1.chart1, "曲线图", new Font("微软雅黑", 10), Docking.Top, Color.Black);
@@ -61,15 +42,18 @@ namespace ModbusRTU_TP1608
             ucChartLine1.chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(100, 225, 225, 225);
             ucChartLine1.chart1.ChartAreas[0].AxisX.LabelStyle.Format = "MM-dd\nHH:mm:ss";//时间格式。
             ucChartLine1.chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Milliseconds;
-            //List<int> x1 = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            List<DateTime> x1 = new List<DateTime>() { DateTime.Now, DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3) };
-            List<double> y1 = new List<double>() { 3, 1.12, 1.11, 1.2 };
-            ucChartLine1.chart1.ChartAreas[0].AxisX.Minimum = x1[0].ToOADate();
-            ucChartLine1.chart1.ChartAreas[0].AxisX.Maximum = x1[0].AddMinutes(5).ToOADate();
-            ucChartLine1.chart1.Series[0].Points.DataBindXY(x1, y1);
+            //List<DateTime> x1 = new List<DateTime>() { DateTime.Now, DateTime.Now.AddMinutes(1), DateTime.Now.AddMinutes(2), DateTime.Now.AddMinutes(3) };
+            //List<double> y1 = new List<double>() { 3, 1.12, 1.11, 1.2 };
+            //ucChartLine1.chart1.ChartAreas[0].AxisX.Minimum = x1[0].ToOADate();
+            //ucChartLine1.chart1.ChartAreas[0].AxisX.Maximum = x1[0].AddMinutes(5).ToOADate();
+
+            ucChartLine1.chart1.Series[0].Points.DataBindXY(Xs[1], Ys[1]);
         }
         #region 属性
-        public Dictionary<int, List<string>> Xs = new Dictionary<int, List<string>>();
+        /// <summary>
+        /// 通道id，时间/数据值
+        /// </summary>
+        public Dictionary<int, List<DateTime>> Xs = new Dictionary<int, List<DateTime>>();
         public Dictionary<int, List<double>> Ys = new Dictionary<int, List<double>>();
 
         #endregion
@@ -1128,6 +1112,18 @@ namespace ModbusRTU_TP1608
                                 sensor.updateTime = DateTime.Now;
                                 sensor.tableName = tCPChennal.sensorTableName;
                                 //sensor.tableName = "sensor";
+                                if (this.Xs[(int)tCPChennal.chennalID].Count < 60)
+                                {
+                                    this.Xs[(int)tCPChennal.chennalID].Add((DateTime)sensor.createTime);
+                                    this.Ys[(int)tCPChennal.chennalID].Add(value);
+                                }
+                                else
+                                {
+                                    this.Xs[(int)tCPChennal.chennalID].Add((DateTime)sensor.createTime);
+                                    this.Ys[(int)tCPChennal.chennalID].Add(value);
+                                    this.Xs[(int)tCPChennal.chennalID].RemoveAt(0);
+                                    this.Ys[(int)tCPChennal.chennalID].RemoveAt(0);
+                                }
                                 //接下来做显示
                                 //找出当前（看到的）设备对应的F_TitlePage
                                 try

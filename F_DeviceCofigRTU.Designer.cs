@@ -35,9 +35,9 @@
             this.devicePosition = new Sunny.UI.UITextBox();
             this.uiLabel6 = new Sunny.UI.UILabel();
             this.uiLabel5 = new Sunny.UI.UILabel();
-            this.deviceStartChennal = new Sunny.UI.UIComboBox();
+            this.deviceStartChannel = new Sunny.UI.UIComboBox();
             this.uiLabel4 = new Sunny.UI.UILabel();
-            this.deviceChennalNum = new Sunny.UI.UIComboBox();
+            this.deviceChannelNum = new Sunny.UI.UIComboBox();
             this.uiLabel3 = new Sunny.UI.UILabel();
             this.deviceName = new Sunny.UI.UITextBox();
             this.uiLabel2 = new Sunny.UI.UILabel();
@@ -139,21 +139,21 @@
             this.uiLabel5.Text = "起始通道：";
             this.uiLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // deviceStartChennal
+            // deviceStartChannel
             // 
-            this.deviceStartChennal.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
-            this.deviceStartChennal.FillColor = System.Drawing.Color.White;
-            this.deviceStartChennal.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceStartChennal.Location = new System.Drawing.Point(127, 219);
-            this.deviceStartChennal.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.deviceStartChennal.MinimumSize = new System.Drawing.Size(63, 0);
-            this.deviceStartChennal.Name = "deviceStartChennal";
-            this.deviceStartChennal.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
-            this.deviceStartChennal.Radius = 8;
-            this.deviceStartChennal.Size = new System.Drawing.Size(225, 29);
-            this.deviceStartChennal.TabIndex = 46;
-            this.deviceStartChennal.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.deviceStartChennal.Watermark = "";
+            this.deviceStartChannel.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            this.deviceStartChannel.FillColor = System.Drawing.Color.White;
+            this.deviceStartChannel.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.deviceStartChannel.Location = new System.Drawing.Point(127, 219);
+            this.deviceStartChannel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deviceStartChannel.MinimumSize = new System.Drawing.Size(63, 0);
+            this.deviceStartChannel.Name = "deviceStartChannel";
+            this.deviceStartChannel.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
+            this.deviceStartChannel.Radius = 8;
+            this.deviceStartChannel.Size = new System.Drawing.Size(225, 29);
+            this.deviceStartChannel.TabIndex = 46;
+            this.deviceStartChannel.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.deviceStartChannel.Watermark = "";
             // 
             // uiLabel4
             // 
@@ -165,21 +165,21 @@
             this.uiLabel4.Text = "通道数量：";
             this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // deviceChennalNum
+            // deviceChannelNum
             // 
-            this.deviceChennalNum.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
-            this.deviceChennalNum.FillColor = System.Drawing.Color.White;
-            this.deviceChennalNum.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.deviceChennalNum.Location = new System.Drawing.Point(127, 180);
-            this.deviceChennalNum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.deviceChennalNum.MinimumSize = new System.Drawing.Size(63, 0);
-            this.deviceChennalNum.Name = "deviceChennalNum";
-            this.deviceChennalNum.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
-            this.deviceChennalNum.Radius = 8;
-            this.deviceChennalNum.Size = new System.Drawing.Size(225, 29);
-            this.deviceChennalNum.TabIndex = 44;
-            this.deviceChennalNum.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-            this.deviceChennalNum.Watermark = "";
+            this.deviceChannelNum.DropDownStyle = Sunny.UI.UIDropDownStyle.DropDownList;
+            this.deviceChannelNum.FillColor = System.Drawing.Color.White;
+            this.deviceChannelNum.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.deviceChannelNum.Location = new System.Drawing.Point(127, 180);
+            this.deviceChannelNum.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.deviceChannelNum.MinimumSize = new System.Drawing.Size(63, 0);
+            this.deviceChannelNum.Name = "deviceChannelNum";
+            this.deviceChannelNum.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
+            this.deviceChannelNum.Radius = 8;
+            this.deviceChannelNum.Size = new System.Drawing.Size(225, 29);
+            this.deviceChannelNum.TabIndex = 44;
+            this.deviceChannelNum.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.deviceChannelNum.Watermark = "";
             // 
             // uiLabel3
             // 
@@ -271,9 +271,9 @@
             this.Controls.Add(this.devicePosition);
             this.Controls.Add(this.uiLabel6);
             this.Controls.Add(this.uiLabel5);
-            this.Controls.Add(this.deviceStartChennal);
+            this.Controls.Add(this.deviceStartChannel);
             this.Controls.Add(this.uiLabel4);
-            this.Controls.Add(this.deviceChennalNum);
+            this.Controls.Add(this.deviceChannelNum);
             this.Controls.Add(this.uiLabel3);
             this.Controls.Add(this.deviceName);
             this.Controls.Add(this.uiLabel2);
@@ -289,9 +289,9 @@
             this.Controls.SetChildIndex(this.uiLabel2, 0);
             this.Controls.SetChildIndex(this.deviceName, 0);
             this.Controls.SetChildIndex(this.uiLabel3, 0);
-            this.Controls.SetChildIndex(this.deviceChennalNum, 0);
+            this.Controls.SetChildIndex(this.deviceChannelNum, 0);
             this.Controls.SetChildIndex(this.uiLabel4, 0);
-            this.Controls.SetChildIndex(this.deviceStartChennal, 0);
+            this.Controls.SetChildIndex(this.deviceStartChannel, 0);
             this.Controls.SetChildIndex(this.uiLabel5, 0);
             this.Controls.SetChildIndex(this.uiLabel6, 0);
             this.Controls.SetChildIndex(this.devicePosition, 0);
@@ -312,9 +312,9 @@
         public Sunny.UI.UITextBox devicePosition;
         private Sunny.UI.UILabel uiLabel6;
         private Sunny.UI.UILabel uiLabel5;
-        public Sunny.UI.UIComboBox deviceStartChennal;
+        public Sunny.UI.UIComboBox deviceStartChannel;
         private Sunny.UI.UILabel uiLabel4;
-        public Sunny.UI.UIComboBox deviceChennalNum;
+        public Sunny.UI.UIComboBox deviceChannelNum;
         private Sunny.UI.UILabel uiLabel3;
         public Sunny.UI.UITextBox deviceName;
         private Sunny.UI.UILabel uiLabel2;

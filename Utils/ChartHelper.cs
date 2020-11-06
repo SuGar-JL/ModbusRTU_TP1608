@@ -27,11 +27,12 @@ namespace ModbusRTU_TP1608.Utils
             chart.Series[seriesName].Color = color;
             if (showValue)
             {
-                chart.Series[seriesName].IsValueShownAsLabel = true;
+                //chart.Series[seriesName].IsValueShownAsLabel = true;
                 chart.Series[seriesName].MarkerStyle = MarkerStyle.Circle;
+                chart.Series[seriesName].MarkerSize = 3;
                 chart.Series[seriesName].MarkerColor = markColor;
-                chart.Series[seriesName].LabelForeColor = Color.Black;
-                chart.Series[seriesName].LabelAngle = -90;
+                //chart.Series[seriesName].LabelForeColor = Color.Black;
+                //chart.Series[seriesName].LabelAngle = -90;
             }
         }
 

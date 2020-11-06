@@ -1,6 +1,7 @@
 ﻿using ModbusRTU_TP1608.Entiry;
 using ModbusRTU_TP1608.Utils;
 using ModbusTCP_TP1608.Entiry;
+using SqlSugar;
 using Sunny.UI;
 using System;
 using System.Collections.Generic;
@@ -33,13 +34,13 @@ namespace ModbusRTU_TP1608
         /// 系统对象
         /// </summary>
         private Sys sys = new Sys();
-        private Dictionary<int, F_TitlePage> D_f_TitlePages = new Dictionary<int, F_TitlePage>();
         /// <summary>
         /// 这句还不知道为啥这样写
         /// </summary>
         protected UITabControl MainTabControl => MainContainer;
         private F_Home home = new F_Home();
         #endregion
+
         #region 主窗体构造方法
         public Form1()
         {
@@ -64,6 +65,7 @@ namespace ModbusRTU_TP1608
             Instance = this;
         }
         #endregion
+
         #region 主窗体加载
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -76,6 +78,8 @@ namespace ModbusRTU_TP1608
             this.CreateTable(this.sys.protocol);
             //从数据库加载设备到左侧菜单
             this.LoadDeviceCofigFDB(this.sys.protocol);
+            //让TabControl的选项卡显示
+            MainContainer.TabVisible = true;
         }
         #endregion
 
@@ -90,15 +94,15 @@ namespace ModbusRTU_TP1608
             {
                 //RTU设备信息表rtudevice
                 new RTUDeviceManage().CreateTable();
-                //RCP设备通道信息表rtuchennal
-                new RTUChennalManage().CreateTable();
+                //RCP设备通道信息表rtuChannel
+                new RTUChannelManage().CreateTable();
             }
             else if (protocol == (int)Common.Protocol.TCP)
             {
                 //TTU设备信息表tcpdevice
                 new TCPDeviceManage().CreateTable();
-                //TCP设备通道信息表tcpchennal
-                new TCPChennalManage().CreateTable();
+                //TCP设备通道信息表tcpChannel
+                new TCPChannelManage().CreateTable();
             }
         }
         #endregion
@@ -174,14 +178,14 @@ namespace ModbusRTU_TP1608
                     device.deviceType = f_AddDeviceRTU.deviceType.Text.Trim();
                     device.deviceName = f_AddDeviceRTU.deviceName.Text.Trim();
                     device.deviceAddress = f_AddDeviceRTU.deviceAddress.Text.Trim();
-                    device.chennalNum = f_AddDeviceRTU.deviceChennalNum.SelectedIndex + 1;//SelectedIndex是从0开始的
-                    device.startChennal = f_AddDeviceRTU.deviceStartChennal.SelectedIndex + 1;
+                    device.ChannelNum = f_AddDeviceRTU.deviceChannelNum.SelectedIndex + 1;//SelectedIndex是从0开始的
+                    device.startChannel = f_AddDeviceRTU.deviceStartChannel.SelectedIndex + 1;
 
                     //device.storeInterval = 6.0F;//设置保存间隔默认值为6.0s
                     //device.collectInterval = 3.0F;//设置采集间隔默认值为3.0s
                     //device.dropTimeDelay = 900F;//设置掉线延时默认值为900s
 
-                    //device.host = f_AddDevice.deviceStartChennal.SelectedIndex + 1;
+                    //device.host = f_AddDevice.deviceStartChannel.SelectedIndex + 1;
 
                     device.serialPort = f_AddDeviceRTU.deviceSerialPort.Text.Trim();//设置串口
                     device.baudRate = f_AddDeviceRTU.deviceBaudRate.Text.Trim();//设置波特率默认值为9600
@@ -201,27 +205,26 @@ namespace ModbusRTU_TP1608
                     var page = new F_TitlePage();//新建一个供显示数据用的页面
                     page.tB_DeviceName.Text = device.deviceName;//页面名称
                     page.PageIndex = (int)device.pageIndex;//页面id
+                    page.Text = string.Format("{0}({1})", device.deviceName, device.pageIndex);
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
                     TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
                     //存通道配置
-                    for (int i = device.startChennal; i <= device.chennalNum; i++)
+                    for (int i = device.startChannel; i <= device.ChannelNum; i++)
                     {
-                        RTUChennal chennal = new RTUChennal();
-                        chennal.deviceID = device.id;//设备id
-                        chennal.chennalName = device.deviceName + "-CH0" + i;//通道名称
-                        chennal.chennalID = i;//通道id
-                        chennal.createBy = "管理员";
-                        chennal.createTime = DateTime.Now;
-                        new RTUChennalManage().Insert(chennal);
-                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
+                        RTUChannel Channel = new RTUChannel();
+                        Channel.deviceID = device.id;//设备id
+                        Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                        Channel.ChannelID = i;//通道id
+                        Channel.createBy = "管理员";
+                        Channel.createTime = DateTime.Now;
+                        new RTUChannelManage().Insert(Channel);
+                        page.SetChannelName((int)Channel.ChannelID, Channel.ChannelName);
                         //创建设备管理菜单子节点（设备下的通道）
                         //参数：父节点，节点名称，图标，图标尺寸，节点名称，关联的页面id
-                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
+                        Aside.CreateChildNode(parent, 57364, 24, Channel.ChannelName, page.PageIndex);
                     }
-                    //将关联的页面存入字典，已备他用
-                    D_f_TitlePages.Add(page.PageIndex, page);
                     this.ShowSuccessTip("添加设备成功");
                 }
                 f_AddDeviceRTU.Dispose();
@@ -241,14 +244,14 @@ namespace ModbusRTU_TP1608
                     device.deviceType = f_AddDeviceTCP.deviceType.Text.Trim();
                     device.deviceName = f_AddDeviceTCP.deviceName.Text.Trim();
                     device.deviceAddress = f_AddDeviceTCP.deviceAddress.Text.Trim();
-                    device.chennalNum = f_AddDeviceTCP.deviceChennalNum.SelectedIndex + 1;//SelectedIndex是从0开始的
-                    device.startChennal = f_AddDeviceTCP.deviceStartChennal.SelectedIndex + 1;
+                    device.ChannelNum = f_AddDeviceTCP.deviceChannelNum.SelectedIndex + 1;//SelectedIndex是从0开始的
+                    device.startChannel = f_AddDeviceTCP.deviceStartChannel.SelectedIndex + 1;
 
                     //device.storeInterval = 6.0F;//设置保存间隔默认值为6.0s
                     //device.collectInterval = 3.0F;//设置采集间隔默认值为3.0s
                     //device.dropTimeDelay = 900F;//设置掉线延时默认值为900s
 
-                    //device.host = f_AddDevice.deviceStartChennal.SelectedIndex + 1;
+                    //device.host = f_AddDevice.deviceStartChannel.SelectedIndex + 1;
 
                     device.hostName = f_AddDeviceTCP.deviceHostName.Text.Trim();//设置主机名
                     device.port = f_AddDeviceTCP.devicePort.Text.Trim();//设置端口号
@@ -268,27 +271,26 @@ namespace ModbusRTU_TP1608
                     var page = new F_TitlePage();//新建一个供显示数据用的页面
                     page.tB_DeviceName.Text = device.deviceName;//页面名称
                     page.PageIndex = (int)device.pageIndex;//页面id
+                    page.Text = string.Format("{0}({1})", device.deviceName, device.pageIndex);
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
                     TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
                     //存通道配置
-                    for (int i = device.startChennal; i <= device.chennalNum; i++)
+                    for (int i = device.startChannel; i <= device.ChannelNum; i++)
                     {
-                        TCPChennal chennal = new TCPChennal();
-                        chennal.deviceID = device.id;//设备id
-                        chennal.chennalName = device.deviceName + "-CH0" + i;//通道名称
-                        chennal.chennalID = i;//通道id
-                        chennal.createBy = "管理员";
-                        chennal.createTime = DateTime.Now;
-                        new TCPChennalManage().Insert(chennal);
-                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
+                        TCPChannel Channel = new TCPChannel();
+                        Channel.deviceID = device.id;//设备id
+                        Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                        Channel.ChannelID = i;//通道id
+                        Channel.createBy = "管理员";
+                        Channel.createTime = DateTime.Now;
+                        new TCPChannelManage().Insert(Channel);
+                        page.SetChannelName((int)Channel.ChannelID, Channel.ChannelName);
                         //创建设备管理菜单子节点（设备下的通道）
                         //参数：父节点，节点名称，图标，图标尺寸，节点名称，关联的页面id
-                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
+                        Aside.CreateChildNode(parent, 57364, 24, Channel.ChannelName, page.PageIndex);
                     }
-                    //将关联的页面存入字典，已备他用
-                    D_f_TitlePages.Add(page.PageIndex, page);
                     this.ShowSuccessTip("添加设备成功");
                 }
                 f_AddDeviceTCP.Dispose();
@@ -306,44 +308,54 @@ namespace ModbusRTU_TP1608
             else if (protocol == (int)Common.Protocol.RTU)
             {
                 List<RTUDevice> devices = new RTUDeviceManage().GetAllOrderByCreateTime();
+                if (devices.Count == 0)
+                {
+                    return;
+                }
                 foreach (var device in devices)
                 {
                     //将设备加入左侧设备管理菜单
                     var page = new F_TitlePage();//新建一个供显示数据用的页面
                     page.tB_DeviceName.Text = device.deviceName;//页面名称
                     page.PageIndex = (int)device.pageIndex;//页面id
+                    page.Text = string.Format("{0}({1})", device.deviceName, device.pageIndex);
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
                     TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
-                    List<RTUChennal> chennals = new RTUChennalManage().GetByDeviceId(device.id);//按chennalId排序的
-                    foreach (var chennal in chennals)
+                    List<RTUChannel> Channels = new RTUChannelManage().GetByDeviceId(device.id);//按ChannelId排序的
+                    foreach (var Channel in Channels)
                     {
                         //设置page上的通道对应的名称
-                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
-                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
+                        page.SetChannelName((int)Channel.ChannelID, Channel.ChannelName);
+                        Aside.CreateChildNode(parent, 57364, 24, Channel.ChannelName, page.PageIndex);
                     }
                 }
             }
             else if (protocol == (int)Common.Protocol.TCP)
             {
                 List<TCPDevice> devices = new TCPDeviceManage().GetAllOrderByCreateTime();
+                if (devices.Count == 0)
+                {
+                    return;
+                }
                 foreach (var device in devices)
                 {
                     //将设备加入左侧设备管理菜单
                     var page = new F_TitlePage();//新建一个供显示数据用的页面
                     page.tB_DeviceName.Text = device.deviceName;//页面名称
                     page.PageIndex = (int)device.pageIndex;//页面id
+                    page.Text = string.Format("{0}({1})", device.deviceName,device.pageIndex); 
                     MainContainer.AddPage(page);//将页面关联到MainContainer（在其中显示）
                     //创建设备管理菜单父节点（设备）
                     //参数：节点名称，图标，图标尺寸，关联的页面id
                     TreeNode parent = Aside.CreateNode(page.tB_DeviceName.Text, 57567, 24, page.PageIndex);
-                    List<TCPChennal> chennals = new TCPChennalManage().GetByDeviceId(device.id);//按chennalId排序的
-                    foreach (var chennal in chennals)
+                    List<TCPChannel> Channels = new TCPChannelManage().GetByDeviceId(device.id);//按ChannelId排序的
+                    foreach (var Channel in Channels)
                     {
                         //设置page上的通道对应的名称
-                        page.SetChennalName((int)chennal.chennalID, chennal.chennalName);
-                        Aside.CreateChildNode(parent, 57364, 24, chennal.chennalName, page.PageIndex);
+                        page.SetChannelName((int)Channel.ChannelID, Channel.ChannelName);
+                        Aside.CreateChildNode(parent, 57364, 24, Channel.ChannelName, page.PageIndex);
                     }
                 }
             }
@@ -356,11 +368,11 @@ namespace ModbusRTU_TP1608
             TreeNode node = Aside.SelectedNode;
             if (this.sys.protocol == (int)Common.Protocol.RTU)
             {
-                var chennals = new List<RTUChennal>();
+                var Channels = new List<RTUChannel>();
                 //只有修改了子节点才来做修改操作
                 if (f)
                 {
-                    chennals = new RTUChennalManage().GetByDeviceId(deviceId);
+                    Channels = new RTUChannelManage().GetByDeviceId(deviceId);
                 }
                 if (node.Parent == null)
                 {
@@ -368,9 +380,9 @@ namespace ModbusRTU_TP1608
                     if (f)
                     {
                         node.Nodes.Clear();
-                        foreach (var chennal in chennals)
+                        foreach (var Channel in Channels)
                         {
-                            Aside.CreateChildNode(node, chennal.chennalName, pageIndex);
+                            Aside.CreateChildNode(node, Channel.ChannelName, pageIndex);
                         }
                     }
                 }
@@ -381,20 +393,20 @@ namespace ModbusRTU_TP1608
                     {
                         TreeNode node1 = node.Parent;
                         node1.Nodes.Clear();
-                        foreach (var chennal in chennals)
+                        foreach (var Channel in Channels)
                         {
-                            Aside.CreateChildNode(node1, chennal.chennalName, pageIndex);
+                            Aside.CreateChildNode(node1, Channel.ChannelName, pageIndex);
                         }
                     }
                 }
             }
             else if (this.sys.protocol == (int)Common.Protocol.TCP)
             {
-                var chennals = new List<TCPChennal>();
+                var Channels = new List<TCPChannel>();
                 //只有修改了子节点才来做修改操作
                 if (f)
                 {
-                    chennals = new TCPChennalManage().GetByDeviceId(deviceId);
+                    Channels = new TCPChannelManage().GetByDeviceId(deviceId);
                 }
                 if (node.Parent == null)
                 {
@@ -402,9 +414,9 @@ namespace ModbusRTU_TP1608
                     if (f)
                     {
                         node.Nodes.Clear();
-                        foreach (var chennal in chennals)
+                        foreach (var Channel in Channels)
                         {
-                            Aside.CreateChildNode(node, chennal.chennalName, pageIndex);
+                            Aside.CreateChildNode(node, Channel.ChannelName, pageIndex);
                         }
                     }
                 }
@@ -415,9 +427,9 @@ namespace ModbusRTU_TP1608
                     {
                         TreeNode node1 = node.Parent;
                         node1.Nodes.Clear();
-                        foreach (var chennal in chennals)
+                        foreach (var Channel in Channels)
                         {
-                            Aside.CreateChildNode(node1, chennal.chennalName, pageIndex);
+                            Aside.CreateChildNode(node1, Channel.ChannelName, pageIndex);
                         }
                     }
                 }
@@ -427,20 +439,35 @@ namespace ModbusRTU_TP1608
         }
         #endregion
 
-        #region 删除设备 删除Aside的节点
-        internal void DeleteAsideNode(int pageIndex)
+        #region 删除设备 删除Aside的节以及MainContainer中的页面
+        internal void DeleteAsideNode(int index)
         {
             TreeNode node = Aside.SelectedNode;
             if (node.Parent == null)
             {
                 Aside.Nodes.Remove(node);
-                MainContainer.TabPages.RemoveAt(pageIndex);
+                try
+                {
+                    MainContainer.TabPages.RemoveAt(index);
+                }
+                catch (Exception)
+                {
+                    this.ShowErrorDialog(string.Format("删除失败，页面id={0}", index));
+                }
             }
             else
             {
                 Aside.Nodes.Remove(node.Parent);
-                MainContainer.TabPages.RemoveAt(pageIndex);
+                try
+                {
+                    MainContainer.TabPages.RemoveAt(index);
+                }
+                catch (Exception)
+                {
+                    this.ShowErrorDialog(string.Format("删除失败，页面id={0}", index));
+                }
             }
+            
         }
         #endregion
 

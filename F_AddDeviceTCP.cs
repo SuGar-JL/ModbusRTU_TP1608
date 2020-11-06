@@ -21,10 +21,14 @@ namespace ModbusRTU_TP1608
         private void F_AddDeviceTCP_Load(object sender, EventArgs e)
         {
             this.deviceType.Items.AddRange(Common.DeviceType.ToArray());
-            this.deviceChennalNum.Items.AddRange(Common.DeviceChennalNum.ToArray());
-            this.deviceStartChennal.Items.AddRange(Common.DeviceStartChennal.ToArray());
+            this.deviceChannelNum.Items.AddRange(Common.DeviceChannelNum.ToArray());
+            this.deviceStartChannel.Items.AddRange(Common.DeviceStartChannel.ToArray());
             //设备类型默认选择第一个
             this.deviceType.SelectedIndex = 0;
+            //设备通道数量默认选择第8个
+            this.deviceChannelNum.SelectedIndex = 7;
+            //设备起始通道默认选择第一个
+            this.deviceStartChannel.SelectedIndex = 0;
         }
         protected override bool CheckData()
         {
@@ -33,9 +37,9 @@ namespace ModbusRTU_TP1608
                    && CheckDeviceNameRepeat(deviceName, "设备名称已被占用")
                    && CheckEmpty(deviceAddress, "请输入设备地址")
                    //&& CheckDeviceAddressRepeat(deviceAddress, "设备地址已被占用")
-                   && CheckEmpty(deviceChennalNum, "请选择通道数量")
-                   && CheckEmpty(deviceStartChennal, "请选择起始通道")
-                   && CheckChennalNumAndStartChennal(deviceChennalNum, deviceStartChennal, "通道数量与起始通道不匹配，需满足：\r\n\t8 - 起始通道 >= 通道数量")
+                   && CheckEmpty(deviceChannelNum, "请选择通道数量")
+                   && CheckEmpty(deviceStartChannel, "请选择起始通道")
+                   && CheckChannelNumAndStartChannel(deviceChannelNum, deviceStartChannel, "通道数量与起始通道不匹配，需满足：\r\n\t8 - 起始通道 >= 通道数量")
                    && CheckEmpty(deviceHostName, "请输入主机名")
                    && CheckEmpty(devicePort, "请输入端口号")
                    && CheckEmpty(devicePosition, "请简单描述设备安装位置");
@@ -75,17 +79,17 @@ namespace ModbusRTU_TP1608
         /// <summary>
         /// 检查通道数量与其实通道是否匹配
         /// </summary>
-        /// <param name="deviceChennalNum"></param>
-        /// <param name="deviceStartChennal"></param>
+        /// <param name="deviceChannelNum"></param>
+        /// <param name="deviceStartChannel"></param>
         /// <param name="desc"></param>
         /// <returns></returns>
-        private bool CheckChennalNumAndStartChennal(UIComboBox deviceChennalNum, UIComboBox deviceStartChennal, string desc)
+        private bool CheckChannelNumAndStartChannel(UIComboBox deviceChannelNum, UIComboBox deviceStartChannel, string desc)
         {
-            bool result = (8 - (deviceStartChennal.SelectedIndex + 1) + 1) >= (deviceChennalNum.SelectedIndex + 1);
+            bool result = (8 - (deviceStartChannel.SelectedIndex + 1) + 1) >= (deviceChannelNum.SelectedIndex + 1);
             if (!result)
             {
                 this.ShowWarningDialog(desc);
-                deviceChennalNum.Focus();
+                deviceChannelNum.Focus();
             }
             return result;
         }

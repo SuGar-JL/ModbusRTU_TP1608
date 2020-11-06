@@ -168,11 +168,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entiry\RTUDevice.cs" />
-    <Compile Include="F_ChennalInfo.cs">
+    <Compile Include="F_ChannelInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="F_ChennalInfo.Designer.cs">
-      <DependentUpon>F_ChennalInfo.cs</DependentUpon>
+    <Compile Include="F_ChannelInfo.Designer.cs">
+      <DependentUpon>F_ChannelInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="UCBtnAddDevice.cs">
       <SubType>UserControl</SubType>
@@ -189,7 +189,7 @@
     <Compile Include="Utils\ChartHelper.cs" />
     <Compile Include="Utils\Common.cs" />
     <Compile Include="Entiry\Sys.cs" />
-    <Compile Include="Entiry\TCPChennal.cs" />
+    <Compile Include="Entiry\TCPChannel.cs" />
     <Compile Include="Entiry\TCPDevice.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -227,20 +227,9 @@
     <Compile Include="F_Home.Designer.cs">
       <DependentUpon>F_Home.cs</DependentUpon>
     </Compile>
-    <Compile Include="F_Main.cs" />
-    <Compile Include="F_Main.Designer.cs">
-      <DependentUpon>F_Main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Debug.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Debug.Designer.cs">
-      <DependentUpon>Debug.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entiry\Base.cs" />
-    <Compile Include="Entiry\RTUChennal.cs" />
+    <Compile Include="Entiry\RTUChannel.cs" />
     <Compile Include="Entiry\Sensor.cs" />
-    <Compile Include="Entiry\SensorType.cs" />
     <Compile Include="F_SelectProtocol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -253,11 +242,11 @@
     <Compile Include="F_TitlePage.Designer.cs">
       <DependentUpon>F_TitlePage.cs</DependentUpon>
     </Compile>
-    <Compile Include="UCChennal.cs">
+    <Compile Include="UCChannel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCChennal.Designer.cs">
-      <DependentUpon>UCChennal.cs</DependentUpon>
+    <Compile Include="UCChannel.Designer.cs">
+      <DependentUpon>UCChannel.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -270,7 +259,7 @@
     <Compile Include="test.Designer.cs">
       <DependentUpon>test.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utils\RTUChennalManage.cs" />
+    <Compile Include="Utils\RTUChannelManage.cs" />
     <Compile Include="Utils\ModbusUtil.cs" />
     <Compile Include="Utils\DataTypeConvert.cs" />
     <Compile Include="Program.cs" />
@@ -279,12 +268,11 @@
     <Compile Include="Utils\DbContext_Sqlite.cs" />
     <Compile Include="Utils\RTUDeviceManage.cs" />
     <Compile Include="Utils\SensorManage.cs" />
-    <Compile Include="Utils\SensorTypeManage.cs" />
     <Compile Include="Utils\SysManage.cs" />
     <Compile Include="Utils\TCPChennalManage.cs" />
     <Compile Include="Utils\TCPDeviceManage.cs" />
-    <EmbeddedResource Include="F_ChennalInfo.resx">
-      <DependentUpon>F_ChennalInfo.cs</DependentUpon>
+    <EmbeddedResource Include="F_ChannelInfo.resx">
+      <DependentUpon>F_ChannelInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCBtnAddDevice.resx">
       <DependentUpon>UCBtnAddDevice.cs</DependentUpon>
@@ -307,12 +295,6 @@
     <EmbeddedResource Include="F_Home.resx">
       <DependentUpon>F_Home.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="F_Main.resx">
-      <DependentUpon>F_Main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Debug.resx">
-      <DependentUpon>Debug.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="F_SelectProtocol.resx">
       <DependentUpon>F_SelectProtocol.cs</DependentUpon>
     </EmbeddedResource>
@@ -322,8 +304,8 @@
     <EmbeddedResource Include="UCChartLine.resx">
       <DependentUpon>UCChartLine.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCChennal.resx">
-      <DependentUpon>UCChennal.cs</DependentUpon>
+    <EmbeddedResource Include="UCChannel.resx">
+      <DependentUpon>UCChannel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

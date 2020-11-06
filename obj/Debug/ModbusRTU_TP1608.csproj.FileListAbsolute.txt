@@ -209,7 +209,6 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Text.Encodings.Web.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Text.Json.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.ValueTuple.xml
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Debug.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Properties.Resources.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.GenerateResource.cache
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CoreCompileInputs.cache
@@ -218,7 +217,6 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\WeifenLuo.WinFormsUI.Docking.dll
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\SunnyUI.Pluse.dll
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_Main.resources
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\bin\Debug\runtimes\win-x86\native\e_sqlite3.dll
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\bin\Debug\runtimes\win-x64\native\e_sqlite3.dll
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\bin\Debug\runtimes\win-arm\native\e_sqlite3.dll
@@ -308,9 +306,7 @@ D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_Device
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_DeviceCofigTCP.resources
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_Home.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCBtnAddDevice.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChennal.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csprojAssemblyReference.cache
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChennalInfo.resources
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChennalInfo.resources
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCBtnAddDevice.resources
 D:\VS2019Projects\ModbusDev\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChennal.resources
@@ -402,3 +398,5 @@ D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CoreCompi
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.CopyComplete
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChannel.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChannelInfo.resources

@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace ModbusRTU_TP1608.Utils
 {
-    class TCPChennalManage : DbContext<TCPChennal>
+    class TCPChannelManage : DbContext<TCPChannel>
     {
         /// <summary>
         /// 用构造方法创建数据库表
         /// </summary>
         public void CreateTable()
         {
-            Db.CodeFirst.InitTables(typeof(TCPChennal));
+            Db.CodeFirst.InitTables(typeof(TCPChannel));
         }
 
         /// <summary>
@@ -24,62 +24,62 @@ namespace ModbusRTU_TP1608.Utils
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public TCPChennal GetById(int id)
+        public TCPChannel GetById(int id)
         {
             return CurrentDb.GetById(id);
         }
 
-        public TCPChennal GetByName(string chennalName)
+        public TCPChannel GetByName(string ChannelName)
         {
-            return CurrentDb.GetSingle(it => it.chennalName == chennalName);
+            return CurrentDb.GetSingle(it => it.ChannelName == ChannelName);
         }
         /// <summary>
         /// 根据设备ID查询对应的通道
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public List<TCPChennal> GetByDeviceId(string deviceId)
+        public List<TCPChannel> GetByDeviceId(string deviceId)
         {
-            return Db.Queryable<TCPChennal>().Where(it => it.deviceID == deviceId).OrderBy(it => it.chennalID).ToList();
+            return Db.Queryable<TCPChannel>().Where(it => it.deviceID == deviceId).OrderBy(it => it.ChannelID).ToList();
         }
 
         /// <summary>
         /// 根据设备id和通道名称获取通道
         /// </summary>
         /// <param name="deviceId"></param>
-        /// <param name="chennalName"></param>
+        /// <param name="ChannelName"></param>
         /// <returns></returns>
-        public TCPChennal GetByDeviceIdAndName(string deviceId, string chennalName)
+        public TCPChannel GetByDeviceIdAndName(string deviceId, string ChannelName)
         {
-            return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalName == chennalName);
+            return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.ChannelName == ChannelName);
         }
         /// <summary>
         /// 根据id批量删除
         /// </summary>
         public int DeleteByIds(string[] ids)
         {
-            return Db.Deleteable<TCPChennal>().In(ids).ExecuteCommand();
+            return Db.Deleteable<TCPChannel>().In(ids).ExecuteCommand();
         }
         public List<string> GetSensorIds()
         {
-            List<TCPChennal> chennals = Db.Queryable<TCPChennal>().Where(it => it.sensorID != null).ToList();
+            List<TCPChannel> Channels = Db.Queryable<TCPChannel>().Where(it => it.sensorID != null).ToList();
             List<string> sensorIds = new List<string>();
-            foreach (var chennal in chennals)
+            foreach (var Channel in Channels)
             {
-                sensorIds.Add(chennal.sensorID);
+                sensorIds.Add(Channel.sensorID);
             }
             sensorIds.Sort();
             return sensorIds;
         }
 
-        public TCPChennal GetByDeviceIdAndId(string deviceId, int id)
+        public TCPChannel GetByDeviceIdAndId(string deviceId, int id)
         {
-            return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.chennalID == id);
+            return CurrentDb.GetSingle(it => it.deviceID == deviceId && it.ChannelID == id);
         }
 
-        public int UpdateByEntity(TCPChennal chennal)
+        public int UpdateByEntity(TCPChannel Channel)
         {
-            return Db.Updateable(chennal).ExecuteCommand();
+            return Db.Updateable(Channel).ExecuteCommand();
         }
 
         //根据设备ID删除通道配置
@@ -94,21 +94,21 @@ namespace ModbusRTU_TP1608.Utils
         /// <returns></returns>
         public int GetMaxId()
         {
-            List<TCPChennal> chennals = CurrentDb.GetList();
+            List<TCPChannel> Channels = CurrentDb.GetList();
             int maxId = 0;
-            foreach (TCPChennal chennal in chennals)
+            foreach (TCPChannel Channel in Channels)
             {
-                if (int.Parse(chennal.id) > maxId)
+                if (int.Parse(Channel.id) > maxId)
                 {
-                    maxId = int.Parse(chennal.id);
+                    maxId = int.Parse(Channel.id);
                 }
             }
             return maxId;
         }
 
-        public List<TCPChennal> GetBySensorId(string sensorId)
+        public List<TCPChannel> GetBySensorId(string sensorId)
         {
-            return Db.Queryable<TCPChennal>().Where(it => it.sensorID == sensorId).ToList();
+            return Db.Queryable<TCPChannel>().Where(it => it.sensorID == sensorId).ToList();
         }
     }
 }

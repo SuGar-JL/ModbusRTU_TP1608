@@ -43,39 +43,7 @@ namespace ModbusRTU_TP1608
                 this.Ys.Add(i, y);
             }
             this.selectedChannelID = 1;
-            ////图表标题设置
-            //ucChartLine1.chart1.Titles.Add("曲线图");//图表标题
-            //ucChartLine1.chart1.Titles[0].Font = new Font("微软雅黑", 10);//图表标题字体
-            //ucChartLine1.chart1.Titles[0].ForeColor = Color.Black;//图表标题前景色（字体颜色）
-            //ucChartLine1.chart1.Titles[0].Docking = Docking.Top;//图表标题停靠位置
-            ////图表序列设置
-            //ucChartLine1.chart1.Series.Clear();
-            //ucChartLine1.chart1.Series.Add("曲线图");//添加序列
-            //ucChartLine1.chart1.Series[0].ChartType = SeriesChartType.SplineRange;//序列图类型
-            //ucChartLine1.chart1.Series[0].Color = Color.FromArgb(/*80, 160, 220*/100, 46, 199, 201);//序列数据点颜色
-            //ucChartLine1.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;//序列数据点标记样式
-            //ucChartLine1.chart1.Series[0].MarkerSize = 3;//序列数据点标记大小
-            //ucChartLine1.chart1.Series[0].MarkerColor = Color.Red;//序列数据点标记颜色
-            ////图表网格设置
-            //ucChartLine1.chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;//隐藏竖线
-            //ucChartLine1.chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(100, 225, 225, 225);//横线颜色
-            ////坐标轴设置
-            ////X轴
-            //ucChartLine1.chart1.ChartAreas[0].AxisX.Title = "时间";//轴标题
-            //ucChartLine1.chart1.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Far;//轴标题对齐方式
-            //ucChartLine1.chart1.ChartAreas[0].AxisX.TitleForeColor = Color.Black;//轴标题颜色
-            //ucChartLine1.chart1.ChartAreas[0].AxisX.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
-            //ucChartLine1.chart1.ChartAreas[0].AxisX.LabelStyle.Format = "MM-dd\nHH:mm:ss";//时间格式
-            //ucChartLine1.chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Seconds;//时间间隔度量单位
-            ////Y轴
-            ////ucChartLine1.chart1.ChartAreas[0].AxisY.Title = "单位";
-            //ucChartLine1.chart1.ChartAreas[0].AxisY.TitleAlignment = StringAlignment.Far;//轴标题对齐方式
-            //ucChartLine1.chart1.ChartAreas[0].AxisY.TextOrientation = TextOrientation.Horizontal;//标题水平
-            //ucChartLine1.chart1.ChartAreas[0].AxisY.TitleFont = new Font("微软雅黑", 8);//标题字体
-            //ucChartLine1.chart1.ChartAreas[0].AxisY.TitleForeColor = Color.Black;//轴标题颜色
-
-            //ucChartLine1.chart1.ChartAreas[0].AxisY.MajorTickMark.Size = 0.5F;//刻度线长度
-            //ucChartLine1.chart1.ChartAreas[0].AxisY.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
+            
         }
         #region 属性
         /// <summary>
@@ -1064,11 +1032,8 @@ namespace ModbusRTU_TP1608
                                 sensor.createBy = "传感器" + sensor.sensorId;
                                 sensor.createTime = DateTime.Now;
                                 sensor.tableName = rTUChannel.sensorTableName;
-                                //sensor.tableName = "sensor";
-                                //this.Xs[(int)rTUChannel.ChannelID].Add(((DateTime)sensor.createTime).ToLongTimeString());
-                                //this.Xs[(int)rTUChannel.ChannelID].RemoveAt(0);
-                                //this.Ys[(int)rTUChannel.ChannelID].Add(value);
-                                //this.Ys[(int)rTUChannel.ChannelID].RemoveAt(0);
+                                //数据入库
+                                ThreadPool.QueueUserWorkItem(new WaitCallback(WriteSensorData2DB), sensor);
                                 //接下来做显示
                                 //找出当前（看到的）设备对应的F_TitlePage
                                 try
@@ -1078,6 +1043,18 @@ namespace ModbusRTU_TP1608
                                     {
                                         if (f.tB_DeviceName.Text.Equals(rTUDevices[i].deviceName))
                                         {
+                                            if (f.Xs[(int)rTUChannel.ChannelID].Count < 30)
+                                            {
+                                                f.Xs[(int)rTUChannel.ChannelID].Add((DateTime)sensor.createTime);
+                                                f.Ys[(int)rTUChannel.ChannelID].Add(value);
+                                            }
+                                            else
+                                            {
+                                                f.Xs[(int)rTUChannel.ChannelID].Add((DateTime)sensor.createTime);
+                                                f.Ys[(int)rTUChannel.ChannelID].Add(value);
+                                                f.Xs[(int)rTUChannel.ChannelID].RemoveAt(0);
+                                                f.Ys[(int)rTUChannel.ChannelID].RemoveAt(0);
+                                            }
                                             this.SetUcChannelValue(rTUChannel.ChannelID, sensor.sensorValue, sensor.sensorUnit, sensor.createTime.ToString(), f);
                                             break;
                                         }
@@ -1087,8 +1064,7 @@ namespace ModbusRTU_TP1608
                                 {
                                     continue;
                                 }
-                                //数据入库
-                                ThreadPool.QueueUserWorkItem(new WaitCallback(WriteSensorData2DB), sensor);
+                                
                             }
                         }
                     }

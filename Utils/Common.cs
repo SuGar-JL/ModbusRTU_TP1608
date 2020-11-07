@@ -23,11 +23,11 @@ namespace ModbusRTU_TP1608
         /// <summary>
         /// 设备通道数量
         /// </summary>
-        public static List<string> DeviceChennalNum = new List<string>() { "1 通道", "2 通道", "3 通道", "4 通道", "5 通道", "6 通道", "7 通道", "8 通道", };
+        public static List<string> DeviceChannelNum = new List<string>() { "1 通道", "2 通道", "3 通道", "4 通道", "5 通道", "6 通道", "7 通道", "8 通道", };
         /// <summary>
         /// 设备起始通道
         /// </summary>
-        public static List<string> DeviceStartChennal = new List<string>() { "第 1 通道", "第 2 通道", "第 3 通道", "第 4 通道", "第 5 通道", "第 6 通道", "第 7 通道", "第 8 通道", };
+        public static List<string> DeviceStartChannel = new List<string>() { "第 1 通道", "第 2 通道", "第 3 通道", "第 4 通道", "第 5 通道", "第 6 通道", "第 7 通道", "第 8 通道", };
         /// <summary>
         /// 波特率
         /// </summary>

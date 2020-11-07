@@ -35,15 +35,15 @@
             this.onEdit = new System.Windows.Forms.PictureBox();
             this.BtnStop = new Sunny.UI.UIAvatar();
             this.BtnStart = new Sunny.UI.UIAvatar();
-            this.ucChennal8 = new ModbusRTU_TP1608.UCChennal();
-            this.ucChennal2 = new ModbusRTU_TP1608.UCChennal();
-            this.ucChennal7 = new ModbusRTU_TP1608.UCChennal();
-            this.ucChennal6 = new ModbusRTU_TP1608.UCChennal();
-            this.ucChennal5 = new ModbusRTU_TP1608.UCChennal();
-            this.ucChennal4 = new ModbusRTU_TP1608.UCChennal();
-            this.ucChennal3 = new ModbusRTU_TP1608.UCChennal();
-            this.ucChennal1 = new ModbusRTU_TP1608.UCChennal();
             this.ucChartLine1 = new ModbusRTU_TP1608.UCChartLine();
+            this.ucChannel8 = new ModbusRTU_TP1608.UCChannel();
+            this.ucChannel2 = new ModbusRTU_TP1608.UCChannel();
+            this.ucChannel7 = new ModbusRTU_TP1608.UCChannel();
+            this.ucChannel6 = new ModbusRTU_TP1608.UCChannel();
+            this.ucChannel5 = new ModbusRTU_TP1608.UCChannel();
+            this.ucChannel4 = new ModbusRTU_TP1608.UCChannel();
+            this.ucChannel3 = new ModbusRTU_TP1608.UCChannel();
+            this.ucChannel1 = new ModbusRTU_TP1608.UCChannel();
             ((System.ComponentModel.ISupportInitialize)(this.onDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.onEdit)).BeginInit();
             this.SuspendLayout();
@@ -153,78 +153,86 @@
             this.BtnStart.Text = "start";
             this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
-            // ucChennal8
-            // 
-            this.ucChennal8.Location = new System.Drawing.Point(742, 231);
-            this.ucChennal8.Name = "ucChennal8";
-            this.ucChennal8.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal8.TabIndex = 37;
-            this.ucChennal8.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
-            // ucChennal2
-            // 
-            this.ucChennal2.Location = new System.Drawing.Point(283, 80);
-            this.ucChennal2.Name = "ucChennal2";
-            this.ucChennal2.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal2.TabIndex = 31;
-            this.ucChennal2.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
-            // ucChennal7
-            // 
-            this.ucChennal7.Location = new System.Drawing.Point(517, 231);
-            this.ucChennal7.Name = "ucChennal7";
-            this.ucChennal7.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal7.TabIndex = 36;
-            this.ucChennal7.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
-            // ucChennal6
-            // 
-            this.ucChennal6.Location = new System.Drawing.Point(283, 231);
-            this.ucChennal6.Name = "ucChennal6";
-            this.ucChennal6.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal6.TabIndex = 35;
-            this.ucChennal6.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
-            // ucChennal5
-            // 
-            this.ucChennal5.Location = new System.Drawing.Point(50, 231);
-            this.ucChennal5.Name = "ucChennal5";
-            this.ucChennal5.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal5.TabIndex = 34;
-            this.ucChennal5.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
-            // ucChennal4
-            // 
-            this.ucChennal4.Location = new System.Drawing.Point(742, 80);
-            this.ucChennal4.Name = "ucChennal4";
-            this.ucChennal4.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal4.TabIndex = 33;
-            this.ucChennal4.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
-            // ucChennal3
-            // 
-            this.ucChennal3.Location = new System.Drawing.Point(517, 80);
-            this.ucChennal3.Name = "ucChennal3";
-            this.ucChennal3.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal3.TabIndex = 32;
-            this.ucChennal3.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
-            // ucChennal1
-            // 
-            this.ucChennal1.Location = new System.Drawing.Point(50, 80);
-            this.ucChennal1.Name = "ucChennal1";
-            this.ucChennal1.Size = new System.Drawing.Size(200, 120);
-            this.ucChennal1.TabIndex = 30;
-            this.ucChennal1.ShowInfo += new System.EventHandler(this.ucChennal_ShowInfo_Click);
-            // 
             // ucChartLine1
             // 
             this.ucChartLine1.BackColor = System.Drawing.Color.White;
             this.ucChartLine1.Location = new System.Drawing.Point(50, 366);
-            this.ucChartLine1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucChartLine1.Margin = new System.Windows.Forms.Padding(0);
             this.ucChartLine1.Name = "ucChartLine1";
             this.ucChartLine1.Size = new System.Drawing.Size(892, 227);
             this.ucChartLine1.TabIndex = 38;
+            // 
+            // ucChannel8
+            // 
+            this.ucChannel8.Location = new System.Drawing.Point(742, 231);
+            this.ucChannel8.Name = "ucChannel8";
+            this.ucChannel8.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel8.TabIndex = 37;
+            this.ucChannel8.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel8.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
+            // 
+            // ucChannel2
+            // 
+            this.ucChannel2.Location = new System.Drawing.Point(283, 80);
+            this.ucChannel2.Name = "ucChannel2";
+            this.ucChannel2.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel2.TabIndex = 31;
+            this.ucChannel2.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel2.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
+            // 
+            // ucChannel7
+            // 
+            this.ucChannel7.Location = new System.Drawing.Point(517, 231);
+            this.ucChannel7.Name = "ucChannel7";
+            this.ucChannel7.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel7.TabIndex = 36;
+            this.ucChannel7.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel7.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
+            // 
+            // ucChannel6
+            // 
+            this.ucChannel6.Location = new System.Drawing.Point(283, 231);
+            this.ucChannel6.Name = "ucChannel6";
+            this.ucChannel6.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel6.TabIndex = 35;
+            this.ucChannel6.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel6.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
+            // 
+            // ucChannel5
+            // 
+            this.ucChannel5.Location = new System.Drawing.Point(50, 231);
+            this.ucChannel5.Name = "ucChannel5";
+            this.ucChannel5.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel5.TabIndex = 34;
+            this.ucChannel5.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel5.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
+            // 
+            // ucChannel4
+            // 
+            this.ucChannel4.Location = new System.Drawing.Point(742, 80);
+            this.ucChannel4.Name = "ucChannel4";
+            this.ucChannel4.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel4.TabIndex = 33;
+            this.ucChannel4.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel4.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
+            // 
+            // ucChannel3
+            // 
+            this.ucChannel3.Location = new System.Drawing.Point(517, 80);
+            this.ucChannel3.Name = "ucChannel3";
+            this.ucChannel3.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel3.TabIndex = 32;
+            this.ucChannel3.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel3.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
+            // 
+            // ucChannel1
+            // 
+            this.ucChannel1.Location = new System.Drawing.Point(50, 80);
+            this.ucChannel1.Name = "ucChannel1";
+            this.ucChannel1.Size = new System.Drawing.Size(200, 120);
+            this.ucChannel1.TabIndex = 30;
+            this.ucChannel1.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
+            this.ucChannel1.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
             // 
             // F_TitlePage
             // 
@@ -233,14 +241,14 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
             this.ClientSize = new System.Drawing.Size(1000, 610);
             this.Controls.Add(this.ucChartLine1);
-            this.Controls.Add(this.ucChennal8);
-            this.Controls.Add(this.ucChennal2);
-            this.Controls.Add(this.ucChennal7);
-            this.Controls.Add(this.ucChennal6);
-            this.Controls.Add(this.ucChennal5);
-            this.Controls.Add(this.ucChennal4);
-            this.Controls.Add(this.ucChennal3);
-            this.Controls.Add(this.ucChennal1);
+            this.Controls.Add(this.ucChannel8);
+            this.Controls.Add(this.ucChannel2);
+            this.Controls.Add(this.ucChannel7);
+            this.Controls.Add(this.ucChannel6);
+            this.Controls.Add(this.ucChannel5);
+            this.Controls.Add(this.ucChannel4);
+            this.Controls.Add(this.ucChannel3);
+            this.Controls.Add(this.ucChannel1);
             this.Controls.Add(this.onDelete);
             this.Controls.Add(this.onEdit);
             this.Controls.Add(this.BtnStop);
@@ -269,14 +277,14 @@
         public System.Windows.Forms.TextBox tB_DeviceName;
         private System.Windows.Forms.PictureBox onEdit;
         private System.Windows.Forms.PictureBox onDelete;
-        public UCChennal ucChennal1;
-        public UCChennal ucChennal2;
-        public UCChennal ucChennal3;
-        public UCChennal ucChennal4;
-        public UCChennal ucChennal5;
-        public UCChennal ucChennal6;
-        public UCChennal ucChennal7;
-        public UCChennal ucChennal8;
-        private UCChartLine ucChartLine1;
+        public UCChannel ucChannel1;
+        public UCChannel ucChannel2;
+        public UCChannel ucChannel3;
+        public UCChannel ucChannel4;
+        public UCChannel ucChannel5;
+        public UCChannel ucChannel6;
+        public UCChannel ucChannel7;
+        public UCChannel ucChannel8;
+        public UCChartLine ucChartLine1;
     }
 }

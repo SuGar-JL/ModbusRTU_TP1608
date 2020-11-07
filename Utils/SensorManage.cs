@@ -40,9 +40,9 @@ namespace ModbusRTU_TP1608.Utils
         /// <param name="id"></param>
         /// <param name="sensor"></param>
         /// <returns></returns>
-        public int UpdateByTableNameAndId(string tableName, string id, Sensor sensor)
+        public int UpdateByTableNameAndSensorId(string tableName,Sensor sensor)
         {
-            return Db.Updateable(sensor).AS(tableName).Where(it => it.id == id).ExecuteCommand();
+            return Db.Updateable(sensor).AS(tableName).Where(it => it.sensorId == sensor.sensorId).ExecuteCommand();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace ModbusRTU_TP1608.Utils
         /// <param name="tableName"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Sensor GetByTableNameAndId(string tableName, string sensorId)
+        public Sensor GetByTableNameAndSensorId(string tableName, string sensorId)
         {
             return Db.Queryable<Sensor>().AS(tableName).Where(it => it.sensorId == sensorId).First();
         }

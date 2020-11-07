@@ -57,18 +57,26 @@ namespace ModbusRTU_TP1608
                 //获取控件的Tag属性值，并分割后存储字符串数组
                 if (con.Tag != null)
                 {
-                    //取出控件的tag属性中的宽、高、左边坐标、顶部坐标以及字号
-                    string[] mytag = con.Tag.ToString().Split(new char[] { ';' });
-                    //根据窗体缩放的比例确定控件的值
-                    con.Width = Convert.ToInt32(System.Convert.ToSingle(mytag[0]) * scaleX);//宽度
-                    con.Height = Convert.ToInt32(System.Convert.ToSingle(mytag[1]) * scaley);//高度
-                    con.Left = Convert.ToInt32(System.Convert.ToSingle(mytag[2]) * scaleX);//左边距
-                    con.Top = Convert.ToInt32(System.Convert.ToSingle(mytag[3]) * scaley);//顶边距
-                    Single currentSize = System.Convert.ToSingle(mytag[4]) * scaley;//字体大小
-                    con.Font = new Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit);
-                    if (con.Controls.Count > 0)
+                    try
                     {
-                        setControls(scaleX, scaley, con);
+                        //取出控件的tag属性中的宽、高、左边坐标、顶部坐标以及字号
+                        string[] mytag = con.Tag.ToString().Split(new char[] { ';' });
+                        //根据窗体缩放的比例确定控件的值
+                        con.Width = Convert.ToInt32(System.Convert.ToSingle(mytag[0]) * scaleX);//宽度
+                        con.Height = Convert.ToInt32(System.Convert.ToSingle(mytag[1]) * scaley);//高度
+                        con.Left = Convert.ToInt32(System.Convert.ToSingle(mytag[2]) * scaleX);//左边距
+                        con.Top = Convert.ToInt32(System.Convert.ToSingle(mytag[3]) * scaley);//顶边距
+                        Single currentSize = System.Convert.ToSingle(mytag[4]) * scaley;//字体大小
+                        con.Font = new Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit);
+                        if (con.Controls.Count > 0)
+                        {
+                            setControls(scaleX, scaley, con);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        //最小化时会报异常，在此处理
+                        ;
                     }
                 }
             }

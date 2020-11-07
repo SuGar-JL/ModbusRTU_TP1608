@@ -30,11 +30,11 @@ namespace ModbusRTU_TP1608.Entiry
         //[SugarColumn(ColumnName = "device_id", IsNullable = false, ColumnDescription = "设备ID")]
         //public string deviceID { get; set; }
 
-        [SugarColumn(ColumnName = "chennal_num", IsNullable = false, ColumnDescription = "设备通道数")]
-        public int chennalNum { get; set; }
+        [SugarColumn(ColumnName = "Channel_num", IsNullable = false, ColumnDescription = "设备通道数")]
+        public int ChannelNum { get; set; }
 
-        [SugarColumn(ColumnName = "start_chennal", IsNullable = false, ColumnDescription = "起始通道")]
-        public int startChennal { get; set; }
+        [SugarColumn(ColumnName = "start_Channel", IsNullable = false, ColumnDescription = "起始通道")]
+        public int startChannel { get; set; }
 
         //[SugarColumn(ColumnName = "store_interval", IsNullable = false, ColumnDescription = "保存间隔")]
         //public double storeInterval { get; set; }

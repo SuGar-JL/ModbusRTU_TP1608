@@ -48,37 +48,45 @@ namespace ModbusRTU_TP1608.Utils
         public int GetPageIndexs()
         {
             List<RTUDevice> devices = Db.Queryable<RTUDevice>().OrderBy(it => it.pageIndex).ToList();
-            //当没有设备时，用1作为pageIndex
-            if (devices.Count == 0)
+            if (devices.Count == 0 || devices == null)
             {
                 return 1;
             }
-            List<int> indexs = new List<int>();
-            foreach (var item in devices)
-            {
-                indexs.Add((int)item.pageIndex);
-            }
-            //一下操作是为了在有删除设备的情景下，indexs中的值（pageIndex）不是连续的，在新建设备时，可取被跳过的数作为pageIndex
-            int index = -1;
-            for (int i = 1; i < indexs.Max(); i++)
-            {
-                if (!indexs.Contains(i))
-                {
-                    index = i;
-                    //找到一个就停止
-                    break;
-                }
-            }
-            //当indexs中的值（pageIndex）是连续的时，用最大值+1作为pageIndex
-            if (index == -1)
-            {
-                index = indexs.Max() + 1;
-            }
-            return index;
+            ////当没有设备时，用1作为pageIndex
+            //if (devices.Count == 0)
+            //{
+            //    return 1;
+            //}
+            //List<int> indexs = new List<int>();
+            //foreach (var item in devices)
+            //{
+            //    indexs.Add((int)item.pageIndex);
+            //}
+            ////一下操作是为了在有删除设备的情景下，indexs中的值（pageIndex）不是连续的，在新建设备时，可取被跳过的数作为pageIndex
+            //int index = -1;
+            //for (int i = 1; i < indexs.Max(); i++)
+            //{
+            //    if (!indexs.Contains(i))
+            //    {
+            //        index = i;
+            //        //找到一个就停止
+            //        break;
+            //    }
+            //}
+            ////当indexs中的值（pageIndex）是连续的时，用最大值+1作为pageIndex
+            //if (index == -1)
+            //{
+            //    index = indexs.Max() + 1;
+            //}
+            return (int)(devices[devices.Count - 1].pageIndex) + 1;
         }
         public List<RTUDevice> GetAllOrderByCreateTime()
         {
             return Db.Queryable<RTUDevice>().OrderBy(it => it.createTime).ToList();
+        }
+        public List<RTUDevice> GetAllOrderByPageIndex()
+        {
+            return Db.Queryable<RTUDevice>().OrderBy(it => it.pageIndex).ToList();
         }
         /// <summary>
         /// 根据设备ID更新设备配置
@@ -139,5 +147,6 @@ namespace ModbusRTU_TP1608.Utils
             }
             return maxId;
         }
+
     }
 }

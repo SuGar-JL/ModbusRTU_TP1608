@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 namespace ModbusRTU_TP1608.Entiry
 {
     //[SugarTable("History_Data")]//数据库表名称
-    public class Sensor : Base
+    public class Sensor
     {
+        public Sensor()
+        {
+            this.id = System.Guid.NewGuid().ToString("N");
+        }
+
         [SugarColumn(ColumnName = "sensor_id", IsNullable = false, ColumnDescription = "传感器id")]
         public string sensorId { get; set; }
         [SugarColumn(ColumnName = "name", IsNullable = false, ColumnDescription = "传感器名称")]
@@ -22,21 +27,27 @@ namespace ModbusRTU_TP1608.Entiry
         public string sensorValue { get; set; }
         [SugarColumn(ColumnName = "unit", IsNullable = false, ColumnDescription = "监测单位")]
         public string sensorUnit { get; set; }
-        [SugarColumn(ColumnName = "is_external", IsNullable = true, ColumnDescription = "外部构件标志")]
-        public int sensorExternal { get; set; }
-        [SugarColumn(ColumnName = "px", IsNullable = true, ColumnDescription = "传感器坐标x")]
-        public string sensorPx { get; set; }
-        [SugarColumn(ColumnName = "py", IsNullable = true, ColumnDescription = "传感器坐标y")]
-        public string sensorPy { get; set; }
-        [SugarColumn(ColumnName = "pz", IsNullable = true, ColumnDescription = "传感器坐标z")]
-        public string sensorPz { get; set; }
+
+        //[SugarColumn(ColumnName = "is_external", IsNullable = true, ColumnDescription = "外部构件标志")]
+        //public int sensorExternal { get; set; }
+        //[SugarColumn(ColumnName = "px", IsNullable = true, ColumnDescription = "传感器坐标x")]
+        //public string sensorPx { get; set; }
+        //[SugarColumn(ColumnName = "py", IsNullable = true, ColumnDescription = "传感器坐标y")]
+        //public string sensorPy { get; set; }
+        //[SugarColumn(ColumnName = "pz", IsNullable = true, ColumnDescription = "传感器坐标z")]
+        //public string sensorPz { get; set; }
 
         [SugarColumn(IsIgnore = true, IsNullable = true, ColumnDescription = "传感器对应的数据库表名称，该字段不存入数据库")]
         public string tableName { get; set; }
 
-        public Sensor()
-        {
-            this.id = System.Guid.NewGuid().ToString("N");
-        }
+        //SqlSugar的用法
+        [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = false, ColumnDescription = "主键id")]//不能为空，是主键，自增长
+        public string id { get; set; }
+
+        [SugarColumn(IsNullable = true, ColumnName = "create_by", ColumnDescription = "创建者")]
+        public string createBy { get; set; }
+
+        [SugarColumn(IsNullable = true, ColumnName = "create_time", ColumnDescription = "创建时间")]
+        public DateTime? createTime { get; set; }
     }
 }

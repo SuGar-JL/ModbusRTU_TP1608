@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Media.TextFormatting;
+using System.Xml;
 
 namespace ModbusRTU_TP1608
 {
@@ -43,7 +44,32 @@ namespace ModbusRTU_TP1608
                 this.Ys.Add(i, y);
             }
             this.selectedChannelID = 1;
-            
+            //网格设置
+            this.chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;//隐藏竖线
+            this.chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(100, 200, 200, 200);//横线颜色
+            //X轴设置
+            this.chart1.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Far;//轴标题对齐方式
+            this.chart1.ChartAreas[0].AxisX.TitleFont = new Font("微软雅黑", 8);//图表标题字体
+            this.chart1.ChartAreas[0].AxisX.TitleForeColor = Color.Black;//轴标题颜色
+            this.chart1.ChartAreas[0].AxisX.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
+            this.chart1.ChartAreas[0].AxisX.LabelStyle.Format = "HH:mm:ss";//时间格式
+            this.chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Milliseconds;//时间间隔度量单位
+            this.chart1.ChartAreas[0].AxisX.Interval = DateTime.Parse("00:00:05").Millisecond;//间隔为5秒钟
+            //Y轴
+            this.chart1.ChartAreas[0].AxisY.TitleAlignment = StringAlignment.Far;//轴标题对齐方式
+            this.chart1.ChartAreas[0].AxisY.TextOrientation = TextOrientation.Horizontal;//标题水平
+            this.chart1.ChartAreas[0].AxisY.TitleFont = new Font("微软雅黑", 8);//标题字体
+            this.chart1.ChartAreas[0].AxisY.TitleForeColor = Color.Black;//轴标题颜色
+            this.chart1.ChartAreas[0].AxisY.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
+            this.chart1.ChartAreas[0].AxisY.MajorTickMark.Size = 0.5F;//刻度线长度
+            //提示信息
+            this.chart1.Series[0].ToolTip = "数据：#VAL\n最大值：#MAX\n最小值：#MIN\n日期：#VALX";
+            //先在这初始化绑定值，才能使得之后x轴显示时间标签
+            List<DateTime> x1 = new List<DateTime>() { DateTime.Now };
+            List<double> y1 = new List<double>() { 0 };
+            this.chart1.Series[0].MarkerStyle = MarkerStyle.None;
+            this.chart1.Series[0].Points.DataBindXY(x1, y1);
+
         }
         #region 属性
         /// <summary>
@@ -597,12 +623,12 @@ namespace ModbusRTU_TP1608
                 string ChannelOldName = Channel.ChannelName;
                 var sensorIds = new RTUChannelManage().GetSensorIds();
                 var f_ChannelInfo = new F_ChannelInfo();
-                if (device.status == (int)Common.DeviceStatus.START)
-                {
-                    f_ChannelInfo.ChannelSensorType.Enabled = false;
-                    f_ChannelInfo.ChannelSensorId.Enabled = false;
-                    f_ChannelInfo.ChannelType.Enabled = false;
-                }
+                //if (device.status == (int)Common.DeviceStatus.START)
+                //{
+                //    f_ChannelInfo.ChannelSensorType.Enabled = false;
+                //    f_ChannelInfo.ChannelSensorId.Enabled = false;
+                //    f_ChannelInfo.ChannelType.Enabled = false;
+                //}
                 f_ChannelInfo.rTUChannel = Channel;
                 f_ChannelInfo.ChannelName.Text = Channel.ChannelName;
                 f_ChannelInfo.ChannelID.Text = Channel.ChannelID.ToString();
@@ -685,12 +711,12 @@ namespace ModbusRTU_TP1608
                 string ChannelOldName = Channel.ChannelName;
                 var sensorIds = new TCPChannelManage().GetSensorIds();
                 var f_ChannelInfo = new F_ChannelInfo();
-                if (device.status == (int)Common.DeviceStatus.START)
-                {
-                    f_ChannelInfo.ChannelSensorType.Enabled = false;
-                    f_ChannelInfo.ChannelSensorId.Enabled = false;
-                    f_ChannelInfo.ChannelType.Enabled = false;
-                }
+                //if (device.status == (int)Common.DeviceStatus.START)
+                //{
+                //    f_ChannelInfo.ChannelSensorType.Enabled = false;
+                //    f_ChannelInfo.ChannelSensorId.Enabled = false;
+                //    f_ChannelInfo.ChannelType.Enabled = false;
+                //}
                 f_ChannelInfo.tCPChannel = Channel;
                 f_ChannelInfo.ChannelName.Text = Channel.ChannelName;
                 f_ChannelInfo.ChannelID.Text = Channel.ChannelID.ToString();
@@ -729,7 +755,7 @@ namespace ModbusRTU_TP1608
                 {
                     f_ChannelInfo.ChannelType.Text = Channel.ChannelType;
                 }
-                
+
                 f_ChannelInfo.ShowDialog();
                 if (f_ChannelInfo.IsOK)
                 {
@@ -904,21 +930,20 @@ namespace ModbusRTU_TP1608
                     this.ShowWarningDialog("请为设备配置从机IP");
                     return;
                 }
-                if (tCPDevice.port == null || tCPDevice.port.Length == 0 || !tCPDevice.port.Equals("502"))
+                if (tCPDevice.port == null || tCPDevice.port.Length == 0)
                 {
-                    this.ShowWarningDialog("请为设备配置从机端口号为502");
+                    this.ShowWarningDialog("请为设备配置从机端口号");
                     return;
                 }
 
                 //创建TCP客户端
                 try
                 {
-                    TcpClient tcpClient = new TcpClient(tCPDevice.hostName, int.Parse(tCPDevice.port));
                     //将TCP客户端实例tcpClient与设备实例tCPDevice存下来
                     bool f = false;
                     foreach (var key in ModbusUtil.TCPdevices.Keys)
                     {
-                        if (key.Equals(tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0]))
+                        if (key.Equals(tCPDevice.hostName))
                         {
                             //TCP客户端实例tcpClient已经在采集，那么不用创建新的线程，只需在串口的设备列表增加设备（设备地址可复用：一个地址对应多个F_TitlePage）
                             if (ModbusUtil.TCPdevices[key].Keys.Contains(tCPDevice.deviceAddress))
@@ -953,7 +978,7 @@ namespace ModbusRTU_TP1608
                         List<TCPDevice> tCPDevices = new List<TCPDevice>();
                         tCPDevices.Add(tCPDevice);
                         devices.Add(tCPDevice.deviceAddress, tCPDevices);
-                        ModbusUtil.TCPdevices.Add(tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0], devices);
+                        ModbusUtil.TCPdevices.Add(tCPDevice.hostName, devices);
                         //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
                         if (ModbusUtil.F_TitlePages.Keys.Contains(tCPDevice.deviceAddress))
                         {
@@ -967,14 +992,14 @@ namespace ModbusRTU_TP1608
                         }
                         //设置信号灯，当创建线程没有设备在创建时设为true，以停止采集线程
                         bool signal_STOP = false;
-                        ModbusUtil.TCPSignals.Add(tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0], signal_STOP);
+                        ModbusUtil.TCPSignals.Add(tCPDevice.hostName, signal_STOP);
                         //新建一个采集线程
                         Thread thread = new Thread(new ParameterizedThreadStart(this.TCPDataCollect));//调用方法，需要提供参数：串口（用于实例化master）
-                        thread.Name = tcpClient.Client.RemoteEndPoint.ToString() + "的采集线程";
+                        thread.Name = tCPDevice.hostName + "的采集线程";
                         thread.IsBackground = true;//后台线程，关闭程序时，线程也会停止
-                        thread.Start(tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0]);
+                        thread.Start(tCPDevice.hostName);
                         //存下线程，在串口串口的采集设备列表为空时，要停止线程（通过跳出所调用的采集方法中的while循环）
-                        ModbusUtil.TCPThreads.Add(tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0], thread);
+                        ModbusUtil.TCPThreads.Add(tCPDevice.hostName, thread);
                     }
                     //设置设备为采集状态（status字段变为1）
                     new TCPDeviceManage().UpdateStatusByName(tCPDevice.deviceName, (int)Common.DeviceStatus.START);
@@ -997,6 +1022,8 @@ namespace ModbusRTU_TP1608
         {
             //新建一个master
             Modbus.Device.IModbusMaster RTUMaster = ModbusSerialMaster.CreateRtu((SerialPort)serialPort);
+            RTUMaster.Transport.ReadTimeout = 5000;
+            RTUMaster.Transport.Retries = 8000;
             ThreadPool.SetMaxThreads(8, 8);//使用线程池来写数据库，异步来提高速度
             while (!ModbusUtil.RTUSignals[(SerialPort)serialPort])
             {
@@ -1064,7 +1091,7 @@ namespace ModbusRTU_TP1608
                                 {
                                     continue;
                                 }
-                                
+
                             }
                         }
                     }
@@ -1112,36 +1139,46 @@ namespace ModbusRTU_TP1608
         #region TCP协议下的采集方法
         private void TCPDataCollect(object obj)
         {
+            NModbus.IModbusMaster TCPMaster;
             ThreadPool.SetMaxThreads(8, 8);//使用线程池来写数据库，异步来提高速度
+            int ReTryTimes = 0;//记录重连次数
             while (!ModbusUtil.TCPSignals[(string)obj])
             {
                 try
                 {
-                    //新建一个master，放在while循环中，这样当出现异常时，都会重新创建一个master，这样重连次数其实是无数次，不在是8000次，每次重连都新建一个master
-                    NModbus.IModbusMaster TCPMaster = new ModbusFactory().CreateMaster(new TcpClient((string)obj, 502));
-                    //设置读取超时时间
-                    TCPMaster.Transport.ReadTimeout = 5000;
-                    //设置重连次数
-                    TCPMaster.Transport.Retries = 8000;
+                    /*
+                     * 将所有采集设备整理到一个List中
+                     */
                     List<List<TCPDevice>> devices = ModbusUtil.TCPdevices[(string)obj].Values.ToList();
                     List<TCPDevice> tCPDevices = new List<TCPDevice>();
                     for (int i = 0; i < devices.Count; i++)
                     {
                         tCPDevices.AddRange(devices[i]);
                     }
+                    /*
+                     * 轮询每一个设备
+                     */
                     for (int i = 0; i < tCPDevices.Count; i++)
                     {
                         try
                         {
                             TCPMaster = new ModbusFactory().CreateMaster(new TcpClient((string)obj, 502));
-                            //设置读取超时时间
-                            TCPMaster.Transport.ReadTimeout = 5000;
-                            //设置重连次数
-                            TCPMaster.Transport.Retries = 8000;
-                            //读取设备的寄存器数据（8个通道，一个通道2个寄存器），参数：设备地址，起始地址，寄存器数
-                            ushort[] registerBuffer = TCPMaster.ReadHoldingRegisters(byte.Parse(tCPDevices[i].deviceAddress), 0, 16);
-                            //ushort[]=>float[]
+                            TCPMaster.Transport.ReadTimeout = 5000;//读取超时时间
+                            TCPMaster.Transport.Retries = 10;//重连次数
+                            TCPMaster.Transport.WaitToRetryMilliseconds = 250;//重试间隔
+                            ushort[] registerBuffer = TCPMaster.ReadHoldingRegisters(byte.Parse(tCPDevices[i].deviceAddress), 0, 16);//读取设备的寄存器数据（8个通道，一个通道2个寄存器），参数：设备地址，起始地址，寄存器数
+                            if (ReTryTimes != 0)
+                            {
+                                Debug.debug.SetMsg("\r\n");
+                            }
+                            ReTryTimes = 0;
+                            /*
+                             * ushort[]转float[]
+                             */
                             float[] result = DataTypeConvert.GetReal(registerBuffer, 0);//得到8个32位浮点数
+                            /*
+                             * 将采集到的数据放到传感器对象，然后存到数据库
+                             */
                             List<TCPChannel> tCPChannels = new TCPChannelManage().GetByDeviceId(tCPDevices[i].id);
                             foreach (TCPChannel tCPChannel in tCPChannels)
                             {
@@ -1150,7 +1187,7 @@ namespace ModbusRTU_TP1608
                                     Sensor sensor = new Sensor();
                                     sensor.sensorId = tCPChannel.sensorID;
                                     sensor.sensorName = tCPChannel.sensorName;
-                                    sensor.sensorType = tCPChannel.sensorType.ToString();/////这是int,要改
+                                    sensor.sensorType = tCPChannel.sensorType.ToString();
                                     sensor.sensorLabel = tCPChannel.ChannelLabel;
                                     double value = (result[(int)tCPChannel.ChannelID - 1] - 4.0F) / (20.0F - 4.0F) * ((double)tCPChannel.sensorRangeH - (double)tCPChannel.sensorRangeL);
                                     value = double.Parse((value + (double)tCPChannel.sensorRangeL).ToString("F" + tCPChannel.decimalPlaces));
@@ -1194,45 +1231,69 @@ namespace ModbusRTU_TP1608
                                     }
                                 }
                             }
-                        }
-                        catch (Exception)
-                        {
                             TCPMaster.Dispose();
-                            i--;//在那个设备卡住，就在该设备处不断地重连
-                            continue;
+                            Thread.Sleep(50);//每个设备之间采集间隔
                         }
-                        //catch (TimeoutException)
-                        //{
-                        //    continue;
-                        //}
-                        //catch (IOException)
-                        //{
-                        //    continue;
-                        //}
-                        //catch (Exception e)
-                        //{
-                        //    this.ShowErrorDialog("采集中发生错误:\r\n" + e.GetType().Name + "\r\n" + e.Message);
-                        //}
-
+                        catch (IOException ie)
+                        {
+                            ReTryTimes++;
+                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", ie.GetType(), ie.Message, DateTime.Now, ReTryTimes));
+                            if (ReTryTimes > 10)
+                            {
+                                i--;
+                                continue;
+                            }
+                        }
+                        catch (TimeoutException te)
+                        {
+                            ReTryTimes++;
+                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", te.GetType(), te.Message, DateTime.Now, ReTryTimes));
+                            if (ReTryTimes > 10)
+                            {
+                                i--;
+                                continue;
+                            }
+                        }
+                        catch (SocketException se)
+                        {
+                            ReTryTimes++;
+                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", se.GetType(), se.Message, DateTime.Now, ReTryTimes));
+                            if (ReTryTimes > 10)
+                            {
+                                i--;
+                                continue;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            this.ShowErrorDialog("异常：" + e.GetType().Name + "\r\n" + DateTime.Now.ToString() + "\r\n" + e.Message);
+                            List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
+                            int countj = deviceAddress.Count;
+                            for (int j = 0; j < countj; j++)
+                            {
+                                List<F_TitlePage> f_TitlePages = ModbusUtil.F_TitlePages[deviceAddress[j]];
+                                int countk = f_TitlePages.Count;
+                                for (int k = 0; k < countk; k++)
+                                {
+                                    ModbusUtil.F_TitlePages[deviceAddress[j]][0].BtnStop_Click(this, new EventArgs());
+                                }
+                            }
+                        }
                     }
                     Thread.Sleep(1000);//采集线程睡眠1s
-                }
-                catch (SocketException)
-                {
-                    continue;
                 }
                 catch (Exception e)
                 {
                     this.ShowErrorDialog("异常：" + e.GetType().Name + "\r\n" + DateTime.Now.ToString() + "\r\n" + e.Message);
                     List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
-                    int counti = deviceAddress.Count;
-                    for (int i = 0; i < counti; i++)
+                    int countj = deviceAddress.Count;
+                    for (int j = 0; j < countj; j++)
                     {
-                        List<F_TitlePage> f_TitlePages = ModbusUtil.F_TitlePages[deviceAddress[i]];
-                        int countj = f_TitlePages.Count;
-                        for (int j = 0; j < countj; j++)
+                        List<F_TitlePage> f_TitlePages = ModbusUtil.F_TitlePages[deviceAddress[j]];
+                        int countk = f_TitlePages.Count;
+                        for (int k = 0; k < countk; k++)
                         {
-                            ModbusUtil.F_TitlePages[deviceAddress[i]][0].BtnStop_Click(this, new EventArgs());
+                            ModbusUtil.F_TitlePages[deviceAddress[j]][0].BtnStop_Click(this, new EventArgs());
                         }
                     }
                 }
@@ -1365,55 +1426,54 @@ namespace ModbusRTU_TP1608
 
             }
             //曲线图
-            if (f_TitlePage.ucChartLine1.chart1.InvokeRequired)
+            if (f_TitlePage.chart1.InvokeRequired)
             {
                 Action<List<DateTime>, List<double>/*, double*/> actionDelegate = (x, y/*, y_Min*/) =>
                 {
                     switch (f_TitlePage.selectedChannelID)
                     {
                         case 1:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel1.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel1.uiChannelName.Text.Trim();
                             break;
                         case 2:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel2.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel2.uiChannelName.Text.Trim();
                             break;
                         case 3:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel3.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel3.uiChannelName.Text.Trim();
                             break;
                         case 4:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel4.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel4.uiChannelName.Text.Trim();
                             break;
                         case 5:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel5.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel5.uiChannelName.Text.Trim();
                             break;
                         case 6:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel6.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel6.uiChannelName.Text.Trim();
                             break;
                         case 7:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel7.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel7.uiChannelName.Text.Trim();
                             break;
                         case 8:
-                            f_TitlePage.ucChartLine1.chart1.Titles[0].Text = f_TitlePage.ucChannel8.uiChannelName.Text.Trim();
+                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel8.uiChannelName.Text.Trim();
                             break;
 
                     }
-
-                    f_TitlePage.ucChartLine1.chart1.Series[0].Points.DataBindXY(x, y);
-                    f_TitlePage.ucChartLine1.chart1.ChartAreas[0].AxisX.Minimum = x[0].ToOADate();
-                    f_TitlePage.ucChartLine1.chart1.ChartAreas[0].AxisX.Maximum = x[x.Count - 1].ToOADate();
-                    f_TitlePage.ucChartLine1.chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;//如果是时间类型的数据，间隔方式可以是秒、分、时
-                    f_TitlePage.ucChartLine1.chart1.ChartAreas[0].AxisX.Interval = DateTime.Parse("00:00:05").Millisecond;//间隔为5秒钟
-
-                    //f_TitlePage.ucChartLine1.chart1.ChartAreas[0].AxisY.Minimum = y_Min;
+                    f_TitlePage.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
+                    f_TitlePage.chart1.Series[0].Points.DataBindXY(x, y);
+                    f_TitlePage.chart1.ChartAreas[0].AxisX.Minimum = x[0].ToOADate();
+                    f_TitlePage.chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Milliseconds;//如果是时间类型的数据，间隔方式可以是秒、分、时
+                    
+                    //f_TitlePage.chart1.ChartAreas[0].AxisY.Minimum = y_Min;
                 };
                 //List<double> y_Sorted = f_TitlePage.Ys[f_TitlePage.selectedChannelID];
                 //y_Sorted.Sort();
-                f_TitlePage.ucChartLine1.chart1.Invoke(actionDelegate, f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]/*, y_Sorted[0]*/);
+                f_TitlePage.chart1.Invoke(actionDelegate, f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]/*, y_Sorted[0]*/);
             }
             else
             {
-                f_TitlePage.ucChartLine1.chart1.Series[0].Points.DataBindXY(f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]);
+                f_TitlePage.chart1.Series[0].Points.DataBindXY(f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]);
             }
+
         }
         #endregion
 

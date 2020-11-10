@@ -71,15 +71,26 @@ namespace ModbusRTU_TP1608
         {
             //整个程序加载时创建数据库表（若数据库中没有这个表）
             //系统信息表，并插入一条记录
-            new SysManage().CreateTable();
-            //从数据库获取系统信息
-            this.sys = new SysManage().GetSysInfo()[0];
-            //根据通信协议创建数据库表
-            this.CreateTable(this.sys.protocol);
-            //从数据库加载设备到左侧菜单
-            this.LoadDeviceCofigFDB(this.sys.protocol);
-            //让TabControl的选项卡显示
-            MainContainer.TabVisible = true;
+            try
+            {
+                new SysManage().CreateTable();
+                //从数据库获取系统信息
+                this.sys = new SysManage().GetSysInfo()[0];
+                //根据通信协议创建数据库表
+                this.CreateTable(this.sys.protocol);
+                //从数据库加载设备到左侧菜单
+                this.LoadDeviceCofigFDB(this.sys.protocol);
+            }
+            catch (Exception ex)
+            {
+
+                this.ShowErrorDialog(ex.Message);
+            }
+            
+            //让TabControl的选项卡显示否
+            MainContainer.TabVisible = false;
+            Debug debug = new Debug();
+            debug.Show();
         }
         #endregion
 

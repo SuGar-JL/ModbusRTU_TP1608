@@ -17,7 +17,15 @@
             {
                 components.Dispose();
             }
-            base.Dispose(disposing);
+            try
+            {
+                base.Dispose(disposing);
+            }
+            catch (System.Exception)
+            {
+                ;
+            }
+            
         }
 
         #region Windows Form Designer generated code
@@ -28,6 +36,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tB_DeviceName = new System.Windows.Forms.TextBox();
             this.uiLine5 = new Sunny.UI.UILine();
             this.uiLine6 = new Sunny.UI.UILine();
@@ -35,7 +47,6 @@
             this.onEdit = new System.Windows.Forms.PictureBox();
             this.BtnStop = new Sunny.UI.UIAvatar();
             this.BtnStart = new Sunny.UI.UIAvatar();
-            this.ucChartLine1 = new ModbusRTU_TP1608.UCChartLine();
             this.ucChannel8 = new ModbusRTU_TP1608.UCChannel();
             this.ucChannel2 = new ModbusRTU_TP1608.UCChannel();
             this.ucChannel7 = new ModbusRTU_TP1608.UCChannel();
@@ -44,8 +55,10 @@
             this.ucChannel4 = new ModbusRTU_TP1608.UCChannel();
             this.ucChannel3 = new ModbusRTU_TP1608.UCChannel();
             this.ucChannel1 = new ModbusRTU_TP1608.UCChannel();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.onDelete)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.onEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // tB_DeviceName
@@ -127,6 +140,7 @@
             this.BtnStop.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BtnStop.Location = new System.Drawing.Point(828, 24);
             this.BtnStop.Margin = new System.Windows.Forms.Padding(2);
+            this.BtnStop.MinimumSize = new System.Drawing.Size(1, 1);
             this.BtnStop.Name = "BtnStop";
             this.BtnStop.Size = new System.Drawing.Size(30, 30);
             this.BtnStop.Style = Sunny.UI.UIStyle.Custom;
@@ -145,6 +159,7 @@
             this.BtnStart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BtnStart.Location = new System.Drawing.Point(783, 24);
             this.BtnStart.Margin = new System.Windows.Forms.Padding(2);
+            this.BtnStart.MinimumSize = new System.Drawing.Size(1, 1);
             this.BtnStart.Name = "BtnStart";
             this.BtnStart.Size = new System.Drawing.Size(30, 30);
             this.BtnStart.Style = Sunny.UI.UIStyle.Custom;
@@ -152,15 +167,6 @@
             this.BtnStart.TabIndex = 5;
             this.BtnStart.Text = "start";
             this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
-            // 
-            // ucChartLine1
-            // 
-            this.ucChartLine1.BackColor = System.Drawing.Color.White;
-            this.ucChartLine1.Location = new System.Drawing.Point(50, 366);
-            this.ucChartLine1.Margin = new System.Windows.Forms.Padding(0);
-            this.ucChartLine1.Name = "ucChartLine1";
-            this.ucChartLine1.Size = new System.Drawing.Size(892, 227);
-            this.ucChartLine1.TabIndex = 38;
             // 
             // ucChannel8
             // 
@@ -234,13 +240,40 @@
             this.ucChannel1.ShowInfo += new System.EventHandler(this.ucChannel_ShowInfo_Click);
             this.ucChannel1.ControlClick += new System.EventHandler(this.ucChannel_ControlClick);
             // 
+            // chart1
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(50, 357);
+            this.chart1.Name = "chart1";
+            series2.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series2.BackSecondaryColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
+            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(46)))), ((int)(((byte)(199)))), ((int)(((byte)(201)))));
+            series2.Legend = "Legend1";
+            series2.MarkerBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            series2.MarkerColor = System.Drawing.Color.Red;
+            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series2.Name = "Series1";
+            series2.YValuesPerPoint = 2;
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(892, 232);
+            this.chart1.TabIndex = 39;
+            this.chart1.Text = "chart1";
+            title2.Name = "Title1";
+            this.chart1.Titles.Add(title2);
+            // 
             // F_TitlePage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(242)))), ((int)(((byte)(246)))));
             this.ClientSize = new System.Drawing.Size(1000, 610);
-            this.Controls.Add(this.ucChartLine1);
+            this.Controls.Add(this.chart1);
             this.Controls.Add(this.ucChannel8);
             this.Controls.Add(this.ucChannel2);
             this.Controls.Add(this.ucChannel7);
@@ -264,6 +297,7 @@
             this.SizeChanged += new System.EventHandler(this.F_TitlePage_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.onDelete)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.onEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -285,6 +319,6 @@
         public UCChannel ucChannel6;
         public UCChannel ucChannel7;
         public UCChannel ucChannel8;
-        public UCChartLine ucChartLine1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

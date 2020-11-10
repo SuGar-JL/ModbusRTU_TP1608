@@ -97,8 +97,8 @@
     <Reference Include="SqlSugar, Version=5.0.0.15, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\sqlSugar.5.0.0.15\lib\SqlSugar.dll</HintPath>
     </Reference>
-    <Reference Include="SunnyUI.Pluse, Version=2.2.7.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\SunnyUI.Pluse.2.2.7.2\lib\net40\SunnyUI.Pluse.dll</HintPath>
+    <Reference Include="SunnyUI, Version=2.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SunnyUI.2.2.9\lib\net40\SunnyUI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -167,6 +167,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeBug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeBug.Designer.cs">
+      <DependentUpon>DeBug.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entiry\RTUDevice.cs" />
     <Compile Include="F_ChannelInfo.cs">
       <SubType>Form</SubType>
@@ -271,6 +277,9 @@
     <Compile Include="Utils\SysManage.cs" />
     <Compile Include="Utils\TCPChennalManage.cs" />
     <Compile Include="Utils\TCPDeviceManage.cs" />
+    <EmbeddedResource Include="DeBug.resx">
+      <DependentUpon>DeBug.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="F_ChannelInfo.resx">
       <DependentUpon>F_ChannelInfo.cs</DependentUpon>
     </EmbeddedResource>

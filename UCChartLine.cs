@@ -24,7 +24,7 @@ namespace ModbusRTU_TP1608
             this.chart1.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Far;//轴标题对齐方式
             this.chart1.ChartAreas[0].AxisX.TitleFont = new Font("微软雅黑", 8);//图表标题字体
             this.chart1.ChartAreas[0].AxisX.TitleForeColor = Color.Black;//轴标题颜色
-            this.chart1.ChartAreas[0].AxisX.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
+            //this.chart1.ChartAreas[0].AxisX.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
 
             this.chart1.ChartAreas[0].AxisX.LabelStyle.Format = "MM-dd\nHH:mm:ss";//时间格式
             this.chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Seconds;//时间间隔度量单位
@@ -35,7 +35,7 @@ namespace ModbusRTU_TP1608
             this.chart1.ChartAreas[0].AxisY.TitleFont = new Font("微软雅黑", 8);//标题字体
             this.chart1.ChartAreas[0].AxisY.TitleForeColor = Color.Black;//轴标题颜色
 
-            this.chart1.ChartAreas[0].AxisY.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
+            //this.chart1.ChartAreas[0].AxisY.ArrowStyle = AxisArrowStyle.Triangle;//轴箭头
             this.chart1.ChartAreas[0].AxisY.MajorTickMark.Size = 0.5F;//刻度线长度
         }
     }

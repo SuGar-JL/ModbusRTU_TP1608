@@ -1280,7 +1280,7 @@ namespace ModbusRTU_TP1608
                             }
                         }
                     }
-                    Thread.Sleep(1000);//采集线程睡眠1s
+                    Thread.Sleep(500);//采集线程睡眠1s
                 }
                 catch (Exception e)
                 {

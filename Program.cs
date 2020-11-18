@@ -15,6 +15,8 @@ namespace ModbusRTU_TP1608
         [STAThread]
         static void Main()
         {
+            //读取log4net配置信息
+            log4net.Config.XmlConfigurator.Configure();
             Application.EnableVisualStyles();//将操作系统样式应用于您的应用程序
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new test());

@@ -45,6 +45,7 @@ namespace ModbusRTU_TP1608
             this.selectedChannelID = 1;
             
         }
+
         #region 属性
         /// <summary>
         /// 通道id，时间/数据值
@@ -52,6 +53,10 @@ namespace ModbusRTU_TP1608
         public Dictionary<int, List<DateTime>> Xs = new Dictionary<int, List<DateTime>>();
         public Dictionary<int, List<double>> Ys = new Dictionary<int, List<double>>();
         public int selectedChannelID;
+        /// <summary>
+        /// 日志
+        /// </summary>
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(F_TitlePage));
         #endregion
 
         #region 控件大小随窗体大小等比例缩放

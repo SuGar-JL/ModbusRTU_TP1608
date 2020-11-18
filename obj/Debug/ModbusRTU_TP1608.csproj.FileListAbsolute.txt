@@ -340,7 +340,6 @@ D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SQLitePCLRaw.nativelibrary.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SQLitePCLRaw.provider.dynamic_cdecl.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SQLitePCLRaw.provider.e_sqlite3.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SqlSugar.dll
-D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SunnyUI.Pluse.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\System.Buffers.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\System.Data.SqlClient.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\System.Memory.dll
@@ -376,7 +375,6 @@ D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\System.Text.Json.xml
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\System.ValueTuple.xml
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csprojAssemblyReference.cache
-D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChennalInfo.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCBtnAddDevice.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Form1.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_AddDeviceRTU.resources
@@ -384,12 +382,10 @@ D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_AddDeviceTCP.r
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_DeviceCofigRTU.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_DeviceCofigTCP.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_Home.resources
-D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_Main.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Debug.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_SelectProtocol.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_TitlePage.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChartLine.resources
-D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChennal.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Properties.Resources.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.test.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.csproj.GenerateResource.cache
@@ -401,3 +397,8 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChannel.resourc
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChannelInfo.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Debug.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\SunnyUI.dll
+D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\log4net.dll
+D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SunnyUI.dll
+D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\log4net.xml
+D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChannelInfo.resources
+D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChannel.resources

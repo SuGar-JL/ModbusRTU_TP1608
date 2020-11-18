@@ -1172,10 +1172,6 @@ namespace ModbusRTU_TP1608
                             TCPMaster.Transport.Retries = 10;//重连次数
                             TCPMaster.Transport.WaitToRetryMilliseconds = 250;//重试间隔
                             ushort[] registerBuffer = TCPMaster.ReadHoldingRegisters(byte.Parse(tCPDevices[i].deviceAddress), 0, 16);//读取设备的寄存器数据（8个通道，一个通道2个寄存器），参数：设备地址，起始地址，寄存器数
-                            if (ReTryTimes != 0)
-                            {
-                                Debug.debug.SetMsg("\r\n");
-                            }
                             ReTryTimes = 0;
                             /*
                              * ushort[]转float[]
@@ -1242,7 +1238,7 @@ namespace ModbusRTU_TP1608
                         catch (IOException ie)
                         {
                             ReTryTimes++;
-                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", ie.GetType(), ie.Message, DateTime.Now, ReTryTimes));
+                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", ie.GetType(), ie.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1252,7 +1248,7 @@ namespace ModbusRTU_TP1608
                         catch (TimeoutException te)
                         {
                             ReTryTimes++;
-                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", te.GetType(), te.Message, DateTime.Now, ReTryTimes));
+                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", te.GetType(), te.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1262,7 +1258,7 @@ namespace ModbusRTU_TP1608
                         catch (SocketException se)
                         {
                             ReTryTimes++;
-                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", se.GetType(), se.Message, DateTime.Now, ReTryTimes));
+                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", se.GetType(), se.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;

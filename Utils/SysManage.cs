@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ModbusRTU_TP1608.Utils
 {
@@ -12,7 +13,9 @@ namespace ModbusRTU_TP1608.Utils
         public void CreateTable()
         {
             //创建设备信息表
+           
             Db.CodeFirst.InitTables(typeof(Sys));
+            
             //如果sys表是空的插入一条记录（初始化系统信息）
             if (this.GetSysInfo().Count == 0)
             {

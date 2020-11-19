@@ -71,6 +71,7 @@ namespace ModbusRTU_TP1608
             this.chart1.Series[0].Points.DataBindXY(x1, y1);
 
         }
+
         #region 属性
         /// <summary>
         /// 通道id，时间/数据值
@@ -78,6 +79,10 @@ namespace ModbusRTU_TP1608
         public Dictionary<int, List<DateTime>> Xs = new Dictionary<int, List<DateTime>>();
         public Dictionary<int, List<double>> Ys = new Dictionary<int, List<double>>();
         public int selectedChannelID;
+        /// <summary>
+        /// 日志
+        /// </summary>
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(F_TitlePage));
         #endregion
 
         #region 控件大小随窗体大小等比例缩放
@@ -1167,10 +1172,6 @@ namespace ModbusRTU_TP1608
                             TCPMaster.Transport.Retries = 10;//重连次数
                             TCPMaster.Transport.WaitToRetryMilliseconds = 250;//重试间隔
                             ushort[] registerBuffer = TCPMaster.ReadHoldingRegisters(byte.Parse(tCPDevices[i].deviceAddress), 0, 16);//读取设备的寄存器数据（8个通道，一个通道2个寄存器），参数：设备地址，起始地址，寄存器数
-                            if (ReTryTimes != 0)
-                            {
-                                Debug.debug.SetMsg("\r\n");
-                            }
                             ReTryTimes = 0;
                             /*
                              * ushort[]转float[]
@@ -1237,7 +1238,7 @@ namespace ModbusRTU_TP1608
                         catch (IOException ie)
                         {
                             ReTryTimes++;
-                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", ie.GetType(), ie.Message, DateTime.Now, ReTryTimes));
+                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", ie.GetType(), ie.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1247,7 +1248,7 @@ namespace ModbusRTU_TP1608
                         catch (TimeoutException te)
                         {
                             ReTryTimes++;
-                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", te.GetType(), te.Message, DateTime.Now, ReTryTimes));
+                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", te.GetType(), te.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1257,7 +1258,7 @@ namespace ModbusRTU_TP1608
                         catch (SocketException se)
                         {
                             ReTryTimes++;
-                            Debug.debug.SetMsg(string.Format("{0}: {1}  {2}({3})\r\n", se.GetType(), se.Message, DateTime.Now, ReTryTimes));
+                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", se.GetType(), se.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;

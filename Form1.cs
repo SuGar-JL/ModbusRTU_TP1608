@@ -89,8 +89,7 @@ namespace ModbusRTU_TP1608
             
             //让TabControl的选项卡显示否
             MainContainer.TabVisible = false;
-            Debug debug = new Debug();
-            debug.Show();
+            
         }
         #endregion
 

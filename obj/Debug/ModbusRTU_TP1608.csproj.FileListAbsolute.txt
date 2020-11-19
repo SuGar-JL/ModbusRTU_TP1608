@@ -402,3 +402,5 @@ D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SunnyUI.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\log4net.xml
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChannelInfo.resources
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChannel.resources
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\log4net.dll
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\log4net.xml

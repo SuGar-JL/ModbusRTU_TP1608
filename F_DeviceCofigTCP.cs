@@ -19,6 +19,10 @@ namespace ModbusRTU_TP1608
         /// 正在修改的设备
         /// </summary>
         public TCPDevice device = new TCPDevice();
+        /// <summary>
+        /// 获取一个日志记录器
+        /// </summary>
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(F_DeviceCofigTCP));
         public F_DeviceCofigTCP()
         {
             InitializeComponent();
@@ -99,6 +103,11 @@ namespace ModbusRTU_TP1608
                 deviceChannelNum.Focus();
             }
             return result;
+        }
+
+        private void F_DeviceCofigTCP_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Logger.Info("取消修改");
         }
     }
 }

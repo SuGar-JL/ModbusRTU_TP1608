@@ -28,6 +28,7 @@ namespace ModbusRTU_TP1608.Utils
 
         public static  Dictionary<string, Dictionary<string, List<TCPDevice>>> TCPdevices = new Dictionary<string, Dictionary<string, List<TCPDevice>>>();
         public static Dictionary<string, Thread> TCPThreads = new Dictionary<string, Thread>();
+
         public static Dictionary<string, List<F_TitlePage>> F_TitlePages = new Dictionary<string, List<F_TitlePage>>();
         //信号等，用于停止采集时，停止采集线程
         public static Dictionary<string, bool> TCPSignals = new Dictionary<string, bool>();

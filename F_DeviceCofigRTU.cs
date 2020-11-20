@@ -19,6 +19,10 @@ namespace ModbusRTU_TP1608
         /// 正在修改的设备
         /// </summary>
         public RTUDevice device = new RTUDevice();
+        /// <summary>
+        /// 获取一个日志记录器
+        /// </summary>
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(F_DeviceCofigRTU));
         public F_DeviceCofigRTU()
         {
             InitializeComponent();
@@ -110,6 +114,11 @@ namespace ModbusRTU_TP1608
                 SerialPort.Focus();
             }
             return result;
+        }
+
+        private void F_DeviceCofigRTU_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Logger.Info("取消修改");
         }
     }
 }

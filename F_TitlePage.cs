@@ -27,15 +27,45 @@ namespace ModbusRTU_TP1608
 {
     public partial class F_TitlePage : UIPage
     {
+        #region 属性
+        /// <summary>
+        /// 通道id，时间/数据值
+        /// </summary>
+        public Dictionary<int, List<DateTime>> Xs = new Dictionary<int, List<DateTime>>();
+        public Dictionary<int, List<double>> Ys = new Dictionary<int, List<double>>();
+        public int selectedChannelID;
+        /// <summary>
+        /// 日志
+        /// </summary>
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(F_TitlePage));
+        /// <summary>
+        /// 设备的状态
+        /// </summary>
+        private int deviceStatus = (int)Common.DeviceStatus.STOP;
+        #endregion
+
+        #region 构造方法
         public F_TitlePage()
         {
             InitializeComponent();
             //只要自定义了textBox的背景色与前景色后，设置Enabled = false就不会吧背景色和前景色变为默认的了
             //tB_ChannelName1.Enabled = false;
             //tB_ChannelName1.BackColor = Color.White;
+            #region 大小自适应
             w1 = this.Width;//窗口最开始的宽
             h1 = this.Height;//窗口最开始的高
-            setTag(this);
+            this.setTag(this);
+            #endregion
+            //默认显示第一通道的曲线
+            this.selectedChannelID = 1;
+            InitChart();
+
+        }
+        #endregion
+
+        #region 初始化Chart
+        private void InitChart()
+        {
             for (int i = 1; i <= 8; i++)
             {
                 List<DateTime> x = new List<DateTime>();
@@ -43,7 +73,6 @@ namespace ModbusRTU_TP1608
                 this.Xs.Add(i, x);
                 this.Ys.Add(i, y);
             }
-            this.selectedChannelID = 1;
             //网格设置
             this.chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;//隐藏竖线
             this.chart1.ChartAreas[0].AxisY.MajorGrid.LineColor = Color.FromArgb(100, 200, 200, 200);//横线颜色
@@ -69,20 +98,7 @@ namespace ModbusRTU_TP1608
             List<double> y1 = new List<double>() { 0 };
             this.chart1.Series[0].MarkerStyle = MarkerStyle.None;
             this.chart1.Series[0].Points.DataBindXY(x1, y1);
-
         }
-
-        #region 属性
-        /// <summary>
-        /// 通道id，时间/数据值
-        /// </summary>
-        public Dictionary<int, List<DateTime>> Xs = new Dictionary<int, List<DateTime>>();
-        public Dictionary<int, List<double>> Ys = new Dictionary<int, List<double>>();
-        public int selectedChannelID;
-        /// <summary>
-        /// 日志
-        /// </summary>
-        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(F_TitlePage));
         #endregion
 
         #region 控件大小随窗体大小等比例缩放
@@ -157,7 +173,7 @@ namespace ModbusRTU_TP1608
         }
         #endregion
 
-        #region 用双缓冲绘制窗口的所有子控件
+        #region 用双缓冲绘制窗口的所有子控件(让控件太多时加载快些)
         protected override CreateParams CreateParams
         {
             get
@@ -211,404 +227,434 @@ namespace ModbusRTU_TP1608
         #endregion
 
         #region 配置设备
-        private void onEdit_Click(object sender, EventArgs e)
+        private void onEdit_Click(object sender, EventArgs ea)
         {
-            Sys sys = new SysManage().GetSysInfo()[0];
-            if (sys.protocol == (int)Common.Protocol.NONE)
+            try
             {
+                Logger.Info("修改设备配置");
+                Sys sys = new SysManage().GetSysInfo()[0];
+                if (sys.protocol == (int)Common.Protocol.NONE)
+                {
+                    return;
+                }
+                else if (sys.protocol == (int)Common.Protocol.RTU)
+                {
+                    var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    //打开配置对话框
+                    var f_DeviceCofigRTU = new F_DeviceCofigRTU();
+                    if (device.status == (int)Common.DeviceStatus.START)
+                    {
+                        f_DeviceCofigRTU.deviceType.Enabled = false;
+                        f_DeviceCofigRTU.deviceName.Enabled = false;
+                        f_DeviceCofigRTU.deviceAddress.Enabled = false;
+                        f_DeviceCofigRTU.deviceChannelNum.Enabled = false;
+                        f_DeviceCofigRTU.deviceStartChannel.Enabled = false;
+                        f_DeviceCofigRTU.deviceSerialPort.Enabled = false;
+                        f_DeviceCofigRTU.deviceBaudRate.Enabled = false;
+                    }
+                    f_DeviceCofigRTU.device = device;
+                    f_DeviceCofigRTU.deviceType.Items.AddRange(Common.DeviceType.ToArray());
+                    f_DeviceCofigRTU.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
+                    f_DeviceCofigRTU.deviceName.Text = device.deviceName;
+                    f_DeviceCofigRTU.deviceAddress.Text = device.deviceAddress;
+                    f_DeviceCofigRTU.deviceChannelNum.Items.AddRange(Common.DeviceChannelNum.ToArray());
+                    f_DeviceCofigRTU.deviceChannelNum.SelectedIndex = device.ChannelNum - 1;
+                    f_DeviceCofigRTU.deviceStartChannel.Items.AddRange(Common.DeviceStartChannel.ToArray());
+                    f_DeviceCofigRTU.deviceStartChannel.SelectedIndex = device.startChannel - 1;
+                    List<string> serialPorts = System.IO.Ports.SerialPort.GetPortNames().ToList();
+                    serialPorts.Sort();
+                    f_DeviceCofigRTU.deviceSerialPort.Items.AddRange(serialPorts.ToArray());
+                    if (serialPorts.ToList().Contains(device.serialPort))
+                    {
+                        f_DeviceCofigRTU.deviceSerialPort.SelectedIndex = serialPorts.ToList().IndexOf(device.serialPort);
+                    }
+                    else
+                    {
+                        f_DeviceCofigRTU.deviceSerialPort.Text = device.serialPort;
+                    }
+                    f_DeviceCofigRTU.deviceBaudRate.Items.AddRange(Common.BaudRate.ToArray());
+                    f_DeviceCofigRTU.deviceBaudRate.SelectedIndex = Common.BaudRate.IndexOf(device.baudRate);
+                    f_DeviceCofigRTU.devicePosition.Text = device.position;
+                    f_DeviceCofigRTU.ShowDialog();
+                    //表单检查通过
+                    if (f_DeviceCofigRTU.IsOK)
+                    {
+                        bool f = false;
+                        device.deviceType = f_DeviceCofigRTU.deviceType.Text.Trim();
+                        device.deviceName = f_DeviceCofigRTU.deviceName.Text.Trim();
+                        device.deviceAddress = f_DeviceCofigRTU.deviceAddress.Text.Trim();
+                        if (device.ChannelNum != f_DeviceCofigRTU.deviceChannelNum.SelectedIndex + 1 || device.startChannel != f_DeviceCofigRTU.deviceStartChannel.SelectedIndex + 1)
+                        {
+                            f = !f;
+                        }
+                        device.ChannelNum = f_DeviceCofigRTU.deviceChannelNum.SelectedIndex + 1;//SelectedIndex是从0开始的
+                        device.startChannel = f_DeviceCofigRTU.deviceStartChannel.SelectedIndex + 1;
+                        device.serialPort = f_DeviceCofigRTU.deviceSerialPort.Text.Trim();//设置串口
+                        device.baudRate = f_DeviceCofigRTU.deviceBaudRate.Text.Trim();//设置波特率
+                        device.position = f_DeviceCofigRTU.devicePosition.Text.Trim();//设备安装位置
+                        device.updateTime = DateTime.Now;
+                        device.updateBy = "管理员";
+                        //将device存入数据库
+                        new RTUDeviceManage().UpdateByEntity(device);
+                        //设置本页面的标题与设备名称一致
+                        this.tB_DeviceName.Text = device.deviceName;
+                        //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
+                        if (f)
+                        {
+                            //四种情况
+                            var Channels = new RTUChannelManage().GetByDeviceId(device.id);
+                            if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID >= (device.startChannel + device.ChannelNum - 1))
+                            {
+                                //补前(第一个=满足时，补前不进行)
+                                for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
+                                {
+                                    RTUChannel Channel = new RTUChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new RTUChannelManage().Insert(Channel);
+                                }
+                                //删后(第二个=满足时，删后不进行)
+                                if (Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
+                                {
+                                    List<string> ChannelIds = new List<string>();
+                                    foreach (var Channel in Channels)
+                                    {
+                                        ChannelIds.Add(Channel.id);
+                                    }
+                                    ChannelIds.RemoveRange(0, device.startChannel + device.ChannelNum - 1 - (int)Channels[0].ChannelID);
+                                    ChannelIds.RemoveAt(0);
+                                    //根据id批量删除
+                                    new RTUChannelManage().DeleteByIds(ChannelIds.ToArray());
+                                }
+                            }
+                            else if (Channels[0].ChannelID <= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
+                            {
+                                //补后(第二个=满足时，补后不进行)
+                                for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
+                                {
+                                    RTUChannel Channel = new RTUChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new RTUChannelManage().Insert(Channel);
+                                }
+                                //删前(第一个=满足时，删前不进行)
+                                if (Channels[0].ChannelID < device.startChannel)
+                                {
+                                    List<string> ChannelIds = new List<string>();
+                                    foreach (var Channel in Channels)
+                                    {
+                                        ChannelIds.Add(Channel.id);
+                                    }
+                                    ChannelIds.RemoveRange(device.startChannel - 1, (int)Channels[Channels.Count - 1].ChannelID - device.startChannel + 1);
+                                    //根据id批量删除
+                                    new RTUChannelManage().DeleteByIds(ChannelIds.ToArray());
+                                }
+                            }
+                            else if (Channels[0].ChannelID < device.startChannel && Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
+                            {
+                                //删前后
+                                List<string> ChannelIds = new List<string>();
+                                foreach (var Channel in Channels)
+                                {
+                                    ChannelIds.Add(Channel.id);
+                                }
+                                ChannelIds.RemoveRange(device.startChannel - 1, device.ChannelNum);
+                                //根据id批量删除
+                                new RTUChannelManage().DeleteByIds(ChannelIds.ToArray());
+
+                            }
+                            else if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
+                            {
+
+                                //补前(第一个=满足时，补前不进行)
+                                for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
+                                {
+                                    RTUChannel Channel = new RTUChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new RTUChannelManage().Insert(Channel);
+                                }
+                                //补后（第二个=满足时，补后不进行）
+                                for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
+                                {
+                                    RTUChannel Channel = new RTUChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new RTUChannelManage().Insert(Channel);
+                                }
+                            }
+                        }
+                        Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, f);
+                        Logger.Info("修改已保存");
+                        this.ShowSuccessTip("修改已保存");
+                    }
+                }
+                else if (sys.protocol == (int)Common.Protocol.TCP)
+                {
+                    var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    //打开配置对话框
+                    var f_DeviceCofigTCP = new F_DeviceCofigTCP();
+                    if (device.status == (int)Common.DeviceStatus.START)
+                    {
+                        f_DeviceCofigTCP.deviceType.Enabled = false;
+                        f_DeviceCofigTCP.deviceName.Enabled = false;
+                        f_DeviceCofigTCP.deviceAddress.Enabled = false;
+                        f_DeviceCofigTCP.deviceChannelNum.Enabled = false;
+                        f_DeviceCofigTCP.deviceStartChannel.Enabled = false;
+                        f_DeviceCofigTCP.deviceHostName.Enabled = false;
+                        f_DeviceCofigTCP.devicePort.Enabled = false;
+                    }
+                    f_DeviceCofigTCP.device = device;
+                    f_DeviceCofigTCP.deviceType.Items.AddRange(Common.DeviceType.ToArray());
+                    f_DeviceCofigTCP.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
+                    f_DeviceCofigTCP.deviceName.Text = device.deviceName;
+                    f_DeviceCofigTCP.deviceAddress.Text = device.deviceAddress;
+                    f_DeviceCofigTCP.deviceChannelNum.Items.AddRange(Common.DeviceChannelNum.ToArray());
+                    f_DeviceCofigTCP.deviceChannelNum.SelectedIndex = device.ChannelNum - 1;
+                    f_DeviceCofigTCP.deviceStartChannel.Items.AddRange(Common.DeviceStartChannel.ToArray());
+                    f_DeviceCofigTCP.deviceStartChannel.SelectedIndex = device.startChannel - 1;
+                    f_DeviceCofigTCP.deviceHostName.Text = device.hostName;
+                    f_DeviceCofigTCP.devicePort.Text = device.port;
+                    f_DeviceCofigTCP.devicePosition.Text = device.position;
+                    f_DeviceCofigTCP.ShowDialog();
+                    if (f_DeviceCofigTCP.IsOK)
+                    {
+                        bool f = false;
+                        device.deviceType = f_DeviceCofigTCP.deviceType.Text.Trim();
+                        device.deviceName = f_DeviceCofigTCP.deviceName.Text.Trim();
+                        device.deviceAddress = f_DeviceCofigTCP.deviceAddress.Text.Trim();
+                        if (device.ChannelNum != f_DeviceCofigTCP.deviceChannelNum.SelectedIndex + 1 || device.startChannel != f_DeviceCofigTCP.deviceStartChannel.SelectedIndex + 1)
+                        {
+                            f = !f;
+                        }
+                        device.ChannelNum = f_DeviceCofigTCP.deviceChannelNum.SelectedIndex + 1;//SelectedIndex是从0开始的
+                        device.startChannel = f_DeviceCofigTCP.deviceStartChannel.SelectedIndex + 1;
+                        device.hostName = f_DeviceCofigTCP.deviceHostName.Text.Trim();//设置串口
+                        device.port = f_DeviceCofigTCP.devicePort.Text.Trim();//设置波特率
+                        device.position = f_DeviceCofigTCP.devicePosition.Text.Trim();//设备安装位置
+                        device.updateTime = DateTime.Now;
+                        device.updateBy = "管理员";
+                        //将device存入数据库
+                        new TCPDeviceManage().UpdateByEntity(device);
+                        //设置本页面的标题与设备名称一致
+                        this.tB_DeviceName.Text = device.deviceName;
+                        //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
+                        if (f)
+                        {
+                            //四种情况
+                            var Channels = new TCPChannelManage().GetByDeviceId(device.id);
+                            if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID >= (device.startChannel + device.ChannelNum - 1))
+                            {
+                                //补前(第一个=满足时，补前不进行)
+                                for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
+                                {
+                                    TCPChannel Channel = new TCPChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new TCPChannelManage().Insert(Channel);
+                                }
+                                //删后(第二个=满足时，删后不进行)
+                                if (Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
+                                {
+                                    List<string> ChannelIds = new List<string>();
+                                    foreach (var Channel in Channels)
+                                    {
+                                        ChannelIds.Add(Channel.id);
+                                    }
+                                    ChannelIds.RemoveRange(0, device.startChannel + device.ChannelNum - 1 - (int)Channels[0].ChannelID);
+                                    ChannelIds.RemoveAt(0);
+                                    //根据id批量删除
+                                    new TCPChannelManage().DeleteByIds(ChannelIds.ToArray());
+                                }
+                            }
+                            else if (Channels[0].ChannelID <= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
+                            {
+                                //补后(第二个=满足时，补后不进行)
+                                for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
+                                {
+                                    TCPChannel Channel = new TCPChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new TCPChannelManage().Insert(Channel);
+                                }
+                                //删前(第一个=满足时，删前不进行)
+                                if (Channels[0].ChannelID < device.startChannel)
+                                {
+                                    List<string> ChannelIds = new List<string>();
+                                    foreach (var Channel in Channels)
+                                    {
+                                        ChannelIds.Add(Channel.id);
+                                    }
+                                    ChannelIds.RemoveRange(device.startChannel - 1, (int)Channels[Channels.Count - 1].ChannelID - device.startChannel + 1);
+                                    //根据id批量删除
+                                    new TCPChannelManage().DeleteByIds(ChannelIds.ToArray());
+                                }
+                            }
+                            else if (Channels[0].ChannelID < device.startChannel && Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
+                            {
+                                //删前后
+                                List<string> ChannelIds = new List<string>();
+                                foreach (var Channel in Channels)
+                                {
+                                    ChannelIds.Add(Channel.id);
+                                }
+                                ChannelIds.RemoveRange(device.startChannel - 1, device.ChannelNum);
+                                //根据id批量删除
+                                new TCPChannelManage().DeleteByIds(ChannelIds.ToArray());
+
+                            }
+                            else if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
+                            {
+
+                                //补前(第一个=满足时，补前不进行)
+                                for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
+                                {
+                                    TCPChannel Channel = new TCPChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new TCPChannelManage().Insert(Channel);
+                                }
+                                //补后（第二个=满足时，补后不进行）
+                                for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
+                                {
+                                    TCPChannel Channel = new TCPChannel();
+                                    Channel.deviceID = device.id;//设备id
+                                    Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
+                                    Channel.ChannelID = i;//通道id
+                                    Channel.createBy = "管理员";
+                                    Channel.createTime = DateTime.Now;
+                                    new TCPChannelManage().Insert(Channel);
+                                }
+                            }
+
+                        }
+                        Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, f);
+                        Logger.Info("修改已保存");
+                        this.ShowSuccessTip("修改已保存");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                this.ShowErrorDialog(e.Message);
                 return;
-            }
-            else if (sys.protocol == (int)Common.Protocol.RTU)
-            {
-                var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                //打开配置对话框
-                var f_DeviceCofigRTU = new F_DeviceCofigRTU();
-                if (device.status == (int)Common.DeviceStatus.START)
-                {
-                    f_DeviceCofigRTU.deviceType.Enabled = false;
-                    f_DeviceCofigRTU.deviceName.Enabled = false;
-                    f_DeviceCofigRTU.deviceAddress.Enabled = false;
-                    f_DeviceCofigRTU.deviceChannelNum.Enabled = false;
-                    f_DeviceCofigRTU.deviceStartChannel.Enabled = false;
-                    f_DeviceCofigRTU.deviceSerialPort.Enabled = false;
-                    f_DeviceCofigRTU.deviceBaudRate.Enabled = false;
-                }
-                f_DeviceCofigRTU.device = device;
-                f_DeviceCofigRTU.deviceType.Items.AddRange(Common.DeviceType.ToArray());
-                f_DeviceCofigRTU.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
-                f_DeviceCofigRTU.deviceName.Text = device.deviceName;
-                f_DeviceCofigRTU.deviceAddress.Text = device.deviceAddress;
-                f_DeviceCofigRTU.deviceChannelNum.Items.AddRange(Common.DeviceChannelNum.ToArray());
-                f_DeviceCofigRTU.deviceChannelNum.SelectedIndex = device.ChannelNum - 1;
-                f_DeviceCofigRTU.deviceStartChannel.Items.AddRange(Common.DeviceStartChannel.ToArray());
-                f_DeviceCofigRTU.deviceStartChannel.SelectedIndex = device.startChannel - 1;
-                List<string> serialPorts = System.IO.Ports.SerialPort.GetPortNames().ToList();
-                serialPorts.Sort();
-                f_DeviceCofigRTU.deviceSerialPort.Items.AddRange(serialPorts.ToArray());
-                if (serialPorts.ToList().Contains(device.serialPort))
-                {
-                    f_DeviceCofigRTU.deviceSerialPort.SelectedIndex = serialPorts.ToList().IndexOf(device.serialPort);
-                }
-                else
-                {
-                    f_DeviceCofigRTU.deviceSerialPort.Text = device.serialPort;
-                }
-                f_DeviceCofigRTU.deviceBaudRate.Items.AddRange(Common.BaudRate.ToArray());
-                f_DeviceCofigRTU.deviceBaudRate.SelectedIndex = Common.BaudRate.IndexOf(device.baudRate);
-                f_DeviceCofigRTU.devicePosition.Text = device.position;
-                f_DeviceCofigRTU.ShowDialog();
-                if (f_DeviceCofigRTU.IsOK)
-                {
-                    bool f = false;
-                    device.deviceType = f_DeviceCofigRTU.deviceType.Text.Trim();
-                    device.deviceName = f_DeviceCofigRTU.deviceName.Text.Trim();
-                    device.deviceAddress = f_DeviceCofigRTU.deviceAddress.Text.Trim();
-                    if (device.ChannelNum != f_DeviceCofigRTU.deviceChannelNum.SelectedIndex + 1 || device.startChannel != f_DeviceCofigRTU.deviceStartChannel.SelectedIndex + 1)
-                    {
-                        f = !f;
-                    }
-                    device.ChannelNum = f_DeviceCofigRTU.deviceChannelNum.SelectedIndex + 1;//SelectedIndex是从0开始的
-                    device.startChannel = f_DeviceCofigRTU.deviceStartChannel.SelectedIndex + 1;
-                    device.serialPort = f_DeviceCofigRTU.deviceSerialPort.Text.Trim();//设置串口
-                    device.baudRate = f_DeviceCofigRTU.deviceBaudRate.Text.Trim();//设置波特率
-                    device.position = f_DeviceCofigRTU.devicePosition.Text.Trim();//设备安装位置
-                    device.updateTime = DateTime.Now;
-                    device.updateBy = "管理员";
-                    //将device存入数据库
-                    new RTUDeviceManage().UpdateByEntity(device);
-                    //设置本页面的标题与设备名称一致
-                    this.tB_DeviceName.Text = device.deviceName;
-                    //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
-                    if (f)
-                    {
-                        //四种情况
-                        var Channels = new RTUChannelManage().GetByDeviceId(device.id);
-                        if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID >= (device.startChannel + device.ChannelNum - 1))
-                        {
-                            //补前(第一个=满足时，补前不进行)
-                            for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
-                            {
-                                RTUChannel Channel = new RTUChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new RTUChannelManage().Insert(Channel);
-                            }
-                            //删后(第二个=满足时，删后不进行)
-                            if (Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
-                            {
-                                List<string> ChannelIds = new List<string>();
-                                foreach (var Channel in Channels)
-                                {
-                                    ChannelIds.Add(Channel.id);
-                                }
-                                ChannelIds.RemoveRange(0, device.startChannel + device.ChannelNum - 1 - (int)Channels[0].ChannelID);
-                                ChannelIds.RemoveAt(0);
-                                //根据id批量删除
-                                new RTUChannelManage().DeleteByIds(ChannelIds.ToArray());
-                            }
-                        }
-                        else if (Channels[0].ChannelID <= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
-                        {
-                            //补后(第二个=满足时，补后不进行)
-                            for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
-                            {
-                                RTUChannel Channel = new RTUChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new RTUChannelManage().Insert(Channel);
-                            }
-                            //删前(第一个=满足时，删前不进行)
-                            if (Channels[0].ChannelID < device.startChannel)
-                            {
-                                List<string> ChannelIds = new List<string>();
-                                foreach (var Channel in Channels)
-                                {
-                                    ChannelIds.Add(Channel.id);
-                                }
-                                ChannelIds.RemoveRange(device.startChannel - 1, (int)Channels[Channels.Count - 1].ChannelID - device.startChannel + 1);
-                                //根据id批量删除
-                                new RTUChannelManage().DeleteByIds(ChannelIds.ToArray());
-                            }
-                        }
-                        else if (Channels[0].ChannelID < device.startChannel && Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
-                        {
-                            //删前后
-                            List<string> ChannelIds = new List<string>();
-                            foreach (var Channel in Channels)
-                            {
-                                ChannelIds.Add(Channel.id);
-                            }
-                            ChannelIds.RemoveRange(device.startChannel - 1, device.ChannelNum);
-                            //根据id批量删除
-                            new RTUChannelManage().DeleteByIds(ChannelIds.ToArray());
-
-                        }
-                        else if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
-                        {
-
-                            //补前(第一个=满足时，补前不进行)
-                            for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
-                            {
-                                RTUChannel Channel = new RTUChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new RTUChannelManage().Insert(Channel);
-                            }
-                            //补后（第二个=满足时，补后不进行）
-                            for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
-                            {
-                                RTUChannel Channel = new RTUChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new RTUChannelManage().Insert(Channel);
-                            }
-                        }
-                    }
-                    Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, f);
-                    this.ShowSuccessTip("修改已保存");
-                }
-            }
-            else if (sys.protocol == (int)Common.Protocol.TCP)
-            {
-                var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                //打开配置对话框
-                var f_DeviceCofigTCP = new F_DeviceCofigTCP();
-                if (device.status == (int)Common.DeviceStatus.START)
-                {
-                    f_DeviceCofigTCP.deviceType.Enabled = false;
-                    f_DeviceCofigTCP.deviceName.Enabled = false;
-                    f_DeviceCofigTCP.deviceAddress.Enabled = false;
-                    f_DeviceCofigTCP.deviceChannelNum.Enabled = false;
-                    f_DeviceCofigTCP.deviceStartChannel.Enabled = false;
-                    f_DeviceCofigTCP.deviceHostName.Enabled = false;
-                    f_DeviceCofigTCP.devicePort.Enabled = false;
-                }
-                f_DeviceCofigTCP.device = device;
-                f_DeviceCofigTCP.deviceType.Items.AddRange(Common.DeviceType.ToArray());
-                f_DeviceCofigTCP.deviceType.SelectedIndex = Common.DeviceType.IndexOf(device.deviceType);
-                f_DeviceCofigTCP.deviceName.Text = device.deviceName;
-                f_DeviceCofigTCP.deviceAddress.Text = device.deviceAddress;
-                f_DeviceCofigTCP.deviceChannelNum.Items.AddRange(Common.DeviceChannelNum.ToArray());
-                f_DeviceCofigTCP.deviceChannelNum.SelectedIndex = device.ChannelNum - 1;
-                f_DeviceCofigTCP.deviceStartChannel.Items.AddRange(Common.DeviceStartChannel.ToArray());
-                f_DeviceCofigTCP.deviceStartChannel.SelectedIndex = device.startChannel - 1;
-                f_DeviceCofigTCP.deviceHostName.Text = device.hostName;
-                f_DeviceCofigTCP.devicePort.Text = device.port;
-                f_DeviceCofigTCP.devicePosition.Text = device.position;
-                f_DeviceCofigTCP.ShowDialog();
-                if (f_DeviceCofigTCP.IsOK)
-                {
-                    bool f = false;
-                    device.deviceType = f_DeviceCofigTCP.deviceType.Text.Trim();
-                    device.deviceName = f_DeviceCofigTCP.deviceName.Text.Trim();
-                    device.deviceAddress = f_DeviceCofigTCP.deviceAddress.Text.Trim();
-                    if (device.ChannelNum != f_DeviceCofigTCP.deviceChannelNum.SelectedIndex + 1 || device.startChannel != f_DeviceCofigTCP.deviceStartChannel.SelectedIndex + 1)
-                    {
-                        f = !f;
-                    }
-                    device.ChannelNum = f_DeviceCofigTCP.deviceChannelNum.SelectedIndex + 1;//SelectedIndex是从0开始的
-                    device.startChannel = f_DeviceCofigTCP.deviceStartChannel.SelectedIndex + 1;
-                    device.hostName = f_DeviceCofigTCP.deviceHostName.Text.Trim();//设置串口
-                    device.port = f_DeviceCofigTCP.devicePort.Text.Trim();//设置波特率
-                    device.position = f_DeviceCofigTCP.devicePosition.Text.Trim();//设备安装位置
-                    device.updateTime = DateTime.Now;
-                    device.updateBy = "管理员";
-                    //将device存入数据库
-                    new TCPDeviceManage().UpdateByEntity(device);
-                    //设置本页面的标题与设备名称一致
-                    this.tB_DeviceName.Text = device.deviceName;
-                    //修改设备列表当前选中的设备的名称并改变通道数量（如果变了的化）
-                    if (f)
-                    {
-                        //四种情况
-                        var Channels = new TCPChannelManage().GetByDeviceId(device.id);
-                        if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID >= (device.startChannel + device.ChannelNum - 1))
-                        {
-                            //补前(第一个=满足时，补前不进行)
-                            for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
-                            {
-                                TCPChannel Channel = new TCPChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new TCPChannelManage().Insert(Channel);
-                            }
-                            //删后(第二个=满足时，删后不进行)
-                            if (Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
-                            {
-                                List<string> ChannelIds = new List<string>();
-                                foreach (var Channel in Channels)
-                                {
-                                    ChannelIds.Add(Channel.id);
-                                }
-                                ChannelIds.RemoveRange(0, device.startChannel + device.ChannelNum - 1 - (int)Channels[0].ChannelID);
-                                ChannelIds.RemoveAt(0);
-                                //根据id批量删除
-                                new TCPChannelManage().DeleteByIds(ChannelIds.ToArray());
-                            }
-                        }
-                        else if (Channels[0].ChannelID <= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
-                        {
-                            //补后(第二个=满足时，补后不进行)
-                            for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
-                            {
-                                TCPChannel Channel = new TCPChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new TCPChannelManage().Insert(Channel);
-                            }
-                            //删前(第一个=满足时，删前不进行)
-                            if (Channels[0].ChannelID < device.startChannel)
-                            {
-                                List<string> ChannelIds = new List<string>();
-                                foreach (var Channel in Channels)
-                                {
-                                    ChannelIds.Add(Channel.id);
-                                }
-                                ChannelIds.RemoveRange(device.startChannel - 1, (int)Channels[Channels.Count - 1].ChannelID - device.startChannel + 1);
-                                //根据id批量删除
-                                new TCPChannelManage().DeleteByIds(ChannelIds.ToArray());
-                            }
-                        }
-                        else if (Channels[0].ChannelID < device.startChannel && Channels[Channels.Count - 1].ChannelID > (device.startChannel + device.ChannelNum - 1))
-                        {
-                            //删前后
-                            List<string> ChannelIds = new List<string>();
-                            foreach (var Channel in Channels)
-                            {
-                                ChannelIds.Add(Channel.id);
-                            }
-                            ChannelIds.RemoveRange(device.startChannel - 1, device.ChannelNum);
-                            //根据id批量删除
-                            new TCPChannelManage().DeleteByIds(ChannelIds.ToArray());
-
-                        }
-                        else if (Channels[0].ChannelID >= device.startChannel && Channels[Channels.Count - 1].ChannelID <= (device.startChannel + device.ChannelNum - 1))
-                        {
-
-                            //补前(第一个=满足时，补前不进行)
-                            for (int i = device.startChannel; i < Channels[0].ChannelID; i++)
-                            {
-                                TCPChannel Channel = new TCPChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new TCPChannelManage().Insert(Channel);
-                            }
-                            //补后（第二个=满足时，补后不进行）
-                            for (int i = (int)Channels[Channels.Count - 1].ChannelID + 1; i <= device.startChannel + device.ChannelNum - 1; i++)
-                            {
-                                TCPChannel Channel = new TCPChannel();
-                                Channel.deviceID = device.id;//设备id
-                                Channel.ChannelName = device.deviceName + "-CH0" + i;//通道名称
-                                Channel.ChannelID = i;//通道id
-                                Channel.createBy = "管理员";
-                                Channel.createTime = DateTime.Now;
-                                new TCPChannelManage().Insert(Channel);
-                            }
-                        }
-
-                    }
-                    Form1.Instance.SetAsideNode(device.deviceName, device.id, (int)device.pageIndex, f);
-                    this.ShowSuccessTip("修改已保存");
-                }
             }
         }
         #endregion
 
         #region 删除设备
-        private void onDelete_Click(object sender, EventArgs e)
+        private void onDelete_Click(object sender, EventArgs ea)
         {
-            Sys sys = new SysManage().GetSysInfo()[0];
-            if (sys.protocol == (int)Common.Protocol.RTU)
+            try
             {
-                //1.设备正在采集时是不能删除的
-                var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                if (device.status == (int)Common.DeviceStatus.START)
+                Logger.Info("删除设备");
+                Sys sys = new SysManage().GetSysInfo()[0];
+                if (sys.protocol == (int)Common.Protocol.RTU)
                 {
-                    this.ShowWarningDialog("设备正在采集数据，不能删除！");
-                    return;
-                }
-                //其它状态时可删除，得询问
-                bool OK = this.ShowAskDialog("确定要删除该设备吗？\r\n警告：将会删除已采集的数据！");
-                if (OK)
-                {
-                    List<RTUDevice> devices = new RTUDeviceManage().GetAllOrderByPageIndex();
-                    //点击确认按钮
-                    new RTUChannelManage().DeleteByDeviceId(device.id);//是批量吗？
-                    new RTUDeviceManage().DeleteById(device.id);
-                    Form1.Instance.DeleteAsideNode((int)device.pageIndex);
-                    //对数据库中的所有设备重新编号devices.Count = devices[devices.Count - 1].PageIndex
-                    if (device.pageIndex != devices.Count)
+                    //1.设备正在采集时是不能删除的
+                    var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    if (device.status == (int)Common.DeviceStatus.START)
                     {
-                        for (int i = (int)device.pageIndex; i < devices.Count; i++)
-                        {
-                            devices[i].pageIndex = devices[i].pageIndex - 1;
-                            new RTUDeviceManage().UpdateByEntity(devices[i]);
-                        }
+                        Logger.Warn("设备正在采集数据，不能删除！");
+                        this.ShowWarningDialog("设备正在采集数据，不能删除！");
+                        return;
                     }
-                    this.ShowSuccessTip("删除设备成功");
+                    //其它状态时可删除，得询问
+                    bool OK = this.ShowAskDialog("确定要删除该设备吗？");
+                    if (OK)
+                    {
+                        List<RTUDevice> devices = new RTUDeviceManage().GetAllOrderByPageIndex();
+                        //点击确认按钮
+                        new RTUChannelManage().DeleteByDeviceId(device.id);//是批量吗？
+                        new RTUDeviceManage().DeleteById(device.id);
+                        Form1.Instance.DeleteAsideNode((int)device.pageIndex);
+                        //对数据库中的所有设备重新编号devices.Count = devices[devices.Count - 1].PageIndex
+                        if (device.pageIndex != devices.Count)
+                        {
+                            for (int i = (int)device.pageIndex; i < devices.Count; i++)
+                            {
+                                devices[i].pageIndex = devices[i].pageIndex - 1;
+                                new RTUDeviceManage().UpdateByEntity(devices[i]);
+                            }
+                        }
+                        Logger.Info(string.Format("删除设备成功：id:{0}、name:{1}",device.id, device.deviceName));
+                        this.ShowSuccessTip("删除设备成功");
+                    }
+                    else
+                    {
+                        Logger.Info("取消删除");
+                        //点击取消按钮
+                        this.ShowSuccessTip("取消删除");
+                    }
                 }
-                else
+                else if (sys.protocol == (int)Common.Protocol.TCP)
                 {
-                    //点击取消按钮
-                    this.ShowSuccessTip("取消删除");
+                    //1.设备正在采集时是不能删除的
+                    var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    if (device.status == (int)Common.DeviceStatus.START)
+                    {
+                        Logger.Warn("设备正在采集数据，不能删除！");
+                        this.ShowWarningDialog("设备正在采集数据，不能删除！");
+                        return;
+                    }
+                    //其它状态时可删除，得询问
+                    bool OK = this.ShowAskDialog("确定要删除该设备吗？");
+                    if (OK)
+                    {
+                        List<TCPDevice> devices = new TCPDeviceManage().GetAllOrderByPageIndex();
+                        //点击确认按钮
+                        new TCPChannelManage().DeleteByDeviceId(device.id);//是批量吗？
+                        new TCPDeviceManage().DeleteById(device.id);
+                        Form1.Instance.DeleteAsideNode((int)device.pageIndex);
+                        //对数据库中的所有设备重新编号devices.Count = devices[devices.Count - 1].PageIndex
+                        if (device.pageIndex != devices.Count)
+                        {
+                            for (int i = (int)device.pageIndex; i < devices.Count; i++)
+                            {
+                                devices[i].pageIndex = devices[i].pageIndex - 1;
+                                new TCPDeviceManage().UpdateByEntity(devices[i]);
+                            }
+                        }
+                        Logger.Info(string.Format("删除设备成功：id:{0}、name:{1}", device.id, device.deviceName));
+                        this.ShowSuccessTip("删除设备成功");
+                    }
+                    else
+                    {
+                        Logger.Info("取消删除");
+                        //点击取消按钮
+                        this.ShowSuccessTip("取消删除");
+                    }
                 }
             }
-            else if (sys.protocol == (int)Common.Protocol.TCP)
+            catch (Exception e)
             {
-                //1.设备正在采集时是不能删除的
-                var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                if (device.status == (int)Common.DeviceStatus.START)
-                {
-                    this.ShowWarningDialog("设备正在采集数据，不能删除！");
-                    return;
-                }
-                //其它状态时可删除，得询问
-                bool OK = this.ShowAskDialog("确定要删除该设备吗？\r\n警告：将会删除已采集的数据！");
-                if (OK)
-                {
-                    List<TCPDevice> devices = new TCPDeviceManage().GetAllOrderByPageIndex();
-                    //点击确认按钮
-                    new TCPChannelManage().DeleteByDeviceId(device.id);//是批量吗？
-                    new TCPDeviceManage().DeleteById(device.id);
-                    Form1.Instance.DeleteAsideNode((int)device.pageIndex);
-                    //对数据库中的所有设备重新编号devices.Count = devices[devices.Count - 1].PageIndex
-                    if (device.pageIndex != devices.Count)
-                    {
-                        for (int i = (int)device.pageIndex; i < devices.Count; i++)
-                        {
-                            devices[i].pageIndex = devices[i].pageIndex - 1;
-                            new TCPDeviceManage().UpdateByEntity(devices[i]);
-                        }
-                    }
-                    this.ShowSuccessTip("删除设备成功");
-                }
-                else
-                {
-                    //点击取消按钮
-                    this.ShowSuccessTip("取消删除");
-                }
+                Logger.Error(e.Message);
+                this.ShowErrorDialog(e.Message);
+                return;
             }
+            
         }
 
         #endregion
@@ -616,242 +662,277 @@ namespace ModbusRTU_TP1608
         #region 配置通道
         //点击ucChannel(通道)的圈i
         //做到了代码的封闭性（多个控件使用一个点击事件）
-        private void ucChannel_ShowInfo_Click(object sender, EventArgs e)
+        private void ucChannel_ShowInfo_Click(object sender, EventArgs ea)
         {
-            //通过点击事件可以获得ucChannel上子控件的信息
-            UCChannel ucChannel = (UCChannel)sender;
-            Sys sys = new SysManage().GetSysInfo()[0];
-            if (sys.protocol == (int)Common.Protocol.RTU)
+            try
             {
-                var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                var Channel = new RTUChannelManage().GetByDeviceIdAndName(device.id, ucChannel.uiChannelName.Text.Trim());
-                string ChannelOldName = Channel.ChannelName;
-                var sensorIds = new RTUChannelManage().GetSensorIds();
-                var f_ChannelInfo = new F_ChannelInfo();
-                //if (device.status == (int)Common.DeviceStatus.START)
-                //{
-                //    f_ChannelInfo.ChannelSensorType.Enabled = false;
-                //    f_ChannelInfo.ChannelSensorId.Enabled = false;
-                //    f_ChannelInfo.ChannelType.Enabled = false;
-                //}
-                f_ChannelInfo.rTUChannel = Channel;
-                f_ChannelInfo.ChannelName.Text = Channel.ChannelName;
-                f_ChannelInfo.ChannelID.Text = Channel.ChannelID.ToString();
-                f_ChannelInfo.ChannelLabel.Text = Channel.ChannelLabel;
-                f_ChannelInfo.ChannelUnit.Text = Channel.ChannelUnit;
-                f_ChannelInfo.ChannelSensorType.SelectedIndex = Channel.sensorType == null ? -1 : (int)Channel.sensorType - 1;
-                f_ChannelInfo.ChannelSensorName.Text = Channel.sensorName;
-                //将数据库现以配置有的传感器id填充到传感器id的下拉框
-                if (sensorIds != null)
+                //通过点击事件可以获得ucChannel上子控件的信息
+                UCChannel ucChannel = (UCChannel)sender;
+                Logger.Info(string.Format("配置通道：name:{0}、device:{1}", ucChannel.uiChannelName.Text.Trim(), this.tB_DeviceName.Text.Trim()));
+                Sys sys = new SysManage().GetSysInfo()[0];
+                if (sys.protocol == (int)Common.Protocol.RTU)
                 {
-                    f_ChannelInfo.ChannelSensorId.Items.AddRange(sensorIds.ToArray());
-                }
-                f_ChannelInfo.ChannelSensorId.Text = Channel.sensorID;
-                if (Channel.isWaring == 1)
-                {
-                    f_ChannelInfo.isWraning.Checked = true;
-                }
-                else
-                {
-                    f_ChannelInfo.isWraning.Checked = false;
-                }
-                f_ChannelInfo.ChannelDecimalPlaces.Text = Channel.decimalPlaces == null ? "4" : Channel.decimalPlaces.ToString();//小数位默认选择4
-                f_ChannelInfo.ChannelSensorRangeL.Text = Channel.sensorRangeL == null ? "0.00" : Channel.sensorRangeL.ToString();
-                f_ChannelInfo.ChannelSensorRangeH.Text = Channel.sensorRangeH == null ? "0.00" : Channel.sensorRangeH.ToString();
-                f_ChannelInfo.ChannelWarning1L.Text = Channel.warning1L == null ? "0.00" : Channel.warning1L.ToString();
-                f_ChannelInfo.ChannelWarning1H.Text = Channel.warning1H == null ? "0.00" : Channel.warning1H.ToString();
-                f_ChannelInfo.ChannelWarning2L.Text = Channel.warning2L == null ? "0.00" : Channel.warning2L.ToString();
-                f_ChannelInfo.ChannelWarning2H.Text = Channel.warning2H == null ? "0.00" : Channel.warning2H.ToString();
-                f_ChannelInfo.ChannelWarning3L.Text = Channel.warning3L == null ? "0.00" : Channel.warning3L.ToString();
-                f_ChannelInfo.ChannelWarning3H.Text = Channel.warning3H == null ? "0.00" : Channel.warning3H.ToString();
-                if (Channel.ChannelType == null)
-                {
-                    f_ChannelInfo.ChannelType.SelectedIndex = 4;//默认选择4~20mA
-                }
-                else
-                {
-                    f_ChannelInfo.ChannelType.Text = Channel.ChannelType;
-                }
-                f_ChannelInfo.ShowDialog();
-                if (f_ChannelInfo.IsOK)
-                {
-                    Channel.ChannelName = f_ChannelInfo.ChannelName.Text.Trim();
-                    ucChannel.uiChannelName.Text = f_ChannelInfo.ChannelName.Text.Trim();
-                    Channel.ChannelLabel = f_ChannelInfo.ChannelLabel.Text.Trim();
-                    Channel.ChannelUnit = f_ChannelInfo.ChannelUnit.Text.Trim();
-                    Channel.sensorType = f_ChannelInfo.ChannelSensorType.SelectedIndex + 1;//传感器类型不取0
-                    Channel.sensorName = f_ChannelInfo.ChannelSensorName.Text.Trim();
-                    Channel.sensorRangeL = double.Parse(f_ChannelInfo.ChannelSensorRangeL.Text.Trim());
-                    Channel.sensorRangeH = double.Parse(f_ChannelInfo.ChannelSensorRangeH.Text.Trim());
-                    if (f_ChannelInfo.isWraning.Checked)
+                    var device = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    var Channel = new RTUChannelManage().GetByDeviceIdAndName(device.id, ucChannel.uiChannelName.Text.Trim());
+                    string ChannelOldName = Channel.ChannelName;
+                    var sensorIds = new RTUChannelManage().GetSensorIds();
+                    var f_ChannelInfo = new F_ChannelInfo();
+                    f_ChannelInfo.rTUChannel = Channel;
+                    f_ChannelInfo.ChannelName.Text = Channel.ChannelName;
+                    f_ChannelInfo.ChannelID.Text = Channel.ChannelID.ToString();
+                    f_ChannelInfo.ChannelLabel.Text = Channel.ChannelLabel;
+                    f_ChannelInfo.ChannelUnit.Text = Channel.ChannelUnit;
+                    f_ChannelInfo.ChannelSensorType.SelectedIndex = Channel.sensorType == null ? -1 : (int)Channel.sensorType - 1;
+                    f_ChannelInfo.ChannelSensorName.Text = Channel.sensorName;
+                    //将数据库现以配置有的传感器id填充到传感器id的下拉框
+                    if (sensorIds != null)
                     {
-                        Channel.isWaring = 1;
+                        f_ChannelInfo.ChannelSensorId.Items.AddRange(sensorIds.ToArray());
+                    }
+                    f_ChannelInfo.ChannelSensorId.Text = Channel.sensorID;
+                    if (Channel.isWaring == 1)
+                    {
+                        f_ChannelInfo.isWraning.Checked = true;
                     }
                     else
                     {
-                        Channel.isWaring = 0;
+                        f_ChannelInfo.isWraning.Checked = false;
                     }
-                    Channel.decimalPlaces = int.Parse(f_ChannelInfo.ChannelDecimalPlaces.Text.Trim());
-                    Channel.warning1L = double.Parse(f_ChannelInfo.ChannelWarning1L.Text.Trim());
-                    Channel.warning1H = double.Parse(f_ChannelInfo.ChannelWarning1H.Text.Trim());
-                    Channel.warning2L = double.Parse(f_ChannelInfo.ChannelWarning2L.Text.Trim());
-                    Channel.warning2H = double.Parse(f_ChannelInfo.ChannelWarning2H.Text.Trim());
-                    Channel.warning3L = double.Parse(f_ChannelInfo.ChannelWarning3L.Text.Trim());
-                    Channel.warning3H = double.Parse(f_ChannelInfo.ChannelWarning3H.Text.Trim());
-                    Channel.ChannelType = f_ChannelInfo.ChannelType.Text.Trim();
-                    Channel.updateBy = "管理员";
-                    Channel.updateTime = DateTime.Now;
-                    //给通道配置传感器id与传感器表
-                    Channel.sensorID = f_ChannelInfo.ChannelSensorId.Text.Trim();
-                    Channel.sensorTableName = Common.SensorTable[f_ChannelInfo.ChannelSensorType.SelectedIndex + 1];
-                    Form1.Instance.UpdateChildNodeName(ChannelOldName, Channel.ChannelName);
-                    new RTUChannelManage().UpdateByEntity(Channel);
+                    f_ChannelInfo.ChannelDecimalPlaces.Text = Channel.decimalPlaces == null ? "4" : Channel.decimalPlaces.ToString();//小数位默认选择4
+                    f_ChannelInfo.ChannelSensorRangeL.Text = Channel.sensorRangeL == null ? "0.00" : Channel.sensorRangeL.ToString();
+                    f_ChannelInfo.ChannelSensorRangeH.Text = Channel.sensorRangeH == null ? "0.00" : Channel.sensorRangeH.ToString();
+                    f_ChannelInfo.ChannelWarning1L.Text = Channel.warning1L == null ? "0.00" : Channel.warning1L.ToString();
+                    f_ChannelInfo.ChannelWarning1H.Text = Channel.warning1H == null ? "0.00" : Channel.warning1H.ToString();
+                    f_ChannelInfo.ChannelWarning2L.Text = Channel.warning2L == null ? "0.00" : Channel.warning2L.ToString();
+                    f_ChannelInfo.ChannelWarning2H.Text = Channel.warning2H == null ? "0.00" : Channel.warning2H.ToString();
+                    f_ChannelInfo.ChannelWarning3L.Text = Channel.warning3L == null ? "0.00" : Channel.warning3L.ToString();
+                    f_ChannelInfo.ChannelWarning3H.Text = Channel.warning3H == null ? "0.00" : Channel.warning3H.ToString();
+                    if (Channel.ChannelType == null)
+                    {
+                        f_ChannelInfo.ChannelType.SelectedIndex = 4;//默认选择4~20mA
+                    }
+                    else
+                    {
+                        f_ChannelInfo.ChannelType.Text = Channel.ChannelType;
+                    }
+                    f_ChannelInfo.ShowDialog();
+                    if (f_ChannelInfo.IsOK)
+                    {
+                        Channel.ChannelName = f_ChannelInfo.ChannelName.Text.Trim();
+                        ucChannel.uiChannelName.Text = f_ChannelInfo.ChannelName.Text.Trim();
+                        Channel.ChannelLabel = f_ChannelInfo.ChannelLabel.Text.Trim();
+                        Channel.ChannelUnit = f_ChannelInfo.ChannelUnit.Text.Trim();
+                        Channel.sensorType = f_ChannelInfo.ChannelSensorType.SelectedIndex + 1;//传感器类型不取0
+                        Channel.sensorName = f_ChannelInfo.ChannelSensorName.Text.Trim();
+                        Channel.sensorRangeL = double.Parse(f_ChannelInfo.ChannelSensorRangeL.Text.Trim());
+                        Channel.sensorRangeH = double.Parse(f_ChannelInfo.ChannelSensorRangeH.Text.Trim());
+                        if (f_ChannelInfo.isWraning.Checked)
+                        {
+                            Channel.isWaring = 1;
+                        }
+                        else
+                        {
+                            Channel.isWaring = 0;
+                        }
+                        Channel.decimalPlaces = int.Parse(f_ChannelInfo.ChannelDecimalPlaces.Text.Trim());
+                        Channel.warning1L = double.Parse(f_ChannelInfo.ChannelWarning1L.Text.Trim());
+                        Channel.warning1H = double.Parse(f_ChannelInfo.ChannelWarning1H.Text.Trim());
+                        Channel.warning2L = double.Parse(f_ChannelInfo.ChannelWarning2L.Text.Trim());
+                        Channel.warning2H = double.Parse(f_ChannelInfo.ChannelWarning2H.Text.Trim());
+                        Channel.warning3L = double.Parse(f_ChannelInfo.ChannelWarning3L.Text.Trim());
+                        Channel.warning3H = double.Parse(f_ChannelInfo.ChannelWarning3H.Text.Trim());
+                        Channel.ChannelType = f_ChannelInfo.ChannelType.Text.Trim();
+                        Channel.updateBy = "管理员";
+                        Channel.updateTime = DateTime.Now;
+                        //给通道配置传感器id与传感器表
+                        Channel.sensorID = f_ChannelInfo.ChannelSensorId.Text.Trim();
+                        Channel.sensorTableName = Common.SensorTable[f_ChannelInfo.ChannelSensorType.SelectedIndex + 1];
+                        Form1.Instance.UpdateChildNodeName(ChannelOldName, Channel.ChannelName);
+                        new RTUChannelManage().UpdateByEntity(Channel);
+                        Logger.Info(string.Format("配置通道成功：newName{0}、device:{1}", Channel.ChannelName, this.tB_DeviceName.Text.Trim()));
+                        this.ShowInfoTip("配置通道成功");
+                    }
+                }
+                else if (sys.protocol == (int)Common.Protocol.TCP)
+                {
+                    var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    var Channel = new TCPChannelManage().GetByDeviceIdAndName(device.id, ucChannel.uiChannelName.Text.Trim());
+                    string ChannelOldName = Channel.ChannelName;
+                    var sensorIds = new TCPChannelManage().GetSensorIds();
+                    var f_ChannelInfo = new F_ChannelInfo();
+                    f_ChannelInfo.tCPChannel = Channel;
+                    f_ChannelInfo.ChannelName.Text = Channel.ChannelName;
+                    f_ChannelInfo.ChannelID.Text = Channel.ChannelID.ToString();
+                    f_ChannelInfo.ChannelLabel.Text = Channel.ChannelLabel;
+                    f_ChannelInfo.ChannelUnit.Text = Channel.ChannelUnit;
+                    f_ChannelInfo.ChannelSensorType.SelectedIndex = Channel.sensorType == null ? -1 : (int)Channel.sensorType - 1;
+                    f_ChannelInfo.ChannelSensorName.Text = Channel.sensorName;
+                    //将数据库现以配置有的传感器id填充到传感器id的下拉框
+                    if (sensorIds != null)
+                    {
+                        f_ChannelInfo.ChannelSensorId.Items.AddRange(sensorIds.ToArray());
+                    }
+                    f_ChannelInfo.ChannelSensorId.Text = Channel.sensorID;
+                    if (Channel.isWaring == 1)
+                    {
+                        f_ChannelInfo.isWraning.Checked = true;
+                    }
+                    else
+                    {
+                        f_ChannelInfo.isWraning.Checked = false;
+                    }
+                    f_ChannelInfo.ChannelDecimalPlaces.Text = Channel.decimalPlaces == null ? "4" : Channel.decimalPlaces.ToString();//小数位默认选择4
+                    f_ChannelInfo.ChannelSensorRangeL.Text = Channel.sensorRangeL == null ? "0.00" : Channel.sensorRangeL.ToString();
+                    f_ChannelInfo.ChannelSensorRangeH.Text = Channel.sensorRangeH == null ? "0.00" : Channel.sensorRangeH.ToString();
+                    f_ChannelInfo.ChannelWarning1L.Text = Channel.warning1L == null ? "0.00" : Channel.warning1L.ToString();
+                    f_ChannelInfo.ChannelWarning1H.Text = Channel.warning1H == null ? "0.00" : Channel.warning1H.ToString();
+                    f_ChannelInfo.ChannelWarning2L.Text = Channel.warning2L == null ? "0.00" : Channel.warning2L.ToString();
+                    f_ChannelInfo.ChannelWarning2H.Text = Channel.warning2H == null ? "0.00" : Channel.warning2H.ToString();
+                    f_ChannelInfo.ChannelWarning3L.Text = Channel.warning3L == null ? "0.00" : Channel.warning3L.ToString();
+                    f_ChannelInfo.ChannelWarning3H.Text = Channel.warning3H == null ? "0.00" : Channel.warning3H.ToString();
+                    if (Channel.ChannelType == null)
+                    {
+                        f_ChannelInfo.ChannelType.SelectedIndex = 4;//默认选择4~20mA
+                    }
+                    else
+                    {
+                        f_ChannelInfo.ChannelType.Text = Channel.ChannelType;
+                    }
 
+                    f_ChannelInfo.ShowDialog();
+                    if (f_ChannelInfo.IsOK)
+                    {
+                        Channel.ChannelName = f_ChannelInfo.ChannelName.Text.Trim();
+                        ucChannel.uiChannelName.Text = f_ChannelInfo.ChannelName.Text.Trim();
+                        Channel.ChannelLabel = f_ChannelInfo.ChannelLabel.Text.Trim();
+                        Channel.ChannelUnit = f_ChannelInfo.ChannelUnit.Text.Trim();
+                        Channel.sensorType = f_ChannelInfo.ChannelSensorType.SelectedIndex + 1;//传感器类型不取0
+                        Channel.sensorName = f_ChannelInfo.ChannelSensorName.Text.Trim();
+                        Channel.sensorRangeL = double.Parse(f_ChannelInfo.ChannelSensorRangeL.Text.Trim());
+                        Channel.sensorRangeH = double.Parse(f_ChannelInfo.ChannelSensorRangeH.Text.Trim());
+                        if (f_ChannelInfo.isWraning.Checked)
+                        {
+                            Channel.isWaring = 1;
+                        }
+                        else
+                        {
+                            Channel.isWaring = 0;
+                        }
+                        Channel.decimalPlaces = int.Parse(f_ChannelInfo.ChannelDecimalPlaces.Text.Trim());
+                        Channel.warning1L = double.Parse(f_ChannelInfo.ChannelWarning1L.Text.Trim());
+                        Channel.warning1H = double.Parse(f_ChannelInfo.ChannelWarning1H.Text.Trim());
+                        Channel.warning2L = double.Parse(f_ChannelInfo.ChannelWarning2L.Text.Trim());
+                        Channel.warning2H = double.Parse(f_ChannelInfo.ChannelWarning2H.Text.Trim());
+                        Channel.warning3L = double.Parse(f_ChannelInfo.ChannelWarning3L.Text.Trim());
+                        Channel.warning3H = double.Parse(f_ChannelInfo.ChannelWarning3H.Text.Trim());
+                        Channel.ChannelType = f_ChannelInfo.ChannelType.Text.Trim();
+                        Channel.updateBy = "管理员";
+                        Channel.updateTime = DateTime.Now;
+                        //给通道配置传感器id与传感器表
+                        Channel.sensorID = f_ChannelInfo.ChannelSensorId.Text.Trim();
+                        Channel.sensorTableName = Common.SensorTable[f_ChannelInfo.ChannelSensorType.SelectedIndex + 1];
+                        Form1.Instance.UpdateChildNodeName(ChannelOldName, Channel.ChannelName);
+                        new TCPChannelManage().UpdateByEntity(Channel);
+                        Logger.Info(string.Format("配置通道成功：newName{0}、device:{1}", Channel.ChannelName, this.tB_DeviceName.Text.Trim()));
+                        this.ShowInfoTip("配置通道成功");
+                    }
                 }
             }
-            else if (sys.protocol == (int)Common.Protocol.TCP)
+            catch (Exception e)
             {
-                var device = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                var Channel = new TCPChannelManage().GetByDeviceIdAndName(device.id, ucChannel.uiChannelName.Text.Trim());
-                string ChannelOldName = Channel.ChannelName;
-                var sensorIds = new TCPChannelManage().GetSensorIds();
-                var f_ChannelInfo = new F_ChannelInfo();
-                //if (device.status == (int)Common.DeviceStatus.START)
-                //{
-                //    f_ChannelInfo.ChannelSensorType.Enabled = false;
-                //    f_ChannelInfo.ChannelSensorId.Enabled = false;
-                //    f_ChannelInfo.ChannelType.Enabled = false;
-                //}
-                f_ChannelInfo.tCPChannel = Channel;
-                f_ChannelInfo.ChannelName.Text = Channel.ChannelName;
-                f_ChannelInfo.ChannelID.Text = Channel.ChannelID.ToString();
-                f_ChannelInfo.ChannelLabel.Text = Channel.ChannelLabel;
-                f_ChannelInfo.ChannelUnit.Text = Channel.ChannelUnit;
-                f_ChannelInfo.ChannelSensorType.SelectedIndex = Channel.sensorType == null ? -1 : (int)Channel.sensorType - 1;
-                f_ChannelInfo.ChannelSensorName.Text = Channel.sensorName;
-                //将数据库现以配置有的传感器id填充到传感器id的下拉框
-                if (sensorIds != null)
-                {
-                    f_ChannelInfo.ChannelSensorId.Items.AddRange(sensorIds.ToArray());
-                }
-                f_ChannelInfo.ChannelSensorId.Text = Channel.sensorID;
-                if (Channel.isWaring == 1)
-                {
-                    f_ChannelInfo.isWraning.Checked = true;
-                }
-                else
-                {
-                    f_ChannelInfo.isWraning.Checked = false;
-                }
-                f_ChannelInfo.ChannelDecimalPlaces.Text = Channel.decimalPlaces == null ? "4" : Channel.decimalPlaces.ToString();//小数位默认选择4
-                f_ChannelInfo.ChannelSensorRangeL.Text = Channel.sensorRangeL == null ? "0.00" : Channel.sensorRangeL.ToString();
-                f_ChannelInfo.ChannelSensorRangeH.Text = Channel.sensorRangeH == null ? "0.00" : Channel.sensorRangeH.ToString();
-                f_ChannelInfo.ChannelWarning1L.Text = Channel.warning1L == null ? "0.00" : Channel.warning1L.ToString();
-                f_ChannelInfo.ChannelWarning1H.Text = Channel.warning1H == null ? "0.00" : Channel.warning1H.ToString();
-                f_ChannelInfo.ChannelWarning2L.Text = Channel.warning2L == null ? "0.00" : Channel.warning2L.ToString();
-                f_ChannelInfo.ChannelWarning2H.Text = Channel.warning2H == null ? "0.00" : Channel.warning2H.ToString();
-                f_ChannelInfo.ChannelWarning3L.Text = Channel.warning3L == null ? "0.00" : Channel.warning3L.ToString();
-                f_ChannelInfo.ChannelWarning3H.Text = Channel.warning3H == null ? "0.00" : Channel.warning3H.ToString();
-                if (Channel.ChannelType == null)
-                {
-                    f_ChannelInfo.ChannelType.SelectedIndex = 4;//默认选择4~20mA
-                }
-                else
-                {
-                    f_ChannelInfo.ChannelType.Text = Channel.ChannelType;
-                }
-
-                f_ChannelInfo.ShowDialog();
-                if (f_ChannelInfo.IsOK)
-                {
-                    Channel.ChannelName = f_ChannelInfo.ChannelName.Text.Trim();
-                    ucChannel.uiChannelName.Text = f_ChannelInfo.ChannelName.Text.Trim();
-                    Channel.ChannelLabel = f_ChannelInfo.ChannelLabel.Text.Trim();
-                    Channel.ChannelUnit = f_ChannelInfo.ChannelUnit.Text.Trim();
-                    Channel.sensorType = f_ChannelInfo.ChannelSensorType.SelectedIndex + 1;//传感器类型不取0
-                    Channel.sensorName = f_ChannelInfo.ChannelSensorName.Text.Trim();
-                    Channel.sensorRangeL = double.Parse(f_ChannelInfo.ChannelSensorRangeL.Text.Trim());
-                    Channel.sensorRangeH = double.Parse(f_ChannelInfo.ChannelSensorRangeH.Text.Trim());
-                    if (f_ChannelInfo.isWraning.Checked)
-                    {
-                        Channel.isWaring = 1;
-                    }
-                    else
-                    {
-                        Channel.isWaring = 0;
-                    }
-                    Channel.decimalPlaces = int.Parse(f_ChannelInfo.ChannelDecimalPlaces.Text.Trim());
-                    Channel.warning1L = double.Parse(f_ChannelInfo.ChannelWarning1L.Text.Trim());
-                    Channel.warning1H = double.Parse(f_ChannelInfo.ChannelWarning1H.Text.Trim());
-                    Channel.warning2L = double.Parse(f_ChannelInfo.ChannelWarning2L.Text.Trim());
-                    Channel.warning2H = double.Parse(f_ChannelInfo.ChannelWarning2H.Text.Trim());
-                    Channel.warning3L = double.Parse(f_ChannelInfo.ChannelWarning3L.Text.Trim());
-                    Channel.warning3H = double.Parse(f_ChannelInfo.ChannelWarning3H.Text.Trim());
-                    Channel.ChannelType = f_ChannelInfo.ChannelType.Text.Trim();
-                    Channel.updateBy = "管理员";
-                    Channel.updateTime = DateTime.Now;
-                    //给通道配置传感器id与传感器表
-                    Channel.sensorID = f_ChannelInfo.ChannelSensorId.Text.Trim();
-                    Channel.sensorTableName = Common.SensorTable[f_ChannelInfo.ChannelSensorType.SelectedIndex + 1];
-                    Form1.Instance.UpdateChildNodeName(ChannelOldName, Channel.ChannelName);
-                    new TCPChannelManage().UpdateByEntity(Channel);
-
-                }
+                Logger.Error(e.Message);
+                this.ShowErrorDialog(e.Message);
+                return;
             }
 
         }
         #endregion
 
         #region 开始采集
-        private void BtnStart_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs ea)
         {
-            int protocol = new SysManage().GetSysInfo()[0].protocol;
-            /////////////////////////////RTU协议下的采集///////////////////////////////
-            if (protocol == (int)Common.Protocol.RTU)
+            try
             {
-                RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                if (rTUDevice.status == (int)Common.DeviceStatus.START)
+                if (this.deviceStatus == (int)Common.DeviceStatus.START)
                 {
                     return;
                 }
-                if (rTUDevice == null)
+                Logger.Info(string.Format("设备{0}开始采集", this.tB_DeviceName.Text.Trim()));
+                int protocol = new SysManage().GetSysInfo()[0].protocol;
+                /////////////////////////////RTU协议下的采集///////////////////////////////
+                if (protocol == (int)Common.Protocol.RTU)
                 {
-                    this.ShowWarningDialog("设备不存在");
-                    return;
-                }
-                //检查设备串口是否插在电脑上
-                //获取可用串口
-                List<string> serialPorts = System.IO.Ports.SerialPort.GetPortNames().ToList();
-                if (rTUDevice.serialPort == null || rTUDevice.serialPort.Length == 0)
-                {
-                    this.ShowWarningDialog("请为设备配置串口");
-                    return;
-                }
-                if (!serialPorts.Contains(rTUDevice.serialPort))
-                {
-                    this.ShowWarningDialog(string.Format("串口{0}不存在", rTUDevice.serialPort));
-                    return;
-                }
-                //以上判断通过方可进行采集
-                //TP1608要求数据位为8，无奇偶校验，停止位为1
-                SerialPort serialPort = new SerialPort(rTUDevice.serialPort, int.Parse(rTUDevice.baudRate), Parity.None, 8, StopBits.One);
-                //将串口实例与设备实例存下来
-                bool f = false;
-                foreach (var key in ModbusUtil.RTUdevices.Keys)
-                {
-                    if (key.PortName.Equals(serialPort.PortName))
+                    RTUDevice rTUDevice = new RTUDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    if (rTUDevice.status == (int)Common.DeviceStatus.START)
                     {
-                        //串口已经在采集，那么不用创建新的线程，只需在串口的设备列表增加设备（设备地址可复用：一个地址对应多个F_TitlePage）
-                        if (ModbusUtil.RTUdevices[key].Keys.Contains(rTUDevice.deviceAddress))
+                        return;
+                    }
+
+                    if (rTUDevice == null)
+                    {
+                        Logger.Error(string.Format("设备{0}不存在", this.tB_DeviceName.Text.Trim()));
+                        this.ShowErrorDialog(string.Format("设备{0}不存在", this.tB_DeviceName.Text.Trim()));
+                        return;
+                    }
+                    //检查设备串口是否插在电脑上
+                    //获取可用串口
+                    List<string> serialPorts = System.IO.Ports.SerialPort.GetPortNames().ToList();
+                    if (rTUDevice.serialPort == null || rTUDevice.serialPort.Length == 0)
+                    {
+                        Logger.Info(string.Format("设备{0}未配置串口", this.tB_DeviceName.Text.Trim()));
+                        this.ShowErrorDialog(string.Format("设备{0}未配置串口", this.tB_DeviceName.Text.Trim()));
+                        return;
+                    }
+                    if (!serialPorts.Contains(rTUDevice.serialPort))
+                    {
+                        Logger.Info(string.Format("串口{0}不存在", rTUDevice.serialPort));
+                        this.ShowWarningDialog(string.Format("串口{0}不存在", rTUDevice.serialPort));
+                        return;
+                    }
+                    //以上判断通过方可进行采集
+                    //TP1608要求数据位为8，无奇偶校验，停止位为1
+                    SerialPort serialPort = new SerialPort(rTUDevice.serialPort, int.Parse(rTUDevice.baudRate), Parity.None, 8, StopBits.One);
+                    //将串口实例与设备实例成对存下来
+                    bool f = false;
+                    foreach (var key in ModbusUtil.RTUdevices.Keys)
+                    {
+                        if (key.PortName.Equals(serialPort.PortName))
                         {
-                            ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Add(rTUDevice);
+                            //串口已经在采集，那么不用创建新的线程，只需在串口的设备列表增加设备（设备地址可复用：一个地址对应多个F_TitlePage）
+                            if (ModbusUtil.RTUdevices[key].Keys.Contains(rTUDevice.deviceAddress))
+                            {
+                                ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Add(rTUDevice);
+                            }
+                            else
+                            {
+                                List<RTUDevice> rTUDevices = new List<RTUDevice>();
+                                rTUDevices.Add(rTUDevice);
+                                ModbusUtil.RTUdevices[key].Add(rTUDevice.deviceAddress, rTUDevices);
+                            }
+                            //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
+                            if (ModbusUtil.F_TitlePages.Keys.Contains(rTUDevice.deviceAddress))
+                            {
+                                ModbusUtil.F_TitlePages[rTUDevice.deviceAddress].Add(this);
+                            }
+                            else
+                            {
+                                List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
+                                f_TitlePages.Add(this);
+                                ModbusUtil.F_TitlePages.Add(rTUDevice.deviceAddress, f_TitlePages);
+                            }
+                            f = true;
+                            break;
                         }
-                        else
-                        {
-                            List<RTUDevice> rTUDevices = new List<RTUDevice>();
-                            rTUDevices.Add(rTUDevice);
-                            ModbusUtil.RTUdevices[key].Add(rTUDevice.deviceAddress, rTUDevices);
-                        }
+                    }
+                    //串口没有在采集，那么要创建新的线程，为串口新建设备列表，并增加当前设备
+                    if (!f)
+                    {
+                        var devices = new Dictionary<string, List<RTUDevice>>();
+                        List<RTUDevice> rTUDevices = new List<RTUDevice>();
+                        rTUDevices.Add(rTUDevice);
+                        devices.Add(rTUDevice.deviceAddress, rTUDevices);
+
+                        ModbusUtil.RTUdevices.Add(serialPort, devices);
                         //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
                         if (ModbusUtil.F_TitlePages.Keys.Contains(rTUDevice.deviceAddress))
                         {
@@ -863,104 +944,107 @@ namespace ModbusRTU_TP1608
                             f_TitlePages.Add(this);
                             ModbusUtil.F_TitlePages.Add(rTUDevice.deviceAddress, f_TitlePages);
                         }
-                        f = true;
-                        break;
+                        //设置信号灯，当创建线程没有设备在创建时设为true，以停止采集线程
+                        bool signal_STOP = false;
+                        ModbusUtil.RTUSignals.Add(serialPort, signal_STOP);
+                        //打开串口
+                        try
+                        {
+                            if (!serialPort.IsOpen)
+                            {
+                                serialPort.Open();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            Logger.Error(string.Format("串口{0}打开失败！", serialPort.PortName));
+                            this.ShowErrorDialog(string.Format("串口{0}打开失败！", serialPort.PortName));
+                        }
+                        //新建一个采集线程
+                        Thread thread = new Thread(new ParameterizedThreadStart(this.RTUDataCollect));//调用方法，需要提供参数：串口（用于实例化master）
+                        thread.Name = serialPort.PortName + "的采集线程";
+                        thread.IsBackground = true;//后台线程，关闭程序时，线程也会停止
+                        thread.Start(serialPort);
+                        //存下线程，在串口串口的采集设备列表为空时，要停止线程（通过跳出所调用的采集方法中的while循环）
+                        ModbusUtil.RTUThreads.Add(serialPort, thread);
                     }
+                    //设置开始采集和停止采集按钮的图片
+                    this.BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
+                    this.BtnStop.Image = Properties.Resources.stop2;//停止采集亮
+                    this.deviceStatus = (int)Common.DeviceStatus.START;
+                    //设置设备为采集状态（status字段变为1）
+                    new RTUDeviceManage().UpdateStatusByName(rTUDevice.deviceName, (int)Common.DeviceStatus.START);
                 }
-                //串口没有在采集，那么要创建新的线程，为串口新建设备列表，并增加当前设备
-                if (!f)
+                /////////////////////////////TCP协议下的采集///////////////////////////////
+                else if (protocol == (int)Common.Protocol.TCP)
                 {
-                    var devices = new Dictionary<string, List<RTUDevice>>();
-                    List<RTUDevice> rTUDevices = new List<RTUDevice>();
-                    rTUDevices.Add(rTUDevice);
-                    devices.Add(rTUDevice.deviceAddress, rTUDevices);
+                    TCPDevice tCPDevice = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
+                    if (tCPDevice.status == (int)Common.DeviceStatus.START)
+                    {
+                        return;
+                    }
+                    if (tCPDevice == null)
+                    {
+                        Logger.Error(string.Format("设备{0}不存在", this.tB_DeviceName.Text.Trim()));
+                        this.ShowErrorDialog(string.Format("设备{0}不存在", this.tB_DeviceName.Text.Trim()));
+                        return;
+                    }
+                    if (tCPDevice.hostName == null || tCPDevice.hostName.Length == 0)
+                    {
+                        Logger.Error(string.Format("设备{0}未配置从站IP", this.tB_DeviceName.Text.Trim()));
+                        this.ShowErrorDialog(string.Format("设备{0}未配置从站IP", this.tB_DeviceName.Text.Trim()));
+                        return;
+                    }
+                    if (tCPDevice.port == null || tCPDevice.port.Length == 0)
+                    {
+                        Logger.Error(string.Format("设备{0}未配置从站端口号", this.tB_DeviceName.Text.Trim()));
+                        this.ShowErrorDialog(string.Format("设备{0}未配置从站端口号", this.tB_DeviceName.Text.Trim()));
+                        return;
+                    }
 
-                    ModbusUtil.RTUdevices.Add(serialPort, devices);
-                    //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
-                    if (ModbusUtil.F_TitlePages.Keys.Contains(rTUDevice.deviceAddress))
-                    {
-                        ModbusUtil.F_TitlePages[rTUDevice.deviceAddress].Add(this);
-                    }
-                    else
-                    {
-                        List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
-                        f_TitlePages.Add(this);
-                        ModbusUtil.F_TitlePages.Add(rTUDevice.deviceAddress, f_TitlePages);
-                    }
-                    //设置信号灯，当创建线程没有设备在创建时设为true，以停止采集线程
-                    bool signal_STOP = false;
-                    ModbusUtil.RTUSignals.Add(serialPort, signal_STOP);
-                    //打开串口
+                    //创建TCP客户端
                     try
                     {
-                        if (!serialPort.IsOpen)
+                        //将TCP客户端实例tcpClient与设备实例tCPDevice存下来
+                        bool f = false;
+                        foreach (var key in ModbusUtil.TCPdevices.Keys)
                         {
-                            serialPort.Open();
+                            if (key.Equals(tCPDevice.hostName))
+                            {
+                                //TCP客户端实例tcpClient已经在采集，那么不用创建新的线程，只需在串口的设备列表增加设备（设备地址可复用：一个地址对应多个F_TitlePage）
+                                if (ModbusUtil.TCPdevices[key].Keys.Contains(tCPDevice.deviceAddress))
+                                {
+                                    ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress].Add(tCPDevice);
+                                }
+                                else
+                                {
+                                    List<TCPDevice> tCPDevices = new List<TCPDevice>();
+                                    tCPDevices.Add(tCPDevice);
+                                    ModbusUtil.TCPdevices[key].Add(tCPDevice.deviceAddress, tCPDevices);
+                                }
+                                //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
+                                if (ModbusUtil.F_TitlePages.Keys.Contains(tCPDevice.deviceAddress))
+                                {
+                                    ModbusUtil.F_TitlePages[tCPDevice.deviceAddress].Add(this);
+                                }
+                                else
+                                {
+                                    List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
+                                    f_TitlePages.Add(this);
+                                    ModbusUtil.F_TitlePages.Add(tCPDevice.deviceAddress, f_TitlePages);
+                                }
+                                f = true;
+                                break;
+                            }
                         }
-                    }
-                    catch (Exception)
-                    {
-                        this.ShowErrorDialog(string.Format("串口{0}打开失败！", serialPort.PortName));
-                    }
-                    //新建一个采集线程
-                    Thread thread = new Thread(new ParameterizedThreadStart(this.RTUDataCollect));//调用方法，需要提供参数：串口（用于实例化master）
-                    thread.Name = serialPort.PortName + "的采集线程";
-                    thread.IsBackground = true;//后台线程，关闭程序时，线程也会停止
-                    thread.Start(serialPort);
-                    //存下线程，在串口串口的采集设备列表为空时，要停止线程（通过跳出所调用的采集方法中的while循环）
-                    ModbusUtil.RTUThreads.Add(serialPort, thread);
-                }
-                //设置设备为采集状态（status字段变为1）
-                new RTUDeviceManage().UpdateStatusByName(rTUDevice.deviceName, (int)Common.DeviceStatus.START);
-
-                //设置开始采集和停止采集按钮的图片
-                this.BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
-                this.BtnStop.Image = Properties.Resources.stop2;//停止采集亮
-            }
-            /////////////////////////////TCP协议下的采集///////////////////////////////
-            else if (protocol == (int)Common.Protocol.TCP)
-            {
-                TCPDevice tCPDevice = new TCPDeviceManage().GetByName(this.tB_DeviceName.Text.Trim())[0];
-                if (tCPDevice.status == (int)Common.DeviceStatus.START)
-                {
-                    return;
-                }
-                if (tCPDevice == null)
-                {
-                    this.ShowWarningDialog("设备不存在");
-                    return;
-                }
-                if (tCPDevice.hostName == null || tCPDevice.hostName.Length == 0)
-                {
-                    this.ShowWarningDialog("请为设备配置从机IP");
-                    return;
-                }
-                if (tCPDevice.port == null || tCPDevice.port.Length == 0)
-                {
-                    this.ShowWarningDialog("请为设备配置从机端口号");
-                    return;
-                }
-
-                //创建TCP客户端
-                try
-                {
-                    //将TCP客户端实例tcpClient与设备实例tCPDevice存下来
-                    bool f = false;
-                    foreach (var key in ModbusUtil.TCPdevices.Keys)
-                    {
-                        if (key.Equals(tCPDevice.hostName))
+                        //tcpClient没有在采集，那么要创建新的线程，为tcpClient新建设备列表，并增加当前设备
+                        if (!f)
                         {
-                            //TCP客户端实例tcpClient已经在采集，那么不用创建新的线程，只需在串口的设备列表增加设备（设备地址可复用：一个地址对应多个F_TitlePage）
-                            if (ModbusUtil.TCPdevices[key].Keys.Contains(tCPDevice.deviceAddress))
-                            {
-                                ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress].Add(tCPDevice);
-                            }
-                            else
-                            {
-                                List<TCPDevice> tCPDevices = new List<TCPDevice>();
-                                tCPDevices.Add(tCPDevice);
-                                ModbusUtil.TCPdevices[key].Add(tCPDevice.deviceAddress, tCPDevices);
-                            }
+                            var devices = new Dictionary<string, List<TCPDevice>>();
+                            List<TCPDevice> tCPDevices = new List<TCPDevice>();
+                            tCPDevices.Add(tCPDevice);
+                            devices.Add(tCPDevice.deviceAddress, tCPDevices);
+                            ModbusUtil.TCPdevices.Add(tCPDevice.hostName, devices);
                             //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
                             if (ModbusUtil.F_TitlePages.Keys.Contains(tCPDevice.deviceAddress))
                             {
@@ -972,51 +1056,37 @@ namespace ModbusRTU_TP1608
                                 f_TitlePages.Add(this);
                                 ModbusUtil.F_TitlePages.Add(tCPDevice.deviceAddress, f_TitlePages);
                             }
-                            f = true;
-                            break;
+                            //设置信号灯，当创建线程没有设备在创建时设为true，以停止采集线程
+                            bool signal_STOP = false;
+                            ModbusUtil.TCPSignals.Add(tCPDevice.hostName, signal_STOP);
+                            //新建一个采集线程
+                            Thread thread = new Thread(new ParameterizedThreadStart(this.TCPDataCollect));//调用方法，需要提供参数：串口（用于实例化master）
+                            thread.Name = tCPDevice.hostName + "的采集线程";
+                            thread.IsBackground = true;//后台线程，关闭程序时，线程也会停止
+                            thread.Start(tCPDevice.hostName);
+                            //存下线程，在串口串口的采集设备列表为空时，要停止线程（通过跳出所调用的采集方法中的while循环）
+                            ModbusUtil.TCPThreads.Add(tCPDevice.hostName, thread);
                         }
-                    }
-                    //tcpClient没有在采集，那么要创建新的线程，为tcpClient新建设备列表，并增加当前设备
-                    if (!f)
-                    {
-                        var devices = new Dictionary<string, List<TCPDevice>>();
-                        List<TCPDevice> tCPDevices = new List<TCPDevice>();
-                        tCPDevices.Add(tCPDevice);
-                        devices.Add(tCPDevice.deviceAddress, tCPDevices);
-                        ModbusUtil.TCPdevices.Add(tCPDevice.hostName, devices);
-                        //把当前窗体存下来（设备地址可复用：一个地址对应多个F_TitlePage）
-                        if (ModbusUtil.F_TitlePages.Keys.Contains(tCPDevice.deviceAddress))
-                        {
-                            ModbusUtil.F_TitlePages[tCPDevice.deviceAddress].Add(this);
-                        }
-                        else
-                        {
-                            List<F_TitlePage> f_TitlePages = new List<F_TitlePage>();
-                            f_TitlePages.Add(this);
-                            ModbusUtil.F_TitlePages.Add(tCPDevice.deviceAddress, f_TitlePages);
-                        }
-                        //设置信号灯，当创建线程没有设备在创建时设为true，以停止采集线程
-                        bool signal_STOP = false;
-                        ModbusUtil.TCPSignals.Add(tCPDevice.hostName, signal_STOP);
-                        //新建一个采集线程
-                        Thread thread = new Thread(new ParameterizedThreadStart(this.TCPDataCollect));//调用方法，需要提供参数：串口（用于实例化master）
-                        thread.Name = tCPDevice.hostName + "的采集线程";
-                        thread.IsBackground = true;//后台线程，关闭程序时，线程也会停止
-                        thread.Start(tCPDevice.hostName);
-                        //存下线程，在串口串口的采集设备列表为空时，要停止线程（通过跳出所调用的采集方法中的while循环）
-                        ModbusUtil.TCPThreads.Add(tCPDevice.hostName, thread);
-                    }
-                    //设置设备为采集状态（status字段变为1）
-                    new TCPDeviceManage().UpdateStatusByName(tCPDevice.deviceName, (int)Common.DeviceStatus.START);
+                        //设置开始采集和停止采集按钮的图片
+                        this.BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
+                        this.BtnStop.Image = Properties.Resources.stop2;//停止采集亮
+                        this.deviceStatus = (int)Common.DeviceStatus.START;
+                        //设置设备为采集状态（status字段变为1）
+                        new TCPDeviceManage().UpdateStatusByName(tCPDevice.deviceName, (int)Common.DeviceStatus.START);
 
-                    //设置开始采集和停止采集按钮的图片
-                    this.BtnStart.Image = Properties.Resources.start1;//开始采集熄灭
-                    this.BtnStop.Image = Properties.Resources.stop2;//停止采集亮
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error(e.Message);
+                        this.ShowErrorDialog(e.Message);
+                    }
                 }
-                catch (Exception exception)
-                {
-                    this.ShowErrorDialog(exception.Message);
-                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                this.ShowErrorDialog(e.Message);
+                return;
             }
 
         }
@@ -1205,29 +1275,33 @@ namespace ModbusRTU_TP1608
                                     try
                                     {
                                         List<F_TitlePage> f_TitlePages = ModbusUtil.F_TitlePages[tCPDevices[i].deviceAddress];
-                                        foreach (var f in f_TitlePages)
+                                        for (int fi = 0; fi < f_TitlePages.Count; fi++)
                                         {
-                                            if (f.tB_DeviceName.Text.Equals(tCPDevices[i].deviceName))
+                                            if (f_TitlePages[fi].tB_DeviceName.Text.Trim().Equals(tCPDevices[i].deviceName))
                                             {
-                                                if (f.Xs[(int)tCPChannel.ChannelID].Count < 30)
+                                                if (f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID].Count < 30)
                                                 {
-                                                    f.Xs[(int)tCPChannel.ChannelID].Add((DateTime)sensor.createTime);
-                                                    f.Ys[(int)tCPChannel.ChannelID].Add(value);
+                                                    f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID].Add((DateTime)sensor.createTime);
+                                                    f_TitlePages[fi].Ys[(int)tCPChannel.ChannelID].Add(value);
                                                 }
                                                 else
                                                 {
-                                                    f.Xs[(int)tCPChannel.ChannelID].Add((DateTime)sensor.createTime);
-                                                    f.Ys[(int)tCPChannel.ChannelID].Add(value);
-                                                    f.Xs[(int)tCPChannel.ChannelID].RemoveAt(0);
-                                                    f.Ys[(int)tCPChannel.ChannelID].RemoveAt(0);
+                                                    for (int j = 0; j < f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID].Count - 1; j++)
+                                                    {
+                                                        f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID][j] = f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID][j + 1];
+                                                        f_TitlePages[fi].Ys[(int)tCPChannel.ChannelID][j] = f_TitlePages[fi].Ys[(int)tCPChannel.ChannelID][j + 1];
+                                                    }
+                                                    f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID][f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID].Count - 1] = (DateTime)sensor.createTime;
+                                                    f_TitlePages[fi].Ys[(int)tCPChannel.ChannelID][f_TitlePages[fi].Xs[(int)tCPChannel.ChannelID].Count - 1] = value;
                                                 }
-                                                this.SetUcChannelValue(tCPChannel.ChannelID, sensor.sensorValue, sensor.sensorUnit, sensor.createTime.ToString(), f);
+                                                this.SetUcChannelValue(tCPChannel.ChannelID, sensor.sensorValue, sensor.sensorUnit, sensor.createTime.ToString(), f_TitlePages[fi]);
                                                 break;
                                             }
                                         }
                                     }
-                                    catch (Exception)
+                                    catch (Exception e)
                                     {
+                                        Logger.Error(e.Message);
                                         continue;
                                     }
                                 }
@@ -1238,7 +1312,7 @@ namespace ModbusRTU_TP1608
                         catch (IOException ie)
                         {
                             ReTryTimes++;
-                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", ie.GetType(), ie.Message, DateTime.Now, ReTryTimes));
+                            Logger.Error(string.Format("{0}: {1}-{2}({3})", ie.GetType().Name, ie.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1248,7 +1322,7 @@ namespace ModbusRTU_TP1608
                         catch (TimeoutException te)
                         {
                             ReTryTimes++;
-                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", te.GetType(), te.Message, DateTime.Now, ReTryTimes));
+                            Logger.Error(string.Format("{0}: {1}-{2}({3})", te.GetType().Name, te.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1258,7 +1332,7 @@ namespace ModbusRTU_TP1608
                         catch (SocketException se)
                         {
                             ReTryTimes++;
-                            Logger.Info(string.Format("{0}: {1}  {2}({3})\r\n", se.GetType(), se.Message, DateTime.Now, ReTryTimes));
+                            Logger.Error(string.Format("{0}: {1}-{2}({3})", se.GetType().Name, se.Message, DateTime.Now, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1267,7 +1341,8 @@ namespace ModbusRTU_TP1608
                         }
                         catch (Exception e)
                         {
-                            this.ShowErrorDialog("异常：" + e.GetType().Name + "\r\n" + DateTime.Now.ToString() + "\r\n" + e.Message);
+                            Logger.Error(string.Format("{0}: {1}-{2}", e.GetType().Name,DateTime.Now.ToString(),e.Message));
+                            this.ShowErrorDialog(string.Format("{0}: {1}-{2}", e.GetType().Name, DateTime.Now.ToString(), e.Message));
                             List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
                             int countj = deviceAddress.Count;
                             for (int j = 0; j < countj; j++)
@@ -1285,7 +1360,8 @@ namespace ModbusRTU_TP1608
                 }
                 catch (Exception e)
                 {
-                    this.ShowErrorDialog("异常：" + e.GetType().Name + "\r\n" + DateTime.Now.ToString() + "\r\n" + e.Message);
+                    Logger.Error(string.Format("{0}: {1}-{2}", e.GetType().Name, DateTime.Now.ToString(), e.Message));
+                    this.ShowErrorDialog(string.Format("{0}: {1}-{2}", e.GetType().Name, DateTime.Now.ToString(), e.Message));
                     List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
                     int countj = deviceAddress.Count;
                     for (int j = 0; j < countj; j++)
@@ -1460,15 +1536,20 @@ namespace ModbusRTU_TP1608
 
                     }
                     f_TitlePage.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
-                    f_TitlePage.chart1.Series[0].Points.DataBindXY(x, y);
-                    f_TitlePage.chart1.ChartAreas[0].AxisX.Minimum = x[0].ToOADate();
+                    if (x.Count != 0)
+                    {
+                        f_TitlePage.chart1.ChartAreas[0].AxisX.Minimum = x[0].ToOADate();
+                    }
                     f_TitlePage.chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Milliseconds;//如果是时间类型的数据，间隔方式可以是秒、分、时
-                    
+                    f_TitlePage.chart1.Series[0].Points.DataBindXY(x, y);
+
                     //f_TitlePage.chart1.ChartAreas[0].AxisY.Minimum = y_Min;
                 };
                 //List<double> y_Sorted = f_TitlePage.Ys[f_TitlePage.selectedChannelID];
                 //y_Sorted.Sort();
+                
                 f_TitlePage.chart1.Invoke(actionDelegate, f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]/*, y_Sorted[0]*/);
+
             }
             else
             {
@@ -1519,6 +1600,7 @@ namespace ModbusRTU_TP1608
                         {
                             if (device.deviceName.Equals(rTUDevice.deviceName))
                             {
+                                Logger.Info(string.Format("设备{0}停止采集", device.deviceName));
                                 ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Remove(device);
                                 if (ModbusUtil.RTUdevices[key][rTUDevice.deviceAddress].Count == 0)
                                 {
@@ -1534,6 +1616,7 @@ namespace ModbusRTU_TP1608
                 {
                     if (f.tB_DeviceName.Text.Equals(rTUDevice.deviceName))
                     {
+                        f.deviceStatus = (int)Common.DeviceStatus.STOP;
                         ModbusUtil.F_TitlePages[rTUDevice.deviceAddress].Remove(f);
                         break;
                     }
@@ -1578,6 +1661,7 @@ namespace ModbusRTU_TP1608
                         {
                             if (device.deviceName.Equals(tCPDevice.deviceName))
                             {
+                                Logger.Info(string.Format("设备{0}停止采集", device.deviceName));
                                 ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress].Remove(device);
                                 if (ModbusUtil.TCPdevices[key][tCPDevice.deviceAddress].Count == 0)
                                 {
@@ -1594,6 +1678,7 @@ namespace ModbusRTU_TP1608
                 {
                     if (f.tB_DeviceName.Text.Equals(tCPDevice.deviceName))
                     {
+                        f.deviceStatus = (int)Common.DeviceStatus.STOP;
                         ModbusUtil.F_TitlePages[tCPDevice.deviceAddress].Remove(f);
                         break;
                     }

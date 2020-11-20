@@ -72,6 +72,7 @@
             this.deviceAddress.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceAddress.Maximum = 2147483647D;
             this.deviceAddress.Minimum = -2147483648D;
+            this.deviceAddress.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceAddress.Name = "deviceAddress";
             this.deviceAddress.Padding = new System.Windows.Forms.Padding(5);
             this.deviceAddress.Radius = 8;
@@ -118,6 +119,7 @@
             this.deviceName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceName.Maximum = 2147483647D;
             this.deviceName.Minimum = -2147483648D;
+            this.deviceName.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceName.Name = "deviceName";
             this.deviceName.Padding = new System.Windows.Forms.Padding(5);
             this.deviceName.Radius = 8;
@@ -213,6 +215,7 @@
             this.devicePosition.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicePosition.Maximum = 2147483647D;
             this.devicePosition.Minimum = -2147483648D;
+            this.devicePosition.MinimumSize = new System.Drawing.Size(1, 1);
             this.devicePosition.Name = "devicePosition";
             this.devicePosition.Padding = new System.Windows.Forms.Padding(5);
             this.devicePosition.Radius = 8;
@@ -303,6 +306,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Style = Sunny.UI.UIStyle.Custom;
             this.Text = "新建设备";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.F_AddDeviceRTU_FormClosed);
             this.Load += new System.EventHandler(this.F_AddDeviceRTU_Load);
             this.Controls.SetChildIndex(this.uiLabel1, 0);
             this.Controls.SetChildIndex(this.deviceAddress, 0);

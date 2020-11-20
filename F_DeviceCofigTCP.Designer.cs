@@ -60,6 +60,7 @@
             this.devicePort.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicePort.Maximum = 2147483647D;
             this.devicePort.Minimum = -2147483648D;
+            this.devicePort.MinimumSize = new System.Drawing.Size(1, 1);
             this.devicePort.Name = "devicePort";
             this.devicePort.Padding = new System.Windows.Forms.Padding(5);
             this.devicePort.Radius = 8;
@@ -76,6 +77,7 @@
             this.deviceHostName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceHostName.Maximum = 2147483647D;
             this.deviceHostName.Minimum = -2147483648D;
+            this.deviceHostName.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceHostName.Name = "deviceHostName";
             this.deviceHostName.Padding = new System.Windows.Forms.Padding(5);
             this.deviceHostName.Radius = 8;
@@ -112,6 +114,7 @@
             this.devicePosition.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.devicePosition.Maximum = 2147483647D;
             this.devicePosition.Minimum = -2147483648D;
+            this.devicePosition.MinimumSize = new System.Drawing.Size(1, 1);
             this.devicePosition.Name = "devicePosition";
             this.devicePosition.Padding = new System.Windows.Forms.Padding(5);
             this.devicePosition.Radius = 8;
@@ -200,6 +203,7 @@
             this.deviceName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceName.Maximum = 2147483647D;
             this.deviceName.Minimum = -2147483648D;
+            this.deviceName.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceName.Name = "deviceName";
             this.deviceName.Padding = new System.Windows.Forms.Padding(5);
             this.deviceName.Radius = 8;
@@ -242,6 +246,7 @@
             this.deviceAddress.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deviceAddress.Maximum = 2147483647D;
             this.deviceAddress.Minimum = -2147483648D;
+            this.deviceAddress.MinimumSize = new System.Drawing.Size(1, 1);
             this.deviceAddress.Name = "deviceAddress";
             this.deviceAddress.Padding = new System.Windows.Forms.Padding(5);
             this.deviceAddress.Radius = 8;
@@ -282,6 +287,7 @@
             this.Controls.Add(this.uiLabel1);
             this.Name = "F_DeviceCofigTCP";
             this.Text = "F_DeviceCofigTCP";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.F_DeviceCofigTCP_FormClosed);
             this.Controls.SetChildIndex(this.pnlBtm, 0);
             this.Controls.SetChildIndex(this.uiLabel1, 0);
             this.Controls.SetChildIndex(this.deviceAddress, 0);

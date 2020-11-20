@@ -14,6 +14,8 @@ namespace ModbusRTU_TP1608
 {
     public partial class F_AddDeviceTCP : UIEditForm
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(F_AddDeviceRTU));
+
         public F_AddDeviceTCP()
         {
             InitializeComponent();
@@ -52,7 +54,17 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceNameRepeat(UITextBox deviceName, string desc)
         {
-            bool result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()).Count == 0;
+            bool result = false;
+            try
+            {
+                result = new TCPDeviceManage().GetByName(deviceName.Text.Trim()).Count == 0;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                this.ShowErrorDialog(e.Message);
+            }
+
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -68,7 +80,16 @@ namespace ModbusRTU_TP1608
         /// <returns></returns>
         private bool CheckDeviceAddressRepeat(UITextBox deviceAddress, string desc)
         {
-            bool result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count == 0;
+            bool result = false;
+            try
+            {
+                result = new TCPDeviceManage().GetByAddress(deviceAddress.Text.Trim()).Count == 0;
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e.Message);
+                this.ShowErrorDialog(e.Message);
+            }
             if (!result)
             {
                 this.ShowWarningDialog(desc);
@@ -93,7 +114,14 @@ namespace ModbusRTU_TP1608
             }
             return result;
         }
-
-        
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void F_AddDeviceTCP_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Logger.Info("取消添加设备");
+        }
     }
 }

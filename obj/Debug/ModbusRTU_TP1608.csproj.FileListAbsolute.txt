@@ -407,3 +407,7 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\log4net.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Threading.Channels.dll
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Threading.Channels.xml
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe.config
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\ModbusRTU_TP1608.exe.manifest
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\ModbusRTU_TP1608.application
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe.manifest
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.application

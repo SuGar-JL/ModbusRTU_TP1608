@@ -44,8 +44,8 @@
             this.试图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnAddDevice1 = new ModbusRTU_TP1608.UCBtnAddDevice();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnAddDevice1 = new ModbusRTU_TP1608.UCBtnAddDevice();
             this.MainContainer.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -54,9 +54,9 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(0, 40);
+            this.tabPage2.Location = new System.Drawing.Point(0, 0);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(450, 230);
+            this.tabPage2.Size = new System.Drawing.Size(1000, 610);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -225,6 +225,20 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(60, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.label1.Size = new System.Drawing.Size(160, 60);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "智慧消防数据采集";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // btnAddDevice1
             // 
             this.btnAddDevice1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(19)))), ((int)(((byte)(36)))));
@@ -239,20 +253,6 @@
             this.btnAddDevice1.TabIndex = 8;
             this.btnAddDevice1.Text = "添加设备";
             this.btnAddDevice1.AddDevice += new System.EventHandler(this.btnAddDevice1_AddDevice);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(60, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(0);
-            this.label1.Name = "label1";
-            this.label1.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.label1.Size = new System.Drawing.Size(160, 60);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "智慧消防数据采集";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 

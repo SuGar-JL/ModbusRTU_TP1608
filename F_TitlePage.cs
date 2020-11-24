@@ -1562,18 +1562,26 @@ namespace ModbusRTU_TP1608
         #region 数据入库
         private static void WriteSensorData2DB(object obj)
         {
-            Sensor sensor = (Sensor)obj;
-            new SensorManage().InsertByTableName(sensor.tableName, sensor);
-            //把最新值存到snesor表
-            Sensor sensor1 = new SensorManage().GetByTableNameAndSensorId("sensor", sensor.sensorId);
-            if (sensor1 == null)
+            try
             {
-                new SensorManage().InsertByTableName("sensor", sensor);
+                Sensor sensor = (Sensor)obj;
+                new SensorManage().InsertByTableName(sensor.tableName, sensor);
+                //把最新值存到snesor表
+                Sensor sensor1 = new SensorManage().GetByTableNameAndSensorId("sensor", sensor.sensorId);
+                if (sensor1 == null)
+                {
+                    new SensorManage().InsertByTableName("sensor", sensor);
+                }
+                else
+                {
+                    new SensorManage().UpdateByTableNameAndSensorId("sensor", sensor);
+                }
             }
-            else
+            catch (Exception)
             {
-                new SensorManage().UpdateByTableNameAndSensorId("sensor", sensor);
+                return;
             }
+            
         }
         #endregion
 

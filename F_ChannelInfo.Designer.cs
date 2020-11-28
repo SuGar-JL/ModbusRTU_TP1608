@@ -65,6 +65,9 @@
             this.ChannelDecimalPlaces = new Sunny.UI.UIComboBox();
             this.uiLabel13 = new Sunny.UI.UILabel();
             this.ChannelSensorId = new Sunny.UI.UIComboBox();
+            this.uiLabel14 = new Sunny.UI.UILabel();
+            this.uiTextBox1 = new Sunny.UI.UITextBox();
+            this.uiLabel15 = new Sunny.UI.UILabel();
             this.SuspendLayout();
             // 
             // pnlBtm
@@ -91,6 +94,7 @@
             this.ChannelName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelName.Maximum = 2147483647D;
             this.ChannelName.Minimum = -2147483648D;
+            this.ChannelName.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelName.Name = "ChannelName";
             this.ChannelName.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelName.Radius = 8;
@@ -142,6 +146,7 @@
             this.ChannelID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelID.Maximum = 2147483647D;
             this.ChannelID.Minimum = -2147483648D;
+            this.ChannelID.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelID.Name = "ChannelID";
             this.ChannelID.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelID.Radius = 8;
@@ -169,6 +174,7 @@
             this.ChannelLabel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelLabel.Maximum = 2147483647D;
             this.ChannelLabel.Minimum = -2147483648D;
+            this.ChannelLabel.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelLabel.Name = "ChannelLabel";
             this.ChannelLabel.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelLabel.Radius = 8;
@@ -244,6 +250,7 @@
             this.ChannelSensorName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelSensorName.Maximum = 2147483647D;
             this.ChannelSensorName.Minimum = -2147483648D;
+            this.ChannelSensorName.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelSensorName.Name = "ChannelSensorName";
             this.ChannelSensorName.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelSensorName.Radius = 8;
@@ -270,6 +277,7 @@
             this.ChannelSensorRangeL.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelSensorRangeL.Maximum = 2147483647D;
             this.ChannelSensorRangeL.Minimum = -2147483648D;
+            this.ChannelSensorRangeL.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelSensorRangeL.Name = "ChannelSensorRangeL";
             this.ChannelSensorRangeL.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelSensorRangeL.Radius = 8;
@@ -288,6 +296,7 @@
             this.ChannelSensorRangeH.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelSensorRangeH.Maximum = 2147483647D;
             this.ChannelSensorRangeH.Minimum = -2147483648D;
+            this.ChannelSensorRangeH.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelSensorRangeH.Name = "ChannelSensorRangeH";
             this.ChannelSensorRangeH.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelSensorRangeH.Radius = 8;
@@ -325,6 +334,7 @@
             this.ChannelWarning1L.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelWarning1L.Maximum = 2147483647D;
             this.ChannelWarning1L.Minimum = -2147483648D;
+            this.ChannelWarning1L.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelWarning1L.Name = "ChannelWarning1L";
             this.ChannelWarning1L.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelWarning1L.Radius = 8;
@@ -352,6 +362,7 @@
             this.ChannelWarning1H.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelWarning1H.Maximum = 2147483647D;
             this.ChannelWarning1H.Minimum = -2147483648D;
+            this.ChannelWarning1H.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelWarning1H.Name = "ChannelWarning1H";
             this.ChannelWarning1H.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelWarning1H.Radius = 8;
@@ -366,6 +377,7 @@
             this.isWraning.Cursor = System.Windows.Forms.Cursors.Hand;
             this.isWraning.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.isWraning.Location = new System.Drawing.Point(39, 298);
+            this.isWraning.MinimumSize = new System.Drawing.Size(1, 1);
             this.isWraning.Name = "isWraning";
             this.isWraning.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
             this.isWraning.Size = new System.Drawing.Size(69, 29);
@@ -391,6 +403,7 @@
             this.ChannelWarning3L.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelWarning3L.Maximum = 2147483647D;
             this.ChannelWarning3L.Minimum = -2147483648D;
+            this.ChannelWarning3L.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelWarning3L.Name = "ChannelWarning3L";
             this.ChannelWarning3L.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelWarning3L.Radius = 8;
@@ -418,6 +431,7 @@
             this.ChannelWarning3H.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelWarning3H.Maximum = 2147483647D;
             this.ChannelWarning3H.Minimum = -2147483648D;
+            this.ChannelWarning3H.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelWarning3H.Name = "ChannelWarning3H";
             this.ChannelWarning3H.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelWarning3H.Radius = 8;
@@ -436,6 +450,7 @@
             this.ChannelWarning2H.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelWarning2H.Maximum = 2147483647D;
             this.ChannelWarning2H.Minimum = -2147483648D;
+            this.ChannelWarning2H.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelWarning2H.Name = "ChannelWarning2H";
             this.ChannelWarning2H.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelWarning2H.Radius = 8;
@@ -463,6 +478,7 @@
             this.ChannelWarning2L.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChannelWarning2L.Maximum = 2147483647D;
             this.ChannelWarning2L.Minimum = -2147483648D;
+            this.ChannelWarning2L.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelWarning2L.Name = "ChannelWarning2L";
             this.ChannelWarning2L.Padding = new System.Windows.Forms.Padding(5);
             this.ChannelWarning2L.Radius = 8;
@@ -487,6 +503,7 @@
             this.ChannelTypeWrite.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ChannelTypeWrite.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.ChannelTypeWrite.Location = new System.Drawing.Point(544, 255);
+            this.ChannelTypeWrite.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelTypeWrite.Name = "ChannelTypeWrite";
             this.ChannelTypeWrite.Size = new System.Drawing.Size(68, 29);
             this.ChannelTypeWrite.TabIndex = 78;
@@ -497,6 +514,7 @@
             this.ChannelTypeRead.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ChannelTypeRead.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.ChannelTypeRead.Location = new System.Drawing.Point(439, 255);
+            this.ChannelTypeRead.MinimumSize = new System.Drawing.Size(1, 1);
             this.ChannelTypeRead.Name = "ChannelTypeRead";
             this.ChannelTypeRead.Size = new System.Drawing.Size(68, 29);
             this.ChannelTypeRead.TabIndex = 77;
@@ -604,11 +622,53 @@
             this.ChannelSensorId.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
             this.ChannelSensorId.Watermark = "不选择，手动输...";
             // 
+            // uiLabel14
+            // 
+            this.uiLabel14.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiLabel14.Location = new System.Drawing.Point(341, 302);
+            this.uiLabel14.Name = "uiLabel14";
+            this.uiLabel14.Size = new System.Drawing.Size(100, 23);
+            this.uiLabel14.TabIndex = 83;
+            this.uiLabel14.Text = "保存间隔：";
+            this.uiLabel14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // uiTextBox1
+            // 
+            this.uiTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.uiTextBox1.FillColor = System.Drawing.Color.White;
+            this.uiTextBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiTextBox1.Location = new System.Drawing.Point(439, 301);
+            this.uiTextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiTextBox1.Maximum = 2147483647D;
+            this.uiTextBox1.Minimum = -2147483648D;
+            this.uiTextBox1.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiTextBox1.Name = "uiTextBox1";
+            this.uiTextBox1.Padding = new System.Windows.Forms.Padding(5);
+            this.uiTextBox1.Radius = 8;
+            this.uiTextBox1.Size = new System.Drawing.Size(183, 29);
+            this.uiTextBox1.TabIndex = 84;
+            this.uiTextBox1.Text = "0.00";
+            this.uiTextBox1.Type = Sunny.UI.UITextBox.UIEditType.Double;
+            this.uiTextBox1.Watermark = "";
+            // 
+            // uiLabel15
+            // 
+            this.uiLabel15.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.uiLabel15.Location = new System.Drawing.Point(627, 304);
+            this.uiLabel15.Name = "uiLabel15";
+            this.uiLabel15.Size = new System.Drawing.Size(16, 23);
+            this.uiLabel15.TabIndex = 85;
+            this.uiLabel15.Text = "s";
+            this.uiLabel15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // F_ChannelInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 529);
+            this.Controls.Add(this.uiLabel15);
+            this.Controls.Add(this.uiTextBox1);
+            this.Controls.Add(this.uiLabel14);
             this.Controls.Add(this.uiLabel13);
             this.Controls.Add(this.ChannelSensorId);
             this.Controls.Add(this.ChannelDecimalPlaces);
@@ -686,6 +746,9 @@
             this.Controls.SetChildIndex(this.ChannelDecimalPlaces, 0);
             this.Controls.SetChildIndex(this.ChannelSensorId, 0);
             this.Controls.SetChildIndex(this.uiLabel13, 0);
+            this.Controls.SetChildIndex(this.uiLabel14, 0);
+            this.Controls.SetChildIndex(this.uiTextBox1, 0);
+            this.Controls.SetChildIndex(this.uiLabel15, 0);
             this.ResumeLayout(false);
 
         }
@@ -729,5 +792,8 @@
         public Sunny.UI.UICheckBox isWraning;
         private Sunny.UI.UILabel uiLabel13;
         public Sunny.UI.UIComboBox ChannelSensorId;
+        private Sunny.UI.UILabel uiLabel14;
+        public Sunny.UI.UITextBox uiTextBox1;
+        private Sunny.UI.UILabel uiLabel15;
     }
 }

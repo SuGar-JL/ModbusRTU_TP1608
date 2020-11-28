@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "pTArF5n2Ts5f+F6ZmqKl+N2wek8A8grFPkSwIQJLtKhzk+qGUriCwpdpSAh9Awq6Siu9UhT2iX8Z2F9116fDCw==",
+  "success": true,
+  "projectFilePath": "D:\\SUGAR\\ModbusRTU\\ModbusRTU_TP1608\\ModbusRTU_TP1608.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hp\\.nuget\\packages\\system.text.encoding.codepages\\4.4.0\\system.text.encoding.codepages.4.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

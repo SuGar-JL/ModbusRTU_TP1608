@@ -138,14 +138,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ModbusRTU_TP1608.exe" size="6395344">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ModbusRTU_TP1608.exe" size="6412752">
       <assemblyIdentity name="ModbusRTU_TP1608" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>K3lrpwENHVujqG8rMWmEziOskgLJ623osytbP9KKe88=</dsig:DigestValue>
+        <dsig:DigestValue>CAnmysmkIa4VAtFj6A17eOxIXWTIPc98bQU7zkmUVYM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -374,6 +374,18 @@
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
         <dsig:DigestValue>PK3La4pzNRQcfDV6HXevH/SbWbhy30lPUCVYAZHRwNU=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Text.Encoding.CodePages.dll" size="762264">
+      <assemblyIdentity name="System.Text.Encoding.CodePages" version="4.1.0.0" publicKeyToken="B03F5F7F11D50A3A" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>YVJK3YN7cQaF6qN9FO+Dy5fqZ0teeQdzSJMSj2+Hj/g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

@@ -58,6 +58,9 @@ namespace ModbusTCP_TP1608.Entiry
         [SugarColumn(ColumnName = "is_warning", IsNullable = true, ColumnDescription = "是否报警")]
         public int? isWaring { get; set; }
 
+        [SugarColumn(ColumnName = "save_interval", IsNullable = true, ColumnDescription = "保存间隔")]
+        public double? save_interval { get; set; }
+
         [SugarColumn(ColumnName = "warning1_l", IsNullable = true, ColumnDescription = "一级报警下限")]
         public double? warning1L { get; set; }
 
@@ -75,6 +78,7 @@ namespace ModbusTCP_TP1608.Entiry
 
         [SugarColumn(ColumnName = "warning3_h", IsNullable = true, ColumnDescription = "三级报警上限")]
         public double? warning3H { get; set; }
+        
         /// <summary>
         /// 排序
         /// </summary>

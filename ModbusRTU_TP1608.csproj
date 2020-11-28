@@ -198,13 +198,17 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeBug.cs">
+    <Compile Include="Entiry\Bluetooth_Gateway\Area_People_Num.cs" />
+    <Compile Include="Entiry\Bluetooth_Gateway\BluetoothGateway.cs" />
+    <Compile Include="Entiry\Bluetooth_Gateway\GatewayManager.cs" />
+    <Compile Include="Entiry\Bluetooth_Gateway\TCP_Communication_Func.cs" />
+    <Compile Include="Entiry\RTUDevice.cs" />
+    <Compile Include="Forms\Bluetooth_Gateway\F_BluetoothGateway.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeBug.Designer.cs">
-      <DependentUpon>DeBug.cs</DependentUpon>
+    <Compile Include="Forms\Bluetooth_Gateway\F_BluetoothGateway.Designer.cs">
+      <DependentUpon>F_BluetoothGateway.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entiry\RTUDevice.cs" />
     <Compile Include="F_ChannelInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -308,8 +312,8 @@
     <Compile Include="Utils\SysManage.cs" />
     <Compile Include="Utils\TCPChennalManage.cs" />
     <Compile Include="Utils\TCPDeviceManage.cs" />
-    <EmbeddedResource Include="DeBug.resx">
-      <DependentUpon>DeBug.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Bluetooth_Gateway\F_BluetoothGateway.resx">
+      <DependentUpon>F_BluetoothGateway.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="F_ChannelInfo.resx">
       <DependentUpon>F_ChannelInfo.cs</DependentUpon>
@@ -465,4 +469,8 @@
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.2.0.4\build\net461\SQLitePCLRaw.lib.e_sqlite3.targets')" />
+  <!-- 蓝牙网关，把接收到的数据转为GB2312 -->
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.4.0" />
+  </ItemGroup>
 </Project>

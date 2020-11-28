@@ -1,4 +1,6 @@
 ﻿using ModbusRTU_TP1608.Entiry;
+using ModbusRTU_TP1608.Entiry.Bluetooth_Gateway;
+using ModbusRTU_TP1608.Forms.Bluetooth_Gateway;
 using ModbusRTU_TP1608.Utils;
 using ModbusTCP_TP1608.Entiry;
 using SqlSugar;
@@ -13,6 +15,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -42,10 +45,17 @@ namespace ModbusRTU_TP1608
         /// 首页
         /// </summary>
         private F_Home home = new F_Home();
+
+        private F_BluetoothGateway f_BluetoothGateway = new F_BluetoothGateway();
         /// <summary>
         /// 获取一个日志记录器
         /// </summary>
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(Form1));
+
+        //蓝牙探针相关
+        private Thread My_NET_RevThread;//数据接收线程
+        //创建TCP通讯类实例
+        TCP_Communication_Func TCP_Communication_Example = new TCP_Communication_Func();
         #endregion
 
         #region 主窗体构造方法
@@ -64,6 +74,10 @@ namespace ModbusRTU_TP1608
             this.home.PageIndex = 1111;
             MainContainer.AddPage(home);
             Aside.CreateNode("首页", 57460, 27, this.home.PageIndex);
+
+            this.f_BluetoothGateway.PageIndex = 2222;
+            MainContainer.AddPage(f_BluetoothGateway);
+            Aside.CreateNode("蓝牙探针", 57364, 24, this.f_BluetoothGateway.PageIndex);
 
             //显示默认界面(第一个)
             Aside.SelectFirst();
@@ -97,7 +111,13 @@ namespace ModbusRTU_TP1608
             //让TabControl的选项卡显示否
             MainContainer.TabVisible = false;
 
+            //Enable_Flag = true;
+            //My_NET_RevThread = new Thread(new ThreadStart(Communication_Rev_Thread));
+            //My_NET_RevThread.IsBackground = true;               //设置为后台线程
+            //My_NET_RevThread.Start();
         }
+
+
         #endregion
 
         #region 创建数据库表
@@ -196,7 +216,7 @@ namespace ModbusRTU_TP1608
             {
                 Logger.Info("通信协议为：TCP");
             }
-            else if(this.protocol == (int)Common.Protocol.RTU)
+            else if (this.protocol == (int)Common.Protocol.RTU)
             {
                 Logger.Info("通信协议为：RTU");
             }
@@ -528,7 +548,7 @@ namespace ModbusRTU_TP1608
                 {
                     MainContainer.TabPages.RemoveAt(index);
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     this.ShowErrorDialog(string.Format("删除失败，页面id={0}", index));
                 }
@@ -564,11 +584,35 @@ namespace ModbusRTU_TP1608
 
         #endregion
 
+        #region 蓝牙网关
+        public bool Enable_Flag = false;
+        private void Communication_Rev_Thread()
+        {
+            while (true)
+            {
+                //在死循环中一定要让线程休眠，不然电脑CPU占用率很高，会造成卡顿甚至死机
+                try
+                {
+                    #region TCP服务端监听消息
+                    TCP_Communication_Example.TCP_Server_RevMessage_Func("127.0.0.1", 10025, Enable_Flag);
+                    #endregion
+                    Thread.Sleep(10);
+                }
+                catch (Exception ex1)
+                {
+                    //MessageBox.Show(ex1.Message);
+                    ;
+                }
+
+            }
+        }
+        #endregion
+
         #region 关闭系统
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             //所有设备停止采集，再关闭系统
-
+            Enable_Flag = false;
             List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
             int counti = deviceAddress.Count;
             for (int i = 0; i < counti; i++)
@@ -580,6 +624,7 @@ namespace ModbusRTU_TP1608
                     ModbusUtil.F_TitlePages[deviceAddress[i]][0].BtnStop_Click(this, new EventArgs());
                 }
             }
+            
             Logger.Info("【系统关闭】");
         }
         #endregion

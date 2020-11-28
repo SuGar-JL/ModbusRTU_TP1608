@@ -395,7 +395,6 @@ D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.pdb
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.UCChannel.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.F_ChannelInfo.resources
-D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Debug.resources
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\SunnyUI.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\log4net.dll
 D:\ZHXF\DaTaCollect\ModbusRTU_TP1608\bin\Debug\SunnyUI.dll
@@ -411,3 +410,5 @@ D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\ModbusRTU_TP1608.exe.manifest
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\ModbusRTU_TP1608.application
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.exe.manifest
 D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.application
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\bin\Debug\System.Text.Encoding.CodePages.dll
+D:\SUGAR\ModbusRTU\ModbusRTU_TP1608\obj\Debug\ModbusRTU_TP1608.Forms.Bluetooth_Gateway.F_BluetoothGateway.resources

@@ -1312,7 +1312,7 @@ namespace ModbusRTU_TP1608
                         catch (IOException ie)
                         {
                             ReTryTimes++;
-                            Logger.Error(string.Format("{0}: {1}-{2}({3})", ie.GetType().Name, ie.Message, DateTime.Now, ReTryTimes));
+                            Logger.Error(string.Format("{0}: {1}-设备：{2}，重连次数：{3}", ie.GetType().Name, ie.Message, tCPDevices[i].deviceName, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1322,7 +1322,7 @@ namespace ModbusRTU_TP1608
                         catch (TimeoutException te)
                         {
                             ReTryTimes++;
-                            Logger.Error(string.Format("{0}: {1}-{2}({3})", te.GetType().Name, te.Message, DateTime.Now, ReTryTimes));
+                            Logger.Error(string.Format("{0}: {1}-设备：{2}，重连次数：{3}", te.GetType().Name, te.Message, tCPDevices[i].deviceName, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1332,7 +1332,7 @@ namespace ModbusRTU_TP1608
                         catch (SocketException se)
                         {
                             ReTryTimes++;
-                            Logger.Error(string.Format("{0}: {1}-{2}({3})", se.GetType().Name, se.Message, DateTime.Now, ReTryTimes));
+                            Logger.Error(string.Format("{0}: {1}-设备：{2}，重连次数：{3}", se.GetType().Name, se.Message, tCPDevices[i].deviceName, ReTryTimes));
                             if (ReTryTimes > 10)
                             {
                                 i--;
@@ -1341,8 +1341,9 @@ namespace ModbusRTU_TP1608
                         }
                         catch (Exception e)
                         {
-                            Logger.Error(string.Format("{0}: {1}-{2}", e.GetType().Name,DateTime.Now.ToString(),e.Message));
+                            Logger.Error(string.Format("{0}: {1}", e.GetType().Name, e.Message));
                             this.ShowErrorDialog(string.Format("{0}: {1}-{2}", e.GetType().Name, DateTime.Now.ToString(), e.Message));
+                            //此时停止所有在采集的设备
                             List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
                             int countj = deviceAddress.Count;
                             for (int j = 0; j < countj; j++)
@@ -1360,8 +1361,9 @@ namespace ModbusRTU_TP1608
                 }
                 catch (Exception e)
                 {
-                    Logger.Error(string.Format("{0}: {1}-{2}", e.GetType().Name, DateTime.Now.ToString(), e.Message));
+                    Logger.Error(string.Format("{0}: {1}", e.GetType().Name, e.Message));
                     this.ShowErrorDialog(string.Format("{0}: {1}-{2}", e.GetType().Name, DateTime.Now.ToString(), e.Message));
+                    //此时停止所有在采集的设备
                     List<string> deviceAddress = ModbusUtil.F_TitlePages.Keys.ToList();
                     int countj = deviceAddress.Count;
                     for (int j = 0; j < countj; j++)
@@ -1399,161 +1401,169 @@ namespace ModbusRTU_TP1608
         #region 通道控件显示数据
         private void SetUcChannelValue(int? ChannelID, string sensorValue, string sensorUnit, string createTime, F_TitlePage f_TitlePage)
         {
-            //值显示
-            switch (ChannelID)
+            try
             {
-                case 1:
-                    if (f_TitlePage.ucChannel1.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel1.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel1.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel1.uiChannelTime.Text = time.ToString();
-                        };
-                        // 或者
-                        // Action<string> actionDelegate = delegate(string txt) { this.ucChannel1.uiChannelData.Text = x.ToString(); };
-                        f_TitlePage.ucChannel1.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-                case 2:
-                    if (f_TitlePage.ucChannel2.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel2.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel2.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel2.uiChannelTime.Text = time.ToString();
-                        };
-                        f_TitlePage.ucChannel2.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-                case 3:
-                    if (f_TitlePage.ucChannel3.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel3.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel3.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel3.uiChannelTime.Text = time.ToString();
-                        };
-                        f_TitlePage.ucChannel3.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-                case 4:
-                    if (f_TitlePage.ucChannel4.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel4.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel4.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel4.uiChannelTime.Text = time.ToString();
-                        };
-                        f_TitlePage.ucChannel4.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-                case 5:
-                    if (f_TitlePage.ucChannel5.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel5.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel5.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel5.uiChannelTime.Text = time.ToString();
-                        };
-                        f_TitlePage.ucChannel5.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-                case 6:
-                    if (f_TitlePage.ucChannel6.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel6.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel6.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel6.uiChannelTime.Text = time.ToString();
-                        };
-                        f_TitlePage.ucChannel6.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-                case 7:
-                    if (f_TitlePage.ucChannel7.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel7.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel7.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel7.uiChannelTime.Text = time.ToString();
-                        };
-                        f_TitlePage.ucChannel7.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-                case 8:
-                    if (f_TitlePage.ucChannel8.InvokeRequired)
-                    {
-                        Action<string, string, string> actionDelegate = (value, unit, time) =>
-                        {
-                            f_TitlePage.ucChannel8.uiChannelData.Text = value.ToString();
-                            f_TitlePage.ucChannel8.uiChannelUnit.Text = unit.ToString();
-                            f_TitlePage.ucChannel8.uiChannelTime.Text = time.ToString();
-                        };
-                        f_TitlePage.ucChannel8.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
-                    }
-                    break;
-
-            }
-            //曲线图
-            if (f_TitlePage.chart1.InvokeRequired)
-            {
-                Action<List<DateTime>, List<double>/*, double*/> actionDelegate = (x, y/*, y_Min*/) =>
+                //值显示
+                switch (ChannelID)
                 {
-                    switch (f_TitlePage.selectedChannelID)
+                    case 1:
+                        if (f_TitlePage.ucChannel1.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel1.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel1.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel1.uiChannelTime.Text = time.ToString();
+                            };
+                            // 或者
+                            // Action<string> actionDelegate = delegate(string txt) { this.ucChannel1.uiChannelData.Text = x.ToString(); };
+                            f_TitlePage.ucChannel1.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+                    case 2:
+                        if (f_TitlePage.ucChannel2.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel2.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel2.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel2.uiChannelTime.Text = time.ToString();
+                            };
+                            f_TitlePage.ucChannel2.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+                    case 3:
+                        if (f_TitlePage.ucChannel3.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel3.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel3.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel3.uiChannelTime.Text = time.ToString();
+                            };
+                            f_TitlePage.ucChannel3.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+                    case 4:
+                        if (f_TitlePage.ucChannel4.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel4.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel4.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel4.uiChannelTime.Text = time.ToString();
+                            };
+                            f_TitlePage.ucChannel4.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+                    case 5:
+                        if (f_TitlePage.ucChannel5.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel5.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel5.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel5.uiChannelTime.Text = time.ToString();
+                            };
+                            f_TitlePage.ucChannel5.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+                    case 6:
+                        if (f_TitlePage.ucChannel6.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel6.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel6.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel6.uiChannelTime.Text = time.ToString();
+                            };
+                            f_TitlePage.ucChannel6.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+                    case 7:
+                        if (f_TitlePage.ucChannel7.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel7.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel7.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel7.uiChannelTime.Text = time.ToString();
+                            };
+                            f_TitlePage.ucChannel7.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+                    case 8:
+                        if (f_TitlePage.ucChannel8.InvokeRequired)
+                        {
+                            Action<string, string, string> actionDelegate = (value, unit, time) =>
+                            {
+                                f_TitlePage.ucChannel8.uiChannelData.Text = value.ToString();
+                                f_TitlePage.ucChannel8.uiChannelUnit.Text = unit.ToString();
+                                f_TitlePage.ucChannel8.uiChannelTime.Text = time.ToString();
+                            };
+                            f_TitlePage.ucChannel8.Invoke(actionDelegate, sensorValue, sensorUnit, createTime);
+                        }
+                        break;
+
+                }
+                //曲线图
+                if (f_TitlePage.chart1.InvokeRequired)
+                {
+                    Action<List<DateTime>, List<double>/*, double*/> actionDelegate = (x, y/*, y_Min*/) =>
                     {
-                        case 1:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel1.uiChannelName.Text.Trim();
-                            break;
-                        case 2:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel2.uiChannelName.Text.Trim();
-                            break;
-                        case 3:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel3.uiChannelName.Text.Trim();
-                            break;
-                        case 4:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel4.uiChannelName.Text.Trim();
-                            break;
-                        case 5:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel5.uiChannelName.Text.Trim();
-                            break;
-                        case 6:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel6.uiChannelName.Text.Trim();
-                            break;
-                        case 7:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel7.uiChannelName.Text.Trim();
-                            break;
-                        case 8:
-                            f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel8.uiChannelName.Text.Trim();
-                            break;
+                        switch (f_TitlePage.selectedChannelID)
+                        {
+                            case 1:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel1.uiChannelName.Text.Trim();
+                                break;
+                            case 2:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel2.uiChannelName.Text.Trim();
+                                break;
+                            case 3:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel3.uiChannelName.Text.Trim();
+                                break;
+                            case 4:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel4.uiChannelName.Text.Trim();
+                                break;
+                            case 5:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel5.uiChannelName.Text.Trim();
+                                break;
+                            case 6:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel6.uiChannelName.Text.Trim();
+                                break;
+                            case 7:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel7.uiChannelName.Text.Trim();
+                                break;
+                            case 8:
+                                f_TitlePage.chart1.Titles[0].Text = f_TitlePage.ucChannel8.uiChannelName.Text.Trim();
+                                break;
 
-                    }
-                    f_TitlePage.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
-                    if (x.Count != 0)
-                    {
-                        f_TitlePage.chart1.ChartAreas[0].AxisX.Minimum = x[0].ToOADate();
-                    }
-                    f_TitlePage.chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Milliseconds;//如果是时间类型的数据，间隔方式可以是秒、分、时
-                    f_TitlePage.chart1.Series[0].Points.DataBindXY(x, y);
+                        }
+                        f_TitlePage.chart1.Series[0].MarkerStyle = MarkerStyle.Circle;
+                        if (x.Count != 0)
+                        {
+                            f_TitlePage.chart1.ChartAreas[0].AxisX.Minimum = x[0].ToOADate();
+                        }
+                        f_TitlePage.chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Milliseconds;//如果是时间类型的数据，间隔方式可以是秒、分、时
+                        f_TitlePage.chart1.Series[0].Points.DataBindXY(x, y);
 
-                    //f_TitlePage.chart1.ChartAreas[0].AxisY.Minimum = y_Min;
-                };
-                //List<double> y_Sorted = f_TitlePage.Ys[f_TitlePage.selectedChannelID];
-                //y_Sorted.Sort();
-                
-                f_TitlePage.chart1.Invoke(actionDelegate, f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]/*, y_Sorted[0]*/);
+                        //f_TitlePage.chart1.ChartAreas[0].AxisY.Minimum = y_Min;
+                    };
+                    //List<double> y_Sorted = f_TitlePage.Ys[f_TitlePage.selectedChannelID];
+                    //y_Sorted.Sort();
 
+                    f_TitlePage.chart1.Invoke(actionDelegate, f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]/*, y_Sorted[0]*/);
+
+                }
+                else
+                {
+                    f_TitlePage.chart1.Series[0].Points.DataBindXY(f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]);
+                }
             }
-            else
+            catch (Exception e)
             {
-                f_TitlePage.chart1.Series[0].Points.DataBindXY(f_TitlePage.Xs[f_TitlePage.selectedChannelID], f_TitlePage.Ys[f_TitlePage.selectedChannelID]);
+                Logger.Error(string.Format("{0}: {1}", e.GetType().Name, e.Message));
+                return;
             }
 
         }
@@ -1577,8 +1587,9 @@ namespace ModbusRTU_TP1608
                     new SensorManage().UpdateByTableNameAndSensorId("sensor", sensor);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(string.Format("{0}: {1}", e.GetType().Name, e.Message));
                 return;
             }
             

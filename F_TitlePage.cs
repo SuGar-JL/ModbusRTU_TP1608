@@ -701,6 +701,7 @@ namespace ModbusRTU_TP1608
                     f_ChannelInfo.ChannelDecimalPlaces.Text = Channel.decimalPlaces == null ? "4" : Channel.decimalPlaces.ToString();//小数位默认选择4
                     f_ChannelInfo.ChannelSensorRangeL.Text = Channel.sensorRangeL == null ? "0.00" : Channel.sensorRangeL.ToString();
                     f_ChannelInfo.ChannelSensorRangeH.Text = Channel.sensorRangeH == null ? "0.00" : Channel.sensorRangeH.ToString();
+                    f_ChannelInfo.ChannelSaveInterval.Text = Channel.save_interval == null ? "0.00" : Channel.save_interval.ToString();
                     f_ChannelInfo.ChannelWarning1L.Text = Channel.warning1L == null ? "0.00" : Channel.warning1L.ToString();
                     f_ChannelInfo.ChannelWarning1H.Text = Channel.warning1H == null ? "0.00" : Channel.warning1H.ToString();
                     f_ChannelInfo.ChannelWarning2L.Text = Channel.warning2L == null ? "0.00" : Channel.warning2L.ToString();
@@ -784,6 +785,7 @@ namespace ModbusRTU_TP1608
                     f_ChannelInfo.ChannelDecimalPlaces.Text = Channel.decimalPlaces == null ? "4" : Channel.decimalPlaces.ToString();//小数位默认选择4
                     f_ChannelInfo.ChannelSensorRangeL.Text = Channel.sensorRangeL == null ? "0.00" : Channel.sensorRangeL.ToString();
                     f_ChannelInfo.ChannelSensorRangeH.Text = Channel.sensorRangeH == null ? "0.00" : Channel.sensorRangeH.ToString();
+                    f_ChannelInfo.ChannelSaveInterval.Text = Channel.save_interval == null ? "0.00" : Channel.save_interval.ToString();
                     f_ChannelInfo.ChannelWarning1L.Text = Channel.warning1L == null ? "0.00" : Channel.warning1L.ToString();
                     f_ChannelInfo.ChannelWarning1H.Text = Channel.warning1H == null ? "0.00" : Channel.warning1H.ToString();
                     f_ChannelInfo.ChannelWarning2L.Text = Channel.warning2L == null ? "0.00" : Channel.warning2L.ToString();
@@ -1563,7 +1565,7 @@ namespace ModbusRTU_TP1608
             catch (Exception e)
             {
                 Logger.Error(string.Format("{0}: {1}", e.GetType().Name, e.Message));
-                return;
+                //return;
             }
 
         }
@@ -1590,7 +1592,7 @@ namespace ModbusRTU_TP1608
             catch (Exception e)
             {
                 Logger.Error(string.Format("{0}: {1}", e.GetType().Name, e.Message));
-                return;
+                //return;
             }
             
         }

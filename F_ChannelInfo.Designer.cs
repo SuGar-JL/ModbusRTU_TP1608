@@ -66,7 +66,7 @@
             this.uiLabel13 = new Sunny.UI.UILabel();
             this.ChannelSensorId = new Sunny.UI.UIComboBox();
             this.uiLabel14 = new Sunny.UI.UILabel();
-            this.uiTextBox1 = new Sunny.UI.UITextBox();
+            this.ChannelSaveInterval = new Sunny.UI.UITextBox();
             this.uiLabel15 = new Sunny.UI.UILabel();
             this.SuspendLayout();
             // 
@@ -632,24 +632,24 @@
             this.uiLabel14.Text = "保存间隔：";
             this.uiLabel14.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // uiTextBox1
+            // ChannelSaveInterval
             // 
-            this.uiTextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.uiTextBox1.FillColor = System.Drawing.Color.White;
-            this.uiTextBox1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.uiTextBox1.Location = new System.Drawing.Point(439, 301);
-            this.uiTextBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.uiTextBox1.Maximum = 2147483647D;
-            this.uiTextBox1.Minimum = -2147483648D;
-            this.uiTextBox1.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiTextBox1.Name = "uiTextBox1";
-            this.uiTextBox1.Padding = new System.Windows.Forms.Padding(5);
-            this.uiTextBox1.Radius = 8;
-            this.uiTextBox1.Size = new System.Drawing.Size(183, 29);
-            this.uiTextBox1.TabIndex = 84;
-            this.uiTextBox1.Text = "0.00";
-            this.uiTextBox1.Type = Sunny.UI.UITextBox.UIEditType.Double;
-            this.uiTextBox1.Watermark = "";
+            this.ChannelSaveInterval.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.ChannelSaveInterval.FillColor = System.Drawing.Color.White;
+            this.ChannelSaveInterval.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.ChannelSaveInterval.Location = new System.Drawing.Point(439, 301);
+            this.ChannelSaveInterval.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ChannelSaveInterval.Maximum = 2147483647D;
+            this.ChannelSaveInterval.Minimum = -2147483648D;
+            this.ChannelSaveInterval.MinimumSize = new System.Drawing.Size(1, 1);
+            this.ChannelSaveInterval.Name = "ChannelSaveInterval";
+            this.ChannelSaveInterval.Padding = new System.Windows.Forms.Padding(5);
+            this.ChannelSaveInterval.Radius = 8;
+            this.ChannelSaveInterval.Size = new System.Drawing.Size(183, 29);
+            this.ChannelSaveInterval.TabIndex = 84;
+            this.ChannelSaveInterval.Text = "0.00";
+            this.ChannelSaveInterval.Type = Sunny.UI.UITextBox.UIEditType.Double;
+            this.ChannelSaveInterval.Watermark = "";
             // 
             // uiLabel15
             // 
@@ -667,7 +667,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 529);
             this.Controls.Add(this.uiLabel15);
-            this.Controls.Add(this.uiTextBox1);
+            this.Controls.Add(this.ChannelSaveInterval);
             this.Controls.Add(this.uiLabel14);
             this.Controls.Add(this.uiLabel13);
             this.Controls.Add(this.ChannelSensorId);
@@ -747,7 +747,7 @@
             this.Controls.SetChildIndex(this.ChannelSensorId, 0);
             this.Controls.SetChildIndex(this.uiLabel13, 0);
             this.Controls.SetChildIndex(this.uiLabel14, 0);
-            this.Controls.SetChildIndex(this.uiTextBox1, 0);
+            this.Controls.SetChildIndex(this.ChannelSaveInterval, 0);
             this.Controls.SetChildIndex(this.uiLabel15, 0);
             this.ResumeLayout(false);
 
@@ -793,7 +793,7 @@
         private Sunny.UI.UILabel uiLabel13;
         public Sunny.UI.UIComboBox ChannelSensorId;
         private Sunny.UI.UILabel uiLabel14;
-        public Sunny.UI.UITextBox uiTextBox1;
+        public Sunny.UI.UITextBox ChannelSaveInterval;
         private Sunny.UI.UILabel uiLabel15;
     }
 }

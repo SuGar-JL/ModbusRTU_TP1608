@@ -39,6 +39,7 @@ namespace ModbusRTU_TP1608
                    && CheckEmpty(ChannelSensorRangeL, "传感器量程需填完整")
                    && CheckEmpty(ChannelSensorRangeH, "传感器量程需填完整")
                    && CheckSensorRange(ChannelSensorRangeL, ChannelSensorRangeH, "传感器量程不合理")
+                   && CheckEmpty(ChannelSaveInterval, "请输入保存间隔")
                    && CheckWarning(isWraning, ChannelWarning1L, ChannelWarning1H, ChannelWarning2L, ChannelWarning2H, ChannelWarning3L, ChannelWarning3H)
                    && CheckEmpty(ChannelType, "请选择通道类型");
         }
